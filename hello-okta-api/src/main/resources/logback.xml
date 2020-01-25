@@ -7,7 +7,7 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%date{HH:mm:ss.SSS} | %highlight(%-5level) | %magenta([%thread]) | %cyan([%-20.20logger{0}]) | %msg%n</pattern>
+            <pattern>%date{HH:mm:ss.SSS} | %mdc{userAuth} | %highlight(%-5level) | %magenta([%mdc{X-B3-TraceId}]) | %magenta([%mdc{X-B3-SpanId}]) | %magenta([%thread]) | %cyan([%-20.20logger{0}]) | %msg%n</pattern>
         </encoder>
     </appender>
 

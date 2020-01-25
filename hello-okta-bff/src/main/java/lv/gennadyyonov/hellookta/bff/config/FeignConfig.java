@@ -1,5 +1,7 @@
 package lv.gennadyyonov.hellookta.bff.config;
 
+import brave.http.HttpTracing;
+import brave.httpclient.TracingHttpClientBuilder;
 import feign.Client;
 import feign.Feign;
 import feign.Logger;
@@ -15,6 +17,7 @@ import lv.gennadyyonov.hellookta.bff.connectors.hellooktaapi.HelloOktaApiConnect
 import lv.gennadyyonov.hellookta.bff.connectors.okta.TokenConnector;
 import lv.gennadyyonov.hellookta.bff.connectors.okta.TokenGateway;
 import lv.gennadyyonov.hellookta.bff.services.SecurityService;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -28,14 +31,17 @@ import java.util.Objects;
 @Configuration
 public class FeignConfig {
 
+    private final HttpTracing httpTracing;
     private final SsoInterceptor ssoInterceptor;
     private final HelloOctaClientProperties helloOctaClientProperties;
     private final SecurityService securityService;
 
     @Autowired
-    public FeignConfig(SsoInterceptor ssoInterceptor,
+    public FeignConfig(HttpTracing httpTracing,
+                       SsoInterceptor ssoInterceptor,
                        HelloOctaClientProperties helloOctaClientProperties,
                        SecurityService securityService) {
+        this.httpTracing = httpTracing;
         this.ssoInterceptor = ssoInterceptor;
         this.helloOctaClientProperties = helloOctaClientProperties;
         this.securityService = securityService;
@@ -78,7 +84,8 @@ public class FeignConfig {
     }
 
     private Client getClient() {
-        return new ApacheHttpClient();
+        CloseableHttpClient delegate = TracingHttpClientBuilder.create(httpTracing).build();
+        return new ApacheHttpClient(delegate);
     }
 
     private Encoder feignFormEncoder() {
