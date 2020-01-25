@@ -13,6 +13,11 @@ allprojects {
 		set('oktaSpringBootStarterVersion', "1.3.0")
 		set('lombokVersion', "1.18.10")
 		set('feignVersion', "10.7.4")
+		set('commonsLang3Version', "3.9")
+		set('aspectJWeaverVersion', "1.9.5")
+		set('orgSpringframeworkCoreVersion', "5.2.3.RELEASE")
+		set('fasterxmlJacksonCoreVersion', "2.10.2")
+		set('slf4jVersion', "1.7.30")
 	}
 }
 
@@ -37,7 +42,7 @@ configure(subprojects) {
 	}
 }
 
-configure(subprojects.findAll {it.name != 'hello-okta-api-dto'}) {
+configure([ project(':hello-okta-api'), project(':hello-okta-bff') ]) {
 	apply plugin: 'org.springframework.boot'
 	apply plugin: 'io.spring.dependency-management'
 

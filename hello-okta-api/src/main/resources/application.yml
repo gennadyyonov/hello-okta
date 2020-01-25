@@ -22,5 +22,5 @@ spring:
 
 logging:
   level:
-    org.springframework.security.oauth2.client.OAuth2RestTemplate: DEBUG
-    org.springframework.web.client.RestTemplate: DEBUG
+    org.springframework.security.oauth2.client.OAuth2RestTemplate: ${rest_template_log_level:INFO}
+    org.springframework.web.client.RestTemplate: ${rest_template_log_level:INFO}

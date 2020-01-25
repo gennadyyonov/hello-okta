@@ -30,7 +30,7 @@ hellooktaclient:
 
 logging:
   level:
-    org.springframework.security.oauth2.client.OAuth2RestTemplate: DEBUG
-    org.springframework.web.client.RestTemplate: DEBUG
-    lv.gennadyyonov.hellookta.bff.connectors.hellooktaapi.HelloOktaApiConnector: DEBUG
-    lv.gennadyyonov.hellookta.bff.connectors.okta.TokenConnector: DEBUG
+    org.springframework.security.oauth2.client.OAuth2RestTemplate: ${rest_template_log_level:INFO}
+    org.springframework.web.client.RestTemplate: ${rest_template_log_level:INFO}
+    lv.gennadyyonov.hellookta.bff.connectors.hellooktaapi.HelloOktaApiConnector: ${hello_okta_api_log_level:INFO}
+    lv.gennadyyonov.hellookta.bff.connectors.okta.TokenConnector: ${okta_token_log_level:INFO}

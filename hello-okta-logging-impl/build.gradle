@@ -1,0 +1,13 @@
+dependencies {
+    compile project(':hello-okta-logging-api')
+
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+
+    compile "org.apache.commons:commons-lang3:${commonsLang3Version}"
+    compile "com.fasterxml.jackson.core:jackson-core:${fasterxmlJacksonCoreVersion}"
+    compile "com.fasterxml.jackson.core:jackson-databind:${fasterxmlJacksonCoreVersion}"
+    compile "org.slf4j:slf4j-api:${slf4jVersion}"
+    compile "org.aspectj:aspectjweaver:${aspectJWeaverVersion}"
+    compile "org.springframework:spring-core:${orgSpringframeworkCoreVersion}"
+}
