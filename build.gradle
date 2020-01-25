@@ -18,6 +18,7 @@ allprojects {
 		set('orgSpringframeworkCoreVersion', "5.2.3.RELEASE")
 		set('fasterxmlJacksonCoreVersion', "2.10.2")
 		set('slf4jVersion', "1.7.30")
+		set('servletApiVersion', "4.0.1")
 	}
 }
 

@@ -4,6 +4,8 @@ dependencies {
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
 
+    compileOnly "javax.servlet:javax.servlet-api:${servletApiVersion}"
+
     compile "org.apache.commons:commons-lang3:${commonsLang3Version}"
     compile "com.fasterxml.jackson.core:jackson-core:${fasterxmlJacksonCoreVersion}"
     compile "com.fasterxml.jackson.core:jackson-databind:${fasterxmlJacksonCoreVersion}"

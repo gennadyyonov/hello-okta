@@ -2,6 +2,7 @@ package lv.gennadyyonov.hellookta.api.config;
 
 import lv.gennadyyonov.hellookta.api.service.SecurityService;
 import lv.gennadyyonov.hellookta.api.web.UserLoggingFilter;
+import lv.gennadyyonov.hellookta.web.HttpRequestLoggingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -15,6 +16,7 @@ import javax.servlet.Filter;
 import javax.validation.constraints.NotNull;
 
 import static lv.gennadyyonov.hellookta.api.config.HttpFilterOrder.COMMONS_REQUEST_LOGGING_ORDER;
+import static lv.gennadyyonov.hellookta.api.config.HttpFilterOrder.REQUEST_LOGGING_ORDER;
 import static lv.gennadyyonov.hellookta.api.config.HttpFilterOrder.USER_LOGGING_ORDER;
 import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 
@@ -44,6 +46,15 @@ public class FilterConfig {
                 beanFactory, ALL_URL_PATTERN, new UserLoggingFilter(securityService)
         );
         bean.setOrder(getFilterOrder(USER_LOGGING_ORDER));
+        return bean;
+    }
+
+    @Bean
+    public FilterRegistrationBean<HttpRequestLoggingFilter> loggingFilter(AutowireCapableBeanFactory beanFactory) {
+        FilterRegistrationBean<HttpRequestLoggingFilter> bean = makeFilterRegistrationBean(
+                beanFactory, ALL_URL_PATTERN, new HttpRequestLoggingFilter()
+        );
+        bean.setOrder(getFilterOrder(REQUEST_LOGGING_ORDER));
         return bean;
     }
 
