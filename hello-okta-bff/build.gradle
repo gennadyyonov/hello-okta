@@ -1,15 +1,10 @@
-ext {
-    set('oauthBootVersion', "2.2.2.RELEASE")
-    set('feignVersion', "10.7.4")
-}
-
 dependencies {
     compile project(':hello-okta-api-dto')
 
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-    compile "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${oauthBootVersion}"
+    compile "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure"
     compile "io.github.openfeign:feign-jackson:${feignVersion}"
     compile "io.github.openfeign:feign-httpclient:${feignVersion}"
 }
