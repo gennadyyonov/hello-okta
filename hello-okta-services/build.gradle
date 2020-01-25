@@ -1,0 +1,10 @@
+dependencies {
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+
+    compileOnly "org.springframework:spring-web:${orgSpringframeworkVersion}"
+    compileOnly "org.springframework:spring-context:${orgSpringframeworkVersion}"
+    compileOnly "org.springframework.security:spring-security-core:${orgSpringframeworkSecurityVersion}"
+    compileOnly "org.springframework.security:spring-security-oauth2-client:${orgSpringframeworkSecurityVersion}"
+    compileOnly "org.slf4j:slf4j-api:${slf4jVersion}"
+}

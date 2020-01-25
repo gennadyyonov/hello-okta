@@ -1,13 +1,12 @@
 package lv.gennadyyonov.hellookta.bff.services;
 
+import lv.gennadyyonov.hellookta.bff.dto.UserInfo;
+import lv.gennadyyonov.hellookta.services.OktaProfile;
+import lv.gennadyyonov.hellookta.services.OktaService;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.client.resource.BaseOAuth2ProtectedResourceDetails;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.stereotype.Service;
 
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
@@ -16,14 +15,30 @@ import static java.util.Base64.getEncoder;
 @Service
 public class SecurityService {
 
-    private final OAuth2AuthorizedClientService authorizedClientService;
+    private final OktaService oktaService;
 
-    public SecurityService(OAuth2AuthorizedClientService authorizedClientService) {
-        this.authorizedClientService = authorizedClientService;
+    public SecurityService(OktaService oktaService) {
+        this.oktaService = oktaService;
     }
 
     public String getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return getUserId(authentication);
+    }
+
+    public UserInfo getUserInfo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        OktaProfile oktaProfile = oktaService.getOktaProfile(authentication);
+        return UserInfo.builder()
+                .userId(getUserId(authentication))
+                .firstName(oktaProfile.getGivenName())
+                .lastName(oktaProfile.getFamilyName())
+                .email(oktaProfile.getEmail())
+                .roles(oktaProfile.getAuthorities())
+                .build();
+    }
+
+    private String getUserId(Authentication authentication) {
         if (authentication instanceof AbstractAuthenticationToken) {
             AbstractAuthenticationToken token = (AbstractAuthenticationToken) authentication;
             return token.getName();
@@ -34,12 +49,7 @@ public class SecurityService {
 
     public String bearerTokenValue() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
-        OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(
-                oauthToken.getAuthorizedClientRegistrationId(),
-                oauthToken.getName());
-        OAuth2AccessToken accessToken = client.getAccessToken();
-        return accessToken.getTokenValue();
+        return oktaService.getTokenValue(authentication);
     }
 
     public String basicAuthorizationHeaderValue(BaseOAuth2ProtectedResourceDetails resourceDetails) {

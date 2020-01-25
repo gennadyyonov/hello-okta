@@ -1,6 +1,7 @@
 dependencies {
     compile project(':hello-okta-api-dto')
     compile project(':hello-okta-logging-impl')
+    compile project(':hello-okta-services')
 
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'

@@ -11,5 +11,5 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-databind:${fasterxmlJacksonCoreVersion}"
     compile "org.slf4j:slf4j-api:${slf4jVersion}"
     compile "org.aspectj:aspectjweaver:${aspectJWeaverVersion}"
-    compile "org.springframework:spring-core:${orgSpringframeworkCoreVersion}"
+    compileOnly "org.springframework:spring-core:${orgSpringframeworkVersion}"
 }
