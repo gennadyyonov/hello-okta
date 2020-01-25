@@ -1,0 +1,3 @@
+rootProject.name = 'hello-okta'
+include 'hello-okta-api-dto', 'hello-okta-api', 'hello-okta-bff'
+

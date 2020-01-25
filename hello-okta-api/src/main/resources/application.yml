@@ -1,0 +1,26 @@
+server:
+  port: 8070
+
+okta:
+  oauth2:
+    issuer: ${issuer:https://dev-220281.okta.com/oauth2/aus26efk9hrb1yASy357}
+    clientId: ${clientId:0oa26efk122CnG3k3357}
+    clientSecret: ${clientSecret:f-Th4oNxu0qzMghhtGev2vaoAPf9l7IgzHENsYny}
+    audience: ${audience:api://hellookta}
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          okta:
+            client-id: ${clientId:0oa26efk122CnG3k3357}
+            client-secret: ${clientSecret:f-Th4oNxu0qzMghhtGev2vaoAPf9l7IgzHENsYny}
+          provider:
+            okta:
+              user-name-attribute: email
+
+logging:
+  level:
+    org.springframework.security.oauth2.client.OAuth2RestTemplate: DEBUG
+    org.springframework.web.client.RestTemplate: DEBUG

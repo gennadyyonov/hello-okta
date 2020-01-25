@@ -1,0 +1,6 @@
+ext {
+}
+
+dependencies {
+    compile project(':hello-okta-api-dto')
+}

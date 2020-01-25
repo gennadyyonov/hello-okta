@@ -1,0 +1,60 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.2.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+}
+
+allprojects {
+	repositories {
+		mavenCentral()
+	}
+
+	ext {
+		set('springCloudVersion', "Hoxton.RELEASE")
+		set('oktaSpringBootStarterVersion', "1.3.0")
+	}
+}
+
+subprojects {
+	group = 'lv.gennadyyonov'
+	version = '0.0.1-SNAPSHOT'
+}
+
+configure(subprojects) {
+	apply plugin: 'java'
+
+	sourceCompatibility = '11'
+
+	configurations {
+		compileOnly {
+			extendsFrom annotationProcessor
+		}
+	}
+
+	test {
+		useJUnitPlatform()
+	}
+}
+
+configure(subprojects.findAll {it.name != 'hello-okta-api-dto'}) {
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
+
+	buildscript {
+		dependencyManagement {
+			imports {
+				mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+			}
+		}
+	}
+
+	dependencies {
+		implementation 'org.springframework.boot:spring-boot-starter-web'
+		implementation "com.okta.spring:okta-spring-boot-starter:${oktaSpringBootStarterVersion}"
+		compileOnly 'org.projectlombok:lombok'
+		annotationProcessor 'org.projectlombok:lombok'
+		testImplementation('org.springframework.boot:spring-boot-starter-test') {
+			exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+		}
+		testImplementation 'org.springframework.security:spring-security-test'
+	}
+}
