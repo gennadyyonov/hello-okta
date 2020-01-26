@@ -37,7 +37,7 @@ public abstract class SecurityRoleAspect {
     }
 
     @Around("controllers() && !annotated()")
-    public Object securityExecutionForNotAnnotated(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object restrictByAllowedUserRoles(ProceedingJoinPoint joinPoint) throws Throwable {
         String userId = securityService.getUserId();
 
         if (!securityService.hasAnyRoles(SecurityConstants.ALLOWED_USERS, new String[0])) {
@@ -51,7 +51,7 @@ public abstract class SecurityRoleAspect {
     }
 
     @Around("annotated()")
-    public Object security_execution(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object restrictByRole(ProceedingJoinPoint joinPoint) throws Throwable {
         String userId = securityService.getUserId();
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         HasRole annotation = getHasRoleAnnotation(methodSignature);
