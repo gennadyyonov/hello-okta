@@ -1,6 +1,8 @@
 package lv.gennadyyonov.hellookta.services;
 
 import lombok.extern.slf4j.Slf4j;
+import lv.gennadyyonov.hellookta.connectors.OktaConnector;
+import lv.gennadyyonov.hellookta.dto.OktaProfile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,7 +20,7 @@ import java.util.Set;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toSet;
-import static lv.gennadyyonov.hellookta.services.OktaUtils.extractCollection;
+import static lv.gennadyyonov.hellookta.utils.OktaUtils.extractCollection;
 import static org.springframework.security.oauth2.core.OAuth2AccessToken.TokenType.BEARER;
 import static org.springframework.security.oauth2.core.oidc.OidcScopes.ADDRESS;
 import static org.springframework.security.oauth2.core.oidc.OidcScopes.EMAIL;

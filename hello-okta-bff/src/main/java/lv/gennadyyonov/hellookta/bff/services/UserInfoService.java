@@ -1,6 +1,7 @@
 package lv.gennadyyonov.hellookta.bff.services;
 
-import lv.gennadyyonov.hellookta.bff.dto.UserInfo;
+import lv.gennadyyonov.hellookta.dto.UserInfo;
+import lv.gennadyyonov.hellookta.services.SecurityService;
 import org.springframework.stereotype.Service;
 
 @Service

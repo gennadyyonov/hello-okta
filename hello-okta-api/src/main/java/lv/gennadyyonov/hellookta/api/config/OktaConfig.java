@@ -1,4 +1,4 @@
-package lv.gennadyyonov.hellookta.bff.config;
+package lv.gennadyyonov.hellookta.api.config;
 
 import lv.gennadyyonov.hellookta.connectors.OktaConnector;
 import lv.gennadyyonov.hellookta.services.OktaService;

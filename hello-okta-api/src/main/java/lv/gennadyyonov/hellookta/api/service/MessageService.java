@@ -1,6 +1,7 @@
 package lv.gennadyyonov.hellookta.api.service;
 
 import lv.gennadyyonov.hellookta.common.dto.Message;
+import lv.gennadyyonov.hellookta.services.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

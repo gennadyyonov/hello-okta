@@ -1,4 +1,6 @@
 dependencies {
+    compile project(':hello-okta-logging-api')
+
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
 
@@ -6,5 +8,6 @@ dependencies {
     compileOnly "org.springframework:spring-context:${orgSpringframeworkVersion}"
     compileOnly "org.springframework.security:spring-security-core:${orgSpringframeworkSecurityVersion}"
     compileOnly "org.springframework.security:spring-security-oauth2-client:${orgSpringframeworkSecurityVersion}"
+    compileOnly "com.fasterxml.jackson.core:jackson-annotations:${fasterxmlJacksonCoreVersion}"
     compileOnly "org.slf4j:slf4j-api:${slf4jVersion}"
 }

@@ -1,4 +1,4 @@
-package lv.gennadyyonov.hellookta.services;
+package lv.gennadyyonov.hellookta.dto;
 
 import lombok.Data;
 import org.springframework.security.oauth2.core.oidc.StandardClaimAccessor;

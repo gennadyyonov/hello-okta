@@ -1,7 +1,7 @@
 package lv.gennadyyonov.hellookta.bff.controller;
 
-import lv.gennadyyonov.hellookta.bff.dto.UserInfo;
 import lv.gennadyyonov.hellookta.bff.services.UserInfoService;
+import lv.gennadyyonov.hellookta.dto.UserInfo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

@@ -1,4 +1,4 @@
-package lv.gennadyyonov.hellookta.services;
+package lv.gennadyyonov.hellookta.utils;
 
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;

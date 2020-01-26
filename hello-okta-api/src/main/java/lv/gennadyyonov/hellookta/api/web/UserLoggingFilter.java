@@ -1,6 +1,6 @@
 package lv.gennadyyonov.hellookta.api.web;
 
-import lv.gennadyyonov.hellookta.api.service.SecurityService;
+import lv.gennadyyonov.hellookta.services.SecurityService;
 import org.slf4j.MDC;
 import org.springframework.web.filter.AbstractRequestLoggingFilter;
 

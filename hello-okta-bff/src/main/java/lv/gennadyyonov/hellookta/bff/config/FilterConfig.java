@@ -1,7 +1,7 @@
 package lv.gennadyyonov.hellookta.bff.config;
 
-import lv.gennadyyonov.hellookta.bff.services.SecurityService;
 import lv.gennadyyonov.hellookta.bff.web.UserLoggingFilter;
+import lv.gennadyyonov.hellookta.services.SecurityService;
 import lv.gennadyyonov.hellookta.web.HttpRequestLoggingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;

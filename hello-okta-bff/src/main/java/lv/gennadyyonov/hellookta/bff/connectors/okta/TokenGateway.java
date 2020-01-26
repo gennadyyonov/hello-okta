@@ -1,7 +1,7 @@
 package lv.gennadyyonov.hellookta.bff.connectors.okta;
 
 import lombok.SneakyThrows;
-import lv.gennadyyonov.hellookta.bff.services.SecurityService;
+import lv.gennadyyonov.hellookta.services.SecurityService;
 import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
 
 import java.net.URI;
@@ -41,7 +41,13 @@ public class TokenGateway {
 
     private Map<String, Object> headers() {
         Map<String, Object> headers = new HashMap<>();
-        headers.put(AUTHORIZATION, securityService.basicAuthorizationHeaderValue(clientCredentialsResourceDetails));
+        headers.put(
+                AUTHORIZATION,
+                securityService.basicAuthorizationHeaderValue(
+                        clientCredentialsResourceDetails.getClientId(),
+                        clientCredentialsResourceDetails.getClientSecret()
+                )
+        );
         return headers;
     }
 

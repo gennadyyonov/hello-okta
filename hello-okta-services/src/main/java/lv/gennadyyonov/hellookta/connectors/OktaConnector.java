@@ -1,4 +1,4 @@
-package lv.gennadyyonov.hellookta.services;
+package lv.gennadyyonov.hellookta.connectors;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -10,10 +10,12 @@ import java.util.Map;
 
 public class OktaConnector {
 
+    private static final String USER_INFO_PATH = "/v1/userinfo";
+
     private final String userInfoUri;
 
-    public OktaConnector(String userInfoUri) {
-        this.userInfoUri = userInfoUri;
+    public OktaConnector(String issuerUrl) {
+        this.userInfoUri = issuerUrl + USER_INFO_PATH;
     }
 
     public Map<String, Object> getUserInfo(Map<String, String> headers) {

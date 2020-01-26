@@ -1,18 +1,14 @@
-package lv.gennadyyonov.hellookta.bff.services;
+package lv.gennadyyonov.hellookta.services;
 
-import lv.gennadyyonov.hellookta.bff.dto.UserInfo;
-import lv.gennadyyonov.hellookta.services.OktaProfile;
-import lv.gennadyyonov.hellookta.services.OktaService;
+import lv.gennadyyonov.hellookta.dto.OktaProfile;
+import lv.gennadyyonov.hellookta.dto.UserInfo;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.resource.BaseOAuth2ProtectedResourceDetails;
-import org.springframework.stereotype.Service;
 
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.util.Base64.getEncoder;
 
-@Service
 public class SecurityService {
 
     private final OktaService oktaService;
@@ -50,12 +46,6 @@ public class SecurityService {
     public String bearerTokenValue() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return oktaService.getTokenValue(authentication);
-    }
-
-    public String basicAuthorizationHeaderValue(BaseOAuth2ProtectedResourceDetails resourceDetails) {
-        String username = resourceDetails.getClientId();
-        String password = resourceDetails.getClientSecret();
-        return basicAuthorizationHeaderValue(username, password);
     }
 
     public String basicAuthorizationHeaderValue(String username, String password) {

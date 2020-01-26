@@ -16,7 +16,7 @@ import feign.slf4j.Slf4jLogger;
 import lv.gennadyyonov.hellookta.bff.connectors.hellooktaapi.HelloOktaApiConnector;
 import lv.gennadyyonov.hellookta.bff.connectors.okta.TokenConnector;
 import lv.gennadyyonov.hellookta.bff.connectors.okta.TokenGateway;
-import lv.gennadyyonov.hellookta.bff.services.SecurityService;
+import lv.gennadyyonov.hellookta.services.SecurityService;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

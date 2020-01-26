@@ -2,7 +2,7 @@ package lv.gennadyyonov.hellookta.bff.config;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import lv.gennadyyonov.hellookta.bff.services.SecurityService;
+import lv.gennadyyonov.hellookta.services.SecurityService;
 import org.springframework.stereotype.Component;
 
 import static java.lang.String.format;

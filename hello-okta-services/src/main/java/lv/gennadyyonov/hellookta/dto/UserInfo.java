@@ -1,4 +1,4 @@
-package lv.gennadyyonov.hellookta.bff.dto;
+package lv.gennadyyonov.hellookta.dto;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
