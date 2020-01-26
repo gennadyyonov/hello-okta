@@ -8,6 +8,11 @@ dependencies {
     compileOnly "org.springframework:spring-context:${orgSpringframeworkVersion}"
     compileOnly "org.springframework.security:spring-security-core:${orgSpringframeworkSecurityVersion}"
     compileOnly "org.springframework.security:spring-security-oauth2-client:${orgSpringframeworkSecurityVersion}"
+    compileOnly "org.springframework.security:spring-security-jwt:${orgSpringframeworkSecurityJwtVersion}"
+    compileOnly "org.springframework.security:spring-security-oauth2-jose:${orgSpringframeworkSecurityVersion}"
+    compileOnly "org.springframework.security:spring-security-oauth2-resource-server:${orgSpringframeworkSecurityVersion}"
+    compileOnly "org.springframework.boot:spring-boot-autoconfigure:${springBootVersion}"
     compileOnly "com.fasterxml.jackson.core:jackson-annotations:${fasterxmlJacksonCoreVersion}"
     compileOnly "org.slf4j:slf4j-api:${slf4jVersion}"
+    compileOnly "org.aspectj:aspectjweaver:${aspectJWeaverVersion}"
 }

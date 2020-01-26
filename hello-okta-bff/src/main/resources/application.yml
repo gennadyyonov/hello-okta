@@ -1,6 +1,12 @@
 server:
   port: 8060
 
+hellooktabff:
+  security-mapping:
+    ALLOWED_USERS:
+      - HelloOkta_StandardUser
+      - ROLE_USER
+
 okta:
   oauth2:
     issuer: ${issuer:https://dev-220281.okta.com/oauth2/aus26efk9hrb1yASy357}

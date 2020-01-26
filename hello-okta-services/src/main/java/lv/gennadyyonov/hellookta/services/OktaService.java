@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -50,6 +51,9 @@ public class OktaService {
                     oauthToken.getName());
             OAuth2AccessToken accessToken = client.getAccessToken();
             return accessToken.getTokenValue();
+        } else if (authentication instanceof JwtAuthenticationToken) {
+            JwtAuthenticationToken oauthToken = (JwtAuthenticationToken) authentication;
+            return oauthToken.getToken().getTokenValue();
         }
         throw new UnsupportedOperationException(authentication.getClass().getName() + " token value retrieval is not supported yet!");
     }
@@ -74,6 +78,9 @@ public class OktaService {
             OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
             OAuth2User principal = oauthToken.getPrincipal();
             return principal.getAttributes();
+        } else if (authentication instanceof JwtAuthenticationToken) {
+            JwtAuthenticationToken oauthToken = (JwtAuthenticationToken) authentication;
+            return oauthToken.getTokenAttributes();
         }
         throw new UnsupportedOperationException(authentication.getClass().getName() + " token attributes retrieval is not supported yet!");
     }

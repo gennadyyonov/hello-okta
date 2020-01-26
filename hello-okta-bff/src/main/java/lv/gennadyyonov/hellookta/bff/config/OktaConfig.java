@@ -28,7 +28,7 @@ public class OktaConfig {
     }
 
     @Bean
-    public SecurityService securityService(OktaService oktaService) {
-        return new SecurityService(oktaService);
+    public SecurityService securityService(OktaService oktaService, HelloOktaBFFProperties helloOktaBFFProperties) {
+        return new SecurityService(oktaService, helloOktaBFFProperties);
     }
 }
