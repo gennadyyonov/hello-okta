@@ -2,6 +2,7 @@ package lv.gennadyyonov.hellookta.services;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
@@ -11,10 +12,12 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
 import java.util.Map;
+import java.util.Set;
 
 import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.util.Base64.getEncoder;
+import static java.util.stream.Collectors.toSet;
 import static org.springframework.security.oauth2.core.OAuth2AccessToken.TokenType.BEARER;
 
 public class AuthenticationService {
@@ -30,7 +33,7 @@ public class AuthenticationService {
         return getUserId(authentication);
     }
 
-    public String getUserId(Authentication authentication) {
+    private String getUserId(Authentication authentication) {
         if (authentication instanceof AbstractAuthenticationToken) {
             AbstractAuthenticationToken token = (AbstractAuthenticationToken) authentication;
             return token.getName();
@@ -39,7 +42,23 @@ public class AuthenticationService {
         }
     }
 
-    public String authorizationHeaderValue(Authentication authentication) {
+    public Set<String> getAuthorities() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return getAuthorities(authentication);
+    }
+
+    private Set<String> getAuthorities(Authentication authentication) {
+        return authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(toSet());
+    }
+
+    public String authorizationHeaderValue() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authorizationHeaderValue(authentication);
+    }
+
+    private String authorizationHeaderValue(Authentication authentication) {
         String tokenValue = getTokenValue(authentication);
         return format("%s %s", BEARER.getValue(), tokenValue);
     }
@@ -53,7 +72,7 @@ public class AuthenticationService {
         return "Basic " + getEncoder().encodeToString((username + ":" + password).getBytes(ISO_8859_1));
     }
 
-    public String getTokenValue(Authentication authentication) {
+    private String getTokenValue(Authentication authentication) {
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
             OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(
@@ -68,7 +87,12 @@ public class AuthenticationService {
         throw new UnsupportedOperationException(authentication.getClass().getName() + " token value retrieval is not supported yet!");
     }
 
-    public Map<String, Object> getTokenAttributes(Authentication authentication) {
+    public Map<String, Object> getTokenAttributes() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return getTokenAttributes(authentication);
+    }
+
+    private Map<String, Object> getTokenAttributes(Authentication authentication) {
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
             OAuth2User principal = oauthToken.getPrincipal();
