@@ -1,70 +1,33 @@
 package lv.gennadyyonov.hellookta.services;
 
 import lombok.extern.slf4j.Slf4j;
-import lv.gennadyyonov.hellookta.dto.OktaProfile;
 import lv.gennadyyonov.hellookta.dto.SecurityMappingProperties;
 import lv.gennadyyonov.hellookta.dto.UserInfo;
 import lv.gennadyyonov.hellookta.utils.SecurityUtils;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Arrays;
 import java.util.Set;
 
-import static java.nio.charset.StandardCharsets.ISO_8859_1;
-import static java.util.Base64.getEncoder;
 import static java.util.Optional.ofNullable;
 
 @Slf4j
 public class SecurityService {
 
-    private final OktaService oktaService;
+    private final AuthenticationService authenticationService;
+    private final UserInfoService userInfoService;
     private final SecurityMappingProperties securityMappingProperties;
 
-    public SecurityService(OktaService oktaService, SecurityMappingProperties securityMappingProperties) {
-        this.oktaService = oktaService;
+    public SecurityService(AuthenticationService authenticationService,
+                           UserInfoService userInfoService,
+                           SecurityMappingProperties securityMappingProperties) {
+        this.authenticationService = authenticationService;
+        this.userInfoService = userInfoService;
         this.securityMappingProperties = securityMappingProperties;
     }
 
-    public String getUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return getUserId(authentication);
-    }
-
-    public UserInfo getUserInfo() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        OktaProfile oktaProfile = oktaService.getOktaProfile(authentication);
-        return UserInfo.builder()
-                .userId(getUserId(authentication))
-                .firstName(oktaProfile.getGivenName())
-                .lastName(oktaProfile.getFamilyName())
-                .email(oktaProfile.getEmail())
-                .roles(oktaProfile.getAuthorities())
-                .build();
-    }
-
-    private String getUserId(Authentication authentication) {
-        if (authentication instanceof AbstractAuthenticationToken) {
-            AbstractAuthenticationToken token = (AbstractAuthenticationToken) authentication;
-            return token.getName();
-        } else {
-            return null;
-        }
-    }
-
-    public String bearerTokenValue() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return oktaService.getTokenValue(authentication);
-    }
-
-    public String basicAuthorizationHeaderValue(String username, String password) {
-        return "Basic " + getEncoder().encodeToString((username + ":" + password).getBytes(ISO_8859_1));
-    }
-
     public boolean hasAnyRoles(String alias, String[] roles) {
-        String userId = getUserId();
-        UserInfo userInfo = getUserInfo();
+        String userId = authenticationService.getUserId();
+        UserInfo userInfo = userInfoService.getUserInfo();
         if (userInfo == null) {
             log.warn("No User profile found for User ID  : {}", userId);
             return false;

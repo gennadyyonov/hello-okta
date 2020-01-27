@@ -5,4 +5,8 @@ dependencies {
     compile project(':hello-okta-api-dto')
     compile project(':hello-okta-logging-impl')
     compile project(':hello-okta-services')
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    compile "io.github.openfeign:feign-jackson:${feignVersion}"
+    compile "io.github.openfeign:feign-httpclient:${feignVersion}"
 }

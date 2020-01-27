@@ -2,7 +2,7 @@ package lv.gennadyyonov.hellookta.bff.config;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import lv.gennadyyonov.hellookta.bff.connectors.okta.TokenGateway;
+import lv.gennadyyonov.hellookta.services.TokenService;
 
 import static java.lang.String.format;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -10,15 +10,15 @@ import static org.springframework.security.oauth2.core.OAuth2AccessToken.TokenTy
 
 public class ClientCredentialsInterceptor implements RequestInterceptor {
 
-    private final TokenGateway tokenGateway;
+    private final TokenService tokenService;
 
-    public ClientCredentialsInterceptor(TokenGateway tokenGateway) {
-        this.tokenGateway = tokenGateway;
+    public ClientCredentialsInterceptor(TokenService tokenService) {
+        this.tokenService = tokenService;
     }
 
     @Override
     public void apply(RequestTemplate template) {
-        String accessToken = tokenGateway.getClientCredentialsAccessToken();
+        String accessToken = tokenService.getClientCredentialsAccessToken();
         template.header(AUTHORIZATION, format("%s %s", BEARER.getValue(), accessToken));
     }
 }

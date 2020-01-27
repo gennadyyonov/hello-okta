@@ -14,9 +14,10 @@ import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import feign.slf4j.Slf4jLogger;
 import lv.gennadyyonov.hellookta.bff.connectors.hellooktaapi.HelloOktaApiConnector;
-import lv.gennadyyonov.hellookta.bff.connectors.okta.TokenConnector;
-import lv.gennadyyonov.hellookta.bff.connectors.okta.TokenGateway;
-import lv.gennadyyonov.hellookta.services.SecurityService;
+import lv.gennadyyonov.hellookta.connectors.TokenConnector;
+import lv.gennadyyonov.hellookta.connectors.UserInfoConnector;
+import lv.gennadyyonov.hellookta.services.AuthenticationService;
+import lv.gennadyyonov.hellookta.services.TokenService;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,17 +35,17 @@ public class FeignConfig {
     private final HttpTracing httpTracing;
     private final SsoInterceptor ssoInterceptor;
     private final HelloOctaClientProperties helloOctaClientProperties;
-    private final SecurityService securityService;
+    private final AuthenticationService authenticationService;
 
     @Autowired
     public FeignConfig(HttpTracing httpTracing,
                        SsoInterceptor ssoInterceptor,
                        HelloOctaClientProperties helloOctaClientProperties,
-                       SecurityService securityService) {
+                       AuthenticationService authenticationService) {
         this.httpTracing = httpTracing;
         this.ssoInterceptor = ssoInterceptor;
         this.helloOctaClientProperties = helloOctaClientProperties;
-        this.securityService = securityService;
+        this.authenticationService = authenticationService;
     }
 
     @Bean
@@ -65,9 +66,16 @@ public class FeignConfig {
     }
 
     @Bean
-    @DependsOn({"tokenGateway"})
-    public ClientCredentialsInterceptor clientCredentialsInterceptor(TokenGateway tokenGateway) {
-        return new ClientCredentialsInterceptor(tokenGateway);
+    @DependsOn({"tokenService"})
+    public ClientCredentialsInterceptor clientCredentialsInterceptor(TokenService tokenService) {
+        return new ClientCredentialsInterceptor(tokenService);
+    }
+
+    @Bean
+    public UserInfoConnector userInfoConnector() {
+        Client client = getClient();
+        return feignBuilder(client, UserInfoConnector.class)
+                .target(Target.EmptyTarget.create(UserInfoConnector.class));
     }
 
     @Bean
@@ -78,9 +86,9 @@ public class FeignConfig {
     }
 
     @Bean
-    public TokenGateway tokenGateway(TokenConnector tokenConnector) {
+    public TokenService tokenService(TokenConnector tokenConnector) {
         ClientCredentialsResourceDetails clientCredentialsResourceDetails = helloOctaClientProperties.getClientCredentialsResourceDetails();
-        return new TokenGateway(clientCredentialsResourceDetails, tokenConnector, securityService);
+        return new TokenService(clientCredentialsResourceDetails, tokenConnector, authenticationService);
     }
 
     private Client getClient() {

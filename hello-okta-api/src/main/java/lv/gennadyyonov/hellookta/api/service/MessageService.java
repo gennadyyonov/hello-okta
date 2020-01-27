@@ -1,7 +1,7 @@
 package lv.gennadyyonov.hellookta.api.service;
 
 import lv.gennadyyonov.hellookta.common.dto.Message;
-import lv.gennadyyonov.hellookta.services.SecurityService;
+import lv.gennadyyonov.hellookta.services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,15 +12,15 @@ public class MessageService {
 
     private static final String GREETING_FORMAT = "Hello, %s!";
 
-    private final SecurityService securityService;
+    private final AuthenticationService authenticationService;
 
     @Autowired
-    public MessageService(SecurityService securityService) {
-        this.securityService = securityService;
+    public MessageService(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
     }
 
     public Message sayHello() {
-        String userId = securityService.getUserId();
+        String userId = authenticationService.getUserId();
         return Message.builder()
                 .text(format(GREETING_FORMAT, userId))
                 .build();

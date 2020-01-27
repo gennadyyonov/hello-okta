@@ -1,8 +1,9 @@
 package lv.gennadyyonov.hellookta.bff.config;
 
-import lv.gennadyyonov.hellookta.connectors.OktaConnector;
-import lv.gennadyyonov.hellookta.services.OktaService;
+import lv.gennadyyonov.hellookta.connectors.UserInfoConnector;
+import lv.gennadyyonov.hellookta.services.AuthenticationService;
 import lv.gennadyyonov.hellookta.services.SecurityService;
+import lv.gennadyyonov.hellookta.services.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -18,17 +19,20 @@ public class OktaConfig {
     private OAuth2AuthorizedClientService authorizedClientService;
 
     @Bean
-    public OktaConnector oktaConnector() {
-        return new OktaConnector(issuerUrl);
+    public AuthenticationService authenticationService() {
+        return new AuthenticationService(authorizedClientService);
     }
 
     @Bean
-    public OktaService oktaService(OktaConnector oktaConnector) {
-        return new OktaService(authorizedClientService, oktaConnector);
+    public UserInfoService userInfoService(AuthenticationService authenticationService,
+                                           UserInfoConnector userInfoConnector) {
+        return new UserInfoService(authenticationService, issuerUrl, userInfoConnector);
     }
 
     @Bean
-    public SecurityService securityService(OktaService oktaService, HelloOktaBFFProperties helloOktaBFFProperties) {
-        return new SecurityService(oktaService, helloOktaBFFProperties);
+    public SecurityService securityService(AuthenticationService authenticationService,
+                                           UserInfoService userInfoService,
+                                           HelloOktaBFFProperties helloOktaBFFProperties) {
+        return new SecurityService(authenticationService, userInfoService, helloOktaBFFProperties);
     }
 }

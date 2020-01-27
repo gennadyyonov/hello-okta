@@ -2,7 +2,7 @@ package lv.gennadyyonov.hellookta.bff.config;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import lv.gennadyyonov.hellookta.services.SecurityService;
+import lv.gennadyyonov.hellookta.services.AuthenticationService;
 import org.springframework.stereotype.Component;
 
 import static java.lang.String.format;
@@ -12,15 +12,15 @@ import static org.springframework.security.oauth2.core.OAuth2AccessToken.TokenTy
 @Component
 public class SsoInterceptor implements RequestInterceptor {
 
-    private final SecurityService securityService;
+    private final AuthenticationService authenticationService;
 
-    public SsoInterceptor(SecurityService securityService) {
-        this.securityService = securityService;
+    public SsoInterceptor(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
     }
 
     @Override
     public void apply(RequestTemplate template) {
-        String tokenValue = securityService.bearerTokenValue();
+        String tokenValue = authenticationService.bearerTokenValue();
         template.header(AUTHORIZATION, format("%s %s", BEARER.getValue(), tokenValue));
     }
 }

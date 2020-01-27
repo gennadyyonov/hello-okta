@@ -3,6 +3,7 @@ package lv.gennadyyonov.hellookta.aspects;
 import lombok.extern.slf4j.Slf4j;
 import lv.gennadyyonov.hellookta.constants.SecurityConstants;
 import lv.gennadyyonov.hellookta.exception.AccessDeniedException;
+import lv.gennadyyonov.hellookta.services.AuthenticationService;
 import lv.gennadyyonov.hellookta.services.SecurityService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -22,6 +23,8 @@ public abstract class SecurityRoleAspect {
     private static final String USER_HAS_NOT_ACCESS_MESSAGE_FORMAT = "User '%s' has no access to %s";
 
     @Autowired
+    private AuthenticationService authenticationService;
+    @Autowired
     private SecurityService securityService;
 
     @Pointcut("(@within(org.springframework.stereotype.Controller) || "
@@ -38,9 +41,8 @@ public abstract class SecurityRoleAspect {
 
     @Around("controllers() && !annotated()")
     public Object restrictByAllowedUserRoles(ProceedingJoinPoint joinPoint) throws Throwable {
-        String userId = securityService.getUserId();
-
         if (!securityService.hasAnyRoles(SecurityConstants.ALLOWED_USERS, new String[0])) {
+            String userId = authenticationService.getUserId();
             MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
             String message = format(USER_HAS_NOT_ACCESS_MESSAGE_FORMAT, userId, getMethodFullName(methodSignature));
             log.error(message);
@@ -52,10 +54,10 @@ public abstract class SecurityRoleAspect {
 
     @Around("annotated()")
     public Object restrictByRole(ProceedingJoinPoint joinPoint) throws Throwable {
-        String userId = securityService.getUserId();
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         HasRole annotation = getHasRoleAnnotation(methodSignature);
         if (annotation != null && !securityService.hasAnyRoles(annotation.alias(), annotation.roles())) {
+            String userId = authenticationService.getUserId();
             String message = format(USER_HAS_NOT_ACCESS_MESSAGE_FORMAT, userId, getMethodFullName(methodSignature));
             log.error(message);
             throw new AccessDeniedException(message);

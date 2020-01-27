@@ -18,6 +18,7 @@ allprojects {
 		set('aspectJWeaverVersion', "1.9.5")
 		set('orgSpringframeworkVersion', "5.2.3.RELEASE")
 		set('orgSpringframeworkSecurityVersion', "5.2.1.RELEASE")
+		set('orgSpringframeworkSecurityOAuth2Version', "2.3.4.RELEASE")
 		set('orgSpringframeworkSecurityJwtVersion', "1.0.9.RELEASE")
 		set('fasterxmlJacksonCoreVersion', "2.10.2")
 		set('slf4jVersion', "1.7.30")

@@ -1,9 +1,10 @@
-package lv.gennadyyonov.hellookta.bff.connectors.okta;
+package lv.gennadyyonov.hellookta.connectors;
 
 import feign.HeaderMap;
 import feign.Headers;
 import feign.Param;
 import feign.RequestLine;
+import lv.gennadyyonov.hellookta.dto.TokenResponse;
 import lv.gennadyyonov.hellookta.logging.LoggingExclusion;
 import lv.gennadyyonov.hellookta.logging.ParameterLogging;
 import org.springframework.http.MediaType;

@@ -1,7 +1,8 @@
-package lv.gennadyyonov.hellookta.bff.connectors.okta;
+package lv.gennadyyonov.hellookta.services;
 
 import lombok.SneakyThrows;
-import lv.gennadyyonov.hellookta.services.SecurityService;
+import lv.gennadyyonov.hellookta.connectors.TokenConnector;
+import lv.gennadyyonov.hellookta.dto.TokenResponse;
 import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
 
 import java.net.URI;
@@ -12,18 +13,18 @@ import java.util.Map;
 import static java.util.Optional.ofNullable;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
-public class TokenGateway {
+public class TokenService {
 
     private final ClientCredentialsResourceDetails clientCredentialsResourceDetails;
     private final TokenConnector tokenConnector;
-    private final SecurityService securityService;
+    private final AuthenticationService authenticationService;
 
-    public TokenGateway(ClientCredentialsResourceDetails clientCredentialsResourceDetails,
+    public TokenService(ClientCredentialsResourceDetails clientCredentialsResourceDetails,
                         TokenConnector tokenConnector,
-                        SecurityService securityService) {
+                        AuthenticationService authenticationService) {
         this.clientCredentialsResourceDetails = clientCredentialsResourceDetails;
         this.tokenConnector = tokenConnector;
-        this.securityService = securityService;
+        this.authenticationService = authenticationService;
     }
 
     /**
@@ -43,7 +44,7 @@ public class TokenGateway {
         Map<String, Object> headers = new HashMap<>();
         headers.put(
                 AUTHORIZATION,
-                securityService.basicAuthorizationHeaderValue(
+                authenticationService.basicAuthorizationHeaderValue(
                         clientCredentialsResourceDetails.getClientId(),
                         clientCredentialsResourceDetails.getClientSecret()
                 )

@@ -1,7 +1,7 @@
 package lv.gennadyyonov.hellookta.bff.config;
 
 import lv.gennadyyonov.hellookta.bff.web.UserLoggingFilter;
-import lv.gennadyyonov.hellookta.services.SecurityService;
+import lv.gennadyyonov.hellookta.services.AuthenticationService;
 import lv.gennadyyonov.hellookta.web.HttpRequestLoggingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
@@ -29,7 +29,7 @@ public class FilterConfig {
     @Autowired
     private SecurityProperties securityProperties;
     @Autowired
-    private SecurityService securityService;
+    private AuthenticationService authenticationService;
 
     @Bean
     public FilterRegistrationBean<ForwardedHeaderFilter> forwardedHeaderFilter(AutowireCapableBeanFactory beanFactory) {
@@ -43,7 +43,7 @@ public class FilterConfig {
     @Bean
     public FilterRegistrationBean<UserLoggingFilter> userLoggingFilter(AutowireCapableBeanFactory beanFactory) {
         FilterRegistrationBean<UserLoggingFilter> bean = makeFilterRegistrationBean(
-                beanFactory, ALL_URL_PATTERN, new UserLoggingFilter(securityService)
+                beanFactory, ALL_URL_PATTERN, new UserLoggingFilter(authenticationService)
         );
         bean.setOrder(getFilterOrder(USER_LOGGING_ORDER));
         return bean;

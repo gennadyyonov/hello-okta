@@ -1,6 +1,6 @@
 package lv.gennadyyonov.hellookta.api.web;
 
-import lv.gennadyyonov.hellookta.services.SecurityService;
+import lv.gennadyyonov.hellookta.services.AuthenticationService;
 import org.slf4j.MDC;
 import org.springframework.web.filter.AbstractRequestLoggingFilter;
 
@@ -10,15 +10,15 @@ public class UserLoggingFilter extends AbstractRequestLoggingFilter {
 
     private static final String MDC_USER_KEY = "userAuth";
 
-    private final SecurityService securityService;
+    private final AuthenticationService authenticationService;
 
-    public UserLoggingFilter(SecurityService securityService) {
-        this.securityService = securityService;
+    public UserLoggingFilter(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
     }
 
     @Override
     protected void beforeRequest(HttpServletRequest request, String message) {
-        String userId = securityService.getUserId();
+        String userId = authenticationService.getUserId();
         MDC.put(MDC_USER_KEY, userId);
     }
 
