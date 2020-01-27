@@ -1,0 +1,11 @@
+extend type Query {
+  me: UserInfo
+}
+
+type UserInfo {
+  userId: ID,
+  firstName: String,
+  lastName: String,
+  email: String,
+  roles: [String]
+}

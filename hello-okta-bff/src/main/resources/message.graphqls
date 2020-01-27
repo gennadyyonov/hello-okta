@@ -1,0 +1,12 @@
+extend type Query {
+  hello(authType: AuthType): Message
+}
+
+enum AuthType {
+  USER
+  CLIENT
+}
+
+type Message {
+  text: String
+}

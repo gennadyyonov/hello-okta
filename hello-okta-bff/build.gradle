@@ -1,3 +1,8 @@
+ext {
+    set('graphqlJavaSpringBootVersion', "5.0.2")
+    set('graphqlJavaToolsVersion', "5.2.4")
+}
+
 dependencies {
     compile project(':hello-okta-api-dto')
     compile project(':hello-okta-logging-impl')
@@ -9,4 +14,9 @@ dependencies {
     compile "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure"
     compile "io.github.openfeign:feign-jackson:${feignVersion}"
     compile "io.github.openfeign:feign-httpclient:${feignVersion}"
+
+    // GraphQL
+    compile "com.graphql-java:graphql-spring-boot-starter:${graphqlJavaSpringBootVersion}"
+    compile "com.graphql-java:graphiql-spring-boot-starter:${graphqlJavaSpringBootVersion}"
+    compile "com.graphql-java:graphql-java-tools:${graphqlJavaToolsVersion}"
 }
