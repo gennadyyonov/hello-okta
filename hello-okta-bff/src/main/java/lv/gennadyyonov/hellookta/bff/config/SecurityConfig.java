@@ -1,14 +1,17 @@
 package lv.gennadyyonov.hellookta.bff.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import static org.springframework.http.HttpMethod.OPTIONS;
+
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private static final String ALL_URL_PATTERN = "/**";
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -16,7 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 // Allow CORS option calls
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .antMatchers(OPTIONS, ALL_URL_PATTERN).permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

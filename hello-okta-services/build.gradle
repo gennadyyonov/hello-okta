@@ -11,7 +11,6 @@ dependencies {
     compileOnly "org.springframework.security:spring-security-jwt:${orgSpringframeworkSecurityJwtVersion}"
     compileOnly "org.springframework.security:spring-security-oauth2-jose:${orgSpringframeworkSecurityVersion}"
     compileOnly "org.springframework.security:spring-security-oauth2-resource-server:${orgSpringframeworkSecurityVersion}"
-    compileOnly "org.springframework.security.oauth:spring-security-oauth2:${orgSpringframeworkSecurityOAuth2Version}"
     compileOnly "org.springframework.boot:spring-boot-autoconfigure:${springBootVersion}"
     compileOnly "com.fasterxml.jackson.core:jackson-annotations:${fasterxmlJacksonCoreVersion}"
     compileOnly "org.slf4j:slf4j-api:${slf4jVersion}"

@@ -2,8 +2,8 @@ package lv.gennadyyonov.hellookta.services;
 
 import lombok.SneakyThrows;
 import lv.gennadyyonov.hellookta.connectors.TokenConnector;
+import lv.gennadyyonov.hellookta.dto.RunAsDetails;
 import lv.gennadyyonov.hellookta.dto.TokenResponse;
-import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -15,14 +15,14 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 public class TokenService {
 
-    private final ClientCredentialsResourceDetails clientCredentialsResourceDetails;
+    private final RunAsDetails runAsDetails;
     private final TokenConnector tokenConnector;
     private final AuthenticationService authenticationService;
 
-    public TokenService(ClientCredentialsResourceDetails clientCredentialsResourceDetails,
+    public TokenService(RunAsDetails runAsDetails,
                         TokenConnector tokenConnector,
                         AuthenticationService authenticationService) {
-        this.clientCredentialsResourceDetails = clientCredentialsResourceDetails;
+        this.runAsDetails = runAsDetails;
         this.tokenConnector = tokenConnector;
         this.authenticationService = authenticationService;
     }
@@ -32,9 +32,9 @@ public class TokenService {
      */
     @SneakyThrows
     public String getClientCredentialsAccessToken() {
-        URI baseUri = new URI(clientCredentialsResourceDetails.getAccessTokenUri());
+        URI baseUri = new URI(runAsDetails.getAccessTokenUri());
         Map<String, Object> headers = headers();
-        String grantType = clientCredentialsResourceDetails.getGrantType();
+        String grantType = runAsDetails.getGrantType();
         String scope = getScope();
         TokenResponse tokenResponse = tokenConnector.getAccessToken(baseUri, headers, grantType, scope);
         return tokenResponse.getAccess_token();
@@ -44,16 +44,13 @@ public class TokenService {
         Map<String, Object> headers = new HashMap<>();
         headers.put(
                 AUTHORIZATION,
-                authenticationService.basicAuthorizationHeaderValue(
-                        clientCredentialsResourceDetails.getClientId(),
-                        clientCredentialsResourceDetails.getClientSecret()
-                )
+                authenticationService.basicAuthorizationHeaderValue(runAsDetails.getClientId(), runAsDetails.getClientSecret())
         );
         return headers;
     }
 
     private String getScope() {
-        List<String> scope = clientCredentialsResourceDetails.getScope();
+        List<String> scope = runAsDetails.getScope();
         return ofNullable(scope).map(values -> String.join(" ", values)).orElse(null);
     }
 }

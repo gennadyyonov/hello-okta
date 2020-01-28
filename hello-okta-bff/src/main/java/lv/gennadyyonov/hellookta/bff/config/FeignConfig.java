@@ -16,6 +16,7 @@ import feign.slf4j.Slf4jLogger;
 import lv.gennadyyonov.hellookta.bff.connectors.hellooktaapi.HelloOktaApiConnector;
 import lv.gennadyyonov.hellookta.connectors.TokenConnector;
 import lv.gennadyyonov.hellookta.connectors.UserInfoConnector;
+import lv.gennadyyonov.hellookta.dto.RunAsDetails;
 import lv.gennadyyonov.hellookta.services.AuthenticationService;
 import lv.gennadyyonov.hellookta.services.TokenService;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -24,7 +25,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -34,17 +34,17 @@ public class FeignConfig {
 
     private final HttpTracing httpTracing;
     private final SsoInterceptor ssoInterceptor;
-    private final HelloOctaClientProperties helloOctaClientProperties;
+    private final HelloOctaApiClientProperties helloOctaApiClientProperties;
     private final AuthenticationService authenticationService;
 
     @Autowired
     public FeignConfig(HttpTracing httpTracing,
                        SsoInterceptor ssoInterceptor,
-                       HelloOctaClientProperties helloOctaClientProperties,
+                       HelloOctaApiClientProperties helloOctaApiClientProperties,
                        AuthenticationService authenticationService) {
         this.httpTracing = httpTracing;
         this.ssoInterceptor = ssoInterceptor;
-        this.helloOctaClientProperties = helloOctaClientProperties;
+        this.helloOctaApiClientProperties = helloOctaApiClientProperties;
         this.authenticationService = authenticationService;
     }
 
@@ -87,8 +87,8 @@ public class FeignConfig {
 
     @Bean
     public TokenService tokenService(TokenConnector tokenConnector) {
-        ClientCredentialsResourceDetails clientCredentialsResourceDetails = helloOctaClientProperties.getClientCredentialsResourceDetails();
-        return new TokenService(clientCredentialsResourceDetails, tokenConnector, authenticationService);
+        RunAsDetails runAsDetails = helloOctaApiClientProperties.getRunAsDetails();
+        return new TokenService(runAsDetails, tokenConnector, authenticationService);
     }
 
     private Client getClient() {

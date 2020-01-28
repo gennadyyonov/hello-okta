@@ -1,7 +1,7 @@
 package lv.gennadyyonov.hellookta.bff.connectors.hellooktaapi;
 
 import lombok.SneakyThrows;
-import lv.gennadyyonov.hellookta.bff.config.HelloOctaClientProperties;
+import lv.gennadyyonov.hellookta.bff.config.HelloOctaApiClientProperties;
 import lv.gennadyyonov.hellookta.common.dto.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,15 +13,15 @@ import java.net.URISyntaxException;
 @Service
 public class HelloOktaApiGateway {
 
-    private final HelloOctaClientProperties helloOctaClientProperties;
+    private final HelloOctaApiClientProperties helloOctaApiClientProperties;
     private final HelloOktaApiConnector helloOktaApiConnector;
     private final HelloOktaApiConnector runAsHelloOktaApiConnector;
 
     @Autowired
-    public HelloOktaApiGateway(HelloOctaClientProperties helloOctaClientProperties,
+    public HelloOktaApiGateway(HelloOctaApiClientProperties helloOctaApiClientProperties,
                                @Qualifier("helloOktaApiConnector") HelloOktaApiConnector helloOktaApiConnector,
                                @Qualifier("runAsHelloOktaApiConnector") HelloOktaApiConnector runAsHelloOktaApiConnector) {
-        this.helloOctaClientProperties = helloOctaClientProperties;
+        this.helloOctaApiClientProperties = helloOctaApiClientProperties;
         this.helloOktaApiConnector = helloOktaApiConnector;
         this.runAsHelloOktaApiConnector = runAsHelloOktaApiConnector;
     }
@@ -37,7 +37,7 @@ public class HelloOktaApiGateway {
     }
 
     private Message sayHello(HelloOktaApiConnector connector) throws URISyntaxException {
-        URI baseUri = new URI(helloOctaClientProperties.getBaseUrl());
+        URI baseUri = new URI(helloOctaApiClientProperties.getBaseUrl());
         return connector.hello(baseUri);
     }
 }
