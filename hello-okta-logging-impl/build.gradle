@@ -4,12 +4,12 @@ dependencies {
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
 
-    compileOnly "javax.servlet:javax.servlet-api:${servletApiVersion}"
+    compileOnly "javax.servlet:javax.servlet-api"
 
     compile "org.apache.commons:commons-lang3:${commonsLang3Version}"
-    compile "com.fasterxml.jackson.core:jackson-core:${fasterxmlJacksonCoreVersion}"
-    compile "com.fasterxml.jackson.core:jackson-databind:${fasterxmlJacksonCoreVersion}"
-    compile "org.slf4j:slf4j-api:${slf4jVersion}"
-    compile "org.aspectj:aspectjweaver:${aspectJWeaverVersion}"
+    compile "com.fasterxml.jackson.core:jackson-core"
+    compile "com.fasterxml.jackson.core:jackson-databind"
+    compile "org.slf4j:slf4j-api"
+    compile "org.aspectj:aspectjweaver"
     compileOnly "org.springframework:spring-core"
 }

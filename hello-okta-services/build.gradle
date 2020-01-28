@@ -11,9 +11,9 @@ dependencies {
     compileOnly "org.springframework.security:spring-security-oauth2-jose"
     compileOnly "org.springframework.security:spring-security-oauth2-resource-server"
     compileOnly "org.springframework.boot:spring-boot-autoconfigure"
-    compileOnly "com.fasterxml.jackson.core:jackson-annotations:${fasterxmlJacksonCoreVersion}"
-    compileOnly "org.slf4j:slf4j-api:${slf4jVersion}"
-    compileOnly "org.aspectj:aspectjweaver:${aspectJWeaverVersion}"
+    compileOnly "com.fasterxml.jackson.core:jackson-annotations"
+    compileOnly "org.slf4j:slf4j-api"
+    compileOnly "org.aspectj:aspectjweaver"
 
     compileOnly "io.github.openfeign:feign-jackson:${feignVersion}"
     compileOnly "io.github.openfeign:feign-httpclient:${feignVersion}"
