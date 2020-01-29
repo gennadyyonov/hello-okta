@@ -69,6 +69,10 @@ configure([ project(':hello-okta-api'), project(':hello-okta-bff') ]) {
 		compile "io.springfox:springfox-swagger2:${swaggerVersion}"
 		compile "io.springfox:springfox-swagger-ui:${swaggerVersion}"
 
+		implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+		compile "io.github.openfeign:feign-jackson:${feignVersion}"
+		compile "io.github.openfeign:feign-httpclient:${feignVersion}"
+
 		testImplementation('org.springframework.boot:spring-boot-starter-test') {
 			exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 		}

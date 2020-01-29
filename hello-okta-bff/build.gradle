@@ -8,9 +8,7 @@ dependencies {
     compile project(':hello-okta-logging-impl')
     compile project(':hello-okta-services')
 
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-    compile "io.github.openfeign:feign-jackson:${feignVersion}"
-    compile "io.github.openfeign:feign-httpclient:${feignVersion}"
+    compile "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure"
 
     // GraphQL
     compile "com.graphql-java:graphql-spring-boot-starter:${graphqlJavaSpringBootVersion}"
