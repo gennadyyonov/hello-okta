@@ -15,6 +15,6 @@ dependencies {
     compileOnly "org.slf4j:slf4j-api"
     compileOnly "org.aspectj:aspectjweaver"
 
-    compileOnly "io.github.openfeign:feign-jackson:${feignVersion}"
-    compileOnly "io.github.openfeign:feign-httpclient:${feignVersion}"
+    compileOnly "io.github.openfeign:feign-jackson"
+    compileOnly "io.github.openfeign:feign-httpclient"
 }
