@@ -40,6 +40,13 @@ configure(subprojects) {
 		useJUnitPlatform()
 	}
 
+    dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter-api'
+        testImplementation 'org.junit.jupiter:junit-jupiter-params'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+        testImplementation 'org.springframework.security:spring-security-test'
+    }
+
 	bootJar {
 		enabled = false
 	}
@@ -49,8 +56,6 @@ configure(subprojects) {
 }
 
 configure([ project(':hello-okta-api'), project(':hello-okta-bff') ]) {
-
-
 	buildscript {
 		dependencyManagement {
 			imports {
@@ -77,7 +82,6 @@ configure([ project(':hello-okta-api'), project(':hello-okta-bff') ]) {
 		testImplementation('org.springframework.boot:spring-boot-starter-test') {
 			exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 		}
-		testImplementation 'org.springframework.security:spring-security-test'
 	}
 
 	bootJar {
