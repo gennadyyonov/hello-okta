@@ -65,6 +65,7 @@ configure([ project(':hello-okta-api'), project(':hello-okta-bff') ]) {
 		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
 
+		compile "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure"
 		compile "org.springframework.cloud:spring-cloud-starter-sleuth"
 		compile "io.springfox:springfox-swagger2:${swaggerVersion}"
 		compile "io.springfox:springfox-swagger-ui:${swaggerVersion}"

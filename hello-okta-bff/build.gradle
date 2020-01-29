@@ -8,8 +8,6 @@ dependencies {
     compile project(':hello-okta-logging-impl')
     compile project(':hello-okta-services')
 
-    compile "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure"
-
     // GraphQL
     compile "com.graphql-java:graphql-spring-boot-starter:${graphqlJavaSpringBootVersion}"
     compile "com.graphql-java:graphiql-spring-boot-starter:${graphqlJavaSpringBootVersion}"
