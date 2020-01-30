@@ -17,6 +17,7 @@ import java.util.Set;
 import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.util.Base64.getEncoder;
+import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toSet;
 import static org.springframework.security.oauth2.core.OAuth2AccessToken.TokenType.BEARER;
 
@@ -36,7 +37,7 @@ public class AuthenticationService {
     private String getUserId(Authentication authentication) {
         if (authentication instanceof AbstractAuthenticationToken) {
             AbstractAuthenticationToken token = (AbstractAuthenticationToken) authentication;
-            return token.getName();
+            return ofNullable(token.getName()).map(String::toUpperCase).orElse(null);
         } else {
             return null;
         }

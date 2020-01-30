@@ -1,8 +1,8 @@
-ext {
-}
-
 dependencies {
     compile project(':hello-okta-api-dto')
     compile project(':hello-okta-logging-impl')
     compile project(':hello-okta-services')
+
+    compile "io.springfox:springfox-swagger2:${swaggerVersion}"
+    compile "io.springfox:springfox-swagger-ui:${swaggerVersion}"
 }

@@ -15,6 +15,9 @@ okta:
     audience: ${audience:api://hellookta}
 
 spring:
+  main.allow-bean-definition-overriding: true
+  application:
+    name: hello-okta-api
   security:
     oauth2:
       client:
@@ -22,11 +25,12 @@ spring:
           okta:
             client-id: ${clientId:0oa26efk122CnG3k3357}
             client-secret: ${clientSecret:f-Th4oNxu0qzMghhtGev2vaoAPf9l7IgzHENsYny}
-          provider:
-            okta:
-              user-name-attribute: email
+        provider:
+          okta:
+            user-name-attribute: email
 
 logging:
   level:
     org.springframework.security.oauth2.client.OAuth2RestTemplate: ${rest_template_log_level:INFO}
     org.springframework.web.client.RestTemplate: ${rest_template_log_level:INFO}
+    org.springframework.web.filter.CommonsRequestLoggingFilter: ${http_log_level:INFO}

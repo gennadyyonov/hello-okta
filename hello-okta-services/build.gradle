@@ -1,20 +1,25 @@
 dependencies {
     compile project(':hello-okta-logging-impl')
 
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    compile "org.springframework:spring-web"
+    compile "org.springframework:spring-context"
+    compile "org.springframework.security:spring-security-core"
+    compile "org.springframework.security:spring-security-oauth2-client"
+    compile "org.springframework.security:spring-security-oauth2-jose"
+    compile "org.springframework.security:spring-security-oauth2-resource-server"
+    compile "org.springframework.boot:spring-boot-autoconfigure"
+    compile "com.fasterxml.jackson.core:jackson-annotations"
+    compile "org.slf4j:slf4j-api"
+    compile "org.aspectj:aspectjweaver"
 
-    compileOnly "org.springframework:spring-web"
-    compileOnly "org.springframework:spring-context"
-    compileOnly "org.springframework.security:spring-security-core"
-    compileOnly "org.springframework.security:spring-security-oauth2-client"
-    compileOnly "org.springframework.security:spring-security-oauth2-jose"
-    compileOnly "org.springframework.security:spring-security-oauth2-resource-server"
-    compileOnly "org.springframework.boot:spring-boot-autoconfigure"
-    compileOnly "com.fasterxml.jackson.core:jackson-annotations"
-    compileOnly "org.slf4j:slf4j-api"
-    compileOnly "org.aspectj:aspectjweaver"
+    compile "io.github.openfeign:feign-jackson"
+    compile "io.github.openfeign:feign-httpclient"
+}
 
-    compileOnly "io.github.openfeign:feign-jackson"
-    compileOnly "io.github.openfeign:feign-httpclient"
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
 }

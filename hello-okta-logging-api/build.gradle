@@ -1,4 +1,7 @@
-dependencies {
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
 }

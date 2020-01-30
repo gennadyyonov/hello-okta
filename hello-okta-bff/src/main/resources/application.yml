@@ -15,6 +15,9 @@ okta:
     audience: ${audience:api://hellookta}
 
 spring:
+  main.allow-bean-definition-overriding: true
+  application:
+    name: hello-okta-bff
   security:
     oauth2:
       client:
@@ -22,9 +25,9 @@ spring:
           okta:
             client-id: ${clientId:0oa26efk122CnG3k3357}
             client-secret: ${clientSecret:f-Th4oNxu0qzMghhtGev2vaoAPf9l7IgzHENsYny}
-          provider:
-            okta:
-              user-name-attribute: email
+        provider:
+          okta:
+            user-name-attribute: email
 
 hellooktaapiclient:
   baseUrl: http://localhost:8070
@@ -41,3 +44,4 @@ logging:
     org.springframework.web.client.RestTemplate: ${rest_template_log_level:INFO}
     lv.gennadyyonov.hellookta.bff.connectors.hellooktaapi.HelloOktaApiConnector: ${hello_okta_api_log_level:INFO}
     lv.gennadyyonov.hellookta.bff.connectors.okta.TokenConnector: ${okta_token_log_level:INFO}
+    org.springframework.web.filter.CommonsRequestLoggingFilter: ${http_log_level:INFO}
