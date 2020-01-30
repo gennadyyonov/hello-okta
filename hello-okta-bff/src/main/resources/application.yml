@@ -5,7 +5,6 @@ hellooktabff:
   security-mapping:
     ALLOWED_USERS:
       - HelloOkta_StandardUser
-      - ROLE_USER
 
 okta:
   oauth2:
