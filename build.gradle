@@ -11,7 +11,6 @@ allprojects {
 	ext {
 		set('springCloudVersion', "Hoxton.RELEASE")
 		set('oktaSpringBootStarterVersion', "1.2.1")
-		set('lombokVersion', "1.18.10")
 		set('commonsLang3Version', "3.9")
 		set('swaggerVersion', "2.9.2")
 	}
