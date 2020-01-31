@@ -67,6 +67,14 @@ Copy the `Issuer` URL. This value will be used by our app.
 
 #### Scopes
 
+Create a [custom scope](https://www.oauth.com/oauth2-servers/scope/defining-scopes/) for our consumer application to restrict access token to this example.
+
+From the menu bar select **API > Authorization Servers**. 
+Edit the authorization server created in the previous step by clicking on the edit pencil, then click **Scopes > Add Scope**. 
+Fill out the name field with `message.read` and press **Create**:
+
+![Custom Scope](images/04-Custom-Scope.PNG)
+
 #### Claims
 
 ##### Access Token groups Claim
