@@ -1,3 +1,38 @@
+sourceSets {
+    main
+    localhost {
+        compileClasspath += main.output
+        runtimeClasspath += main.output
+    }
+}
+
+configurations {
+    localhostCompile.extendsFrom compile
+    localhostCompileOnly.extendsFrom compileOnly
+}
+
+task runLocal(type: Exec, dependsOn: bootRun) {
+    group = "application"
+
+    doFirst() {
+        println("Running LOCALHOST...")
+    }
+}
+
+bootRun() {
+    def localPropertiesFile = 'src/localhost/resources/localhost.properties';
+    file(localPropertiesFile).readLines().each() {
+        if (!it.isEmpty() && !it.startsWith("#")) {
+            def (key, value) = it.tokenize('=')
+            if (System.getenv(key) == null) {
+                environment key, value
+            }
+        }
+    }
+
+    systemProperties System.properties
+}
+
 dependencies {
     compile project(':hello-okta-api-dto')
     compile project(':hello-okta-logging-impl')
@@ -5,4 +40,9 @@ dependencies {
 
     compile "io.springfox:springfox-swagger2:${swaggerVersion}"
     compile "io.springfox:springfox-swagger-ui:${swaggerVersion}"
+
+    if (gradle.startParameter.taskNames.contains("runLocal") ) {
+        println("LOCALHOST Dependencies")
+        runtimeClasspath sourceSets.localhost.output
+    }
 }

@@ -1,3 +1,38 @@
+sourceSets {
+    main
+    localhost {
+        compileClasspath += main.output
+        runtimeClasspath += main.output
+    }
+}
+
+configurations {
+    localhostCompile.extendsFrom compile
+    localhostCompileOnly.extendsFrom compileOnly
+}
+
+task runLocal(type: Exec, dependsOn: bootRun) {
+    group = "application"
+
+    doFirst() {
+        println("Running LOCALHOST...")
+    }
+}
+
+bootRun() {
+    def localPropertiesFile = 'src/localhost/resources/localhost.properties';
+    file(localPropertiesFile).readLines().each() {
+        if (!it.isEmpty() && !it.startsWith("#")) {
+            def (key, value) = it.tokenize('=')
+            if (System.getenv(key) == null) {
+                environment key, value
+            }
+        }
+    }
+
+    systemProperties System.properties
+}
+
 ext {
     set('graphqlJavaSpringBootVersion', "5.0.2")
     set('graphqlJavaToolsVersion', "5.2.4")
@@ -12,4 +47,9 @@ dependencies {
     compile "com.graphql-java:graphql-spring-boot-starter:${graphqlJavaSpringBootVersion}"
     compile "com.graphql-java:graphiql-spring-boot-starter:${graphqlJavaSpringBootVersion}"
     compile "com.graphql-java:graphql-java-tools:${graphqlJavaToolsVersion}"
+
+    if (gradle.startParameter.taskNames.contains("runLocal") ) {
+        println("LOCALHOST Dependencies")
+        runtimeClasspath sourceSets.localhost.output
+    }
 }
