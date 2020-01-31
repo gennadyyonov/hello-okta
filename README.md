@@ -77,9 +77,43 @@ Fill out the name field with `message.read` and press **Create**:
 
 #### Claims
 
+To include custom claims in an _ID token_ or an _access token_, they should be added to our Custom Authorization Server.
+
+Let's add a **Groups** claim to _ID tokens_ and _access tokens_ to perform authentication and authorization using the out Custom Authorization Server.
+
 ##### Access Token groups Claim
 
+Click **Claims > Add Claim**. Fill in the fields with these values (leave those not mentioned as their defaults):
+
+| FIELD NAME | VALUE |
+| --- | ---|
+| **Name** | `groups` |
+| **Include in token type** | `Access Token`<br>`Always` |
+| **Value type** | `Groups` |
+| **Filter** | `Matches regex` `.*` |
+
+Click **Create**.
+
+Created **Claim** will look like:
+
+![Access Token groups Claim](images/05-Access-Token-groups-Claim.PNG)
+
 ##### ID Token groups Claim
+
+Click **Claims > Add Claim**. Fill in the fields with these values (leave those not mentioned as their defaults):
+
+| FIELD NAME | VALUE |
+| --- | ---|
+| **Name** | `groups` |
+| **Include in token type** | `ID Token`<br>`Always` |
+| **Value type** | `Groups` |
+| **Filter** | `Matches regex` `.*` |
+
+Click **Create**.
+
+Created **Claim** will look like:
+
+![ID Token groups Claim](images/06-ID-Token-groups-Claim.PNG)
 
 #### Access Policies
 
