@@ -1,19 +1,18 @@
 package lv.gennadyyonov.hellookta.api.config;
 
 import brave.http.HttpTracing;
-import brave.httpclient.TracingHttpClientBuilder;
 import feign.Client;
 import feign.Feign;
 import feign.Logger;
 import feign.RequestInterceptor;
 import feign.Target;
 import feign.codec.Encoder;
-import feign.httpclient.ApacheHttpClient;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import feign.slf4j.Slf4jLogger;
+import lv.gennadyyonov.hellookta.configuration.feign.FeignClientProvider;
+import lv.gennadyyonov.hellookta.configuration.feign.FeignClientProviderImpl;
 import lv.gennadyyonov.hellookta.connectors.UserInfoConnector;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,15 +31,15 @@ public class FeignConfig {
     }
 
     @Bean
-    public UserInfoConnector userInfoConnector() {
-        Client client = getClient();
-        return feignBuilder(client, UserInfoConnector.class)
-                .target(Target.EmptyTarget.create(UserInfoConnector.class));
+    public FeignClientProvider feignClientProvider() {
+        return new FeignClientProviderImpl(httpTracing);
     }
 
-    private Client getClient() {
-        CloseableHttpClient delegate = TracingHttpClientBuilder.create(httpTracing).build();
-        return new ApacheHttpClient(delegate);
+    @Bean
+    public UserInfoConnector userInfoConnector(FeignClientProvider feignClientProvider) {
+        Client client = feignClientProvider.getClient();
+        return feignBuilder(client, UserInfoConnector.class)
+                .target(Target.EmptyTarget.create(UserInfoConnector.class));
     }
 
     private Feign.Builder feignBuilder(Client client,

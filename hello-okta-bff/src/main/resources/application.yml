@@ -1,6 +1,3 @@
-server:
-  port: 8060
-
 hellooktabff:
   security-mapping:
     ALLOWED_USERS:
@@ -8,10 +5,10 @@ hellooktabff:
 
 okta:
   oauth2:
-    issuer: ${issuer:https://dev-220281.okta.com/oauth2/aus26efk9hrb1yASy357}
-    clientId: ${clientId:0oa26efk122CnG3k3357}
-    clientSecret: ${clientSecret:f-Th4oNxu0qzMghhtGev2vaoAPf9l7IgzHENsYny}
-    audience: ${audience:api://hellookta}
+    issuer: ${issuer}
+    clientId: ${clientId}
+    clientSecret: ${clientSecret}
+    audience: ${audience}
 
 spring:
   main.allow-bean-definition-overriding: true
@@ -22,19 +19,19 @@ spring:
       client:
         registration:
           okta:
-            client-id: ${clientId:0oa26efk122CnG3k3357}
-            client-secret: ${clientSecret:f-Th4oNxu0qzMghhtGev2vaoAPf9l7IgzHENsYny}
+            client-id: ${clientId}
+            client-secret: ${clientSecret}
         provider:
           okta:
             user-name-attribute: email
 
 hellooktaapiclient:
-  baseUrl: http://localhost:8070
+  baseUrl: ${hellooktaapiclient_baseUrl}
   runAsDetails:
       grantType: client_credentials
-      clientId: ${hellooktaclient_id:0oa2m950mjcFnPPNJ357}
-      clientSecret: ${hellooktaclient_secret:IHiSqDkab2oh_pQXAscZ4BuRUb1X0yEHYl70cVgI}
-      accessTokenUri: ${issuer:https://dev-220281.okta.com/oauth2/aus26efk9hrb1yASy357}/v1/token
+      clientId: ${hellooktaclient_id}
+      clientSecret: ${hellooktaclient_secret}
+      accessTokenUri: ${issuer}/v1/token
       scope: message.read
 
 logging:

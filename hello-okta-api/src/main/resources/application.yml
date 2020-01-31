@@ -1,6 +1,3 @@
-server:
-  port: 8070
-
 hellooktaapi:
   security-mapping:
     ALLOWED_USERS:
@@ -8,10 +5,10 @@ hellooktaapi:
 
 okta:
   oauth2:
-    issuer: ${issuer:https://dev-220281.okta.com/oauth2/aus26efk9hrb1yASy357}
-    clientId: ${clientId:0oa26efk122CnG3k3357}
-    clientSecret: ${clientSecret:f-Th4oNxu0qzMghhtGev2vaoAPf9l7IgzHENsYny}
-    audience: ${audience:api://hellookta}
+    issuer: ${issuer}
+    clientId: ${clientId}
+    clientSecret: ${clientSecret}
+    audience: ${audience}
 
 spring:
   main.allow-bean-definition-overriding: true
@@ -22,8 +19,8 @@ spring:
       client:
         registration:
           okta:
-            client-id: ${clientId:0oa26efk122CnG3k3357}
-            client-secret: ${clientSecret:f-Th4oNxu0qzMghhtGev2vaoAPf9l7IgzHENsYny}
+            client-id: ${clientId}
+            client-secret: ${clientSecret}
         provider:
           okta:
             user-name-attribute: email

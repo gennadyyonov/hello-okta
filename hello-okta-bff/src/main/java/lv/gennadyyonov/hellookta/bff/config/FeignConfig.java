@@ -1,7 +1,6 @@
 package lv.gennadyyonov.hellookta.bff.config;
 
 import brave.http.HttpTracing;
-import brave.httpclient.TracingHttpClientBuilder;
 import feign.Client;
 import feign.Feign;
 import feign.Logger;
@@ -9,17 +8,17 @@ import feign.RequestInterceptor;
 import feign.Target;
 import feign.codec.Encoder;
 import feign.form.FormEncoder;
-import feign.httpclient.ApacheHttpClient;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import feign.slf4j.Slf4jLogger;
 import lv.gennadyyonov.hellookta.bff.connectors.hellooktaapi.HelloOktaApiConnector;
+import lv.gennadyyonov.hellookta.configuration.feign.FeignClientProvider;
+import lv.gennadyyonov.hellookta.configuration.feign.FeignClientProviderImpl;
 import lv.gennadyyonov.hellookta.connectors.TokenConnector;
 import lv.gennadyyonov.hellookta.connectors.UserInfoConnector;
 import lv.gennadyyonov.hellookta.dto.RunAsDetails;
 import lv.gennadyyonov.hellookta.services.AuthenticationService;
 import lv.gennadyyonov.hellookta.services.TokenService;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -49,9 +48,14 @@ public class FeignConfig {
     }
 
     @Bean
+    public FeignClientProvider feignClientProvider() {
+        return new FeignClientProviderImpl(httpTracing);
+    }
+
+    @Bean
     @Qualifier("helloOktaApiConnector")
-    public HelloOktaApiConnector helloOktaApiConnector() {
-        Client client = getClient();
+    public HelloOktaApiConnector helloOktaApiConnector(FeignClientProvider feignClientProvider) {
+        Client client = feignClientProvider.getClient();
         return feignBuilder(client, HelloOktaApiConnector.class, ssoInterceptor)
                 .target(Target.EmptyTarget.create(HelloOktaApiConnector.class));
     }
@@ -59,8 +63,9 @@ public class FeignConfig {
     @Bean
     @Qualifier("runAsHelloOktaApiConnector")
     @DependsOn({"clientCredentialsInterceptor"})
-    public HelloOktaApiConnector runAsHelloOktaApiConnector(ClientCredentialsInterceptor clientCredentialsInterceptor) {
-        Client client = getClient();
+    public HelloOktaApiConnector runAsHelloOktaApiConnector(FeignClientProvider feignClientProvider,
+                                                            ClientCredentialsInterceptor clientCredentialsInterceptor) {
+        Client client = feignClientProvider.getClient();
         return feignBuilder(client, HelloOktaApiConnector.class, clientCredentialsInterceptor)
                 .target(Target.EmptyTarget.create(HelloOktaApiConnector.class));
     }
@@ -72,15 +77,15 @@ public class FeignConfig {
     }
 
     @Bean
-    public UserInfoConnector userInfoConnector() {
-        Client client = getClient();
+    public UserInfoConnector userInfoConnector(FeignClientProvider feignClientProvider) {
+        Client client = feignClientProvider.getClient();
         return feignBuilder(client, UserInfoConnector.class)
                 .target(Target.EmptyTarget.create(UserInfoConnector.class));
     }
 
     @Bean
-    public TokenConnector tokenConnector() {
-        Client client = getClient();
+    public TokenConnector tokenConnector(FeignClientProvider feignClientProvider) {
+        Client client = feignClientProvider.getClient();
         return feignBuilder(client, TokenConnector.class, feignFormEncoder())
                 .target(Target.EmptyTarget.create(TokenConnector.class));
     }
@@ -89,11 +94,6 @@ public class FeignConfig {
     public TokenService tokenService(TokenConnector tokenConnector) {
         RunAsDetails runAsDetails = helloOctaApiClientProperties.getRunAsDetails();
         return new TokenService(runAsDetails, tokenConnector, authenticationService);
-    }
-
-    private Client getClient() {
-        CloseableHttpClient delegate = TracingHttpClientBuilder.create(httpTracing).build();
-        return new ApacheHttpClient(delegate);
     }
 
     private Encoder feignFormEncoder() {

@@ -33,7 +33,7 @@ public class SecurityService {
             return false;
         }
         log.info("Checking hasAnyRoles for User ID : {}, Alias : {}, Roles: {}", userId, alias, Arrays.toString(roles));
-        if (ofNullable(userInfo.getRoles()).isEmpty()) {
+        if (!ofNullable(userInfo.getRoles()).isPresent()) {
             log.warn("No roles found for User ID: {}", userId);
             return false;
         }
