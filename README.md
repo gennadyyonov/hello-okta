@@ -2,6 +2,9 @@
 
 ## Okta Configuration
 
+Head on over to [developer.okta.com](https://developer.okta.com/signup/) to create a free-forever developer account. 
+Look for the email to complete the initialization of your Okta org. 
+
 ### Set Up OpenID Connect Application
 
 Login to your Okta account.
