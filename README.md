@@ -117,10 +117,71 @@ Created **Claim** will look like:
 
 #### Access Policies
 
+Okta **Access Policies** allows to restrict access to application resources.
+Each **Access Policy** applies to a particular OpenID Connect application. 
+**Access Policies** are containers for rules.
+**Rules** define different access depending on the nature of the token request.
+
 ##### Access Policy for Hello Okta App
+
+Click the **Access Policies** tab. Click **Add Policy**. Fill in the fields with these values:
+
+| FIELD NAME | VALUE |
+| --- | ---|
+| **Name** | `Hello Okta App` |
+| **Description** | `Hello Okta App` |
+| **Assign to** | The following clients: `Hello Okta App` |
+
+Click **Create Policy**.
+
+Created **Policy** will look like:
+
+![Hello Okta App Access Policy](images/07-Hello-Okta-App-Policy.PNG)
 
 ###### Hello Okta App Access Policy Rules
 
+Click **Add Rule**. Fill in the fields with these values:
+
+| FIELD NAME | VALUE |
+| --- | ---|
+| **Name** | `All users of Hello Okta App has access` |
+| **Grant type is** | `Authorization Code` |
+| **Scopes requested** | The following scopes: `OIDC default scopes` |
+
+Click **Create Rule**.
+
+Created **Rule** should look like:
+
+![Hello Okta App Access Policy Rule](images/08-Hello-Okta-App-Policy-Rule.PNG)
+
 ##### Access Policy for Hello Okta Client App
 
+Click the **Access Policies** tab. Click **Add Policy**. Fill in the fields with these values:
+
+| FIELD NAME | VALUE |
+| --- | ---|
+| **Name** | `Hello Okta App Client` |
+| **Description** | `Hello Okta App` |
+| **Assign to** | The following clients: `Hello Okta App Client` |
+
+Click **Create Policy**.
+
+Created **Policy** will look like:
+
+![Hello Okta App Client Access Policy](images/09-Hello-Okta-App-Client-Policy.PNG)
+
 ###### Hello Okta App Client Access Policy Rules
+
+Click **Add Rule**. Fill in the fields with these values:
+
+| FIELD NAME | VALUE |
+| --- | ---|
+| **Name** | `Message read` |
+| **Grant type is** | `Client Credentials` |
+| **Scopes requested** | The following scopes: `message.read` |
+
+Click **Create Rule**.
+
+Created **Rule** should look like:
+
+![Hello Okta App Client Access Policy Rule](images/10-Hello-Okta-App-Client-Policy-Rule.PNG)
