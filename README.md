@@ -48,6 +48,23 @@ Scroll down to the **Client Credentials** section and copy the `Client ID` and `
 
 ### Set Up Authorization Server
 
+Navigate to **API > Authorization Servers**. Click **Add Authorization Server**. 
+Fill in the values:
+
+| FIELD NAME | VALUE |
+| --- | ---|
+| **Name** | `Hello Okta App` |
+| **Description** | `Hello Okta App` |
+| **Audience** | `api://hellookta` |
+
+Click **Done**.
+
+**Settings** tab will be displayed:
+
+![Hello Okta App Authorization Server Settings](images/03-Authorization-Server.PNG)
+
+Copy the `Issuer` URL. This value will be used by our app.
+
 #### Scopes
 
 #### Claims
