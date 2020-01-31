@@ -45,3 +45,23 @@ Click **Done**.
 ![Hello Okta App Client General Settings](images/02-Hello-Okta-App-Client.PNG)
 
 Scroll down to the **Client Credentials** section and copy the `Client ID` and `Client Secret`. These values will be used by our app.
+
+### Set Up Authorization Server
+
+#### Scopes
+
+#### Claims
+
+##### Access Token groups Claim
+
+##### ID Token groups Claim
+
+#### Access Policies
+
+##### Access Policy for Hello Okta App
+
+###### Hello Okta App Access Policy Rules
+
+##### Access Policy for Hello Okta Client App
+
+###### Hello Okta App Client Access Policy Rules
