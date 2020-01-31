@@ -12,10 +12,10 @@ Populate the fields with these values:
 
 | FIELD NAME | VALUE |
 | --- | ---|
-| **Name** | Hello Okta App |
+| **Name** | `Hello Okta App` |
 | **Base URIs** | http://localhost:8060<br>http://localhost:8070 |
 | **Login redirect URIs** | http://localhost:8060/login/oauth2/code/okta<br>http://localhost:8070/login/oauth2/code/okta |
-| **Allowed grant types** | Authorization Code |
+| **Allowed grant types** | `Authorization Code` |
 
 
 Click **Done**.
