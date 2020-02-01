@@ -1,4 +1,56 @@
-# hello-okta
+# Spring Security OAuth2 Demo Applications for Okta
+
+This repository contains demo applications that demonstrates how to integrate the following OAuth 2.0 flows into your [Spring Boot](https://projects.spring.io/spring-boot/) Application:
+
+- [Authorization Code](https://developer.okta.com/docs/guides/implement-auth-code/overview/) Flow
+- [Client Credentials](https://developer.okta.com/docs/guides/implement-client-creds/overview/) Flow
+
+## Required Software
+
+### Java
+
+- JDK 11
+- JDK 1.8 can be used as well
+  - Change `sourceCompatibility` from `'11'` to `1.8`
+
+### Lombok
+
+#### IntelliJ 
+
+- Download and install Lombok [plugin](https://plugins.jetbrains.com/plugin/6317-lombok-plugin)
+- Enable Annotation Processors
+  -  Go to **Setting > Build, Execution, Deployment > Compiler > Annotation Processors**
+  -  Check _Enable annotation processing_
+  
+### Build Automation Software
+
+[Gradle](https://gradle.org/) is used as a build automation tool. 
+Several major IDEs allow you to import Gradle builds and interact with them.
+IntelliJ IDEA supports a fully-functional integration with Gradle.
+
+## Build Project
+
+`$ gradlew clean build`
+
+## Modules
+
+This project contains several modules, here are the main ones you to focus on and run:
+
+| MODULE | DESCRIPTION |
+| --- | --- |
+| [hello-okta-api](hello-okta-api/README.md) | REST API Backend Server.<br> Exposes domain API over REST.<br>Secured by Okta. |
+| [hello-okta-bff](hello-okta-bff/README.md) | BFF (Backend for Frontend) Server.<br>Aggregates data from downstream services (for example [hello-okta-api](hello-okta-api/README.md)) providing API tailored to Front-end (SPA) needs.<br>Secured by Okta.|
+
+Other modules contains shared source code.
+
+## Run Modules
+
+There are 2 runnable modules in this project:
+
+- [hello-okta-api](hello-okta-api/README.md)
+- [hello-okta-bff](hello-okta-bff/README.md)
+
+Each of them contains instructions how to **Run Application on localhost** in `README.md` file.
 
 ## Okta Configuration
 
