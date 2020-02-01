@@ -250,3 +250,25 @@ Click **Create Rule**.
 Created **Rule** should look like:
 
 ![Hello Okta App Client Access Policy Rule](images/10-Hello-Okta-App-Client-Policy-Rule.PNG)
+
+### Set Up Okta Group
+
+#### Add HelloOkta_StandardUser Group
+Navigate to **Users > Groups**. Click **Add Group**. Fill in the values:
+
+| FIELD NAME | VALUE |
+| --- | ---|
+| **Name** | `HelloOkta_StandardUser` |
+| **Group Description** | `HELLOOKTA Standard User` |
+
+![HelloOkta_StandardUser Group](images/11-HelloOkta_StandardUser-Group.PNG)
+
+Click **Add Group**.
+
+#### Add User to HelloOkta_StandardUser Group
+
+- Navigate to **Users > Groups**.
+- Click on the **HelloOkta_StandardUser** group. 
+- Click on the **Manage People** button. 
+- Use the search box to find your user and add yourself to the group.
+- Click **Save** button
