@@ -40,6 +40,7 @@ This project contains several modules, here are the main ones you to focus on an
 | --- | --- |
 | [hello-okta-api](hello-okta-api/README.md) | REST API Backend Server.<br> Exposes domain API over REST.<br>Secured by Okta. |
 | [hello-okta-bff](hello-okta-bff/README.md) | BFF (Backend for Frontend) Server.<br>Aggregates data from downstream services (for example [hello-okta-api](hello-okta-api/README.md)) providing API tailored to Front-end (SPA) needs.<br>Secured by Okta.|
+| [hello-okta-api-client](hello-okta-api-client/README.md) | [REST API Server](../hello-okta-api/README.md) Client. |
 
 Other modules contains shared source code.
 
