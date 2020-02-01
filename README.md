@@ -52,6 +52,16 @@ There are 2 runnable modules in this project:
 
 Each of them contains instructions how to **Run Application on localhost** in `README.md` file.
 
+## Tech Stack
+- [Spring Boot](https://projects.spring.io/spring-boot/) : Application framework
+- [Spring Cloud Sleuth](https://github.com/spring-cloud/spring-cloud-sleuth) : Distributed tracing tool for Spring Cloud
+- [Okta Spring Boot Starter](https://github.com/okta/okta-spring-boot) : Enables Spring Boot application to work with Okta
+- [Lombok](https://projectlombok.org/features/index.html) : Utility library for Java language
+- [GraphQL](http://graphql.org/learn/) : API query runtime
+  - [GraphQL and GraphiQL Spring Framework Boot Starters](https://github.com/graphql-java/graphql-spring-boot)
+  - [GraphQL Java Tools](https:g//github.com/graphql-java/graphql-java-tools)
+- [Feign](https://github.com/OpenFeign/feign) : Declarative REST Client
+
 ## Okta Configuration
 
 Head on over to [developer.okta.com](https://developer.okta.com/signup/) to create a free-forever developer account. 
