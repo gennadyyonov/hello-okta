@@ -52,6 +52,8 @@ There are 2 runnable modules in this project:
 
 Each of them contains instructions how to **Run Application on localhost** in `README.md` file.
 
+**Note**, both of them should be up and running to see the demo.
+
 ## Tech Stack
 - [Spring Boot](https://projects.spring.io/spring-boot/) : Application framework
 - [Spring Cloud Sleuth](https://github.com/spring-cloud/spring-cloud-sleuth) : Distributed tracing tool for Spring Cloud
