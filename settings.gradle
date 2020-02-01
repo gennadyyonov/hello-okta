@@ -1,2 +1,2 @@
 rootProject.name = 'hello-okta'
-include 'hello-okta-api-dto', 'hello-okta-logging-api', 'hello-okta-logging-impl', 'hello-okta-services', 'hello-okta-api', 'hello-okta-bff'
+include 'hello-okta-api-dto', 'hello-okta-logging-api', 'hello-okta-logging-impl', 'hello-okta-services', 'hello-okta-api', 'hello-okta-bff', 'hello-okta-api-client'

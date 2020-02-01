@@ -1,8 +1,10 @@
-# Run Application on localhost
+# REST API Backend Server Application
+
+## Run Application on localhost
 
 One of the easiest options to run application locally is using IntelliJ Gradle Run Configuration.
 
-## IntelliJ Gradle Run Configuration
+### IntelliJ Gradle Run Configuration
 
 ![IntelliJ Gradle Run Configuration](images/01-Gradle-Run-Configuration.PNG)
 
