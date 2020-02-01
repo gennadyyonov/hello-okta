@@ -1,4 +1,4 @@
-# [REST API Server](../hello-okta-api/README.md) Server Client
+# [REST API Server](../hello-okta-api/README.md) Client
 
 Client demonstrates Server-to-Server _Client Credentials_ integration flow which consists of 2 steps:
 
