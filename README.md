@@ -61,6 +61,7 @@ Each of them contains instructions how to **Run Application on localhost** in `R
   - [GraphQL and GraphiQL Spring Framework Boot Starters](https://github.com/graphql-java/graphql-spring-boot)
   - [GraphQL Java Tools](https:g//github.com/graphql-java/graphql-java-tools)
 - [Feign](https://github.com/OpenFeign/feign) : Declarative REST Client
+- [Springfox Swagger 2](https://github.com/springfox/springfox) : Spring Boot RESTful API Documentation
 
 ## Okta Configuration
 
