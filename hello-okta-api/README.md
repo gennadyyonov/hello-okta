@@ -15,3 +15,12 @@ So, configuration properties can be changed the following way:
     - _Environment variables_ - mostly Okta related can be changed in [localhost.properties](src/localhost/resources/localhost.properties) file.
     - _Spring Boot Application properties_ in [application-localhost.yml](src/localhost/resources/application-localhost.yml) file.
 
+Application will be running on port `8070` by default.
+ 
+It's API can be accessed via [Swagger UI](http://localhost:8070/swagger-ui.html) in your browser.
+
+If you see Okta hosted sign-in page then things are working!
+
+You can login with the same account that you created when signing up for your Developer Org, or you can use a known username and password from your Okta Directory.
+
+![Swagger UI](images/02-Swagger-UI.PNG)

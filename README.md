@@ -1,4 +1,69 @@
-# hello-okta
+# Spring Security OAuth2 Demo Applications for Okta
+
+This repository contains demo applications that demonstrates how to integrate the following OAuth 2.0 flows into your [Spring Boot](https://projects.spring.io/spring-boot/) Application:
+
+- [Authorization Code](https://developer.okta.com/docs/guides/implement-auth-code/overview/) Flow
+- [Client Credentials](https://developer.okta.com/docs/guides/implement-client-creds/overview/) Flow
+
+## Required Software
+
+### Java
+
+- JDK 11
+- JDK 1.8 can be used as well
+  - Change `sourceCompatibility` from `'11'` to `1.8`
+
+### Lombok
+
+#### IntelliJ 
+
+- Download and install Lombok [plugin](https://plugins.jetbrains.com/plugin/6317-lombok-plugin)
+- Enable Annotation Processors
+  -  Go to **Setting > Build, Execution, Deployment > Compiler > Annotation Processors**
+  -  Check _Enable annotation processing_
+  
+### Build Automation Software
+
+[Gradle](https://gradle.org/) is used as a build automation tool. 
+Several major IDEs allow you to import Gradle builds and interact with them.
+IntelliJ IDEA supports a fully-functional integration with Gradle.
+
+## Build Project
+
+`$ gradlew clean build`
+
+## Modules
+
+This project contains several modules, here are the main ones you to focus on and run:
+
+| MODULE | DESCRIPTION |
+| --- | --- |
+| [hello-okta-api](hello-okta-api/README.md) | REST API Backend Server.<br> Exposes domain API over REST.<br>Secured by Okta. |
+| [hello-okta-bff](hello-okta-bff/README.md) | BFF (Backend for Frontend) Server.<br>Aggregates data from downstream services (for example [hello-okta-api](hello-okta-api/README.md)) providing API tailored to Front-end (SPA) needs.<br>Secured by Okta.|
+
+Other modules contains shared source code.
+
+## Run Modules
+
+There are 2 runnable modules in this project:
+
+- [hello-okta-api](hello-okta-api/README.md)
+- [hello-okta-bff](hello-okta-bff/README.md)
+
+Each of them contains instructions how to **Run Application on localhost** in `README.md` file.
+
+**Note**, both of them should be up and running to see the demo.
+
+## Tech Stack
+- [Spring Boot](https://projects.spring.io/spring-boot/) : Application framework
+- [Spring Cloud Sleuth](https://github.com/spring-cloud/spring-cloud-sleuth) : Distributed tracing tool for Spring Cloud
+- [Okta Spring Boot Starter](https://github.com/okta/okta-spring-boot) : Enables Spring Boot application to work with Okta
+- [Lombok](https://projectlombok.org/features/index.html) : Utility library for Java language
+- [GraphQL](http://graphql.org/learn/) : API query runtime
+  - [GraphQL and GraphiQL Spring Framework Boot Starters](https://github.com/graphql-java/graphql-spring-boot)
+  - [GraphQL Java Tools](https:g//github.com/graphql-java/graphql-java-tools)
+- [Feign](https://github.com/OpenFeign/feign) : Declarative REST Client
+- [Springfox Swagger 2](https://github.com/springfox/springfox) : Spring Boot RESTful API Documentation
 
 ## Okta Configuration
 
@@ -188,3 +253,25 @@ Click **Create Rule**.
 Created **Rule** should look like:
 
 ![Hello Okta App Client Access Policy Rule](images/10-Hello-Okta-App-Client-Policy-Rule.PNG)
+
+### Set Up Okta Group
+
+#### Add HelloOkta_StandardUser Group
+Navigate to **Users > Groups**. Click **Add Group**. Fill in the values:
+
+| FIELD NAME | VALUE |
+| --- | ---|
+| **Name** | `HelloOkta_StandardUser` |
+| **Group Description** | `HELLOOKTA Standard User` |
+
+![HelloOkta_StandardUser Group](images/11-HelloOkta_StandardUser-Group.PNG)
+
+Click **Add Group**.
+
+#### Add User to HelloOkta_StandardUser Group
+
+- Navigate to **Users > Groups**.
+- Click on the **HelloOkta_StandardUser** group. 
+- Click on the **Manage People** button. 
+- Use the search box to find your user and add yourself to the group.
+- Click **Save** button
