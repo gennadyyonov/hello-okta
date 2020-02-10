@@ -15,14 +15,11 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 public class TokenService {
 
-    private final RunAsDetails runAsDetails;
     private final TokenConnector tokenConnector;
     private final AuthenticationService authenticationService;
 
-    public TokenService(RunAsDetails runAsDetails,
-                        TokenConnector tokenConnector,
+    public TokenService(TokenConnector tokenConnector,
                         AuthenticationService authenticationService) {
-        this.runAsDetails = runAsDetails;
         this.tokenConnector = tokenConnector;
         this.authenticationService = authenticationService;
     }
@@ -31,16 +28,16 @@ public class TokenService {
      * @see <a href="https://developer.okta.com/docs/guides/implement-client-creds/use-flow/">Use the Client Credentials Flow</a>
      */
     @SneakyThrows
-    public String getClientCredentialsAccessToken() {
+    public String getClientCredentialsAccessToken(RunAsDetails runAsDetails) {
         URI baseUri = new URI(runAsDetails.getAccessTokenUri());
-        Map<String, Object> headers = headers();
+        Map<String, Object> headers = headers(runAsDetails);
         String grantType = runAsDetails.getGrantType();
-        String scope = getScope();
+        String scope = getScope(runAsDetails);
         TokenResponse tokenResponse = tokenConnector.getAccessToken(baseUri, headers, grantType, scope);
         return tokenResponse.getAccess_token();
     }
 
-    private Map<String, Object> headers() {
+    private Map<String, Object> headers(RunAsDetails runAsDetails) {
         Map<String, Object> headers = new HashMap<>();
         headers.put(
                 AUTHORIZATION,
@@ -49,7 +46,7 @@ public class TokenService {
         return headers;
     }
 
-    private String getScope() {
+    private String getScope(RunAsDetails runAsDetails) {
         List<String> scope = runAsDetails.getScope();
         return ofNullable(scope).map(values -> String.join(" ", values)).orElse(null);
     }

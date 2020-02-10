@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+lv.gennadyyonov.hellookta.logging.LoggingConfig

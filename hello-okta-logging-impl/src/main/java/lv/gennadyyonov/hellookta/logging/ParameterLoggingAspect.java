@@ -15,7 +15,7 @@ import static lv.gennadyyonov.hellookta.logging.LoggingUtils.composeResult;
 
 @Aspect
 @Slf4j
-public abstract class ParameterLoggingAspect {
+public class ParameterLoggingAspect {
 
     @Pointcut("target(ParameterLogging)")
     public void parameterLogging() {
