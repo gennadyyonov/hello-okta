@@ -41,6 +41,8 @@ dependencies {
     compile "io.springfox:springfox-swagger2:${swaggerVersion}"
     compile "io.springfox:springfox-swagger-ui:${swaggerVersion}"
 
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+
     if (gradle.startParameter.taskNames.contains("runLocal") ) {
         println("LOCALHOST Dependencies")
         runtimeClasspath sourceSets.localhost.output
