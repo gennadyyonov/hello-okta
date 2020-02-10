@@ -1,6 +1,8 @@
 dependencies {
     compile project(':hello-okta-logging-impl')
 
+    compileOnly "javax.servlet:javax.servlet-api"
+
     compile "org.springframework:spring-web"
     compile "org.springframework:spring-context"
     compile "org.springframework.security:spring-security-core"

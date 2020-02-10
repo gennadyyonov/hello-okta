@@ -2,6 +2,7 @@ package lv.gennadyyonov.hellookta.api.config;
 
 import lombok.Data;
 import lv.gennadyyonov.hellookta.dto.SecurityMappingProperties;
+import lv.gennadyyonov.hellookta.web.FilterOrderProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Map;
@@ -9,7 +10,8 @@ import java.util.Set;
 
 @ConfigurationProperties(prefix = "hellooktaapi")
 @Data
-public class HelloOktaAPIProperties implements SecurityMappingProperties {
+public class HelloOktaAPIProperties implements SecurityMappingProperties, FilterOrderProperties {
 
     private Map<String, Set<String>> securityMapping;
+    private Map<String, Integer> filterOrderMapping;
 }
