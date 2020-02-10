@@ -1,10 +1,10 @@
-package lv.gennadyyonov.hellookta.bff.config;
+package lv.gennadyyonov.hellookta.web;
 
-import lv.gennadyyonov.hellookta.bff.web.UserLoggingFilter;
+import lv.gennadyyonov.hellookta.config.OktaServiceConfig;
 import lv.gennadyyonov.hellookta.services.AuthenticationService;
-import lv.gennadyyonov.hellookta.web.HttpRequestLoggingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -13,23 +13,28 @@ import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.filter.ForwardedHeaderFilter;
 
 import javax.servlet.Filter;
-import javax.validation.constraints.NotNull;
 
-import static lv.gennadyyonov.hellookta.bff.config.HttpFilterOrder.COMMONS_REQUEST_LOGGING_ORDER;
-import static lv.gennadyyonov.hellookta.bff.config.HttpFilterOrder.REQUEST_LOGGING_ORDER;
-import static lv.gennadyyonov.hellookta.bff.config.HttpFilterOrder.USER_LOGGING_ORDER;
 import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 
 @Configuration
+@AutoConfigureAfter(OktaServiceConfig.class)
 public class FilterConfig {
 
     private static final String ALL_URL_PATTERN = "/*";
     private static final int MAX_PAYLOAD_LENGTH = 10000;
 
+    private final FilterOrderProperties filterOrderProperties;
+    private final SecurityProperties securityProperties;
+    private final AuthenticationService authenticationService;
+
     @Autowired
-    private SecurityProperties securityProperties;
-    @Autowired
-    private AuthenticationService authenticationService;
+    public FilterConfig(FilterOrderProperties filterOrderProperties,
+                        SecurityProperties securityProperties,
+                        AuthenticationService authenticationService) {
+        this.filterOrderProperties = filterOrderProperties;
+        this.securityProperties = securityProperties;
+        this.authenticationService = authenticationService;
+    }
 
     @Bean
     public FilterRegistrationBean<ForwardedHeaderFilter> forwardedHeaderFilter(AutowireCapableBeanFactory beanFactory) {
@@ -45,7 +50,7 @@ public class FilterConfig {
         FilterRegistrationBean<UserLoggingFilter> bean = makeFilterRegistrationBean(
                 beanFactory, ALL_URL_PATTERN, new UserLoggingFilter(authenticationService)
         );
-        bean.setOrder(getFilterOrder(USER_LOGGING_ORDER));
+        bean.setOrder(getFilterOrder(FilterOrder.USER_LOGGING));
         return bean;
     }
 
@@ -54,7 +59,7 @@ public class FilterConfig {
         FilterRegistrationBean<HttpRequestLoggingFilter> bean = makeFilterRegistrationBean(
                 beanFactory, ALL_URL_PATTERN, new HttpRequestLoggingFilter()
         );
-        bean.setOrder(getFilterOrder(REQUEST_LOGGING_ORDER));
+        bean.setOrder(getFilterOrder(FilterOrder.REQUEST_LOGGING));
         return bean;
     }
 
@@ -68,13 +73,12 @@ public class FilterConfig {
         FilterRegistrationBean<CommonsRequestLoggingFilter> bean = makeFilterRegistrationBean(
                 beanFactory, ALL_URL_PATTERN, filter
         );
-        bean.setOrder(getFilterOrder(COMMONS_REQUEST_LOGGING_ORDER));
+        bean.setOrder(getFilterOrder(FilterOrder.COMMONS_REQUEST_LOGGING));
         return bean;
     }
 
-    @NotNull
-    private <T extends Filter> FilterRegistrationBean<T> makeFilterRegistrationBean(AutowireCapableBeanFactory beanFactory,
-                                                                                    String urlPatterns, T filter) {
+    protected <T extends Filter> FilterRegistrationBean<T> makeFilterRegistrationBean(AutowireCapableBeanFactory beanFactory,
+                                                                                      String urlPatterns, T filter) {
         FilterRegistrationBean<T> filterRegistrationBean = new FilterRegistrationBean<>();
 
         beanFactory.autowireBean(filter);
@@ -83,7 +87,12 @@ public class FilterConfig {
         return filterRegistrationBean;
     }
 
-    private int getFilterOrder(int order) {
+    private int getFilterOrder(FilterOrder filterOrder) {
+        int order = filterOrderProperties.getOrder(filterOrder);
+        return getFilterOrder(order);
+    }
+
+    protected int getFilterOrder(int order) {
         int securityFilterChainOrder = securityProperties.getFilter().getOrder();
         return securityFilterChainOrder + order;
     }

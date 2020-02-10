@@ -2,6 +2,10 @@ hellooktabff:
   security-mapping:
     ALLOWED_USERS:
       - HelloOkta_StandardUser
+  filterOrderMapping:
+    COMMONS_REQUEST_LOGGING: -10
+    USER_LOGGING: 10
+    REQUEST_LOGGING: 20
 
 okta:
   oauth2:

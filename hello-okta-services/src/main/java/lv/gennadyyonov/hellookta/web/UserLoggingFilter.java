@@ -1,4 +1,4 @@
-package lv.gennadyyonov.hellookta.bff.web;
+package lv.gennadyyonov.hellookta.web;
 
 import lv.gennadyyonov.hellookta.services.AuthenticationService;
 import org.slf4j.MDC;
