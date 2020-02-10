@@ -1,4 +1,4 @@
-package lv.gennadyyonov.hellookta.web;
+package lv.gennadyyonov.hellookta.dto;
 
 import java.util.Map;
 

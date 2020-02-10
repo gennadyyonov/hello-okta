@@ -1,10 +1,10 @@
-package lv.gennadyyonov.hellookta.configuration;
+package lv.gennadyyonov.hellookta.config;
 
 import feign.Client;
 import feign.Target;
 import lv.gennadyyonov.hellookta.aspects.SecurityRoleAspect;
-import lv.gennadyyonov.hellookta.configuration.feign.FeignClientProvider;
-import lv.gennadyyonov.hellookta.configuration.feign.SsoInterceptor;
+import lv.gennadyyonov.hellookta.config.feign.FeignClientProvider;
+import lv.gennadyyonov.hellookta.config.feign.SsoInterceptor;
 import lv.gennadyyonov.hellookta.connectors.TokenConnector;
 import lv.gennadyyonov.hellookta.connectors.UserInfoConnector;
 import lv.gennadyyonov.hellookta.dto.SecurityMappingProperties;

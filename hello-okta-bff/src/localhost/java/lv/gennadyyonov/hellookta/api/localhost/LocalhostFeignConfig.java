@@ -1,8 +1,8 @@
 package lv.gennadyyonov.hellookta.api.localhost;
 
 import brave.http.HttpTracing;
-import lv.gennadyyonov.hellookta.configuration.feign.FeignClientProvider;
-import lv.gennadyyonov.hellookta.configuration.feign.LocalhostFeignClientProvider;
+import lv.gennadyyonov.hellookta.config.feign.FeignClientProvider;
+import lv.gennadyyonov.hellookta.config.feign.LocalhostFeignClientProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

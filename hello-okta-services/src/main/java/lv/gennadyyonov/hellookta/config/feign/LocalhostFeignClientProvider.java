@@ -1,4 +1,4 @@
-package lv.gennadyyonov.hellookta.configuration.feign;
+package lv.gennadyyonov.hellookta.config.feign;
 
 import brave.http.HttpTracing;
 import brave.httpclient.TracingHttpClientBuilder;

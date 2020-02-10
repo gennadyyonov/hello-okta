@@ -1,7 +1,7 @@
 package lv.gennadyyonov.hellookta.bff.config;
 
+import lv.gennadyyonov.hellookta.dto.FilterOrderProperties;
 import lv.gennadyyonov.hellookta.dto.SecurityMappingProperties;
-import lv.gennadyyonov.hellookta.web.FilterOrderProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

@@ -1,4 +1,4 @@
-package lv.gennadyyonov.hellookta.configuration.feign;
+package lv.gennadyyonov.hellookta.config.feign;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
