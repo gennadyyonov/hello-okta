@@ -1,6 +1,6 @@
 package lv.gennadyyonov.hellookta.web;
 
-import lv.gennadyyonov.hellookta.config.OktaServiceConfig;
+import lv.gennadyyonov.hellookta.configuration.OktaServiceConfig;
 import lv.gennadyyonov.hellookta.services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
