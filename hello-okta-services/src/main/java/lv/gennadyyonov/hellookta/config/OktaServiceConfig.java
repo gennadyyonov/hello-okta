@@ -2,6 +2,7 @@ package lv.gennadyyonov.hellookta.config;
 
 import feign.Client;
 import feign.Target;
+import lv.gennadyyonov.hellookta.aspects.SecurityRoleAspect;
 import lv.gennadyyonov.hellookta.configuration.feign.FeignClientProvider;
 import lv.gennadyyonov.hellookta.configuration.feign.SsoInterceptor;
 import lv.gennadyyonov.hellookta.connectors.TokenConnector;
@@ -75,5 +76,11 @@ public class OktaServiceConfig {
     @Bean
     public SsoInterceptor ssoInterceptor(AuthenticationService authenticationService) {
         return new SsoInterceptor(authenticationService);
+    }
+
+    @Bean
+    public SecurityRoleAspect securityRoleAspect(AuthenticationService authenticationService,
+                                                 SecurityService securityService) {
+        return new SecurityRoleAspect(authenticationService, securityService);
     }
 }

@@ -10,7 +10,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
@@ -18,14 +17,18 @@ import static org.springframework.core.annotation.AnnotatedElementUtils.getMerge
 
 @Aspect
 @Slf4j
-public abstract class SecurityRoleAspect {
+public class SecurityRoleAspect {
 
     private static final String USER_HAS_NOT_ACCESS_MESSAGE_FORMAT = "User '%s' has no access to %s";
 
-    @Autowired
-    private AuthenticationService authenticationService;
-    @Autowired
-    private SecurityService securityService;
+    private final AuthenticationService authenticationService;
+    private final SecurityService securityService;
+
+    public SecurityRoleAspect(AuthenticationService authenticationService,
+                              SecurityService securityService) {
+        this.authenticationService = authenticationService;
+        this.securityService = securityService;
+    }
 
     @Pointcut("(@within(org.springframework.stereotype.Controller) || "
             + "@within(org.springframework.web.bind.annotation.RestController)) && "
