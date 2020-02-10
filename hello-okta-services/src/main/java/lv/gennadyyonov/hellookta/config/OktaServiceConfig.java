@@ -1,5 +1,8 @@
 package lv.gennadyyonov.hellookta.config;
 
+import feign.Client;
+import feign.Target;
+import lv.gennadyyonov.hellookta.configuration.feign.FeignClientProvider;
 import lv.gennadyyonov.hellookta.configuration.feign.SsoInterceptor;
 import lv.gennadyyonov.hellookta.connectors.TokenConnector;
 import lv.gennadyyonov.hellookta.connectors.UserInfoConnector;
@@ -8,6 +11,7 @@ import lv.gennadyyonov.hellookta.services.AuthenticationService;
 import lv.gennadyyonov.hellookta.services.SecurityService;
 import lv.gennadyyonov.hellookta.services.TokenService;
 import lv.gennadyyonov.hellookta.services.UserInfoService;
+import lv.gennadyyonov.hellookta.utils.FeignUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -26,6 +30,20 @@ public class OktaServiceConfig {
                              @Value("${okta.oauth2.issuer}") String issuerUrl) {
         this.authorizedClientService = authorizedClientService;
         this.issuerUrl = issuerUrl;
+    }
+
+    @Bean
+    public UserInfoConnector userInfoConnector(FeignClientProvider feignClientProvider) {
+        Client client = feignClientProvider.getClient();
+        return FeignUtils.feignBuilder(client, UserInfoConnector.class)
+                .target(Target.EmptyTarget.create(UserInfoConnector.class));
+    }
+
+    @Bean
+    public TokenConnector tokenConnector(FeignClientProvider feignClientProvider) {
+        Client client = feignClientProvider.getClient();
+        return FeignUtils.feignBuilder(client, TokenConnector.class, FeignUtils.feignFormEncoder())
+                .target(Target.EmptyTarget.create(TokenConnector.class));
     }
 
     @Bean

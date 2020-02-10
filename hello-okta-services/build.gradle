@@ -12,6 +12,7 @@ dependencies {
     compile "org.slf4j:slf4j-api"
     compile "org.aspectj:aspectjweaver"
 
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     compile "io.github.openfeign:feign-jackson"
     compile "io.github.openfeign:feign-httpclient"
 
