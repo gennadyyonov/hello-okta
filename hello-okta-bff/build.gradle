@@ -42,13 +42,12 @@ dependencies {
     compile project(':hello-okta-api-dto')
     compile project(':hello-okta-logging-impl')
     compile project(':hello-okta-services')
+    compile project(':hello-okta-actuator')
 
     // GraphQL
     compile "com.graphql-java:graphql-spring-boot-starter:${graphqlJavaSpringBootVersion}"
     compile "com.graphql-java:graphiql-spring-boot-starter:${graphqlJavaSpringBootVersion}"
     compile "com.graphql-java:graphql-java-tools:${graphqlJavaToolsVersion}"
-
-    compile "org.springframework.boot:spring-boot-starter-actuator"
 
     if (gradle.startParameter.taskNames.contains("runLocal") ) {
         println("LOCALHOST Dependencies")
