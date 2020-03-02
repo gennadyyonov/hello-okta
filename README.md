@@ -82,9 +82,9 @@ Populate the fields with these values:
 | FIELD NAME | VALUE |
 | --- | ---|
 | **Name** | `Hello Okta App` |
-| **Base URIs** | http://localhost:8060<br>http://localhost:8070 |
-| **Login redirect URIs** | http://localhost:8060/login/oauth2/code/okta<br>http://localhost:8070/login/oauth2/code/okta |
-| **Allowed grant types** | `Authorization Code` |
+| **Base URIs** | http://localhost:8060<br>http://localhost:8070<br>http://localhost:3000 |
+| **Login redirect URIs** | http://localhost:8060/login/oauth2/code/okta<br>http://localhost:8070/login/oauth2/code/okta<br>http://localhost:3000/implicit/callback |
+| **Allowed grant types** | `Authorization Code`<br>`Implicit (Hybrid)` (both checkboxes checked - `Allow ID Token with implicit grant type` and `Allow Access Token with implicit grant type`) |
 
 Click **Done**.
 
@@ -214,7 +214,7 @@ Click **Add Rule**. Fill in the fields with these values:
 | FIELD NAME | VALUE |
 | --- | ---|
 | **Name** | `All users of Hello Okta App has access` |
-| **Grant type is** | `Authorization Code` |
+| **Grant type is** | `Authorization Code`<br>`Implicit` |
 | **Scopes requested** | The following scopes: `OIDC default scopes` |
 
 Click **Create Rule**.

@@ -26,6 +26,9 @@ public class SecurityService {
     }
 
     public boolean hasAnyRoles(String alias, String[] roles) {
+        if (SecurityUtils.shouldBypassSecurityValidation(alias)) {
+            return true;
+        }
         String userId = authenticationService.getUserId();
         UserInfo userInfo = userInfoService.getUserInfo();
         if (userInfo == null) {
