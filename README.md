@@ -5,6 +5,8 @@ This repository contains demo applications that demonstrates how to integrate th
 - [Authorization Code](https://developer.okta.com/docs/guides/implement-auth-code/overview/) Flow
 - [Client Credentials](https://developer.okta.com/docs/guides/implement-client-creds/overview/) Flow
 
+SPA Demo to show [Implicit Flow](https://developer.okta.com/docs/guides/implement-implicit/overview/) can be found [here](https://github.com/gennadyyonov/hello-okta-spa)
+
 ## Required Software
 
 ### Java
