@@ -37,6 +37,7 @@ dependencies {
     compile project(':hello-okta-api-dto')
     compile project(':hello-okta-logging-impl')
     compile project(':hello-okta-services')
+    compile project(':hello-okta-actuator')
 
     compile "io.springfox:springfox-swagger2:${swaggerVersion}"
     compile "io.springfox:springfox-swagger-ui:${swaggerVersion}"

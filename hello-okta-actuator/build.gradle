@@ -1,0 +1,15 @@
+dependencies {
+    compileOnly "javax.servlet:javax.servlet-api"
+
+    compileOnly "org.springframework.boot:spring-boot-autoconfigure"
+    compileOnly "org.springframework.boot:spring-boot-starter-security"
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
