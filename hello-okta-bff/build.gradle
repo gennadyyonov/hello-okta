@@ -34,8 +34,7 @@ bootRun() {
 }
 
 ext {
-    set('graphqlJavaSpringBootVersion', "5.0.2")
-    set('graphqlJavaToolsVersion', "5.2.4")
+    set('graphqlJavaSpringBootVersion', "6.0.1")
 }
 
 dependencies {
@@ -45,9 +44,8 @@ dependencies {
     compile project(':hello-okta-actuator')
 
     // GraphQL
-    compile "com.graphql-java:graphql-spring-boot-starter:${graphqlJavaSpringBootVersion}"
-    compile "com.graphql-java:graphiql-spring-boot-starter:${graphqlJavaSpringBootVersion}"
-    compile "com.graphql-java:graphql-java-tools:${graphqlJavaToolsVersion}"
+    compile "com.graphql-java-kickstart:graphql-spring-boot-starter:${graphqlJavaSpringBootVersion}"
+    compile "com.graphql-java-kickstart:graphiql-spring-boot-starter:${graphqlJavaSpringBootVersion}"
 
     if (gradle.startParameter.taskNames.contains("runLocal") ) {
         println("LOCALHOST Dependencies")
