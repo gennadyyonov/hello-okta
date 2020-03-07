@@ -63,8 +63,8 @@ Each of them contains instructions how to **Run Application on localhost** in `R
 - [Okta Spring Boot Starter](https://github.com/okta/okta-spring-boot) : Enables Spring Boot application to work with Okta
 - [Lombok](https://projectlombok.org/features/index.html) : Utility library for Java language
 - [GraphQL](http://graphql.org/learn/) : API query runtime
-  - [GraphQL and GraphiQL Spring Framework Boot Starters](https://github.com/graphql-java/graphql-spring-boot)
-  - [GraphQL Java Tools](https:g//github.com/graphql-java/graphql-java-tools)
+  - [GraphQL and GraphiQL Spring Framework Boot Starters](https://github.com/graphql-java-kickstart/graphql-spring-boot)
+  - [GraphQL Java Tools](https://github.com/graphql-java-kickstart/graphql-java-tools)
 - [Feign](https://github.com/OpenFeign/feign) : Declarative REST Client
 - [Springfox Swagger 2](https://github.com/springfox/springfox) : Spring Boot RESTful API Documentation
 
