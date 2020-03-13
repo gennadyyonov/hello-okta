@@ -1,0 +1,12 @@
+extend type Query {
+    translationMap: TranslationMap
+}
+
+type TranslationMap {
+    entries: [TranslationMapEntry]
+}
+
+type TranslationMapEntry {
+    key: String
+    values: [String]
+}
