@@ -3,7 +3,6 @@ package lv.gennadyyonov.hellookta.bff.i18n;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lv.gennadyyonov.hellookta.bff.graphql.type.TranslationMap;
 import lv.gennadyyonov.hellookta.bff.graphql.type.TranslationMapEntry;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,7 +27,6 @@ public class TranslationService {
                 .build();
     }
 
-    @NotNull
     private List<TranslationMapEntry> entries(String name) {
         Map<String, Object> mapping = resourceToObject(name, new TypeReference<Map<String, Object>>() {
         });
