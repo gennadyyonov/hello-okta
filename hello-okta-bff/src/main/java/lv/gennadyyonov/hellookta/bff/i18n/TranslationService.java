@@ -5,13 +5,9 @@ import lv.gennadyyonov.hellookta.bff.graphql.type.TranslationMap;
 import lv.gennadyyonov.hellookta.bff.graphql.type.TranslationMapEntry;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 import static lv.gennadyyonov.hellookta.bff.utils.JsonUtils.resourceToObject;
 
@@ -28,23 +24,13 @@ public class TranslationService {
     }
 
     private List<TranslationMapEntry> entries(String name) {
-        Map<String, Object> mapping = resourceToObject(name, new TypeReference<Map<String, Object>>() {
+        //noinspection unchecked
+        Map<String, String> mapping = resourceToObject(name, new TypeReference<Map>() {
         });
         return mapping.entrySet().stream()
                 .map(entry -> TranslationMapEntry.builder()
                         .key(entry.getKey())
-                        .values(values(entry.getValue()))
+                        .value(entry.getValue())
                         .build()).collect(toList());
-    }
-
-    private List<String> values(Object value) {
-        if (value instanceof String) {
-            return singletonList((String) value);
-        }
-        if (value instanceof Collection) {
-            //noinspection unchecked
-            return new ArrayList<>((Collection) value);
-        }
-        return emptyList();
     }
 }

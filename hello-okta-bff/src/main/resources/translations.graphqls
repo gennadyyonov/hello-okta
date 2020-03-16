@@ -8,5 +8,5 @@ type TranslationMap {
 
 type TranslationMapEntry {
     key: String
-    values: [String]
+    value: String
 }
