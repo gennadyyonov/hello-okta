@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class TranslationQuery implements GraphQLQueryResolver {
 
+    private static final String DEFAULT_LOCALE = "en";
+
     private final TranslationService translationService;
 
     @Autowired
@@ -17,6 +19,6 @@ public class TranslationQuery implements GraphQLQueryResolver {
     }
 
     public TranslationMap translationMap() {
-        return translationService.translationMap();
+        return translationService.translationMap(DEFAULT_LOCALE);
     }
 }

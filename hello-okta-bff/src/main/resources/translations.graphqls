@@ -3,6 +3,7 @@ extend type Query {
 }
 
 type TranslationMap {
+    locale: String
     entries: [TranslationMapEntry]
 }
 

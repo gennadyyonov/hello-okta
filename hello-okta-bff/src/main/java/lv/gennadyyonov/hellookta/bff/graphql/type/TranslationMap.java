@@ -14,6 +14,7 @@ import java.util.List;
 @Builder
 public class TranslationMap {
 
+    private String locale;
     @Builder.Default
     private List<TranslationMapEntry> entries = new ArrayList<>();
 }

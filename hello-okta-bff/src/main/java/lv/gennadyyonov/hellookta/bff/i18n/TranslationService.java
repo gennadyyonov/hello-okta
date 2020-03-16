@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static lv.gennadyyonov.hellookta.bff.utils.JsonUtils.resourceToObject;
 
@@ -16,11 +17,16 @@ public class TranslationService {
 
     private static final String RESOURCE_ROOT = "/i18n";
 
-    public TranslationMap translationMap() {
-        List<TranslationMapEntry> entries = entries(RESOURCE_ROOT + "/translation.json");
+    public TranslationMap translationMap(String locale) {
+        List<TranslationMapEntry> entries = entries(resourceName(locale));
         return TranslationMap.builder()
+                .locale(locale)
                 .entries(entries)
                 .build();
+    }
+
+    private String resourceName(String locale) {
+        return RESOURCE_ROOT + format("/%s-translation.json", locale);
     }
 
     private List<TranslationMapEntry> entries(String name) {
