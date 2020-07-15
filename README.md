@@ -5,7 +5,7 @@ This repository contains demo applications that demonstrates how to integrate th
 - [Authorization Code](https://developer.okta.com/docs/guides/implement-auth-code/overview/) Flow
 - [Client Credentials](https://developer.okta.com/docs/guides/implement-client-creds/overview/) Flow
 
-SPA Demo to show [Implicit Flow](https://developer.okta.com/docs/guides/implement-implicit/overview/) can be found [here](https://github.com/gennadyyonov/hello-okta-spa)
+SPA Demo to show [Authorization Code Flow with PKCE](https://developer.okta.com/docs/guides/implement-auth-code-pkce/overview/) can be found [here](https://github.com/gennadyyonov/hello-okta-spa)
 
 ## Required Software
 
@@ -86,7 +86,7 @@ Populate the fields with these values:
 | **Name** | `Hello Okta App` |
 | **Base URIs** | http://localhost:8060<br>http://localhost:8070<br>http://localhost:3000 |
 | **Login redirect URIs** | http://localhost:8060/login/oauth2/code/okta<br>http://localhost:8070/login/oauth2/code/okta<br>http://localhost:3000/implicit/callback |
-| **Allowed grant types** | `Authorization Code`<br>`Implicit (Hybrid)` (both checkboxes checked - `Allow ID Token with implicit grant type` and `Allow Access Token with implicit grant type`) |
+| **Allowed grant types** | `Authorization Code` |
 
 Click **Done**.
 
@@ -216,7 +216,7 @@ Click **Add Rule**. Fill in the fields with these values:
 | FIELD NAME | VALUE |
 | --- | ---|
 | **Name** | `All users of Hello Okta App has access` |
-| **Grant type is** | `Authorization Code`<br>`Implicit` |
+| **Grant type is** | `Authorization Code` |
 | **Scopes requested** | The following scopes: `OIDC default scopes` |
 
 Click **Create Rule**.
