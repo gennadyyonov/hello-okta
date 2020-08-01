@@ -77,14 +77,13 @@ Look for the email to complete the initialization of your Okta org.
 
 Login to your Okta account.
 Navigate to **Applications** in the admin console and click: **Add Application**. 
-Choose _Web_ and click **Next**.
+Choose _Native_ and click **Next**.
 
 Populate the fields with these values:
 
 | FIELD NAME | VALUE |
 | --- | ---|
 | **Name** | `Hello Okta App` |
-| **Base URIs** | http://localhost:8060<br>http://localhost:8070<br>http://localhost:3000 |
 | **Login redirect URIs** | http://localhost:8060/login/oauth2/code/okta<br>http://localhost:8070/login/oauth2/code/okta<br>http://localhost:3000/implicit/callback |
 | **Allowed grant types** | `Authorization Code` |
 
@@ -94,7 +93,11 @@ Click **Done**.
 
 ![Hello Okta App General Settings](images/01-Hello-Okta-App.PNG)
 
-Scroll down to the **Client Credentials** section and copy the `Client ID` and `Client Secret`. These values will be used by our app.
+Scroll down to the **Client Credentials** section and copy the `Client ID`. This value will be used by our app.
+
+Make sure that:
+* **Initiate login URI** is empty
+* **Use PKCE (for public clients)** radio button is selected as **Client authentication** in **Client Credentials** section.
 
 ### Set Up Client Application
 
