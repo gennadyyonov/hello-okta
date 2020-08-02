@@ -10,7 +10,6 @@ hellooktaapi:
 okta:
   oauth2:
     issuer: ${issuer}
-    clientId: ${clientId}
     audience: ${audience}
 
 spring:
@@ -20,9 +19,6 @@ spring:
   security:
     oauth2:
       client:
-        registration:
-          okta:
-            client-id: ${clientId}
         provider:
           okta:
             user-name-attribute: email
