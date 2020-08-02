@@ -4,11 +4,11 @@ import java.util.regex.Pattern;
 
 import static java.util.regex.Pattern.compile;
 import static lv.gennadyyonov.hellookta.api.client.utils.ResponseUtils.extractValueByPattern;
-import static lv.gennadyyonov.hellookta.api.client.utils.ResponseUtils.jsonAttributeValueRegex;
+import static lv.gennadyyonov.hellookta.api.client.utils.ResponseUtils.jsonStringAttributeValueRegex;
 
 public class DefaultHelloClient extends HelloClient<String> {
 
-    private static final Pattern TEXT_PATTERN = compile(jsonAttributeValueRegex("text"));
+    private static final Pattern TEXT_PATTERN = compile(jsonStringAttributeValueRegex("text"));
 
     public DefaultHelloClient(ClientConfig config) {
         super(config, DefaultHelloClient::extractCaseUrl);

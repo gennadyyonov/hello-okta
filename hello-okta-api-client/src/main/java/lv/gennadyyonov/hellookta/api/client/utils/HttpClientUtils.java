@@ -10,12 +10,19 @@ import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Base64.getEncoder;
 
 @UtilityClass
 public class HttpClientUtils {
+
+    public static final String ACCEPT_HEADER = "Accept";
+    public static final String CONTENT_TYPE_HEADER = "Content-Type";
+    public static final String AUTHORIZATION_HEADER = "Authorization";
+    public static final String APPLICATION_JSON = "application/json";
+    public static final String APPLICATION_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
 
     public static String createAuthorization(String username, String password) {
         String credentials = username + ":" + password;
@@ -35,12 +42,18 @@ public class HttpClientUtils {
         return connection;
     }
 
+    public static HttpURLConnection doGet(String uri) {
+        return doGet(uri, new HashMap<>());
+    }
+
     @SneakyThrows
-    public static URLConnection doGet(String uri, Map<String, String> headers) {
+    public static HttpURLConnection doGet(String uri, Map<String, String> headers) {
         URL url = new URL(uri);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
+        connection.setInstanceFollowRedirects(false);
         headers.forEach(connection::setRequestProperty);
+        connection.connect();
         return connection;
     }
 

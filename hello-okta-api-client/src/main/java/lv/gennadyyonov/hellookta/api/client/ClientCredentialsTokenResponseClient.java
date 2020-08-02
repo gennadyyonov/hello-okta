@@ -8,6 +8,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.ACCEPT_HEADER;
+import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.APPLICATION_JSON;
+import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.APPLICATION_X_WWW_FORM_URLENCODED;
+import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.AUTHORIZATION_HEADER;
+import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.CONTENT_TYPE_HEADER;
 import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.createAuthorization;
 import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.readResponse;
 
@@ -32,9 +37,9 @@ public abstract class ClientCredentialsTokenResponseClient<T> {
         String content = createContent(request);
         Map<String, String> headers = new HashMap<>();
         String authorization = createAuthorization(request.getClientId(), request.getClientSecret());
-        headers.put("Authorization", "Basic " + authorization);
-        headers.put("Content-Type", "application/x-www-form-urlencoded");
-        headers.put("Accept", "application/json");
+        headers.put(AUTHORIZATION_HEADER, "Basic " + authorization);
+        headers.put(CONTENT_TYPE_HEADER, APPLICATION_X_WWW_FORM_URLENCODED);
+        headers.put(ACCEPT_HEADER, APPLICATION_JSON);
         return HttpClientUtils.doPost(tokenUri, headers, content);
     }
 
