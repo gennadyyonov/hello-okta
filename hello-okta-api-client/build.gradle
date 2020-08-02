@@ -12,9 +12,17 @@ task runHelloImplicitFlowClientDemo(type: JavaExec) {
     main = 'lv.gennadyyonov.hellookta.api.client.HelloImplicitFlowClientDemo'
 }
 
+task runHelloPKCEClientDemo(type: JavaExec) {
+    group = "execution"
+    description = "Run HelloPKCEClientDemo"
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'lv.gennadyyonov.hellookta.api.client.HelloPKCEClientDemo'
+}
+
 dependencies {
     compile "org.slf4j:slf4j-api"
     compile "org.slf4j:slf4j-simple"
+    compile "org.springframework.security:spring-security-core"
 }
 
 bootJar {

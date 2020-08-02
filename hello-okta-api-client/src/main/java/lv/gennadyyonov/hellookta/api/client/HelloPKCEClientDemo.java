@@ -2,11 +2,12 @@ package lv.gennadyyonov.hellookta.api.client;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import lv.gennadyyonov.hellookta.api.client.common.EnvironmentConfigClient;
-import lv.gennadyyonov.hellookta.api.client.common.EnvironmentProperties;
 import lv.gennadyyonov.hellookta.api.client.common.AuthTokenRequest;
 import lv.gennadyyonov.hellookta.api.client.common.AuthTokenResponse;
+import lv.gennadyyonov.hellookta.api.client.common.EnvironmentConfigClient;
+import lv.gennadyyonov.hellookta.api.client.common.EnvironmentProperties;
 import lv.gennadyyonov.hellookta.api.client.implicit.AuthTokenResponseClient;
+import lv.gennadyyonov.hellookta.api.client.pkce.PKCEAuthTokenResponseClient;
 import lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils;
 
 import java.io.InputStream;
@@ -23,9 +24,9 @@ import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.doGet;
 import static lv.gennadyyonov.hellookta.api.client.utils.LocalhostUtils.disableSSL;
 
 @Slf4j
-public class HelloImplicitFlowClientDemo {
+public class HelloPKCEClientDemo {
 
-    private static final String PROPERTIES_FILE = "/implicitFlow.properties";
+    private static final String PROPERTIES_FILE = "/pkce.properties";
     private static final String HELLO_PATH = "/hello";
 
     @SneakyThrows
@@ -42,7 +43,7 @@ public class HelloImplicitFlowClientDemo {
         EnvironmentConfigClient environmentConfigClient = new EnvironmentConfigClient(bffUri);
         EnvironmentProperties environmentProperties = environmentConfigClient.getEnvironmentProperties();
 
-        AuthTokenResponseClient authTokenResponseClient = new AuthTokenResponseClient();
+        PKCEAuthTokenResponseClient authTokenResponseClient = new PKCEAuthTokenResponseClient();
         AuthTokenRequest authTokenRequest = AuthTokenRequest.builder()
                 .spaUri(spaUri)
                 .environmentProperties(environmentProperties)
@@ -62,7 +63,7 @@ public class HelloImplicitFlowClientDemo {
     @SneakyThrows
     private static Properties loadProperties() {
         Properties properties = new Properties();
-        try (InputStream in = HelloImplicitFlowClientDemo.class.getResourceAsStream(PROPERTIES_FILE)) {
+        try (InputStream in = HelloPKCEClientDemo.class.getResourceAsStream(PROPERTIES_FILE)) {
             properties.load(in);
             return properties;
         }

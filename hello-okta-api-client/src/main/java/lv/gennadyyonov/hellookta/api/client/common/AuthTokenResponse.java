@@ -1,4 +1,4 @@
-package lv.gennadyyonov.hellookta.api.client.implicit;
+package lv.gennadyyonov.hellookta.api.client.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

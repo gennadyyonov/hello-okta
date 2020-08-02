@@ -1,6 +1,8 @@
 package lv.gennadyyonov.hellookta.api.client.implicit;
 
 import lombok.SneakyThrows;
+import lv.gennadyyonov.hellookta.api.client.common.AuthTokenRequest;
+import lv.gennadyyonov.hellookta.api.client.common.AuthTokenResponse;
 import lv.gennadyyonov.hellookta.api.client.common.EnvironmentProperties;
 import lv.gennadyyonov.hellookta.api.client.common.SessionTokenRequest;
 import lv.gennadyyonov.hellookta.api.client.common.SessionTokenResponseClient;
