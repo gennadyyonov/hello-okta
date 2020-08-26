@@ -84,8 +84,9 @@ Populate the fields with these values:
 | FIELD NAME | VALUE |
 | --- | ---|
 | **Name** | `Hello Okta App` |
-| **Login redirect URIs** | http://localhost:8060/login/oauth2/code/okta<br>http://localhost:8070/login/oauth2/code/okta<br>http://localhost:3000/implicit/callback |
-| **Allowed grant types** | `Authorization Code` |
+| **Login redirect URIs**  | http://localhost:8060/login/oauth2/code/okta<br>http://localhost:8070/login/oauth2/code/okta<br>http://localhost:3000/implicit/callback |
+| **Logout redirect URIs** | http://localhost:3000 |
+| **Allowed grant types**  | `Authorization Code` |
 
 Click **Done**.
 
