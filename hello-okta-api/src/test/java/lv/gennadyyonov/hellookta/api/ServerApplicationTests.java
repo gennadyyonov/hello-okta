@@ -7,8 +7,8 @@ import org.springframework.test.context.TestPropertySource;
 @TestPropertySource(
         properties = {
                 "issuer=https://dev-220281.okta.com/oauth2/aus26efk9hrb1yASy357",
-                "clientId=0oa26efk122CnG3k3357",
-                "clientSecret=f-Th4oNxu0qzMghhtGev2vaoAPf9l7IgzHENsYny",
+                "spring.security.oauth2.client.registration.okta.client-id=0oa26efk122CnG3k3357",
+                "okta.oauth2.clientId=0oa26efk122CnG3k3357",
                 "audience=api://hellookta"
         }
 )
