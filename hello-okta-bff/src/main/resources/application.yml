@@ -38,4 +38,5 @@ logging:
     org.springframework.web.client.RestTemplate: ${rest_template_log_level:INFO}
     lv.gennadyyonov.hellookta.bff.connectors.hellooktaapi.HelloOktaApiConnector: ${hello_okta_api_log_level:INFO}
     lv.gennadyyonov.hellookta.bff.connectors.okta.TokenConnector: ${okta_token_log_level:INFO}
+    lv.gennadyyonov.hellookta.connectors.UserInfoConnector: ${okta_user_log_level:INFO}
     org.springframework.web.filter.CommonsRequestLoggingFilter: ${http_log_level:INFO}
