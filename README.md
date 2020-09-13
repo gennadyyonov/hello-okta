@@ -11,9 +11,7 @@ SPA Demo to show [Authorization Code Flow with PKCE](https://developer.okta.com/
 
 ### Java
 
-- JDK 11
-- JDK 1.8 can be used as well
-  - Change `sourceCompatibility` from `'11'` to `1.8`
+- JDK 1.8
 
 ### Lombok
 
