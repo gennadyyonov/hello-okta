@@ -1,3 +1,5 @@
 {
-  "home_button_ping": "Ping"
+  "home_button_ping": "Ping",
+  "logout_hint": "Pressing 'Logout' button will sign current user out",
+  "button_logout": "Logout"
 }

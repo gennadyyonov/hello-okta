@@ -11,9 +11,7 @@ SPA Demo to show [Authorization Code Flow with PKCE](https://developer.okta.com/
 
 ### Java
 
-- JDK 11
-- JDK 1.8 can be used as well
-  - Change `sourceCompatibility` from `'11'` to `1.8`
+- JDK 1.8
 
 ### Lombok
 
@@ -84,8 +82,9 @@ Populate the fields with these values:
 | FIELD NAME | VALUE |
 | --- | ---|
 | **Name** | `Hello Okta App` |
-| **Login redirect URIs** | http://localhost:8060/login/oauth2/code/okta<br>http://localhost:8070/login/oauth2/code/okta<br>http://localhost:3000/implicit/callback |
-| **Allowed grant types** | `Authorization Code` |
+| **Login redirect URIs**  | http://localhost:8060/login/oauth2/code/okta<br>http://localhost:8070/login/oauth2/code/okta<br>http://localhost:3000/implicit/callback |
+| **Logout redirect URIs** | http://localhost:3000 |
+| **Allowed grant types**  | `Authorization Code` |
 
 Click **Done**.
 
