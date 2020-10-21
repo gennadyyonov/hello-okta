@@ -56,6 +56,8 @@ configure([ project(':hello-okta-api'), project(':hello-okta-bff') ]) {
 	dependencies {
 		implementation 'org.springframework.boot:spring-boot-starter-web'
 		implementation "com.okta.spring:okta-spring-boot-starter:${oktaSpringBootStarterVersion}"
+		implementation "org.springframework.boot:spring-boot-starter-oauth2-client"
+		implementation "org.springframework.boot:spring-boot-starter-oauth2-resource-server"
 
 		compile "org.springframework.cloud:spring-cloud-starter-sleuth"
 
