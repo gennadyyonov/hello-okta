@@ -1,6 +1,6 @@
 plugins {
-	id 'org.springframework.boot' version '2.2.9.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'org.springframework.boot' version '2.3.4.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 }
 
 allprojects {
@@ -11,8 +11,8 @@ allprojects {
 	ext {
 		set('springCloudVersion', "Hoxton.SR8")
 		set('oktaSpringBootStarterVersion', "1.4.0")
-		set('commonsLang3Version', "3.9")
-		set('swaggerVersion', "2.9.2")
+		set('commonsLang3Version', "3.11")
+		set('swaggerVersion', "3.0.0")
 	}
 }
 
