@@ -1,6 +1,6 @@
 package lv.gennadyyonov.hellookta.bff.graphql.query;
 
-import com.coxautodev.graphql.tools.GraphQLQueryResolver;
+import graphql.kickstart.tools.GraphQLQueryResolver;
 import lv.gennadyyonov.hellookta.bff.graphql.type.TranslationMap;
 import lv.gennadyyonov.hellookta.bff.i18n.TranslationService;
 import org.springframework.beans.factory.annotation.Autowired;

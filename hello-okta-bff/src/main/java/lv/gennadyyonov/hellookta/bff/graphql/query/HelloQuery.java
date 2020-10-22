@@ -1,6 +1,6 @@
 package lv.gennadyyonov.hellookta.bff.graphql.query;
 
-import com.coxautodev.graphql.tools.GraphQLQueryResolver;
+import graphql.kickstart.tools.GraphQLQueryResolver;
 import lv.gennadyyonov.hellookta.aspects.HasRole;
 import lv.gennadyyonov.hellookta.bff.connectors.hellooktaapi.HelloOktaApiGateway;
 import lv.gennadyyonov.hellookta.bff.graphql.type.AuthType;
