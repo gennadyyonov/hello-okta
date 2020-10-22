@@ -1,13 +1,11 @@
 package lv.gennadyyonov.hellookta.bff.config;
 
-import lv.gennadyyonov.hellookta.config.CustomAuthorizationRequestResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -25,7 +23,6 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpHeaders.PRAGMA;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.OPTIONS;
-import static org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter.DEFAULT_AUTHORIZATION_REQUEST_BASE_URI;
 
 @EnableWebSecurity
 @Configuration
@@ -33,12 +30,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String ALL = "*";
     private static final String ALL_URL_PATTERN = "/**";
-
-    private final ClientRegistrationRepository clientRegistrationRepository;
-
-    public SecurityConfig(ClientRegistrationRepository clientRegistrationRepository) {
-        this.clientRegistrationRepository = clientRegistrationRepository;
-    }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -54,10 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .oauth2Login()
-                .authorizationEndpoint()
-                .authorizationRequestResolver(new CustomAuthorizationRequestResolver(
-                        clientRegistrationRepository, DEFAULT_AUTHORIZATION_REQUEST_BASE_URI
-                ));
+                .and()
+                .oauth2ResourceServer().jwt();
     }
 
     @Bean

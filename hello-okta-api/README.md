@@ -19,7 +19,7 @@ So, configuration properties can be changed the following way:
 
 Application will be running on port `8070` by default.
  
-It's API can be accessed via [Swagger UI](http://localhost:8070/swagger-ui.html) in your browser.
+It's API can be accessed via [Swagger UI](http://localhost:8070/swagger-ui/) in your browser.
 
 If you see Okta hosted sign-in page then things are working!
 

@@ -22,7 +22,6 @@ task runHelloPKCEClientDemo(type: JavaExec) {
 dependencies {
     compile "org.slf4j:slf4j-api"
     compile "org.slf4j:slf4j-simple"
-    compile "org.springframework.security:spring-security-core:5.2.4.RELEASE"
 }
 
 bootJar {

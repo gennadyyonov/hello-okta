@@ -34,7 +34,7 @@ bootRun() {
 }
 
 ext {
-    set('graphqlJavaSpringBootVersion', "6.0.1")
+    set('graphqlJavaSpringBootVersion', "8.0.0")
 }
 
 dependencies {
@@ -46,6 +46,7 @@ dependencies {
     // GraphQL
     compile "com.graphql-java-kickstart:graphql-spring-boot-starter:${graphqlJavaSpringBootVersion}"
     compile "com.graphql-java-kickstart:graphiql-spring-boot-starter:${graphqlJavaSpringBootVersion}"
+    compile "com.google.guava:guava"
 
     if (gradle.startParameter.taskNames.contains("runLocal") ) {
         println("LOCALHOST Dependencies")
