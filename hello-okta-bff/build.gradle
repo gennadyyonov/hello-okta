@@ -5,11 +5,7 @@ plugins {
 
 sourceSets {
     main
-    localhost {
-        compileClasspath += main.output
-        runtimeClasspath += main.output
-        annotationProcessorPath += main.output
-    }
+    localhost
 }
 
 configurations {
@@ -18,17 +14,9 @@ configurations {
     localhostAnnotationProcessor.extendsFrom annotationProcessor
 }
 
-task runLocal(type: Exec, dependsOn: bootRun) {
-    group = 'application'
-
-    description = 'Run BFF LOCALHOST'
-
-    doFirst() {
-        println('Running BFF LOCALHOST...')
-    }
-}
-
 bootRun {
+    classpath(sourceSets.localhost.runtimeClasspath)
+
     def localPropertiesFile = 'src/localhost/resources/localhost.properties';
     file(localPropertiesFile).readLines().each() {
         if (!it.isEmpty() && !it.startsWith('#')) {
@@ -78,11 +66,6 @@ dependencies {
 
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
-
-    if (gradle.startParameter.taskNames.contains('runLocal') ) {
-        println('LOCALHOST BFF Dependencies')
-        runtimeClasspath sourceSets.localhost.output
     }
 }
 
