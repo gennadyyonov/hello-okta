@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static lv.gennadyyonov.hellookta.api.constants.HelloOktaAPISecurityConstants.MESSAGE_READ;
+import static lv.gennadyyonov.hellookta.api.constants.HelloOktaApiSecurityConsts.MESSAGE_READ;
 import static lv.gennadyyonov.hellookta.constants.SecurityConstants.ALLOWED_USERS;
 
 @HasRole(alias = ALLOWED_USERS, roles = {MESSAGE_READ})

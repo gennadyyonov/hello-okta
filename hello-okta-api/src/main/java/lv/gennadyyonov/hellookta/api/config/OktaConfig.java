@@ -10,11 +10,11 @@ public class OktaConfig {
 
     @Bean
     public SecurityMappingProperties securityMappingProperties() {
-        return new HelloOktaAPIProperties();
+        return new HelloOktaApiProps();
     }
 
     @Bean
     public FilterOrderProperties filterOrderProperties() {
-        return new HelloOktaAPIProperties();
+        return new HelloOktaApiProps();
     }
 }

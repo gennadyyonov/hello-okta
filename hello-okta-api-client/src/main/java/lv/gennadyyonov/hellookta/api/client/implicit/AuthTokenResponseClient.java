@@ -33,7 +33,9 @@ public class AuthTokenResponseClient {
         String spaUri = request.getSpaUri();
         EnvironmentProperties environmentProperties = request.getEnvironmentProperties();
         String redirectUri = spaUri + "/implicit/callback";
-        String uri = authorizationUri(environmentProperties.getOktaIssuer(), environmentProperties.getOktaClientId(), redirectUri, sessionToken);
+        String uri = authorizationUri(
+                environmentProperties.getOktaIssuer(), environmentProperties.getOktaClientId(), redirectUri, sessionToken
+        );
         HttpURLConnection connection = doGet(uri);
         int responseCode = connection.getResponseCode();
         if (responseCode != HTTP_MOVED_TEMP) {

@@ -10,11 +10,11 @@ public class OktaConfig {
 
     @Bean
     public SecurityMappingProperties securityMappingProperties() {
-        return new HelloOktaBFFProperties();
+        return new HelloOktaBffProps();
     }
 
     @Bean
     public FilterOrderProperties filterOrderProperties() {
-        return new HelloOktaBFFProperties();
+        return new HelloOktaBffProps();
     }
 }

@@ -25,6 +25,8 @@ public class TokenService {
     }
 
     /**
+     * Gets access token for Client Credentials flow.
+     *
      * @see <a href="https://developer.okta.com/docs/guides/implement-client-creds/use-flow/">Use the Client Credentials Flow</a>
      */
     @SneakyThrows

@@ -9,7 +9,7 @@ import java.util.Map;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 import static java.util.Base64.getUrlEncoder;
 
-public class PKCEGenerator {
+public class PkceCodeGenerator {
 
     private static final int KEY_LENGTH = 96;
     private static final String ALGORITHM = "SHA-256";

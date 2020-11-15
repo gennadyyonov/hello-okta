@@ -66,7 +66,7 @@ dependencies {
 
 checkstyle {
     toolVersion = '8.37'
-    ignoreFailures = true
+    configProperties.configDir = "${parent.projectDir}/config/checkstyle"
     sourceSets = []
 }
 

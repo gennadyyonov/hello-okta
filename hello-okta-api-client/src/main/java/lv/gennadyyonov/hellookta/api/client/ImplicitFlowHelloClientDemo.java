@@ -20,17 +20,17 @@ import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.APPLICA
 import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.AUTHORIZATION_HEADER;
 import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.CONTENT_TYPE_HEADER;
 import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.doGet;
-import static lv.gennadyyonov.hellookta.api.client.utils.LocalhostUtils.disableSSL;
+import static lv.gennadyyonov.hellookta.api.client.utils.LocalhostUtils.disableSsl;
 
 @Slf4j
-public class HelloImplicitFlowClientDemo {
+public class ImplicitFlowHelloClientDemo {
 
     private static final String PROPERTIES_FILE = "/implicitFlow.properties";
     private static final String HELLO_PATH = "/hello";
 
     @SneakyThrows
     public static void main(String[] args) {
-        disableSSL();
+        disableSsl();
         Properties properties = loadProperties();
         String username = properties.getProperty("username");
         String password = properties.getProperty("password");
@@ -62,7 +62,7 @@ public class HelloImplicitFlowClientDemo {
     @SneakyThrows
     private static Properties loadProperties() {
         Properties properties = new Properties();
-        try (InputStream in = HelloImplicitFlowClientDemo.class.getResourceAsStream(PROPERTIES_FILE)) {
+        try (InputStream in = ImplicitFlowHelloClientDemo.class.getResourceAsStream(PROPERTIES_FILE)) {
             properties.load(in);
             return properties;
         }

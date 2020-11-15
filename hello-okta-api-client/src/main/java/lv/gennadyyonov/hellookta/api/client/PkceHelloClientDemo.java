@@ -6,8 +6,7 @@ import lv.gennadyyonov.hellookta.api.client.common.AuthTokenRequest;
 import lv.gennadyyonov.hellookta.api.client.common.AuthTokenResponse;
 import lv.gennadyyonov.hellookta.api.client.common.EnvironmentConfigClient;
 import lv.gennadyyonov.hellookta.api.client.common.EnvironmentProperties;
-import lv.gennadyyonov.hellookta.api.client.implicit.AuthTokenResponseClient;
-import lv.gennadyyonov.hellookta.api.client.pkce.PKCEAuthTokenResponseClient;
+import lv.gennadyyonov.hellookta.api.client.pkce.PkceFlowAuthTokenResponseClient;
 import lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils;
 
 import java.io.InputStream;
@@ -21,17 +20,17 @@ import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.APPLICA
 import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.AUTHORIZATION_HEADER;
 import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.CONTENT_TYPE_HEADER;
 import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.doGet;
-import static lv.gennadyyonov.hellookta.api.client.utils.LocalhostUtils.disableSSL;
+import static lv.gennadyyonov.hellookta.api.client.utils.LocalhostUtils.disableSsl;
 
 @Slf4j
-public class HelloPKCEClientDemo {
+public class PkceHelloClientDemo {
 
     private static final String PROPERTIES_FILE = "/pkce.properties";
     private static final String HELLO_PATH = "/hello";
 
     @SneakyThrows
     public static void main(String[] args) {
-        disableSSL();
+        disableSsl();
         Properties properties = loadProperties();
         String username = properties.getProperty("username");
         String password = properties.getProperty("password");
@@ -43,7 +42,7 @@ public class HelloPKCEClientDemo {
         EnvironmentConfigClient environmentConfigClient = new EnvironmentConfigClient(bffUri);
         EnvironmentProperties environmentProperties = environmentConfigClient.getEnvironmentProperties();
 
-        PKCEAuthTokenResponseClient authTokenResponseClient = new PKCEAuthTokenResponseClient();
+        PkceFlowAuthTokenResponseClient authTokenResponseClient = new PkceFlowAuthTokenResponseClient();
         AuthTokenRequest authTokenRequest = AuthTokenRequest.builder()
                 .spaUri(spaUri)
                 .environmentProperties(environmentProperties)
@@ -63,7 +62,7 @@ public class HelloPKCEClientDemo {
     @SneakyThrows
     private static Properties loadProperties() {
         Properties properties = new Properties();
-        try (InputStream in = HelloPKCEClientDemo.class.getResourceAsStream(PROPERTIES_FILE)) {
+        try (InputStream in = PkceHelloClientDemo.class.getResourceAsStream(PROPERTIES_FILE)) {
             properties.load(in);
             return properties;
         }

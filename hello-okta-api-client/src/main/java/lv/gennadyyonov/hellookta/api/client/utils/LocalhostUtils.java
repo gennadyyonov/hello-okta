@@ -15,7 +15,7 @@ import java.security.cert.X509Certificate;
 public class LocalhostUtils {
 
     @SneakyThrows
-    public static void disableSSL() {
+    public static void disableSsl() {
         SSLContext sslContext = SSLContext.getInstance("SSL");
         // Create a trust manager that does not validate certificate chains
         TrustManager[] trustAllCerts = {new TrustAllManager()};

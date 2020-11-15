@@ -85,7 +85,9 @@ public class AuthenticationService {
             JwtAuthenticationToken oauthToken = (JwtAuthenticationToken) authentication;
             return oauthToken.getToken().getTokenValue();
         }
-        throw new UnsupportedOperationException(authentication.getClass().getName() + " token value retrieval is not supported yet!");
+        throw new UnsupportedOperationException(
+                authentication.getClass().getName() + " token value retrieval is not supported yet!"
+        );
     }
 
     public Map<String, Object> getTokenAttributes() {
@@ -102,6 +104,8 @@ public class AuthenticationService {
             JwtAuthenticationToken oauthToken = (JwtAuthenticationToken) authentication;
             return oauthToken.getTokenAttributes();
         }
-        throw new UnsupportedOperationException(authentication.getClass().getName() + " token attributes retrieval is not supported yet!");
+        throw new UnsupportedOperationException(
+                authentication.getClass().getName() + " token attributes retrieval is not supported yet!"
+        );
     }
 }

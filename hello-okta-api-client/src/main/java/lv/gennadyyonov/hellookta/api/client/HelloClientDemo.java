@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.InputStream;
 import java.util.Properties;
 
-import static lv.gennadyyonov.hellookta.api.client.utils.LocalhostUtils.disableSSL;
+import static lv.gennadyyonov.hellookta.api.client.utils.LocalhostUtils.disableSsl;
 
 @Slf4j
 public class HelloClientDemo {
@@ -14,7 +14,7 @@ public class HelloClientDemo {
     private static final String PROPERTIES_FILE = "/demo.properties";
 
     public static void main(String[] args) {
-        disableSSL();
+        disableSsl();
         Properties properties = loadProperties();
         String issuer = properties.getProperty("issuer");
         String clientId = properties.getProperty("clientId");
