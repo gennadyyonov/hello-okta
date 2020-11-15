@@ -60,7 +60,7 @@ public class HttpClientUtils {
     @SneakyThrows
     public static String readResponse(URLConnection connection) {
         try (InputStream inputStream = connection.getInputStream();
-             BufferedReader br = new BufferedReader(new InputStreamReader((inputStream)))) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
             StringBuilder sb = new StringBuilder();
             String line;
             while ((line = br.readLine()) != null) {

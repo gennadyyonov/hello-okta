@@ -21,9 +21,9 @@ import static java.net.URLEncoder.encode;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.regex.Pattern.compile;
 import static java.util.stream.Collectors.joining;
-import static lv.gennadyyonov.hellookta.api.client.pkce.PKCEGenerator.CODE_CHALLENGE;
-import static lv.gennadyyonov.hellookta.api.client.pkce.PKCEGenerator.CODE_CHALLENGE_METHOD;
-import static lv.gennadyyonov.hellookta.api.client.pkce.PKCEGenerator.CODE_VERIFIER;
+import static lv.gennadyyonov.hellookta.api.client.pkce.PkceCodeGenerator.CODE_CHALLENGE;
+import static lv.gennadyyonov.hellookta.api.client.pkce.PkceCodeGenerator.CODE_CHALLENGE_METHOD;
+import static lv.gennadyyonov.hellookta.api.client.pkce.PkceCodeGenerator.CODE_VERIFIER;
 import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.ACCEPT_HEADER;
 import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.APPLICATION_JSON;
 import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.APPLICATION_X_WWW_FORM_URLENCODED;
@@ -34,7 +34,7 @@ import static lv.gennadyyonov.hellookta.api.client.utils.ResponseUtils.extractRe
 import static lv.gennadyyonov.hellookta.api.client.utils.ResponseUtils.extractValueByPattern;
 import static lv.gennadyyonov.hellookta.api.client.utils.ResponseUtils.jsonStringAttributeValueRegex;
 
-public class PKCEAuthTokenResponseClient {
+public class PkceFlowAuthTokenResponseClient {
 
     private static final String TOKEN_PATH = "/v1/token";
     private static final Pattern ACCESS_TOKEN_PATTERN = compile(jsonStringAttributeValueRegex("access_token"));
@@ -49,8 +49,8 @@ public class PKCEAuthTokenResponseClient {
                 .password(request.getPassword())
                 .build();
         String sessionToken = sessionTokenResponseClient.getTokenResponse(sessionTokenRequest);
-        PKCEGenerator pkceGenerator = new PKCEGenerator();
-        Map<String, String> pkceParameters = pkceGenerator.pkceParameters();
+        PkceCodeGenerator pkceCodeGenerator = new PkceCodeGenerator();
+        Map<String, String> pkceParameters = pkceCodeGenerator.pkceParameters();
         String spaUri = request.getSpaUri();
         EnvironmentProperties environmentProperties = request.getEnvironmentProperties();
         String redirectUri = spaUri + "/implicit/callback";

@@ -34,11 +34,11 @@ public abstract class HelloClient<T> {
     }
 
     private URLConnection doHello() {
-        String uri = config.getServerUri() + HELLO_PATH;
         Map<String, String> headers = new HashMap<>();
         headers.put(AUTHORIZATION_HEADER, "Bearer " + getAccessToken());
         headers.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
         headers.put(ACCEPT_HEADER, APPLICATION_JSON);
+        String uri = config.getServerUri() + HELLO_PATH;
         return doGet(uri, headers);
     }
 

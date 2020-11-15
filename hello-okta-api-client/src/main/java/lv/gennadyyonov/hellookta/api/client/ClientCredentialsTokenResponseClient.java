@@ -33,13 +33,13 @@ public abstract class ClientCredentialsTokenResponseClient<T> {
 
     @SneakyThrows
     private URLConnection doPost(ClientCredentialsRequest request) {
-        String tokenUri = request.getTokenUri();
-        String content = createContent(request);
         Map<String, String> headers = new HashMap<>();
         String authorization = createAuthorization(request.getClientId(), request.getClientSecret());
         headers.put(AUTHORIZATION_HEADER, "Basic " + authorization);
         headers.put(CONTENT_TYPE_HEADER, APPLICATION_X_WWW_FORM_URLENCODED);
         headers.put(ACCEPT_HEADER, APPLICATION_JSON);
+        String tokenUri = request.getTokenUri();
+        String content = createContent(request);
         return HttpClientUtils.doPost(tokenUri, headers, content);
     }
 

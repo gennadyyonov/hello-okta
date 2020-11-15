@@ -1,3 +1,26 @@
+plugins {
+    id 'checkstyle'
+    id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
+    id 'org.springframework.boot' version "${springBootVersion}"
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+checkstyle {
+    toolVersion = '8.37'
+    configProperties.configDir = "${parent.projectDir}/config/checkstyle"
+    sourceSets = []
+}
+
+build.dependsOn.add(checkstyleMain)
+
+test {
+    useJUnitPlatform()
+}
+
 bootJar {
     enabled = false
 }

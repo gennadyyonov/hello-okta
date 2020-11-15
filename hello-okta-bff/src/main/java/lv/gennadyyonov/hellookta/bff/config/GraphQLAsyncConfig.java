@@ -65,7 +65,7 @@ public class GraphQLAsyncConfig {
         }
     }
 
-    private final static class MDCRunnable implements Runnable {
+    private static final class MDCRunnable implements Runnable {
 
         private final Runnable delegate;
         private final Map<String, String> mdcContextMap;

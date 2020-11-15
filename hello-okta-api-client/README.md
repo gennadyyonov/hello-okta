@@ -80,7 +80,7 @@ Authorization: Bearer ${access_token}
 
 ## Running Demo Locally
 
-Main class `lv.gennadyyonov.hellookta.api.client.HelloImplicitFlowClientDemo` in main sources.
+Main class `lv.gennadyyonov.hellookta.api.client.ImplicitFlowHelloClientDemo` in main sources.
 In order to run it the following properties should be checked and adjusted:
 * Proxy Settings
 * Okta User Properties
@@ -98,7 +98,7 @@ Client demonstrates usage of implicit flow which consists of the following steps
 
 ## Running Demo Locally
 
-Main class `lv.gennadyyonov.hellookta.api.client.HelloPKCEClientDemo` in main sources.
+Main class `lv.gennadyyonov.hellookta.api.client.PkceHelloClientDemo` in main sources.
 In order to run it the following properties should be checked and adjusted:
 * Proxy Settings
 * Okta User Properties
