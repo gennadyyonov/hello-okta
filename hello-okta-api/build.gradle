@@ -57,6 +57,8 @@ dependencies {
     implementation 'io.github.openfeign:feign-jackson'
     implementation 'io.github.openfeign:feign-httpclient'
     implementation "com.google.guava:guava:${guavaVersion}"
+    implementation "org.apache.httpcomponents:httpclient:${apacheHttpClientVersion}"
+    implementation "commons-codec:commons-codec:${commonsCodecVersion}"
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 

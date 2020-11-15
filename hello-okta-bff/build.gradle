@@ -32,8 +32,6 @@ bootRun {
 
 ext {
     set('graphqlJavaSpringBootVersion', '8.0.0')
-    set('apacheHttpClientVersion', '4.5.13')
-    set('commonsCodecVersion', '1.13')
 }
 
 dependencies {

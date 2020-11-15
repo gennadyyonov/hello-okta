@@ -4,8 +4,10 @@ allprojects {
 	}
 
 	ext {
-		set('guavaVersion', '30.0-jre')
-		set('springBootVersion', '2.3.6.RELEASE')
+        set('apacheHttpClientVersion', '4.5.13')
+        set('commonsCodecVersion', '1.13')
+        set('guavaVersion', '30.0-jre')
+        set('springBootVersion', '2.3.6.RELEASE')
 		set('springCloudVersion', 'Hoxton.SR8')
 		set('springDependencyManagementVersion', '1.0.10.RELEASE')
 		set('oktaSpringBootStarterVersion', '1.4.0')
