@@ -1,7 +1,19 @@
-dependencies {
-    compile project(':hello-okta-logging-api')
+plugins {
+    id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
+    id 'org.springframework.boot' version "${springBootVersion}"
+}
 
-    compile "com.fasterxml.jackson.core:jackson-annotations"
+dependencies {
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    implementation project(':hello-okta-logging-api')
+
+    implementation 'com.fasterxml.jackson.core:jackson-annotations'
+}
+
+test {
+    useJUnitPlatform()
 }
 
 bootJar {

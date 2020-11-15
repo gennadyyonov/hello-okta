@@ -1,27 +1,39 @@
+plugins {
+    id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
+    id 'org.springframework.boot' version "${springBootVersion}"
+}
+
 task runHelloClientDemo(type: JavaExec) {
-    group = "execution"
-    description = "Run HelloClientDemo"
+    group = 'execution'
+    description = 'Run HelloClientDemo'
     classpath = sourceSets.main.runtimeClasspath
     main = 'lv.gennadyyonov.hellookta.api.client.HelloClientDemo'
 }
 
 task runHelloImplicitFlowClientDemo(type: JavaExec) {
-    group = "execution"
-    description = "Run HelloImplicitFlowClientDemo"
+    group = 'execution'
+    description = 'Run HelloImplicitFlowClientDemo'
     classpath = sourceSets.main.runtimeClasspath
     main = 'lv.gennadyyonov.hellookta.api.client.HelloImplicitFlowClientDemo'
 }
 
 task runHelloPKCEClientDemo(type: JavaExec) {
-    group = "execution"
-    description = "Run HelloPKCEClientDemo"
+    group = 'execution'
+    description = 'Run HelloPKCEClientDemo'
     classpath = sourceSets.main.runtimeClasspath
     main = 'lv.gennadyyonov.hellookta.api.client.HelloPKCEClientDemo'
 }
 
 dependencies {
-    compile "org.slf4j:slf4j-api"
-    compile "org.slf4j:slf4j-simple"
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    implementation 'org.slf4j:slf4j-api'
+    implementation 'org.slf4j:slf4j-simple'
+}
+
+test {
+    useJUnitPlatform()
 }
 
 bootJar {

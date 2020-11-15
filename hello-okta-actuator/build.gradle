@@ -1,9 +1,20 @@
-dependencies {
-    compileOnly "javax.servlet:javax.servlet-api"
+plugins {
+    id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
+    id 'org.springframework.boot' version "${springBootVersion}"
+}
 
-    compileOnly "org.springframework.boot:spring-boot-autoconfigure"
-    compileOnly "org.springframework.boot:spring-boot-starter-security"
-    compile "org.springframework.boot:spring-boot-starter-actuator"
+dependencies {
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    compileOnly 'javax.servlet:javax.servlet-api'
+    compileOnly 'org.springframework.boot:spring-boot-autoconfigure'
+    compileOnly 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+}
+
+test {
+    useJUnitPlatform()
 }
 
 bootJar {

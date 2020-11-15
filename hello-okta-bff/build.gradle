@@ -1,55 +1,91 @@
+plugins {
+    id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
+    id 'org.springframework.boot' version "${springBootVersion}"
+}
+
 sourceSets {
     main
     localhost {
         compileClasspath += main.output
         runtimeClasspath += main.output
+        annotationProcessorPath += main.output
     }
 }
 
 configurations {
-    localhostCompile.extendsFrom compile
+    localhostImplementation.extendsFrom implementation
     localhostCompileOnly.extendsFrom compileOnly
+    localhostAnnotationProcessor.extendsFrom annotationProcessor
 }
 
 task runLocal(type: Exec, dependsOn: bootRun) {
-    group = "application"
+    group = 'application'
+
+    description = 'Run BFF LOCALHOST'
 
     doFirst() {
-        println("Running LOCALHOST...")
+        println('Running BFF LOCALHOST...')
     }
 }
 
-bootRun() {
+bootRun {
     def localPropertiesFile = 'src/localhost/resources/localhost.properties';
     file(localPropertiesFile).readLines().each() {
-        if (!it.isEmpty() && !it.startsWith("#")) {
+        if (!it.isEmpty() && !it.startsWith('#')) {
             def (key, value) = it.tokenize('=')
             if (System.getenv(key) == null) {
                 environment key, value
             }
         }
     }
-
     systemProperties System.properties
 }
 
 ext {
-    set('graphqlJavaSpringBootVersion', "8.0.0")
+    set('graphqlJavaSpringBootVersion', '8.0.0')
 }
 
 dependencies {
-    compile project(':hello-okta-api-dto')
-    compile project(':hello-okta-logging-impl')
-    compile project(':hello-okta-services')
-    compile project(':hello-okta-actuator')
+    // Import BOM-s
+    implementation enforcedPlatform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    implementation project(':hello-okta-api-dto')
+    implementation project(':hello-okta-logging-api')
+    implementation project(':hello-okta-logging-impl')
+    implementation project(':hello-okta-services')
+    implementation project(':hello-okta-actuator')
 
     // GraphQL
-    compile "com.graphql-java-kickstart:graphql-spring-boot-starter:${graphqlJavaSpringBootVersion}"
-    compile "com.graphql-java-kickstart:graphiql-spring-boot-starter:${graphqlJavaSpringBootVersion}"
-    compile "com.google.guava:guava"
+    implementation "com.graphql-java-kickstart:graphql-spring-boot-starter:${graphqlJavaSpringBootVersion}"
+    implementation "com.graphql-java-kickstart:graphiql-spring-boot-starter:${graphqlJavaSpringBootVersion}"
+    implementation 'com.google.guava:guava'
 
-    if (gradle.startParameter.taskNames.contains("runLocal") ) {
-        println("LOCALHOST Dependencies")
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation "com.okta.spring:okta-spring-boot-starter:${oktaSpringBootStarterVersion}"
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'io.github.openfeign:feign-jackson'
+    implementation 'io.github.openfeign:feign-httpclient'
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+
+    if (gradle.startParameter.taskNames.contains('runLocal') ) {
+        println('LOCALHOST BFF Dependencies')
         runtimeClasspath sourceSets.localhost.output
     }
+}
+
+test {
+    useJUnitPlatform()
 }

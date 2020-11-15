@@ -1,15 +1,31 @@
+plugins {
+    id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
+    id 'org.springframework.boot' version "${springBootVersion}"
+}
+
+ext {
+    set('commonsLang3Version', '3.11')
+}
+
 dependencies {
-    compile project(':hello-okta-logging-api')
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 
-    compileOnly "javax.servlet:javax.servlet-api"
+    implementation project(':hello-okta-logging-api')
 
-    compile "org.apache.commons:commons-lang3:${commonsLang3Version}"
-    compile "com.fasterxml.jackson.core:jackson-core"
-    compile "com.fasterxml.jackson.core:jackson-databind"
-    compile "org.slf4j:slf4j-api"
-    compile "org.aspectj:aspectjweaver"
-    compile "org.springframework:spring-core"
-    compile "org.springframework:spring-context"
+    compileOnly 'javax.servlet:javax.servlet-api'
+
+    implementation "org.apache.commons:commons-lang3:${commonsLang3Version}"
+    implementation 'com.fasterxml.jackson.core:jackson-core'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'org.slf4j:slf4j-api'
+    implementation 'org.aspectj:aspectjweaver'
+    implementation 'org.springframework:spring-core'
+    implementation 'org.springframework:spring-context'
+}
+
+test {
+    useJUnitPlatform()
 }
 
 bootJar {
