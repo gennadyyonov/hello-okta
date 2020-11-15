@@ -53,9 +53,11 @@ dependencies {
 
     implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
 
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'io.github.openfeign:feign-core'
+    implementation 'io.github.openfeign:feign-slf4j'
     implementation 'io.github.openfeign:feign-jackson'
     implementation 'io.github.openfeign:feign-httpclient'
+    implementation 'io.github.openfeign.form:feign-form-spring'
     implementation "com.google.guava:guava:${guavaVersion}"
     implementation "org.apache.httpcomponents:httpclient:${apacheHttpClientVersion}"
     implementation "commons-codec:commons-codec:${commonsCodecVersion}"
