@@ -1,4 +1,5 @@
 plugins {
+    id 'checkstyle'
     id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
     id 'org.springframework.boot' version "${springBootVersion}"
 }
@@ -7,6 +8,14 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 }
+
+checkstyle {
+    toolVersion = '8.37'
+    ignoreFailures = true
+    sourceSets = []
+}
+
+build.dependsOn.add(checkstyleMain)
 
 test {
     useJUnitPlatform()

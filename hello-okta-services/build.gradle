@@ -1,4 +1,5 @@
 plugins {
+    id 'checkstyle'
     id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
     id 'org.springframework.boot' version "${springBootVersion}"
 }
@@ -32,6 +33,14 @@ dependencies {
 
     implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
 }
+
+checkstyle {
+    toolVersion = '8.37'
+    ignoreFailures = true
+    sourceSets = []
+}
+
+build.dependsOn.add(checkstyleMain)
 
 test {
     useJUnitPlatform()
