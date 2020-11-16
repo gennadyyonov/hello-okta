@@ -5,7 +5,6 @@ hellooktabff:
   filterOrderMapping:
     COMMONS_REQUEST_LOGGING: -10
     USER_LOGGING: 10
-    REQUEST_LOGGING: 20
 
 spring:
   main.allow-bean-definition-overriding: true

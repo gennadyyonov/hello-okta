@@ -6,6 +6,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -30,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String ALL = "*";
     private static final String ALL_URL_PATTERN = "/**";
+    private static final String SESSION_ID_COOKIE_NAME = "JSESSIONID";
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -43,6 +45,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(GET, ENVIRONMENT_CONFIG_SUFFIX).permitAll()
                 .anyRequest()
                 .authenticated()
+                .and()
+                .logout()
+                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .deleteCookies(SESSION_ID_COOKIE_NAME)
                 .and()
                 .oauth2Login()
                 .and()
