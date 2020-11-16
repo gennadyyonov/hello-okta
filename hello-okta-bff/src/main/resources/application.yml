@@ -1,4 +1,5 @@
 hellooktabff:
+  allowedOrigins: ${allowed_origins}
   security-mapping:
     ALLOWED_USERS:
       - HelloOkta_StandardUser

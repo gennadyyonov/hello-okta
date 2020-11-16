@@ -12,6 +12,7 @@ import java.util.Set;
 @Data
 public class HelloOktaBffProps implements SecurityMappingProperties, FilterOrderProperties {
 
+    private String allowedOrigins;
     private Map<String, Set<String>> securityMapping;
     private Map<String, Integer> filterOrderMapping;
 }

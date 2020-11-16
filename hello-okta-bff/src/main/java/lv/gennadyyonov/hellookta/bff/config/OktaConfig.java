@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class OktaConfig {
 
+    static final String HELLO_OKTA_BFF_PROPS_BEAN_NAME = "helloOktaBffProps";
+
     @Bean
     public SecurityMappingProperties securityMappingProperties() {
         return new HelloOktaBffProps();
@@ -15,6 +17,11 @@ public class OktaConfig {
 
     @Bean
     public FilterOrderProperties filterOrderProperties() {
+        return new HelloOktaBffProps();
+    }
+
+    @Bean(HELLO_OKTA_BFF_PROPS_BEAN_NAME)
+    public HelloOktaBffProps helloOktaBffProps() {
         return new HelloOktaBffProps();
     }
 }

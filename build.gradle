@@ -1,26 +1,28 @@
 allprojects {
-	repositories {
-		mavenCentral()
-	}
+    repositories {
+        mavenCentral()
+        maven { url 'https://repo.spring.io/snapshot' }
+        maven { url 'https://repo.spring.io/milestone' }
+    }
 
-	ext {
+    ext {
         set('apacheHttpClientVersion', '4.5.13')
         set('commonsCodecVersion', '1.15')
         set('guavaVersion', '30.0-jre')
-        set('springBootVersion', '2.3.6.RELEASE')
-		set('springCloudVersion', 'Hoxton.SR8')
-		set('springDependencyManagementVersion', '1.0.10.RELEASE')
-		set('swaggerVersion', '3.0.0')
-	}
+        set('springBootVersion', '2.4.0')
+        set('springCloudVersion', '2020.0.0-M4')
+        set('springDependencyManagementVersion', '1.0.10.RELEASE')
+        set('swaggerVersion', '3.0.0')
+    }
 }
 
 subprojects {
-	group = 'lv.gennadyyonov.hello'
-	version = '0.0.1-SNAPSHOT'
+    group = 'lv.gennadyyonov.hello'
+    version = '0.0.1-SNAPSHOT'
 
-	apply plugin: 'java'
-	apply plugin: 'idea'
+    apply plugin: 'java'
+    apply plugin: 'idea'
 
-	sourceCompatibility = '1.8'
+    sourceCompatibility = '1.8'
 }
 
