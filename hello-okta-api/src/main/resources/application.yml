@@ -32,3 +32,6 @@ logging:
     org.springframework.security.oauth2.client.OAuth2RestTemplate: ${rest_template_log_level:INFO}
     org.springframework.web.client.RestTemplate: ${rest_template_log_level:INFO}
     org.springframework.web.filter.CommonsRequestLoggingFilter: ${http_log_level:INFO}
+
+schedule:
+  jwk-set-cache-refresh-time: ${jwk_set_cache_refresh_time:300000} # 5 minutes
