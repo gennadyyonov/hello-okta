@@ -56,3 +56,6 @@ graphql:
         core-size: ${graphql_task_execution_pool_core_size:150}
         max-size: ${graphql_task_execution_pool_max_size:550}
         keep-alive-seconds: ${graphql_task_execution_pool_keep_alive_seconds:30}
+
+schedule:
+  jwk-set-cache-refresh-time: ${jwk_set_cache_refresh_time:300000} # 5 minutes
