@@ -7,5 +7,5 @@
 <suppressions>
     <suppress checks="MemberName" files="TokenResponse\.java"/>
     <suppress checks="AbbreviationAsWordInName"
-              files="(GraphQLAsyncConfig|GraphQLTaskProperties|EnvironmentConfigController)\.java"/>
+              files="(OktaServiceConfig|GraphQLAsyncConfig|GraphQLTaskProperties|EnvironmentConfigController)\.java"/>
 </suppressions>

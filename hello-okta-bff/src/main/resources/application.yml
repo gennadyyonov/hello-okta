@@ -7,11 +7,6 @@ hellooktabff:
     USER_LOGGING: 10
     REQUEST_LOGGING: 20
 
-okta:
-  oauth2:
-    issuer: ${issuer}
-    audience: ${audience}
-
 spring:
   main.allow-bean-definition-overriding: true
   application:
@@ -21,7 +16,16 @@ spring:
       client:
         provider:
           okta:
+            issuer-uri: ${issuer}
+            authorization-uri: ${issuer}/v1/authorize
+            token-uri: ${issuer}/v1/token
+            user-info-uri: ${issuer}/v1/userinfo
+            jwk-set-uri: ${issuer}/v1/keys
             user-name-attribute: email
+      resourceserver:
+        jwt:
+          issuer-uri: ${issuer}
+          jwk-set-uri: ${issuer}/v1/keys
 
 hellooktaapiclient:
   baseUrl: ${hellooktaapiclient_baseUrl}

@@ -19,9 +19,12 @@ import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.util.Base64.getEncoder;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toSet;
+import static lv.gennadyyonov.hellookta.utils.OktaUtils.extractCollection;
 import static org.springframework.security.oauth2.core.OAuth2AccessToken.TokenType.BEARER;
 
 public class AuthenticationService {
+
+    private static final String GROUPS_CLAIM = "groups";
 
     private final OAuth2AuthorizedClientService authorizedClientService;
 
@@ -49,9 +52,12 @@ public class AuthenticationService {
     }
 
     private Set<String> getAuthorities(Authentication authentication) {
-        return authentication.getAuthorities().stream()
+        Set<String> authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(toSet());
+        Map<String, Object> tokenAttributes = getTokenAttributes(authentication);
+        authorities.addAll(extractCollection(tokenAttributes, GROUPS_CLAIM));
+        return authorities;
     }
 
     public String authorizationHeaderValue() {
