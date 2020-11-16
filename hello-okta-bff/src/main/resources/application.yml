@@ -40,3 +40,16 @@ logging:
     lv.gennadyyonov.hellookta.bff.connectors.okta.TokenConnector: ${okta_token_log_level:INFO}
     lv.gennadyyonov.hellookta.connectors.UserInfoConnector: ${okta_user_log_level:INFO}
     org.springframework.web.filter.CommonsRequestLoggingFilter: ${http_log_level:INFO}
+
+graphql:
+  servlet:
+    corsEnabled: false
+    websocket:
+      enabled: false
+  task:
+    execution:
+      thread-name-prefix: GraphqlAsync-
+      pool:
+        core-size: ${graphql_task_execution_pool_core_size:150}
+        max-size: ${graphql_task_execution_pool_max_size:550}
+        keep-alive-seconds: ${graphql_task_execution_pool_keep_alive_seconds:30}

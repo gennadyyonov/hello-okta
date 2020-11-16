@@ -34,7 +34,10 @@ public class HttpRequestLoggingFilter implements Filter {
                 chain.doFilter(servletRequest, servletResponse);
             } finally {
                 long millis = System.currentTimeMillis() - start;
-                log.info("Execution time of HTTP request to {} = {} ms. Status = {}.", url, millis, ((HttpServletResponse) servletResponse).getStatus());
+                log.info(
+                        "Execution time of HTTP request to {} = {} ms. Status = {}.",
+                        url, millis, ((HttpServletResponse) servletResponse).getStatus()
+                );
             }
         }
     }

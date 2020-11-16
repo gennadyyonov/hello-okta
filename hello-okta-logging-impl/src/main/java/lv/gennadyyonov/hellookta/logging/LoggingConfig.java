@@ -10,4 +10,9 @@ public class LoggingConfig {
     public ParameterLoggingAspect parameterLoggingAspect() {
         return new ParameterLoggingAspect();
     }
+
+    @Bean
+    public PerformanceLoggingAspect performanceLoggingAspect() {
+        return new PerformanceLoggingAspect();
+    }
 }
