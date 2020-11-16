@@ -10,7 +10,6 @@ allprojects {
         set('springBootVersion', '2.3.6.RELEASE')
 		set('springCloudVersion', 'Hoxton.SR8')
 		set('springDependencyManagementVersion', '1.0.10.RELEASE')
-		set('oktaSpringBootStarterVersion', '1.4.0')
 		set('swaggerVersion', '3.0.0')
 	}
 }

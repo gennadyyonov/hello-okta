@@ -21,15 +21,15 @@ public class FeignConfig {
 
     private final HttpTracing httpTracing;
     private final SsoInterceptor ssoInterceptor;
-    private final HelloOctaApiClientProperties helloOctaApiClientProperties;
+    private final HelloOktaApiClientProperties helloOktaApiClientProperties;
 
     @Autowired
     public FeignConfig(HttpTracing httpTracing,
                        SsoInterceptor ssoInterceptor,
-                       HelloOctaApiClientProperties helloOctaApiClientProperties) {
+                       HelloOktaApiClientProperties helloOktaApiClientProperties) {
         this.httpTracing = httpTracing;
         this.ssoInterceptor = ssoInterceptor;
-        this.helloOctaApiClientProperties = helloOctaApiClientProperties;
+        this.helloOktaApiClientProperties = helloOktaApiClientProperties;
     }
 
     @Bean
@@ -58,6 +58,6 @@ public class FeignConfig {
     @Bean
     @DependsOn({"tokenService"})
     public ClientCredentialsInterceptor clientCredentialsInterceptor(TokenService tokenService) {
-        return new ClientCredentialsInterceptor(tokenService, helloOctaApiClientProperties.getRunAsDetails());
+        return new ClientCredentialsInterceptor(tokenService, helloOktaApiClientProperties.getRunAsDetails());
     }
 }

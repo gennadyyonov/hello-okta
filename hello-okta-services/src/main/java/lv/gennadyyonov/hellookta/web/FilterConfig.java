@@ -61,7 +61,7 @@ public class FilterConfig {
         FilterRegistrationBean<HttpRequestLoggingFilter> bean = makeFilterRegistrationBean(
                 beanFactory, ALL_URL_PATTERN, new HttpRequestLoggingFilter()
         );
-        bean.setOrder(getFilterOrder(FilterOrder.REQUEST_LOGGING));
+        bean.setOrder(FilterOrder.REQUEST_LOGGING.getOrder());
         return bean;
     }
 
@@ -79,8 +79,8 @@ public class FilterConfig {
         return bean;
     }
 
-    protected <T extends Filter> FilterRegistrationBean<T> makeFilterRegistrationBean(AutowireCapableBeanFactory beanFactory,
-                                                                                      String urlPatterns, T filter) {
+    private <T extends Filter> FilterRegistrationBean<T> makeFilterRegistrationBean(AutowireCapableBeanFactory beanFactory,
+                                                                                    String urlPatterns, T filter) {
         FilterRegistrationBean<T> filterRegistrationBean = new FilterRegistrationBean<>();
 
         beanFactory.autowireBean(filter);
@@ -94,7 +94,7 @@ public class FilterConfig {
         return getFilterOrder(order);
     }
 
-    protected int getFilterOrder(int order) {
+    private int getFilterOrder(int order) {
         int securityFilterChainOrder = securityProperties.getFilter().getOrder();
         return securityFilterChainOrder + order;
     }

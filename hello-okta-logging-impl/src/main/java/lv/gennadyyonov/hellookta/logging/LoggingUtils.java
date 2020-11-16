@@ -31,6 +31,11 @@ public class LoggingUtils {
     private static final String LOGGING_EXCLUSION_ARG = "<not loggable>";
     private static final String DEFAULT_ARG_NAME = "arg";
 
+    // <marker> | <layer> | <method> | <parameters> | <execution_time>
+    public static final String LOG_FORMAT = "{} | {} | {} | {} | {}";
+    public static final String PERFORMANCE_MARKER = "Performance Measurements";
+    public static final String DEFAULT = "DEFAULT";
+
     private static ThreadLocal<ObjectMapper> objectMapper = ThreadLocal.withInitial(() -> {
         ObjectMapper mapper = new ObjectMapper();
         mapper.deactivateDefaultTyping();

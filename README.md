@@ -58,7 +58,6 @@ Each of them contains instructions how to **Run Application on localhost** in `R
 ## Tech Stack
 - [Spring Boot](https://projects.spring.io/spring-boot/) : Application framework
 - [Spring Cloud Sleuth](https://github.com/spring-cloud/spring-cloud-sleuth) : Distributed tracing tool for Spring Cloud
-- [Okta Spring Boot Starter](https://github.com/okta/okta-spring-boot) : Enables Spring Boot application to work with Okta
 - [Lombok](https://projectlombok.org/features/index.html) : Utility library for Java language
 - [GraphQL](http://graphql.org/learn/) : API query runtime
   - [GraphQL and GraphiQL Spring Framework Boot Starters](https://github.com/graphql-java-kickstart/graphql-spring-boot)

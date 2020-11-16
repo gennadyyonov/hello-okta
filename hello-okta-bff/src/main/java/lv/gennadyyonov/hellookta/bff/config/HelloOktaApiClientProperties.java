@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @Getter
 @ConfigurationProperties("hellooktaapiclient")
-public class HelloOctaApiClientProperties {
+public class HelloOktaApiClientProperties {
 
     private String baseUrl;
     private RunAsDetails runAsDetails;

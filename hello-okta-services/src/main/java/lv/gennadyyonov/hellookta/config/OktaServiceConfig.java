@@ -2,6 +2,7 @@ package lv.gennadyyonov.hellookta.config;
 
 import feign.Client;
 import feign.Target;
+import lombok.RequiredArgsConstructor;
 import lv.gennadyyonov.hellookta.aspects.SecurityRoleAspect;
 import lv.gennadyyonov.hellookta.config.feign.FeignClientProvider;
 import lv.gennadyyonov.hellookta.config.feign.SsoInterceptor;
@@ -13,25 +14,22 @@ import lv.gennadyyonov.hellookta.services.SecurityService;
 import lv.gennadyyonov.hellookta.services.TokenService;
 import lv.gennadyyonov.hellookta.services.UserInfoService;
 import lv.gennadyyonov.hellookta.utils.FeignUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 
+import static java.util.Optional.ofNullable;
+
+@RequiredArgsConstructor
 @Configuration
 public class OktaServiceConfig {
 
-    private final OAuth2AuthorizedClientService authorizedClientService;
-    private final String issuerUrl;
+    private static final String OKTA = "okta";
 
-    @Autowired
-    public OktaServiceConfig(OAuth2AuthorizedClientService authorizedClientService,
-                             @Value("${okta.oauth2.issuer}") String issuerUrl) {
-        this.authorizedClientService = authorizedClientService;
-        this.issuerUrl = issuerUrl;
-    }
+    private final OAuth2AuthorizedClientService authorizedClientService;
+    private final OAuth2ClientProperties oktaOAuth2Properties;
 
     @Bean
     public UserInfoConnector userInfoConnector(FeignClientProvider feignClientProvider) {
@@ -56,6 +54,11 @@ public class OktaServiceConfig {
     @ConditionalOnBean({UserInfoConnector.class})
     public UserInfoService userInfoService(AuthenticationService authenticationService,
                                            UserInfoConnector userInfoConnector) {
+        String issuerUrl = ofNullable(oktaOAuth2Properties)
+                .map(OAuth2ClientProperties::getProvider)
+                .map(map -> map.get(OKTA))
+                .map(OAuth2ClientProperties.Provider::getIssuerUri)
+                .orElse(null);
         return new UserInfoService(authenticationService, issuerUrl, userInfoConnector);
     }
 

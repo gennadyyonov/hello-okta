@@ -47,7 +47,6 @@ dependencies {
     implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation "com.okta.spring:okta-spring-boot-starter:${oktaSpringBootStarterVersion}"
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 

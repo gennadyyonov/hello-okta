@@ -7,11 +7,6 @@ hellooktabff:
     USER_LOGGING: 10
     REQUEST_LOGGING: 20
 
-okta:
-  oauth2:
-    issuer: ${issuer}
-    audience: ${audience}
-
 spring:
   main.allow-bean-definition-overriding: true
   application:
@@ -21,7 +16,16 @@ spring:
       client:
         provider:
           okta:
+            issuer-uri: ${issuer}
+            authorization-uri: ${issuer}/v1/authorize
+            token-uri: ${issuer}/v1/token
+            user-info-uri: ${issuer}/v1/userinfo
+            jwk-set-uri: ${issuer}/v1/keys
             user-name-attribute: email
+      resourceserver:
+        jwt:
+          issuer-uri: ${issuer}
+          jwk-set-uri: ${issuer}/v1/keys
 
 hellooktaapiclient:
   baseUrl: ${hellooktaapiclient_baseUrl}
@@ -40,3 +44,16 @@ logging:
     lv.gennadyyonov.hellookta.bff.connectors.okta.TokenConnector: ${okta_token_log_level:INFO}
     lv.gennadyyonov.hellookta.connectors.UserInfoConnector: ${okta_user_log_level:INFO}
     org.springframework.web.filter.CommonsRequestLoggingFilter: ${http_log_level:INFO}
+
+graphql:
+  servlet:
+    corsEnabled: false
+    websocket:
+      enabled: false
+  task:
+    execution:
+      thread-name-prefix: GraphqlAsync-
+      pool:
+        core-size: ${graphql_task_execution_pool_core_size:150}
+        max-size: ${graphql_task_execution_pool_max_size:550}
+        keep-alive-seconds: ${graphql_task_execution_pool_keep_alive_seconds:30}
