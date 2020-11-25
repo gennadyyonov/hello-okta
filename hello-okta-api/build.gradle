@@ -79,3 +79,7 @@ build.dependsOn.add(checkstyleMain)
 test {
     useJUnitPlatform()
 }
+
+bootJar {
+    archiveFileName = "app.${archiveExtension.get()}"
+}

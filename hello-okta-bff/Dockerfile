@@ -1,6 +1,8 @@
-FROM openjdk:8-jdk-alpine
+FROM openjdk:8-jre-alpine3.9
 RUN addgroup -S spring && adduser -S spring -G spring
 USER spring:spring
-ARG JAR_FILE=target/*.jar
+WORKDIR /app
+EXPOSE 8060
+ARG JAR_FILE=build/libs/app.jar
 COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+CMD ["/bin/sh", "-c", "java ${JAVA_OPTS} -jar app.jar"]
