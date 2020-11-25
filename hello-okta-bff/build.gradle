@@ -18,7 +18,7 @@ configurations {
 bootRun {
     classpath(sourceSets.localhost.runtimeClasspath)
 
-    def localPropertiesFile = 'src/localhost/resources/localhost.properties';
+    def localPropertiesFile = 'env/.env.localhost';
     file(localPropertiesFile).readLines().each() {
         if (!it.isEmpty() && !it.startsWith('#')) {
             def (key, value) = it.tokenize('=')
