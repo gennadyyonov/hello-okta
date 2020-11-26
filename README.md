@@ -22,11 +22,13 @@ SPA Demo to show [Authorization Code Flow with PKCE](https://developer.okta.com/
   -  Go to **Setting > Build, Execution, Deployment > Compiler > Annotation Processors**
   -  Check _Enable annotation processing_
   
-### Build Automation Software
+### Build/Deployment Automation Software
 
 [Gradle](https://gradle.org/) is used as a build automation tool. 
 Several major IDEs allow you to import Gradle builds and interact with them.
 IntelliJ IDEA supports a fully-functional integration with Gradle.
+
+[Docker](https://www.docker.com/) is a software platform that allows us to build, test, and deploy applications quickly. 
 
 ## Build Project
 

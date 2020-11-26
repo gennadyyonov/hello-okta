@@ -1,16 +1,18 @@
-package lv.gennadyyonov.hellookta.api.localhost;
+package lv.gennadyyonov.hellookta.config.feign;
 
 import brave.http.HttpTracing;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lv.gennadyyonov.hellookta.config.feign.FeignClientProvider;
-import lv.gennadyyonov.hellookta.config.feign.LocalhostFeignClientProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 
 import javax.annotation.PostConstruct;
 
+import static lv.gennadyyonov.hellookta.config.EnvironmentProfiles.LOCALHOST;
+
+@Profile(LOCALHOST)
 @Slf4j
 @RequiredArgsConstructor
 @Configuration

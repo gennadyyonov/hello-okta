@@ -1,12 +1,10 @@
 package lv.gennadyyonov.hellookta.bff.config;
 
-import brave.http.HttpTracing;
 import feign.Client;
 import feign.Target;
 import lv.gennadyyonov.hellookta.bff.connectors.hellooktaapi.HelloOktaApiConnector;
 import lv.gennadyyonov.hellookta.config.feign.ClientCredentialsInterceptor;
 import lv.gennadyyonov.hellookta.config.feign.FeignClientProvider;
-import lv.gennadyyonov.hellookta.config.feign.FeignClientProviderImpl;
 import lv.gennadyyonov.hellookta.config.feign.SsoInterceptor;
 import lv.gennadyyonov.hellookta.services.TokenService;
 import lv.gennadyyonov.hellookta.utils.FeignUtils;
@@ -17,24 +15,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
 @Configuration
-public class FeignConfig {
+public class BffFeignConfig {
 
-    private final HttpTracing httpTracing;
     private final SsoInterceptor ssoInterceptor;
     private final HelloOktaApiClientProperties helloOktaApiClientProperties;
 
     @Autowired
-    public FeignConfig(HttpTracing httpTracing,
-                       SsoInterceptor ssoInterceptor,
-                       HelloOktaApiClientProperties helloOktaApiClientProperties) {
-        this.httpTracing = httpTracing;
+    public BffFeignConfig(SsoInterceptor ssoInterceptor,
+                          HelloOktaApiClientProperties helloOktaApiClientProperties) {
         this.ssoInterceptor = ssoInterceptor;
         this.helloOktaApiClientProperties = helloOktaApiClientProperties;
-    }
-
-    @Bean
-    public FeignClientProvider feignClientProvider() {
-        return new FeignClientProviderImpl(httpTracing);
     }
 
     @Bean

@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-lv.gennadyyonov.hellookta.api.localhost.LocalhostFeignConfig
