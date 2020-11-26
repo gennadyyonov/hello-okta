@@ -1,4 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 lv.gennadyyonov.hellookta.config.OktaServiceConfig,\
 lv.gennadyyonov.hellookta.web.FilterConfig,\
-lv.gennadyyonov.hellookta.config.OktaResourceServerConfig
+lv.gennadyyonov.hellookta.config.OktaResourceServerConfig,\
+lv.gennadyyonov.hellookta.config.feign.FeignConfig,\
+lv.gennadyyonov.hellookta.config.feign.LocalhostFeignConfig

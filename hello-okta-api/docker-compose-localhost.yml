@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  web:
+    build:
+      context: .
+    env_file:
+      - ./env/.env.localhost
+    ports:
+      - "8070:8070"

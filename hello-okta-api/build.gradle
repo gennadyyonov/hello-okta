@@ -4,21 +4,8 @@ plugins {
     id 'org.springframework.boot' version "${springBootVersion}"
 }
 
-sourceSets {
-    main
-    localhost
-}
-
-configurations {
-    localhostImplementation.extendsFrom implementation
-    localhostCompileOnly.extendsFrom compileOnly
-    localhostAnnotationProcessor.extendsFrom annotationProcessor
-}
-
 bootRun {
-    classpath(sourceSets.localhost.runtimeClasspath)
-
-    def localPropertiesFile = 'src/localhost/resources/localhost.properties';
+    def localPropertiesFile = 'env/.env.localhost';
     file(localPropertiesFile).readLines().each() {
         if (!it.isEmpty() && !it.startsWith('#')) {
             def (key, value) = it.tokenize('=')
@@ -78,4 +65,8 @@ build.dependsOn.add(checkstyleMain)
 
 test {
     useJUnitPlatform()
+}
+
+bootJar {
+    archiveFileName = "app.${archiveExtension.get()}"
 }
