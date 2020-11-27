@@ -10,10 +10,11 @@ import org.springframework.test.context.TestPropertySource;
                 "spring.security.oauth2.client.registration.okta.client-id=0oa26efk122CnG3k3357",
                 "hellooktaclient_id=0oa2m950mjcFnPPNJ357",
                 "hellooktaclient_secret=IHiSqDkab2oh_pQXAscZ4BuRUb1X0yEHYl70cVgI",
-                "hellooktaapiclient_baseUrl=http://localhost:8070"
+                "hellooktaapiclient_baseUrl=http://localhost:8070",
+                "allowed_origins=http://localhost:3000"
         }
 )
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest
 class ClientApplicationTest {
 
     @Test
