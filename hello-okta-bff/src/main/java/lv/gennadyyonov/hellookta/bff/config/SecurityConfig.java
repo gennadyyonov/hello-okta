@@ -32,7 +32,6 @@ import static org.springframework.http.HttpMethod.OPTIONS;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final String ALL = "*";
     private static final String ALL_URL_PATTERN = "/**";
     private static final String SESSION_ID_COOKIE_NAME = "JSESSIONID";
     public static final String ALLOWED_ORIGINS_SEPARATOR = ",";
