@@ -13,6 +13,8 @@ import java.util.Set;
 public class HelloOktaBffProps implements SecurityMappingProperties, FilterOrderProperties {
 
     private String allowedOrigins;
+    private Boolean csrfEnabled;
+    private String chuckNorrisUrl;
     private Map<String, Set<String>> securityMapping;
     private Map<String, Integer> filterOrderMapping;
 }
