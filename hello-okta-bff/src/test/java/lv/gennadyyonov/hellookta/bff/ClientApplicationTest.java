@@ -11,7 +11,8 @@ import org.springframework.test.context.TestPropertySource;
                 "hellooktaclient_id=0oa2m950mjcFnPPNJ357",
                 "hellooktaclient_secret=IHiSqDkab2oh_pQXAscZ4BuRUb1X0yEHYl70cVgI",
                 "hellooktaapiclient_baseUrl=http://localhost:8070",
-                "allowed_origins=http://localhost:3000"
+                "allowed_origins=http://localhost:3000",
+                "csrf_enabled=false"
         }
 )
 @SpringBootTest
