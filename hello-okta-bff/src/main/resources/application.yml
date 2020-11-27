@@ -1,5 +1,6 @@
 hellooktabff:
   allowedOrigins: ${allowed_origins}
+  csrfEnabled: ${csrf_enabled:true}
   security-mapping:
     ALLOWED_USERS:
       - HelloOkta_StandardUser
