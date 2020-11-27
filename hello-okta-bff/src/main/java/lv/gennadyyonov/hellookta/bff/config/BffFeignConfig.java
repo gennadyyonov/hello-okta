@@ -2,6 +2,7 @@ package lv.gennadyyonov.hellookta.bff.config;
 
 import feign.Client;
 import feign.Target;
+import lv.gennadyyonov.hellookta.bff.connectors.chucknorris.ChuckNorrisConnector;
 import lv.gennadyyonov.hellookta.bff.connectors.hellooktaapi.HelloOktaApiConnector;
 import lv.gennadyyonov.hellookta.config.feign.ClientCredentialsInterceptor;
 import lv.gennadyyonov.hellookta.config.feign.FeignClientProvider;
@@ -43,6 +44,13 @@ public class BffFeignConfig {
         Client client = feignClientProvider.getClient();
         return FeignUtils.feignBuilder(client, HelloOktaApiConnector.class, clientCredentialsInterceptor)
                 .target(Target.EmptyTarget.create(HelloOktaApiConnector.class));
+    }
+
+    @Bean
+    public ChuckNorrisConnector chuckNorrisConnector(FeignClientProvider feignClientProvider) {
+        Client client = feignClientProvider.getClient();
+        return FeignUtils.feignBuilder(client, ChuckNorrisConnector.class)
+                .target(Target.EmptyTarget.create(ChuckNorrisConnector.class));
     }
 
     @Bean
