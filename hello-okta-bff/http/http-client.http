@@ -1,0 +1,34 @@
+# Docs: https://www.jetbrains.com/help/idea/http-client-in-product-code-editor.html
+
+### Request bodies are taken from localhost SPA environment, Developer Tools Network Params tab
+
+### User Profile
+
+POST {{bff-host}}/graphql
+Authorization: {{okta-token-type}} {{okta-access-token}}
+Content-Type: application/json
+
+< ./requests/me.json
+
+### Translation Map
+POST {{bff-host}}/graphql
+Authorization: {{okta-token-type}} {{okta-access-token}}
+Content-Type: application/json
+
+< ./requests/translationMap.json
+
+### Hello
+POST {{bff-host}}/graphql
+Authorization: {{okta-token-type}} {{okta-access-token}}
+Content-Type: application/json
+
+< ./requests/hello.json
+
+### Ping
+POST {{bff-host}}/graphql
+Authorization: {{okta-token-type}} {{okta-access-token}}
+Content-Type: application/json
+
+< ./requests/ping.json
+
+###

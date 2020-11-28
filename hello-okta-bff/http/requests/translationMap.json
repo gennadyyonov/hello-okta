@@ -1,0 +1,5 @@
+{
+  "operationName": null,
+  "variables": {},
+  "query": "{\n  translationMap {\n    locale\n    entries {\n      key\n      value\n      __typename\n    }\n    __typename\n  }\n}\n"
+}
