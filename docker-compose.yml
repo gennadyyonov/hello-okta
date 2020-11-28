@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: ./hello-okta-api
+    env_file:
+      - ./hello-okta-api/env/.env.localhost
+    ports:
+      - "8070:8070"
+  bff:
+    build:
+      context: ./hello-okta-bff
+    env_file:
+      - ./hello-okta-bff/env/.env.localhost
+    environment:
+      hellooktaapiclient_baseUrl: http://host.docker.internal:8070
+    ports:
+      - "8060:8060"
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    hostname: prometheus
+  grafana:
+    image: grafana/grafana
+    depends_on:
+      - prometheus
+    ports:
+      - "3030:3000"
+    hostname: grafana
