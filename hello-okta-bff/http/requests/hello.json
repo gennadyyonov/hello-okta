@@ -1,0 +1,7 @@
+{
+  "operationName": "Hello",
+  "variables": {
+    "authType": "USER"
+  },
+  "query": "query Hello($authType: AuthType) {\n  hello(authType: $authType) {\n    text\n    __typename\n  }\n}\n"
+}
