@@ -2,7 +2,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: "${management_endpoints_web_exposure_include:info, health, metrics, auditevents, httptrace}"
+        include: "${management_endpoints_web_exposure_include:info, health, metrics, auditevents, httptrace, prometheus}"
 
 info:
   app:

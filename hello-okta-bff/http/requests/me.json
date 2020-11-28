@@ -1,0 +1,5 @@
+{
+  "operationName": null,
+  "variables": {},
+  "query": "{\n  me {\n    userId\n    firstName\n    lastName\n    email\n    roles\n    __typename\n  }\n}\n"
+}

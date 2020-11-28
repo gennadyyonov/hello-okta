@@ -282,3 +282,24 @@ Click **Add Group**.
 - Click on the **Manage People** button. 
 - Use the search box to find your user and add yourself to the group.
 - Click **Save** button
+
+## Docker
+
+To [build](https://docs.docker.com/compose/reference/build/) API and BFF images:
+```
+docker-compose build api
+docker-compose build bff
+```
+**Note**, `app.jar` should be built first from the parent directory using the following command:
+```
+gradlew clean build
+```
+To [bring up](https://docs.docker.com/compose/reference/up/) API and BFF services:
+```
+docker-compose up api -d
+docker-compose up bff -d
+```
+To bring up all the services:
+```
+docker-compose up -d
+```
