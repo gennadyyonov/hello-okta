@@ -26,14 +26,3 @@ If you see Okta hosted sign-in page then things are working!
 You can login with the same account that you created when signing up for your Developer Org, or you can use a known username and password from your Okta Directory.
 
 ![Swagger UI](images/02-Swagger-UI.PNG)
-
-## Docker
-
-```
-docker-compose -f docker-compose-localhost.yml build web
-docker-compose -f docker-compose-localhost.yml up web
-```
-**Note**, `app.jar` should be built first from the parent directory using the following command:
-```
-gradlew clean build
-```
