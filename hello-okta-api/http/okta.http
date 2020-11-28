@@ -1,0 +1,80 @@
+### Environment
+
+GET {{bff-host}}/config/environment
+
+> {%
+  if (response.status === 200) {
+      var oktaIssuer = response.body.oktaIssuer;
+      client.global.set('okta-issuer', oktaIssuer);
+      var oktaClientId = response.body.oktaClientId;
+      client.global.set('okta-client', oktaClientId);
+      client.log('Environment Configuration successfully saved');
+  }
+%}
+
+### RFC-6749 The OAuth 2.0 Authorization Framework: https://tools.ietf.org/html/rfc6749
+
+### Authorization Code Grant: https://developer.okta.com/docs/guides/implement-auth-code-pkce/use-flow/
+### Get Session Token
+
+POST {{okta-org-url}}/api/v1/authn
+Content-Type: application/json
+Accept: application/json
+
+{
+  "password": "{{okta-password}}",
+  "username": "{{okta-username}}",
+  "options": {
+    "warnBeforePasswordExpired": true,
+    "multiOptionalFactorEnroll": true
+  }
+}
+
+> {%
+  if (response.status === 200) {
+      var sessionToken = response.body.sessionToken;
+      client.global.set('okta-session-token', sessionToken);
+      client.log('Session Token successfully saved');
+  }
+%}
+
+### Get Code from Authorization Redirect Uri
+
+# @no-redirect
+GET {{okta-issuer}}/v1/authorize?client_id={{okta-client}}&code_challenge={{pkce-code-challenge}}&code_challenge_method=S256&nonce={{okta-nonce}}&redirect_uri={{spa-host}}/implicit/callback&response_type=code&response_mode=fragment&state={{okta-state}}&scope={{okta-scope}}&sessionToken={{okta-session-token}}
+
+> {%
+  if (response.status === 302) {
+      var location = response.headers.valuesOf("Location")[0];
+      client.log('Authorization Redirect Uri : ' + location);
+      var hash = location.split('#')[1];
+      var hashParams = hash.split('&').reduce(function (params, item) {
+          var parts = item.split('=');
+          params[parts[0]] = parts[1];
+          return params;
+      }, {});
+      var code = hashParams['code'];
+      client.global.set('okta-auth-code', code);
+      client.log('Code : ' + code);
+  }
+%}
+
+### Exchange Code for Token
+
+POST {{okta-issuer}}/v1/token
+Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+
+grant_type=authorization_code&client_id={{okta-client}}&redirect_uri={{spa-host}}/implicit/callback&code={{okta-auth-code}}&code_verifier={{pkce-code-verifier}}
+
+> {%
+  if (response.status === 200) {
+      var tokenType = response.body.token_type;
+      var accessToken = response.body.access_token;
+      client.global.set('okta-token-type', tokenType);
+      client.global.set('okta-access-token', accessToken);
+      client.log('Access Token successfully saved');
+  }
+%}
+
+###
