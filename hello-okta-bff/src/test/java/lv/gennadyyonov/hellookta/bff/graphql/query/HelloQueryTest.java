@@ -10,9 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static lv.gennadyyonov.hellookta.bff.utils.AuthorizationUtils.authorizationHeader;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 class HelloQueryTest extends DefaultIntegrationTestBase {
@@ -32,8 +30,6 @@ class HelloQueryTest extends DefaultIntegrationTestBase {
                                 .withBodyFile("hello-okta-api/hello.json")
                                 .withTransformers("response-template"))
         );
-
-        graphQLTestTemplate.addHeader(AUTHORIZATION, authorizationHeader());
 
         GraphQLResponse response = graphQLTestTemplate.postForResource("graphql/hello.graphql");
 
