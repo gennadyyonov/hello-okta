@@ -53,7 +53,7 @@ public class AuthorizationUtils {
         claims.put("groups", singletonList("HelloOkta_StandardUser"));
         claims.put("scp", asList("email", "openid", "profile"));
         Map<String, Object> header = new HashMap<>();
-        header.put("alg", "RS256");
+        header.put("alg", KEY_PAIR.getAlg());
         header.put("kid", KEY_PAIR.getKid());
         return Jwts.builder()
                 .setIssuedAt(Date.from(now))
@@ -83,13 +83,15 @@ public class AuthorizationUtils {
                 new BigInteger(SIGNUM, getUrlDecoder().decode(KEY_PAIR.getN())),
                 new BigInteger(SIGNUM, getUrlDecoder().decode(KEY_PAIR.getD()))
         );
-        KeyFactory factory = KeyFactory.getInstance("RSA");
+        KeyFactory factory = KeyFactory.getInstance(KEY_PAIR.getKty());
         return factory.generatePrivate(rsaPrivateKeySpec);
     }
 
     @Data
     private static class KeyPair {
         private String kid;
+        private String alg;
+        private String kty;
         private String d;
         private String n;
     }
