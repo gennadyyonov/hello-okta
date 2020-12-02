@@ -1,0 +1,9 @@
+{
+  me {
+    userId
+    firstName
+    lastName
+    email
+    roles
+  }
+}
