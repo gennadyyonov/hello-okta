@@ -20,6 +20,7 @@ bootRun {
 ext {
     set('graphqlJavaSpringBootVersion', '8.0.0')
     set('wirmockVersion', '2.27.2')
+    set('jsonwebtokenVersion', '0.11.2')
 }
 
 dependencies {
@@ -67,6 +68,8 @@ dependencies {
     testImplementation "com.github.tomakehurst:wiremock-jre8:$wirmockVersion"
     testCompileOnly "org.projectlombok:lombok"
     testAnnotationProcessor "org.projectlombok:lombok"
+    testImplementation "io.jsonwebtoken:jjwt-api:$jsonwebtokenVersion"
+    testImplementation "io.jsonwebtoken:jjwt-impl:$jsonwebtokenVersion"
 }
 
 checkstyle {

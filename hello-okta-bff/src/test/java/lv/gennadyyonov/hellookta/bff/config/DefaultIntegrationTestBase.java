@@ -1,22 +1,26 @@
 package lv.gennadyyonov.hellookta.bff.config;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 
-import static lv.gennadyyonov.hellookta.bff.utils.AuthorizationUtils.defaultJwt;
-import static org.mockito.Mockito.doReturn;
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @DefaultIntegrationTest
 public abstract class DefaultIntegrationTestBase {
 
     @Autowired
-    private JwtDecoder jwtDecoder;
+    private WireMockServer wireMockServer;
 
     @BeforeEach
     void setUp() {
-        Jwt jwt = defaultJwt();
-        doReturn(jwt).when(jwtDecoder).decode(jwt.getTokenValue());
+        wireMockServer.stubFor(
+                WireMock.get("/okta/oauth2/default/v1/userinfo")
+                        .willReturn(aResponse()
+                                .withHeader("Content-Type", APPLICATION_JSON_VALUE)
+                                .withBodyFile("okta/oauth2/userinfo.json"))
+        );
     }
 }

@@ -27,15 +27,17 @@ public class JsonUtils {
         return resourceToObject(name, emptyMap(), typeReference);
     }
 
-    public static <T> T resourceToObject(String name, Map<String, Object> replacements,
-                                         TypeReference<T> typeReference) {
+    public static <T> T resourceToObject(String name, Map<String, Object> replacements, TypeReference<T> typeReference) {
         InputStream inputStream = JsonUtils.class.getResourceAsStream(name);
         return resourceToObject(inputStream, replacements, typeReference);
     }
 
+    public static <T> T resourceToObject(InputStream inputStream, TypeReference<T> typeReference) {
+        return resourceToObject(inputStream, emptyMap(), typeReference);
+    }
+
     @SneakyThrows
-    private static <T> T resourceToObject(InputStream inputStream, Map<String, Object> replacements,
-                                          TypeReference<T> typeReference) {
+    private static <T> T resourceToObject(InputStream inputStream, Map<String, Object> replacements, TypeReference<T> typeReference) {
         String json = copyToString(inputStream, Charset.defaultCharset());
         json = applyReplacements(json, replacements);
         return deserializationObjectMapper().readValue(json, typeReference);
