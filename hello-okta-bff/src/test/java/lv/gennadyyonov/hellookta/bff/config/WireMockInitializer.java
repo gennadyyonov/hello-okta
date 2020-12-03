@@ -32,6 +32,7 @@ public class WireMockInitializer implements ApplicationContextInitializer<Config
         TestPropertyValues
                 .of(
                         "hellooktaapiclient_baseUrl:" + wireMockServerUrl + "/hello-okta-api",
+                        "chuck_norris_url:" + wireMockServerUrl + "/chuck-norris",
                         "issuer:" + wireMockServerUrl + "/okta/oauth2/default"
                 )
                 .applyTo(configurableApplicationContext);
