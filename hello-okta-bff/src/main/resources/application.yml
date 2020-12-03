@@ -1,7 +1,7 @@
 hellooktabff:
   allowedOrigins: ${allowed_origins}
   csrfEnabled: ${csrf_enabled:true}
-  chuckNorrisUrl: https://api.chucknorris.io
+  chuckNorrisUrl: ${chuck_norris_url}
   security-mapping:
     ALLOWED_USERS:
       - HelloOkta_StandardUser
