@@ -1,0 +1,24 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/okta/oauth2/default/v1/keys"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "keys": [
+        {
+          "kty": "RSA",
+          "e": "AQAB",
+          "use": "sig",
+          "kid": "DkLkS395ADURLFio0TT-eaQBWhGM-dnhobVyL0VxqdE",
+          "alg": "RS256",
+          "n": "ytUSszqL2mghgt0BtOuazRNyxx5VnDjCApY1YkAa1pCmnWCtFW1gii5M01JPCkhgzXrmkFYAkvmMpAPQBcudBWVNPVWOCWwY8kgbfGy1vBv3JdWl42qIwitHbHwr8CSVrMkrEd7tMFqYAbRBwS26uMk6YnmCBbI1S4xdOUsKBCYOlJJ7U1BPPJnvdMYW0tE881uSdiu8gvTjqDZhNSaJaLvNdkC5HvOOQt4o9ROqOPhDuznkeGA3H_BZ951D1gCn_CEvgi6Ep_E5d0W278sAZSxHUyQEFJf43ILXyKDHV5_l6cPzqoXb3vz2L9NtvL9Xp4AameYMXWBCWWD81RFhVw"
+        }
+      ]
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
