@@ -63,12 +63,12 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation 'io.jsonwebtoken:jjwt:0.9.1'
     testImplementation "com.graphql-java-kickstart:graphql-spring-boot-starter-test:$graphqlJavaSpringBootVersion"
     testImplementation "com.github.tomakehurst:wiremock-jre8:$wirmockVersion"
     testCompileOnly "org.projectlombok:lombok"
     testAnnotationProcessor "org.projectlombok:lombok"
     testImplementation "io.jsonwebtoken:jjwt-api:$jsonwebtokenVersion"
+    testImplementation "io.jsonwebtoken:jjwt-gson:$jsonwebtokenVersion"
     testImplementation "io.jsonwebtoken:jjwt-impl:$jsonwebtokenVersion"
 }
 
