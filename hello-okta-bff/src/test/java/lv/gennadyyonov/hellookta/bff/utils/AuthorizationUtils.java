@@ -14,18 +14,21 @@ import java.security.spec.RSAPrivateKeySpec;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import static java.time.temporal.ChronoUnit.MINUTES;
 import static java.util.Arrays.asList;
 import static java.util.Base64.getUrlDecoder;
-import static java.util.Collections.singletonList;
 import static lv.gennadyyonov.hellookta.bff.utils.JsonUtils.resourceToObject;
 import static org.springframework.security.oauth2.core.OAuth2AccessToken.TokenType.BEARER;
 
 @UtilityClass
 public class AuthorizationUtils {
+
+    private static final int SIGNUM = 1;
+    private static final long VALID_FOR_MINUTES = 5L;
 
     private static final String KEY_PAIR_FILE = "keys/rs256/keypair.json";
     private static final KeyPair KEY_PAIR = resourceToObject(
@@ -33,11 +36,9 @@ public class AuthorizationUtils {
             new TypeReference<KeyPair>() {
             }
     );
-    private static final int SIGNUM = 1;
-    private static final long VALID_FOR_MINUTES = 5L;
 
-    public static String authorizationHeader() {
-        return BEARER.getValue() + " " + jwt();
+    public static String authorizationHeader(String username, List<String> groups) {
+        return BEARER.getValue() + " " + jwt(username, groups);
     }
 
     /**
@@ -45,12 +46,12 @@ public class AuthorizationUtils {
      * <br>
      * https://developer.okta.com/docs/guides/build-self-signed-jwt/java/jwt-with-private-key/
      */
-    private static String jwt() {
+    private static String jwt(String username, List<String> groups) {
         PrivateKey privateKey = privateKey();
         Instant now = Instant.now();
         Map<String, Object> claims = new HashMap<>();
-        claims.put("sub", "john.doe@gmail.com");
-        claims.put("groups", singletonList("HelloOkta_StandardUser"));
+        claims.put("sub", username);
+        claims.put("groups", groups);
         claims.put("scp", asList("email", "openid", "profile"));
         Map<String, Object> header = new HashMap<>();
         header.put("alg", KEY_PAIR.getAlg());
