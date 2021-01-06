@@ -52,11 +52,10 @@ api:
     pullPolicy: Always
     tag: "latest"
   env:
-    "server.port": 80
-    "server.servlet.context-path": "/api"
-    "spring.profiles.active": "localhost,actuator"
-    "issuer": "https://dev-220281.okta.com/oauth2/aus26efk9hrb1yASy357"
-    "spring.security.oauth2.client.registration.okta.client-id": "0oa4yt76r3KSPx094357"
-    "okta.oauth2.clientId": "0oa4yt76r3KSPx094357"
-    "audience": "api://hellookta"
-    "rest_template_log_level": "DEBUG"
+    SERVER_PORT: 80
+    SERVER_SERVLET_CONTEXT_PATH: "/api"
+    SPRING_PROFILES_ACTIVE: "actuator"
+    ISSUER: "https://dev-220281.okta.com/oauth2/aus26efk9hrb1yASy357"
+    SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OKTA_CLIENT_ID: "0oa4yt76r3KSPx094357"
+    AUDIENCE: "api://hellookta"
+    REST_TEMPLATE_LOG_LEVEL: "DEBUG"

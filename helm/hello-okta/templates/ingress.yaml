@@ -1,5 +1,4 @@
 {{- if .Values.ingress.enabled -}}
-{{- $svcPort := .Values.api.service.port -}}
 {{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
 apiVersion: networking.k8s.io/v1
 {{- else -}}
@@ -9,7 +8,10 @@ kind: Ingress
 metadata:
   name: {{ include "hello-okta.name" . }}
   labels:
-    {{- include "hello-okta.labels" . | nindent 4 }}
+    app.kubernetes.io/name: {{ include "hello-okta.name" . }}
+    helm.sh/chart: {{ include "hello-okta.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -29,7 +31,7 @@ spec:
     - host: {{ include "hello-okta.domainName" . }}
       http:
         paths:
-          - path: /api
+          - path: {{ .Values.api.env.SERVER_SERVLET_CONTEXT_PATH }}
             pathType: Prefix
             backend:
               service:
