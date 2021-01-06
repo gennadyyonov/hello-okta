@@ -304,3 +304,37 @@ To bring up all the services:
 ```
 docker-compose up -d
 ```
+## Kubernetes (Docker Desktop)
+
+### Deploy a registry server
+
+- [Run a local registry](https://docs.docker.com/registry/)
+```
+docker run -d -p 5000:5000 --name registry registry:2
+```
+
+### Copy images to local registry
+
+- Tag images 
+```
+docker tag hello-okta_api localhost:5000/hellooktaapi
+docker tag hello-okta_bff localhost:5000/hellooktabff
+docker tag hello-okta-spa_web localhost:5000/hellooktaspa
+```
+
+- Push images
+```
+docker push localhost:5000/hellooktaapi
+docker push localhost:5000/hellooktabff
+docker push localhost:5000/hellooktaspa
+```
+
+### Install
+```
+helm install hello-okta-release ./helm/hello-okta --values ./helm/hello-okta/values.yaml
+```
+
+### Uninstall
+```
+helm delete hello-okta-release
+```
