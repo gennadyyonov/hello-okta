@@ -63,7 +63,7 @@ If everything is OK, the application will receive back an session token:
 ## Get Access Token
 
 ```
-curl -X GET ${okta_oauth2_issuer}/v1/authorize?client_id=${okta.oauth2.clientId}&response_type=token&scope=email+profile+openid&redirect_uri=${serverBaseUri}/implicit/callback&state=foo&nonce=bar&sessionToken=${sessionToken}
+curl -X GET ${okta_oauth2_issuer}/v1/authorize?client_id=${spring.security.oauth2.client.registration.okta.client-id}&response_type=token&scope=email+profile+openid&redirect_uri=${serverBaseUri}/implicit/callback&state=foo&nonce=bar&sessionToken=${sessionToken}
 ```
 
 HTTP 302 response code with `Location` header containing `access_token` will be received:
