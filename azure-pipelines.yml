@@ -10,15 +10,8 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
-
 - task: Gradle@2
+  displayName: 'Gradle Clean Build'
   inputs:
     gradleWrapperFile: 'gradlew'
     tasks: 'clean build'
@@ -28,8 +21,17 @@ steps:
     sonarQubeRunAnalysis: false
 
 - task: Docker@2
+  displayName: 'Docker Build API'
   inputs:
     containerRegistry: 'hello-okta-dr'
     repository: 'hellooktaapi'
     command: 'buildAndPush'
     Dockerfile: '$(Build.SourcesDirectory)/hello-okta-api/Dockerfile'
+
+- task: Docker@2
+  displayName: 'Docker Build BFF'
+  inputs:
+    containerRegistry: 'hello-okta-dr'
+    repository: 'hellooktabff'
+    command: 'buildAndPush'
+    Dockerfile: '$(Build.SourcesDirectory)/hello-okta-bff/Dockerfile'
