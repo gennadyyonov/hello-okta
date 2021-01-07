@@ -44,18 +44,40 @@ tolerations: []
 affinity: {}
 
 api:
+  port: 80
   service:
     type: ClusterIP
-    port: 80
+    port: 8080
   image:
     repository: "localhost:5000/hellooktaapi"
     pullPolicy: Always
     tag: "latest"
   env:
-    SERVER_PORT: 80
     SERVER_SERVLET_CONTEXT_PATH: "/api"
     SPRING_PROFILES_ACTIVE: "actuator"
     ISSUER: "https://dev-220281.okta.com/oauth2/aus26efk9hrb1yASy357"
     SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OKTA_CLIENT_ID: "0oa4yt76r3KSPx094357"
     AUDIENCE: "api://hellookta"
     REST_TEMPLATE_LOG_LEVEL: "DEBUG"
+
+bff:
+  port: 80
+  service:
+    type: ClusterIP
+    port: 8080
+  image:
+    repository: "localhost:5000/hellooktabff"
+    pullPolicy: Always
+    tag: "latest"
+  env:
+    SERVER_SERVLET_CONTEXT_PATH: "/bff"
+    SPRING_PROFILES_ACTIVE: "actuator"
+    ISSUER: "https://dev-220281.okta.com/oauth2/aus26efk9hrb1yASy357"
+    SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OKTA_CLIENT_ID: "0oa4yt76r3KSPx094357"
+    AUDIENCE: "api://hellookta"
+    HELLOOKTACLIENT_ID: "0oa2m950mjcFnPPNJ357"
+    HELLOOKTACLIENT_SECRET: "IHiSqDkab2oh_pQXAscZ4BuRUb1X0yEHYl70cVgI"
+    REST_TEMPLATE_LOG_LEVEL: "DEBUG"
+    ALLOWED_ORIGINS: "https://dev-220281.okta.com"
+    CSRF_ENABLED: true
+    CHUCK_NORRIS_URL: "https://api.chucknorris.io"

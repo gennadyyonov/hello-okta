@@ -9,8 +9,16 @@ Expand the name of the chart.
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}-api
 {{- end -}}
 
+{{- define "hello-okta-bff.name" -}}
+{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}-bff
+{{- end -}}
+
 {{- define "hello-okta.domainName" -}}
 {{ .Values.ingress.domain }}
+{{- end -}}
+
+{{- define "hello-okta-api.dns" -}}
+http://{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}-api.default.svc.cluster.local{{ .Values.api.env.SERVER_SERVLET_CONTEXT_PATH }}
 {{- end -}}
 
 {{/*

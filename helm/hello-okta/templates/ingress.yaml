@@ -37,5 +37,12 @@ spec:
               service:
                 name: {{ include "hello-okta-api.name" . }}
                 port:
-                  number: {{ .Values.api.service.port }}
+                  number: {{ .Values.api.port }}
+          - path: {{ .Values.bff.env.SERVER_SERVLET_CONTEXT_PATH }}
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "hello-okta-bff.name" . }}
+                port:
+                  number: {{ .Values.bff.port }}
   {{- end }}
