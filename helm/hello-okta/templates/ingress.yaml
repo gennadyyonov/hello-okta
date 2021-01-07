@@ -1,0 +1,45 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "hello-okta.name" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "hello-okta.name" . }}
+    helm.sh/chart: {{ include "hello-okta.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  tls:
+    - hosts:
+        - {{ include "hello-okta.domainName" . }}
+      secretName: {{ .Values.ingress.tls.secretName }}
+  rules:
+    - host: {{ include "hello-okta.domainName" . }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "hello-okta.name" . }}
+                port:
+                  number: {{ .Values.spa.port }}
+          - path: {{ .Values.api.env.SERVER_SERVLET_CONTEXT_PATH }}
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "hello-okta-api.name" . }}
+                port:
+                  number: {{ .Values.api.port }}
+          - path: {{ .Values.bff.env.SERVER_SERVLET_CONTEXT_PATH }}
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "hello-okta-bff.name" . }}
+                port:
+                  number: {{ .Values.bff.port }}
+  {{- end }}

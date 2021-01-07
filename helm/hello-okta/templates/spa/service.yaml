@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "hello-okta.name" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "hello-okta.name" . }}
+    helm.sh/chart: {{ include "hello-okta.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.spa.service.type }}
+  ports:
+    - port: {{ .Values.spa.port }}
+      targetPort: {{ .Values.spa.service.port }}
+      protocol: TCP
+      name: http-spa
+  selector:
+    app: {{ include "hello-okta.name" . }}

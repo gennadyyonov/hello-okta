@@ -1,0 +1,109 @@
+imagePullSecrets: []
+nameOverride:
+fullnameOverride:
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: "hellookta"
+
+podSecurityContext: {}
+
+securityContext: {}
+
+ingress:
+  enabled: true
+  annotations: {
+    kubernetes.io/ingress.class: nginx,
+    cert-manager.io/cluster-issuer: "selfsigned-issuer"
+  }
+  domain: "kubernetes.docker.internal"
+  tls:
+    secretName: "hello-okta-tls-cert"
+
+api:
+  port: 80
+  replicaCount: 1
+  podAnnotations: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  resources:
+    limits:
+      cpu: 384m
+      memory: 0.5Gi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  service:
+    type: ClusterIP
+    port: 8080
+  image:
+    repository: "localhost:5000/hellooktaapi"
+    pullPolicy: Always
+    tag: "latest"
+  env:
+    SERVER_SERVLET_CONTEXT_PATH: "/api"
+    SPRING_PROFILES_ACTIVE: "actuator"
+    ISSUER: "https://dev-220281.okta.com/oauth2/aus26efk9hrb1yASy357"
+    SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OKTA_CLIENT_ID: "0oa4yt76r3KSPx094357"
+    AUDIENCE: "api://hellookta"
+    REST_TEMPLATE_LOG_LEVEL: "DEBUG"
+
+bff:
+  port: 80
+  replicaCount: 1
+  podAnnotations: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  resources:
+    limits:
+      cpu: 384m
+      memory: 0.5Gi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  service:
+    type: ClusterIP
+    port: 8080
+  image:
+    repository: "localhost:5000/hellooktabff"
+    pullPolicy: Always
+    tag: "latest"
+  env:
+    SERVER_SERVLET_CONTEXT_PATH: "/bff"
+    SPRING_PROFILES_ACTIVE: "actuator"
+    ISSUER: "https://dev-220281.okta.com/oauth2/aus26efk9hrb1yASy357"
+    SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OKTA_CLIENT_ID: "0oa4yt76r3KSPx094357"
+    AUDIENCE: "api://hellookta"
+    HELLOOKTACLIENT_ID: "0oa2m950mjcFnPPNJ357"
+    HELLOOKTACLIENT_SECRET: "IHiSqDkab2oh_pQXAscZ4BuRUb1X0yEHYl70cVgI"
+    REST_TEMPLATE_LOG_LEVEL: "DEBUG"
+    ALLOWED_ORIGINS: "https://dev-220281.okta.com"
+    CSRF_ENABLED: true
+    CHUCK_NORRIS_URL: "https://api.chucknorris.io"
+
+spa:
+  port: 80
+  replicaCount: 1
+  podAnnotations: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  resources:
+    limits:
+      cpu: "250m"
+      memory: "128Mi"
+    requests:
+      cpu: "25m"
+      memory: "64Mi"
+  service:
+    type: ClusterIP
+    port: 80
+  image:
+    repository: "localhost:5000/hellooktaspa"
+    pullPolicy: Always
+    tag: "latest"
+  env:
+    CSPHEADER: "default-src 'self'; script-src 'self'; connect-src 'self' *.okta.com; img-src 'self' *.oktacdn.com data: blob:; frame-src 'self' *.okta.com; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; font-src 'self' *.oktacdn.com; manifest-src 'self'; media-src 'self'; worker-src 'none';"
