@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "hello-okta-bff.name" . }}
+  name: {{ include "hello-okta.name" . }}
   labels:
-    app.kubernetes.io/name: {{ include "hello-okta-bff.name" . }}
+    app.kubernetes.io/name: {{ include "hello-okta.name" . }}
     helm.sh/chart: {{ include "hello-okta.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app: {{ include "hello-okta-bff.name" . }}
+    app: {{ include "hello-okta.name" . }}
 spec:
   progressDeadlineSeconds: 600
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.bff.replicaCount }}
+  replicas: {{ .Values.spa.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      app: {{ include "hello-okta-bff.name" . }}
+      app: {{ include "hello-okta.name" . }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -23,7 +23,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        app: {{ include "hello-okta-bff.name" . }}
+        app: {{ include "hello-okta.name" . }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -33,23 +33,19 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ include "hello-okta-bff.name" . }}
+        - name: {{ include "hello-okta.name" . }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.bff.image.repository }}:{{ .Values.bff.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.bff.image.pullPolicy }}
+          image: "{{ .Values.spa.image.repository }}:{{ .Values.spa.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.spa.image.pullPolicy }}
           env:
-            - name: SERVER_PORT
-              value: "{{ .Values.bff.service.port }}"
-            - name: HELLOOKTAAPICLIENT_BASEURL
-              value: {{ include "hello-okta-api.dns" . }}
-          {{- range $key, $value := .Values.bff.env }}
+          {{- range $key, $value := .Values.spa.env }}
             - name: {{ $key }}
               value: "{{ $value }}"
           {{- end }}
           ports:
-            - name: http-bff
-              containerPort: {{ .Values.bff.service.port }}
+            - name: http-spa
+              containerPort: {{ .Values.spa.service.port }}
               protocol: TCP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

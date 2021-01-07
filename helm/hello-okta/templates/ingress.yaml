@@ -31,6 +31,13 @@ spec:
     - host: {{ include "hello-okta.domainName" . }}
       http:
         paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "hello-okta.name" . }}
+                port:
+                  number: {{ .Values.spa.port }}
           - path: {{ .Values.api.env.SERVER_SERVLET_CONTEXT_PATH }}
             pathType: Prefix
             backend:

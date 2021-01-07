@@ -1,5 +1,3 @@
-replicaCount: 1
-
 imagePullSecrets: []
 nameOverride:
 fullnameOverride:
@@ -20,7 +18,7 @@ ingress:
   annotations: {
     kubernetes.io/ingress.class: nginx
   }
-  domain: "kubernetes.docker.internal"
+  domain: "localhost"
   tls: []
 
 resources:
@@ -45,6 +43,7 @@ affinity: {}
 
 api:
   port: 80
+  replicaCount: 1
   service:
     type: ClusterIP
     port: 8080
@@ -62,6 +61,7 @@ api:
 
 bff:
   port: 80
+  replicaCount: 1
   service:
     type: ClusterIP
     port: 8080
@@ -81,3 +81,16 @@ bff:
     ALLOWED_ORIGINS: "https://dev-220281.okta.com"
     CSRF_ENABLED: true
     CHUCK_NORRIS_URL: "https://api.chucknorris.io"
+
+spa:
+  port: 80
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 80
+  image:
+    repository: "localhost:5000/hellooktaspa"
+    pullPolicy: Always
+    tag: "latest"
+  env:
+    CSPHEADER: "default-src 'self'; script-src 'self'; connect-src 'self' *.okta.com; img-src 'self' *.oktacdn.com data: blob:; frame-src 'self' *.okta.com; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; font-src 'self' *.oktacdn.com; manifest-src 'self'; media-src 'self'; worker-src 'none';"
