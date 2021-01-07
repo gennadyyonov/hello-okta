@@ -68,6 +68,7 @@ Each of them contains instructions how to **Run Application on localhost** in `R
 - [WireMock](https://github.com/tomakehurst/wiremock) : Simulator for HTTP-based APIs
 - [Springfox Swagger 2](https://github.com/springfox/springfox) : Spring Boot RESTful API Documentation
 - [Checkstyle](https://checkstyle.sourceforge.io/index.html)
+- [Helm](https://helm.sh) : Package manager for Kubernetes
 
 ## Okta Configuration
 
@@ -85,8 +86,8 @@ Populate the fields with these values:
 | FIELD NAME | VALUE |
 | --- | ---|
 | **Name** | `Hello Okta App` |
-| **Login redirect URIs**  | http://localhost:8060/login/oauth2/code/okta<br>http://localhost:8070/login/oauth2/code/okta<br>http://localhost:3000/implicit/callback |
-| **Logout redirect URIs** | http://localhost:3000 |
+| **Login redirect URIs**  | http://localhost:8060/login/oauth2/code/okta<br>http://localhost:8070/login/oauth2/code/okta<br>http://localhost:3000/implicit/callback<br>https://kubernetes.docker.internal/api/login/oauth2/code/okta<br>https://kubernetes.docker.internal/bff/login/oauth2/code/okta<br>https://kubernetes.docker.internal/implicit/callback |
+| **Logout redirect URIs** | http://localhost:3000<br>https://kubernetes.docker.internal |
 | **Allowed grant types**  | `Authorization Code` |
 
 Click **Done**.
@@ -284,6 +285,13 @@ Click **Add Group**.
 - Use the search box to find your user and add yourself to the group.
 - Click **Save** button
 
+#### Add Trusted Origins
+
+- Navigate to **API > Trusted Origins**.
+- Add the following 2 Origins with both `CORS` and `Redirect`:
+    - http://localhost:3000
+    - https://kubernetes.docker.internal
+
 ## Docker
 
 To [build](https://docs.docker.com/compose/reference/build/) API and BFF images:
@@ -304,37 +312,5 @@ To bring up all the services:
 ```
 docker-compose up -d
 ```
-## Kubernetes (Docker Desktop)
 
-### Deploy a registry server
-
-- [Run a local registry](https://docs.docker.com/registry/)
-```
-docker run -d -p 5000:5000 --name registry registry:2
-```
-
-### Copy images to local registry
-
-- Tag images 
-```
-docker tag hello-okta_api localhost:5000/hellooktaapi
-docker tag hello-okta_bff localhost:5000/hellooktabff
-docker tag hello-okta-spa_web localhost:5000/hellooktaspa
-```
-
-- Push images
-```
-docker push localhost:5000/hellooktaapi
-docker push localhost:5000/hellooktabff
-docker push localhost:5000/hellooktaspa
-```
-
-### Install
-```
-helm install hello-okta-release ./helm/hello-okta --values ./helm/hello-okta/values.yaml
-```
-
-### Uninstall
-```
-helm delete hello-okta-release
-```
+See [README.md](./helm/README.md) to deploy application to Kubernetes Cluster (Docker Desktop)
