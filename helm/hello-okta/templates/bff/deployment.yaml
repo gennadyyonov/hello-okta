@@ -10,15 +10,13 @@ metadata:
     app: {{ include "hello-okta-bff.name" . }}
 spec:
   progressDeadlineSeconds: 600
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.bff.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       app: {{ include "hello-okta-bff.name" . }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+      {{- with .Values.bff.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -52,16 +50,16 @@ spec:
               containerPort: {{ .Values.bff.service.port }}
               protocol: TCP
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
+            {{- toYaml .Values.bff.resources | nindent 12 }}
+      {{- with .Values.bff.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with .Values.bff.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tolerations }}
+      {{- with .Values.bff.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

@@ -10,15 +10,13 @@ metadata:
     app: {{ include "hello-okta-api.name" . }}
 spec:
   progressDeadlineSeconds: 600
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.api.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       app: {{ include "hello-okta-api.name" . }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+      {{- with .Values.api.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -50,16 +48,16 @@ spec:
               containerPort: {{ .Values.api.service.port }}
               protocol: TCP
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
+            {{- toYaml .Values.api.resources | nindent 12 }}
+      {{- with .Values.api.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with .Values.api.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tolerations }}
+      {{- with .Values.api.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

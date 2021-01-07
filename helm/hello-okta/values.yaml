@@ -7,8 +7,6 @@ serviceAccount:
   annotations: {}
   name: "hellookta"
 
-podAnnotations: {}
-
 podSecurityContext: {}
 
 securityContext: {}
@@ -21,29 +19,20 @@ ingress:
   domain: "localhost"
   tls: []
 
-resources:
-  limits:
-    cpu: 384m
-    memory: 0.5Gi
-  requests:
-    cpu: 100m
-    memory: 128Mi
-
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
-
 api:
   port: 80
   replicaCount: 1
+  podAnnotations: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  resources:
+    limits:
+      cpu: 384m
+      memory: 0.5Gi
+    requests:
+      cpu: 100m
+      memory: 128Mi
   service:
     type: ClusterIP
     port: 8080
@@ -62,6 +51,17 @@ api:
 bff:
   port: 80
   replicaCount: 1
+  podAnnotations: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  resources:
+    limits:
+      cpu: 384m
+      memory: 0.5Gi
+    requests:
+      cpu: 100m
+      memory: 128Mi
   service:
     type: ClusterIP
     port: 8080
@@ -85,6 +85,17 @@ bff:
 spa:
   port: 80
   replicaCount: 1
+  podAnnotations: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  resources:
+    limits:
+      cpu: "250m"
+      memory: "128Mi"
+    requests:
+      cpu: "25m"
+      memory: "64Mi"
   service:
     type: ClusterIP
     port: 80
