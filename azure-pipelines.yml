@@ -26,3 +26,10 @@ steps:
     testResultsFiles: '**/TEST-*.xml'
     javaHomeOption: 'JDKVersion'
     sonarQubeRunAnalysis: false
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'hello-okta-dr'
+    repository: 'hellooktaapi'
+    command: 'buildAndPush'
+    Dockerfile: '$(Build.SourcesDirectory)/hello-okta-api/Dockerfile'
