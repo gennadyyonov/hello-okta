@@ -1,10 +1,9 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+trigger: none
 
-trigger:
-- main
+variables:
+  tag: '$(Build.BuildId)'
+  apiRepository: 'hellooktaapi'
+  bffRepository: 'hellooktabff'
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -23,15 +22,19 @@ steps:
 - task: Docker@2
   displayName: 'Docker Build API'
   inputs:
-    containerRegistry: 'hello-okta-dr'
-    repository: 'hellooktaapi'
+    containerRegistry: $(DockerServiceConnectionName)
+    repository: $(apiRepository)
     command: 'buildAndPush'
     Dockerfile: '$(Build.SourcesDirectory)/hello-okta-api/Dockerfile'
+    tags: |
+      $(tag)
 
 - task: Docker@2
   displayName: 'Docker Build BFF'
   inputs:
-    containerRegistry: 'hello-okta-dr'
-    repository: 'hellooktabff'
+    containerRegistry: $(DockerServiceConnectionName)
+    repository: $(bffRepository)
     command: 'buildAndPush'
     Dockerfile: '$(Build.SourcesDirectory)/hello-okta-bff/Dockerfile'
+    tags: |
+      $(tag)

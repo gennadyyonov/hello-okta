@@ -8,10 +8,9 @@ metadata:
     helm.sh/chart: {{ include "hello-okta.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-  {{- with .Values.ingress.annotations }}
   annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+    kubernetes.io/ingress.class: {{ .Values.ingress.class }}
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.tls.issuer }}
 spec:
   tls:
     - hosts:

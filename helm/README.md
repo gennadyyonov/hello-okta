@@ -81,11 +81,18 @@ helm install cert-manager jetstack/cert-manager --namespace cert-manager --versi
 ```
 
 ### Install Application
+
+Run from project base directory:
 ```
-helm install hello-okta-release ./helm/hello-okta --values ./helm/hello-okta/values.yaml
+helm install hello-okta-release ./helm/hello-okta --values ./helm/hello-okta/values.yaml --set ingress.class=nginx --set ingress.domain=kubernetes.docker.internal --set api.image.repository=localhost:5000/hellooktaapi --set api.image.tag=latest --set bff.image.repository=localhost:5000/hellooktabff --set bff.image.tag=latest --set spa.image.repository=localhost:5000/hellooktaspa --set spa.image.tag=latest
 ```
+Wait till application is deployed. It can be done using Kubernetes Web UI (Dashboard) opening API/BFF logs.
+
+Application will be accessible via [URL](https://kubernetes.docker.internal/)
 
 ### Uninstall Application
+
+Run from project base directory:
 ```
 helm uninstall hello-okta-release
 ```

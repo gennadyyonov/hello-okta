@@ -3,5 +3,10 @@ kind: ClusterIssuer
 metadata:
   name: selfsigned-issuer
   namespace: cert-manager
+  labels:
+    app.kubernetes.io/name: {{ include "hello-okta.name" . }}
+    helm.sh/chart: {{ include "hello-okta.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   selfSigned: {}

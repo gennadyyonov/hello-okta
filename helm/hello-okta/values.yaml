@@ -4,8 +4,7 @@ fullnameOverride:
 
 serviceAccount:
   create: true
-  annotations: {}
-  name: "hellookta"
+  name: "hello-okta-service-account"
 
 podSecurityContext: {}
 
@@ -13,13 +12,11 @@ securityContext: {}
 
 ingress:
   enabled: true
-  annotations: {
-    kubernetes.io/ingress.class: nginx,
-    cert-manager.io/cluster-issuer: "selfsigned-issuer"
-  }
-  domain: "kubernetes.docker.internal"
+  class: ""
+  domain: ""
   tls:
     secretName: "hello-okta-tls-cert"
+    issuer: "selfsigned-issuer"
 
 api:
   port: 80
@@ -39,9 +36,9 @@ api:
     type: ClusterIP
     port: 8080
   image:
-    repository: "localhost:5000/hellooktaapi"
+    repository: ""
     pullPolicy: Always
-    tag: "latest"
+    tag: ""
   env:
     SERVER_SERVLET_CONTEXT_PATH: "/api"
     SPRING_PROFILES_ACTIVE: "actuator"
@@ -68,9 +65,9 @@ bff:
     type: ClusterIP
     port: 8080
   image:
-    repository: "localhost:5000/hellooktabff"
+    repository: ""
     pullPolicy: Always
-    tag: "latest"
+    tag: ""
   env:
     SERVER_SERVLET_CONTEXT_PATH: "/bff"
     SPRING_PROFILES_ACTIVE: "actuator"
@@ -102,8 +99,8 @@ spa:
     type: ClusterIP
     port: 80
   image:
-    repository: "localhost:5000/hellooktaspa"
+    repository: ""
     pullPolicy: Always
-    tag: "latest"
+    tag: ""
   env:
     CSPHEADER: "default-src 'self'; script-src 'self'; connect-src 'self' *.okta.com; img-src 'self' *.oktacdn.com data: blob:; frame-src 'self' *.okta.com; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; font-src 'self' *.oktacdn.com; manifest-src 'self'; media-src 'self'; worker-src 'none';"
