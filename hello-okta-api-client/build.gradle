@@ -49,6 +49,10 @@ bootJar {
     enabled = false
 }
 
+bootJarMainClassName {
+    enabled = false
+}
+
 jar {
     enabled = true
 }

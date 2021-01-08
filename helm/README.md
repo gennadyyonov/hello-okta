@@ -30,6 +30,7 @@ docker push localhost:5000/hellooktaspa
 
 ```
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
+kubectl proxy
 ```
 Dashboard will be available at [URL](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/)
 
@@ -69,9 +70,9 @@ helm repo update
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.crds.yaml
 ```
 
-- Create namespace for cert-manager
+- Create namespace for `cert-manager`
 ```
-kubectl create namespace `cert-manager`
+kubectl create namespace cert-manager
 ```
 
 - Install `cert-manager` Helm chart
