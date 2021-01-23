@@ -12,10 +12,11 @@ dependencies {
 checkstyle {
     toolVersion = '8.37'
     configProperties.configDir = "${parent.projectDir}/config/checkstyle"
-    sourceSets = []
 }
 
-build.dependsOn.add(checkstyleMain)
+checkstyleTest {
+    enabled = false
+}
 
 test {
     useJUnitPlatform()
