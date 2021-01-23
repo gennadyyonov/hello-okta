@@ -41,25 +41,25 @@ public class GraphQLTaskProperties {
     @RequiredArgsConstructor
     @Getter
     @Value
-    private static final class Execution {
+    private static class Execution {
 
-        private final String threadNamePrefix;
+        String threadNamePrefix;
         @NotNull
         @Valid
-        private final Pool pool;
+        Pool pool;
     }
 
     @RequiredArgsConstructor
     @Getter
     @Value
-    private static final class Pool {
+    private static class Pool {
 
         @Min(MIN_POOL_CORE_SIZE)
-        private final Integer coreSize;
+        Integer coreSize;
         @NotNull
         @Min(MIN_POOL_MAX_SIZE)
-        private final Integer maxSize;
+        Integer maxSize;
         @Min(MIN_POOL_KEEP_ALIVE_SECONDS)
-        private final Integer keepAliveSeconds;
+        Integer keepAliveSeconds;
     }
 }
