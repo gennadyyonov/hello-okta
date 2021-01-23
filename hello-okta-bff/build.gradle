@@ -18,7 +18,7 @@ bootRun {
 }
 
 ext {
-    set('graphqlJavaSpringBootVersion', '8.0.0')
+    set('graphqlJavaSpringBootVersion', '11.0.0')
 }
 
 dependencies {

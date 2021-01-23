@@ -1,9 +1,9 @@
-FROM openjdk:8-jdk-alpine AS build
+FROM adoptopenjdk/openjdk15:alpine AS build
 WORKDIR /workspace/app
 COPY . /workspace/app
 RUN mkdir -p build/dependency && (cd build/dependency; jar -xf ../libs/app.jar)
 
-FROM openjdk:8-jre-alpine
+FROM adoptopenjdk/openjdk15:alpine-jre
 VOLUME /tmp
 RUN addgroup -S hellookta && adduser -S hellookta -G hellookta
 USER hellookta:hellookta
