@@ -11,7 +11,7 @@ SPA Demo to show [Authorization Code Flow with PKCE](https://developer.okta.com/
 
 ### Java
 
-- JDK 1.8
+- JDK 15
 
 ### Lombok
 
