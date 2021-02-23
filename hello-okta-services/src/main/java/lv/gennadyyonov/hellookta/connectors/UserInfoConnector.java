@@ -4,10 +4,12 @@ import feign.HeaderMap;
 import feign.RequestLine;
 import lv.gennadyyonov.hellookta.logging.LoggingExclusion;
 import lv.gennadyyonov.hellookta.logging.ParameterLogging;
+import org.springframework.cloud.openfeign.FeignClient;
 
 import java.net.URI;
 import java.util.Map;
 
+@FeignClient(name = "userInfoConnector", configuration = OktaConnectorConfig.class)
 public interface UserInfoConnector extends ParameterLogging {
 
     @RequestLine("GET")

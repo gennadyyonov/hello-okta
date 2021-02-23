@@ -7,6 +7,7 @@ import feign.RequestLine;
 import lv.gennadyyonov.hellookta.dto.TokenResponse;
 import lv.gennadyyonov.hellookta.logging.LoggingExclusion;
 import lv.gennadyyonov.hellookta.logging.ParameterLogging;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 
 import java.net.URI;
@@ -16,6 +17,7 @@ import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.HttpHeaders.CACHE_CONTROL;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
+@FeignClient(name = "tokenConnector", configuration = OktaConnectorConfig.class)
 public interface TokenConnector extends ParameterLogging {
 
     @RequestLine("POST")

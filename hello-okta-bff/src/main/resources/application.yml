@@ -9,6 +9,10 @@ hellooktabff:
     COMMONS_REQUEST_LOGGING: -10
     USER_LOGGING: 10
 
+feign:
+  httpclient:
+    enabled: true
+
 spring:
   main.allow-bean-definition-overriding: true
   application:

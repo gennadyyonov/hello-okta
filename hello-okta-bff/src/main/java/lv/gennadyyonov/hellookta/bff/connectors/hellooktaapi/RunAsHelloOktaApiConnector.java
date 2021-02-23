@@ -11,8 +11,8 @@ import java.net.URI;
 
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
-@FeignClient(name = "helloOktaApiConnector", configuration = HelloOktaApiConnectorConfig.class)
-public interface HelloOktaApiConnector extends ParameterLogging {
+@FeignClient(name = "runAsHelloOktaApiConnector", configuration = RunAsHelloOktaApiConnectorConfig.class)
+public interface RunAsHelloOktaApiConnector extends ParameterLogging {
 
     @RequestLine("GET /hello")
     @Headers({CONTENT_TYPE + ": " + MediaType.TEXT_PLAIN_VALUE})
