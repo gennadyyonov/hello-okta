@@ -28,6 +28,13 @@ spring:
             user-info-uri: ${issuer}/v1/userinfo
             jwk-set-uri: ${issuer}/v1/keys
             user-name-attribute: email
+        registration:
+          okta:
+            client-authentication-method: none
+            scope:
+              - openid
+              - profile
+              - email
       resourceserver:
         jwt:
           issuer-uri: ${issuer}
