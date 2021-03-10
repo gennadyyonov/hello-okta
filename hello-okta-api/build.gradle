@@ -31,7 +31,6 @@ dependencies {
     implementation project(':hello-okta-actuator')
 
     implementation "io.springfox:springfox-boot-starter:${swaggerVersion}"
-    implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
