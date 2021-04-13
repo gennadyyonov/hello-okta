@@ -66,7 +66,7 @@ Each of them contains instructions how to **Run Application on localhost** in `R
   - [GraphQL Java Tools](https://github.com/graphql-java-kickstart/graphql-java-tools)
 - [Feign](https://github.com/OpenFeign/feign) : Declarative REST Client
 - [WireMock](https://github.com/tomakehurst/wiremock) : Simulator for HTTP-based APIs
-- [Springfox Swagger 2](https://github.com/springfox/springfox) : Spring Boot RESTful API Documentation
+- [Springdoc OpenAPI 3.0](https://github.com/springdoc/springdoc-openapi) : Spring Boot RESTful API Documentation
 - [Checkstyle](https://checkstyle.sourceforge.io/index.html)
 - [Helm](https://helm.sh) : Package manager for Kubernetes
 
