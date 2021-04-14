@@ -8,21 +8,21 @@ import lv.gennadyyonov.hellookta.connectors.UserInfoConnector;
 import lv.gennadyyonov.hellookta.dto.SecurityMappingProperties;
 import lv.gennadyyonov.hellookta.services.AuthenticationService;
 import lv.gennadyyonov.hellookta.services.SecurityService;
+import lv.gennadyyonov.hellookta.services.TechnicalEndpointService;
 import lv.gennadyyonov.hellookta.services.TokenService;
 import lv.gennadyyonov.hellookta.services.UserInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 
-import static java.util.Optional.ofNullable;
+import static lv.gennadyyonov.hellookta.utils.OktaUtils.getIssuerUri;
 
 @RequiredArgsConstructor
 @Configuration
 public class OktaServiceConfig {
-
-    private static final String OKTA = "okta";
 
     private final OAuth2AuthorizedClientService authorizedClientService;
     private final OAuth2ClientProperties oktaOAuth2Properties;
@@ -35,11 +35,7 @@ public class OktaServiceConfig {
     @Bean
     public UserInfoService userInfoService(AuthenticationService authenticationService,
                                            @Lazy UserInfoConnector userInfoConnector) {
-        String issuerUrl = ofNullable(oktaOAuth2Properties)
-                .map(OAuth2ClientProperties::getProvider)
-                .map(map -> map.get(OKTA))
-                .map(OAuth2ClientProperties.Provider::getIssuerUri)
-                .orElse(null);
+        String issuerUrl = getIssuerUri(oktaOAuth2Properties);
         return new UserInfoService(authenticationService, issuerUrl, userInfoConnector);
     }
 
@@ -62,7 +58,8 @@ public class OktaServiceConfig {
     }
 
     @Bean
-    public SecurityRoleAspect securityRoleAspect(AuthenticationService authenticationService, SecurityService securityService) {
-        return new SecurityRoleAspect(authenticationService, securityService);
+    public SecurityRoleAspect securityRoleAspect(AuthenticationService authenticationService, SecurityService securityService,
+                                                 @Autowired(required = false) TechnicalEndpointService technicalEndpointService) {
+        return new SecurityRoleAspect(authenticationService, securityService, technicalEndpointService);
     }
 }

@@ -45,3 +45,12 @@ logging:
 
 schedule:
   jwk-set-cache-refresh-time: ${jwk_set_cache_refresh_time:300000} # 5 minutes
+
+springdoc:
+  swagger-ui:
+    oauth:
+      use-pkce-with-authorization-code-grant: true
+      scopes:
+        - openid
+        - profile
+        - email

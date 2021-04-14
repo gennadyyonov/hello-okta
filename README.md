@@ -86,7 +86,7 @@ Populate the fields with these values:
 | FIELD NAME | VALUE |
 | --- | ---|
 | **Name** | `Hello Okta App` |
-| **Login redirect URIs**  | http://localhost:8060/login/oauth2/code/okta<br>http://localhost:8070/login/oauth2/code/okta<br>http://localhost:3000/implicit/callback<br>https://kubernetes.docker.internal/api/login/oauth2/code/okta<br>https://kubernetes.docker.internal/bff/login/oauth2/code/okta<br>https://kubernetes.docker.internal/implicit/callback |
+| **Login redirect URIs**  | http://localhost:8060/login/oauth2/code/okta<br>http://localhost:8070/swagger-ui/oauth2-redirect.html<br>http://localhost:3000/implicit/callback<br>https://kubernetes.docker.internal/api/login/oauth2/code/okta<br>https://kubernetes.docker.internal/bff/login/oauth2/code/okta<br>https://kubernetes.docker.internal/implicit/callback |
 | **Logout redirect URIs** | http://localhost:3000<br>https://kubernetes.docker.internal |
 | **Allowed grant types**  | `Authorization Code` |
 

@@ -7,16 +7,15 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2Clien
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static java.util.Optional.ofNullable;
 import static lv.gennadyyonov.hellookta.constants.SecurityConstants.PUBLIC_ENDPOINT;
+import static lv.gennadyyonov.hellookta.utils.OktaUtils.getClientId;
+import static lv.gennadyyonov.hellookta.utils.OktaUtils.getIssuerUri;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RequiredArgsConstructor
 @HasRole(alias = PUBLIC_ENDPOINT)
 @RestController
 public class EnvironmentConfigController {
-
-    private static final String OKTA = "okta";
 
     public static final String ENVIRONMENT_CONFIG_SUFFIX = "/config/environment";
 
@@ -25,16 +24,8 @@ public class EnvironmentConfigController {
     @GetMapping(value = ENVIRONMENT_CONFIG_SUFFIX, produces = APPLICATION_JSON_VALUE)
     public EnvironmentProperties environmentConfig() {
         return EnvironmentProperties.builder()
-                .oktaClientId(ofNullable(oktaOAuth2Properties)
-                        .map(OAuth2ClientProperties::getRegistration)
-                        .map(map -> map.get(OKTA))
-                        .map(OAuth2ClientProperties.Registration::getClientId)
-                        .orElse(null))
-                .oktaIssuer(ofNullable(oktaOAuth2Properties)
-                        .map(OAuth2ClientProperties::getProvider)
-                        .map(map -> map.get(OKTA))
-                        .map(OAuth2ClientProperties.Provider::getIssuerUri)
-                        .orElse(null))
+                .oktaClientId(getClientId(oktaOAuth2Properties))
+                .oktaIssuer(getIssuerUri(oktaOAuth2Properties))
                 .build();
     }
 }
