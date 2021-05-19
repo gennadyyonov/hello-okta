@@ -1,5 +1,6 @@
 package lv.gennadyyonov.hellookta.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,10 +15,13 @@ import lv.gennadyyonov.hellookta.logging.View;
 public class TokenResponse {
 
     @JsonView(View.LoggingView.class)
-    private String token_type;
-    private String access_token;
+    @JsonProperty("token_type")
+    private String tokenType;
+    @JsonProperty("access_token")
+    private String accessToken;
     @JsonView(View.LoggingView.class)
-    private Integer expires_in;
+    @JsonProperty("expires_in")
+    private Integer expiresIn;
     @JsonView(View.LoggingView.class)
     private String scope;
 }

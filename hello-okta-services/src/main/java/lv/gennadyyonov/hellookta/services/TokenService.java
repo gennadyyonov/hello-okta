@@ -36,14 +36,14 @@ public class TokenService {
         String grantType = runAsDetails.getGrantType();
         String scope = getScope(runAsDetails);
         TokenResponse tokenResponse = tokenConnector.getAccessToken(baseUri, headers, grantType, scope);
-        return tokenResponse.getAccess_token();
+        return tokenResponse.getAccessToken();
     }
 
     private Map<String, Object> headers(RunAsDetails runAsDetails) {
         Map<String, Object> headers = new HashMap<>();
         headers.put(
-                AUTHORIZATION,
-                authenticationService.basicAuthorizationHeaderValue(runAsDetails.getClientId(), runAsDetails.getClientSecret())
+            AUTHORIZATION,
+            authenticationService.basicAuthorizationHeaderValue(runAsDetails.getClientId(), runAsDetails.getClientSecret())
         );
         return headers;
     }
