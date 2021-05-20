@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import java.net.URI;
 import java.util.Map;
 
-@FeignClient(name = "userInfoConnector", configuration = OktaConnectorConfig.class)
+@FeignClient(name = "userInfoConnector", configuration = UserInfoConnectorConfig.class)
 public interface UserInfoConnector extends ParameterLogging {
 
     @RequestLine("GET")

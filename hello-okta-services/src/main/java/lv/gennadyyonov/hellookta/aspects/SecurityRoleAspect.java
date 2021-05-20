@@ -62,16 +62,17 @@ public class SecurityRoleAspect {
 
     @Around("annotated()")
     public Object restrictByRole(ProceedingJoinPoint joinPoint) throws Throwable {
+        if (!isSecured(joinPoint)) {
+            return joinPoint.proceed();
+        }
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         HasRole annotation = getHasRoleAnnotation(methodSignature);
-        if (annotation != null &&
-                (isSecured(joinPoint) && !securityService.hasAnyRoles(annotation.alias(), annotation.roles()))) {
+        if (annotation != null && !securityService.hasAnyRoles(annotation.alias(), annotation.roles())) {
             String userId = authenticationService.getUserId();
             String message = format(USER_HAS_NOT_ACCESS_MESSAGE_FORMAT, userId, getMethodFullName(methodSignature));
             log.error(message);
             throw new AccessDeniedException(message);
         }
-
         return joinPoint.proceed();
     }
 

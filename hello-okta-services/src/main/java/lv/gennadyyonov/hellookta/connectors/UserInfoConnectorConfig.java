@@ -10,7 +10,7 @@ import feign.jackson.JacksonEncoder;
 import lv.gennadyyonov.hellookta.config.feign.FeignInterceptorProvider;
 import org.springframework.context.annotation.Bean;
 
-public class OktaConnectorConfig {
+public class UserInfoConnectorConfig {
 
     @Bean
     public Contract contract() {

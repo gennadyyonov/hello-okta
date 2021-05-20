@@ -15,13 +15,13 @@ import static java.util.Arrays.asList;
 public class TechnicalEndpointServiceImpl implements TechnicalEndpointService {
 
     private static final Collection<Class<?>> ALLOWED_CLASSES = asList(
-            // Springdoc OpenAPI 3.0
-            SwaggerWelcomeCommon.class,
-            OpenApiResource.class
+        // Springdoc OpenAPI 3.0
+        SwaggerWelcomeCommon.class,
+        OpenApiResource.class
     );
     private static final String[] ALLOWED_ENDPOINTS = {
-            // Springdoc OpenAPI 3.0
-            "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html"
+        // Springdoc OpenAPI 3.0
+        "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html"
     };
 
     @Override
