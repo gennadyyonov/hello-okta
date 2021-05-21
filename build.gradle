@@ -12,6 +12,7 @@ allprojects {
         set('openApiVersion', '1.5.8')
         set('wirmockVersion', '2.28.0')
         set('jsonwebtokenVersion', '0.11.2')
+        set('jsonSmartVersion', '2.4.1')
     }
 }
 

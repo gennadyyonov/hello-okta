@@ -36,6 +36,13 @@ dependencies {
     implementation "commons-codec:commons-codec:${commonsCodecVersion}"
 
     implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+
+    implementation('net.minidev:json-smart') {
+        because 'Critical CVE-2021-27568 fix'
+        version {
+            strictly jsonSmartVersion
+        }
+    }
 }
 
 checkstyle {

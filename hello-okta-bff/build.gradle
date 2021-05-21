@@ -55,6 +55,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
 
+    implementation('net.minidev:json-smart') {
+        because 'Critical CVE-2021-27568 fix'
+        version {
+            strictly jsonSmartVersion
+        }
+    }
+
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
