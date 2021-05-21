@@ -5,7 +5,7 @@ plugins {
 }
 
 ext {
-    set('commonsLang3Version', '3.11')
+    set('commonsLang3Version', '3.12.0')
 }
 
 dependencies {
@@ -26,8 +26,8 @@ dependencies {
 }
 
 checkstyle {
-    toolVersion = '8.37'
-    configProperties.configDir = "${parent.projectDir}/config/checkstyle"
+    toolVersion = '8.42'
+    configProperties.configDir = parent.file("config/checkstyle")
 }
 
 checkstyleTest {

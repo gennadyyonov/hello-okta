@@ -18,7 +18,7 @@ bootRun {
 }
 
 ext {
-    set('graphqlJavaSpringBootVersion', '11.0.0')
+    set('graphqlJavaSpringBootVersion', '11.1.0')
 }
 
 dependencies {
@@ -49,7 +49,6 @@ dependencies {
     implementation 'io.github.openfeign:feign-jackson'
     implementation 'io.github.openfeign:feign-httpclient'
     implementation 'io.github.openfeign.form:feign-form-spring'
-    implementation "com.google.guava:guava:$guavaVersion"
     implementation "org.apache.httpcomponents:httpclient:$apacheHttpClientVersion"
     implementation "commons-codec:commons-codec:$commonsCodecVersion"
 
@@ -70,8 +69,8 @@ dependencies {
 }
 
 checkstyle {
-    toolVersion = '8.37'
-    configProperties.configDir = "${parent.projectDir}/config/checkstyle"
+    toolVersion = '8.42'
+    configProperties.configDir = parent.file("config/checkstyle")
 }
 
 checkstyleTest {
