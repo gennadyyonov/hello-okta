@@ -1,6 +1,7 @@
 package lv.gennadyyonov.hellookta.services;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +12,7 @@ import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -53,8 +55,8 @@ public class AuthenticationService {
 
     private Set<String> getAuthorities(Authentication authentication) {
         Set<String> authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(toSet());
+            .map(GrantedAuthority::getAuthority)
+            .collect(toSet());
         Map<String, Object> tokenAttributes = getTokenAttributes(authentication);
         authorities.addAll(extractCollection(tokenAttributes, GROUPS_CLAIM));
         return authorities;
@@ -83,8 +85,8 @@ public class AuthenticationService {
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
             OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(
-                    oauthToken.getAuthorizedClientRegistrationId(),
-                    oauthToken.getName());
+                oauthToken.getAuthorizedClientRegistrationId(),
+                oauthToken.getName());
             OAuth2AccessToken accessToken = client.getAccessToken();
             return accessToken.getTokenValue();
         } else if (authentication instanceof JwtAuthenticationToken) {
@@ -92,7 +94,7 @@ public class AuthenticationService {
             return oauthToken.getToken().getTokenValue();
         }
         throw new UnsupportedOperationException(
-                authentication.getClass().getName() + " token value retrieval is not supported yet!"
+            authentication.getClass().getName() + " token value retrieval is not supported yet!"
         );
     }
 
@@ -109,9 +111,11 @@ public class AuthenticationService {
         } else if (authentication instanceof JwtAuthenticationToken) {
             JwtAuthenticationToken oauthToken = (JwtAuthenticationToken) authentication;
             return oauthToken.getTokenAttributes();
+        } else if (authentication instanceof AnonymousAuthenticationToken) {
+            return new HashMap<>();
         }
         throw new UnsupportedOperationException(
-                authentication.getClass().getName() + " token attributes retrieval is not supported yet!"
+            authentication.getClass().getName() + " token attributes retrieval is not supported yet!"
         );
     }
 }

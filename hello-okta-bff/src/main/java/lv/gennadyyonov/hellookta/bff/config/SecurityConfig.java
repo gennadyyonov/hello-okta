@@ -1,5 +1,7 @@
 package lv.gennadyyonov.hellookta.bff.config;
 
+import lv.gennadyyonov.hellookta.services.TechnicalEndpointService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,33 +41,38 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String ALLOWED_ORIGINS_SEPARATOR = ",";
 
     private final HelloOktaBffProps helloOktaBffProps;
+    private final TechnicalEndpointService technicalEndpointService;
 
-    public SecurityConfig(@Qualifier(HELLO_OKTA_BFF_PROPS_BEAN_NAME) HelloOktaBffProps helloOktaBffProps) {
+    public SecurityConfig(@Qualifier(HELLO_OKTA_BFF_PROPS_BEAN_NAME) HelloOktaBffProps helloOktaBffProps,
+                          @Autowired(required = false) TechnicalEndpointService technicalEndpointService) {
         this.helloOktaBffProps = helloOktaBffProps;
+        this.technicalEndpointService = technicalEndpointService;
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         configureCsrf(http);
+        ofNullable(technicalEndpointService).ifPresent(service -> service.configure(http));
         http
-                .cors()
-                .and()
-                .authorizeRequests()
-                // Allow CORS option calls
-                .antMatchers(OPTIONS, ALL_URL_PATTERN).permitAll()
-                .antMatchers(GET, ENVIRONMENT_CONFIG_SUFFIX).permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .logout()
-                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .deleteCookies(SESSION_ID_COOKIE_NAME)
-                .and()
-                .oauth2Login()
-                .and()
-                .oauth2ResourceServer().jwt();
+            .cors()
+            .and()
+            .authorizeRequests()
+            // Allow CORS option calls
+            .antMatchers(OPTIONS, ALL_URL_PATTERN).permitAll()
+            .antMatchers(GET, ENVIRONMENT_CONFIG_SUFFIX).permitAll()
+            .anyRequest()
+            .authenticated()
+            .and()
+            .logout()
+            .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
+            .invalidateHttpSession(true)
+            .clearAuthentication(true)
+            .deleteCookies(SESSION_ID_COOKIE_NAME)
+            // For auth throug BFF index.html
+            .and()
+            .oauth2Login()
+            .and()
+            .oauth2ResourceServer().jwt();
     }
 
     private void configureCsrf(HttpSecurity http) throws Exception {
@@ -80,14 +87,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public CorsConfigurationSource corsConfigurationSource() {
         final CorsConfiguration configuration = new CorsConfiguration();
         List<String> allowedOrigins = ofNullable(helloOktaBffProps.getAllowedOrigins())
-                .map(origins -> origins.split(ALLOWED_ORIGINS_SEPARATOR))
-                .map(Stream::of)
-                .orElseGet(Stream::empty)
-                .collect(toList());
+            .map(origins -> origins.split(ALLOWED_ORIGINS_SEPARATOR))
+            .stream()
+            .flatMap(Stream::of)
+            .collect(toList());
         configuration.setAllowedOrigins(allowedOrigins);
         List<String> allowedMethods = Arrays.stream(HttpMethod.values())
-                .map(HttpMethod::name)
-                .collect(toList());
+            .map(HttpMethod::name)
+            .collect(toList());
         configuration.setAllowedMethods(allowedMethods);
         // setAllowCredentials(true) is important, otherwise:
         // The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*'

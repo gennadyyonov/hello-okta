@@ -36,8 +36,8 @@ public class SecurityRoleAspect {
     }
 
     @Pointcut("(@within(org.springframework.stereotype.Controller) || "
-            + "@within(org.springframework.web.bind.annotation.RestController)) && "
-            + "!within(org.springframework.boot.autoconfigure.web.servlet.error.*)")
+        + "@within(org.springframework.web.bind.annotation.RestController)) && "
+        + "!within(org.springframework.boot.autoconfigure.web.servlet.error.*)")
     public void controllers() {
         // Do nothing. Method for declaration
     }
@@ -87,7 +87,7 @@ public class SecurityRoleAspect {
 
     private boolean isSecured(ProceedingJoinPoint joinPoint) {
         return ofNullable(technicalEndpointService)
-                .map(service -> !service.isAllowed(joinPoint))
-                .orElse(true);
+            .map(service -> !service.isAllowed(joinPoint))
+            .orElse(true);
     }
 }
