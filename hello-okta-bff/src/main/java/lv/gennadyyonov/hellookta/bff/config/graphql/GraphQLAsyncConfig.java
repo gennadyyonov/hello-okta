@@ -1,14 +1,9 @@
-package lv.gennadyyonov.hellookta.bff.config;
+package lv.gennadyyonov.hellookta.bff.config.graphql;
 
-import com.google.common.util.concurrent.ForwardingExecutorService;
 import graphql.execution.instrumentation.Instrumentation;
 import graphql.execution.instrumentation.SimpleInstrumentation;
 import graphql.execution.instrumentation.parameters.InstrumentationFieldFetchParameters;
 import graphql.schema.DataFetcher;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import org.slf4j.MDC;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -16,22 +11,14 @@ import org.springframework.cloud.sleuth.instrument.async.TraceableExecutorServic
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.security.concurrent.DelegatingSecurityContextRunnable;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import static graphql.schema.AsyncDataFetcher.async;
-import static java.util.Optional.ofNullable;
-import static org.slf4j.MDC.getCopyOfContextMap;
+import static lv.gennadyyonov.hellookta.bff.config.graphql.AsyncContextUtils.createAsyncContext;
 
 @EnableConfigurationProperties(GraphQLTaskProperties.class)
 @Configuration
@@ -61,7 +48,7 @@ public class GraphQLAsyncConfig {
      * Extends {@link LinkedBlockingQueue#offer(Object)} to return false always (no queue == no deadlocks).
      */
     private BlockingQueue<Runnable> queue() {
-        return new LinkedBlockingQueue<Runnable>() {
+        return new LinkedBlockingQueue<>() {
 
             /**
              * Do not use the queue.
@@ -83,72 +70,10 @@ public class GraphQLAsyncConfig {
             public DataFetcher<?> instrumentDataFetcher(DataFetcher<?> dataFetcher, InstrumentationFieldFetchParameters parameters) {
                 AsyncContext asyncContext = createAsyncContext();
                 ThreadPoolExecutor threadPoolExecutor = taskExecutor.getThreadPoolExecutor();
-                ExecutorService delegate = new ContextCopyingForwardingExecutorService(asyncContext, threadPoolExecutor);
+                ExecutorService delegate = new ContextCopyingDelegateExecutorService(asyncContext, threadPoolExecutor);
                 ExecutorService executor = new TraceableExecutorService(beanFactory, delegate);
                 return async(dataFetcher, executor);
             }
         };
-    }
-
-    @RequiredArgsConstructor
-    private static final class ContextCopyingForwardingExecutorService extends ForwardingExecutorService {
-
-        private final AsyncContext asyncContext;
-        private final ExecutorService delegate;
-
-        @Override
-        public void execute(Runnable command) {
-            Runnable contextCopyingRunnable = new ContextCopyingRunnable(command, asyncContext);
-            Runnable runnable = new DelegatingSecurityContextRunnable(contextCopyingRunnable, asyncContext.getSecurityContext());
-            super.execute(runnable);
-        }
-
-        @Override
-        protected ExecutorService delegate() {
-            return delegate;
-        }
-    }
-
-    @RequiredArgsConstructor
-    private static final class ContextCopyingRunnable implements Runnable {
-
-        private final Runnable delegate;
-        private final AsyncContext delegateAsyncContext;
-
-        @Override
-        public void run() {
-            AsyncContext originalAsyncContext = createAsyncContext();
-            try {
-                populate(delegateAsyncContext);
-                delegate.run();
-            } finally {
-                populate(originalAsyncContext);
-            }
-        }
-
-        private static void populate(AsyncContext asyncContext) {
-            asyncContext.getMdcContextMap().forEach(MDC::put);
-            RequestContextHolder.setRequestAttributes(asyncContext.getRequestAttributes());
-        }
-    }
-
-    @Data
-    @Builder
-    private static final class AsyncContext {
-
-        private Map<String, String> mdcContextMap;
-        private RequestAttributes requestAttributes;
-        private SecurityContext securityContext;
-    }
-
-    private static AsyncContext createAsyncContext() {
-        Map<String, String> mdcContextMap = ofNullable(getCopyOfContextMap()).orElseGet(HashMap::new);
-        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        return AsyncContext.builder()
-                .mdcContextMap(mdcContextMap)
-                .requestAttributes(requestAttributes)
-                .securityContext(securityContext)
-                .build();
     }
 }

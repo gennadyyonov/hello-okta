@@ -34,8 +34,8 @@ dependencies {
 }
 
 checkstyle {
-    toolVersion = '8.37'
-    configProperties.configDir = "${parent.projectDir}/config/checkstyle"
+    toolVersion = '8.42'
+    configProperties.configDir = parent.file("config/checkstyle")
 }
 
 checkstyleTest {
