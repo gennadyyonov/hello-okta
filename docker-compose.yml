@@ -5,7 +5,7 @@ services:
     build:
       context: ./hello-okta-api
     env_file:
-      - ./hello-okta-api/env/.env.localhost
+      - ./hello-okta-api/env/.env.dev
     ports:
       - "8070:8070"
   bff:
