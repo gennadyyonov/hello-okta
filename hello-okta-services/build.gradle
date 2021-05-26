@@ -1,12 +1,12 @@
 plugins {
     id 'checkstyle'
-    id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
-    id 'org.springframework.boot' version "${springBootVersion}"
+    id 'io.spring.dependency-management' version "$springDependencyManagementVersion"
+    id 'org.springframework.boot' version "$springBootVersion"
 }
 
 dependencies {
     // Import BOM-s
-    implementation enforcedPlatform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+    implementation enforcedPlatform("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -32,8 +32,9 @@ dependencies {
     implementation 'io.github.openfeign:feign-jackson'
     implementation 'io.github.openfeign:feign-httpclient'
     implementation 'io.github.openfeign.form:feign-form-spring'
-    implementation "org.apache.httpcomponents:httpclient:${apacheHttpClientVersion}"
-    implementation "commons-codec:commons-codec:${commonsCodecVersion}"
+    implementation "org.apache.httpcomponents:httpclient:$apacheHttpClientVersion"
+    implementation "commons-codec:commons-codec:$commonsCodecVersion"
+    implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
 
     implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
 

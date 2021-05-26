@@ -1,7 +1,6 @@
 package lv.gennadyyonov.hellookta.api.config;
 
 import lv.gennadyyonov.hellookta.services.TechnicalEndpointService;
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,26 +25,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        authorizeTechnicalEndpoints(http);
+        ofNullable(technicalEndpointService).ifPresent(service -> service.configure(http));
         http
-                .authorizeRequests()
-                // Allow CORS option calls
-                .antMatchers(OPTIONS, ALL_URL_PATTERN).permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .oauth2ResourceServer().jwt();
-    }
-
-    private void authorizeTechnicalEndpoints(HttpSecurity http) throws Exception {
-        String[] allowedEndpoints = ofNullable(technicalEndpointService)
-                .map(TechnicalEndpointService::getAllowedEndpoints)
-                .orElseGet(() -> new String[0]);
-        if (ArrayUtils.isNotEmpty(allowedEndpoints)) {
-            http
-                    .authorizeRequests()
-                    .antMatchers(allowedEndpoints)
-                    .permitAll();
-        }
+            .authorizeRequests()
+            // Allow CORS option calls
+            .antMatchers(OPTIONS, ALL_URL_PATTERN).permitAll()
+            .anyRequest()
+            .authenticated()
+            .and()
+            .oauth2ResourceServer().jwt();
     }
 }

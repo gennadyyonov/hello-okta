@@ -6,6 +6,7 @@ allprojects {
     ext {
         set('apacheHttpClientVersion', '4.5.13')
         set('commonsCodecVersion', '1.15')
+        set('commonsLang3Version', '3.12.0')
         set('springBootVersion', '2.4.5')
         set('springCloudVersion', '2020.0.2')
         set('springDependencyManagementVersion', '1.0.11.RELEASE')

@@ -20,8 +20,4 @@ Application will be running on port `8070` by default.
  
 It's API can be accessed via [Swagger UI](http://localhost:8070/swagger-ui.html) in your browser.
 
-If you see Okta hosted sign-in page then things are working!
-
-You can login with the same account that you created when signing up for your Developer Org, or you can use a known username and password from your Okta Directory.
-
 ![Swagger UI](images/02-OpenApi-UI.PNG)
