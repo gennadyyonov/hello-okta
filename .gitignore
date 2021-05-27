@@ -34,3 +34,4 @@ out/
 ### Secrets
 .env.dev
 secrets.yml
+secret-values.yaml

@@ -1,4 +1,38 @@
-# Deploy to Kubernetes (Docker Desktop)
+# Deploy to Kubernetes ([Docker Desktop for Windows](https://hub.docker.com/editions/community/docker-ce-desktop-windows))
+
+Docker version used:
+```
+C:\>docker version
+Client:
+ Cloud integration: 1.0.14
+ Version:           20.10.6
+ API version:       1.41
+ Go version:        go1.16.3
+ Git commit:        370c289
+ Built:             Fri Apr  9 22:49:36 2021
+ OS/Arch:           windows/amd64
+ Context:           default
+ Experimental:      true
+
+Server: Docker Engine - Community
+ Engine:
+  Version:          20.10.6
+  API version:      1.41 (minimum version 1.12)
+  Go version:       go1.13.15
+  Git commit:       8728dd2
+  Built:            Fri Apr  9 22:44:56 2021
+  OS/Arch:          linux/amd64
+  Experimental:     false
+ containerd:
+  Version:          1.4.4
+  GitCommit:        05f951a3781f4f2c1911b05e61c160e9c30eaa8e
+ runc:
+  Version:          1.0.0-rc93
+  GitCommit:        12644e614e25b05da6fd08a38ffa0cfe1903fdec
+ docker-init:
+  Version:          0.19.0
+  GitCommit:        de40ad0
+```
 
 ## Deploy Local Registry Server
 
@@ -27,9 +61,10 @@ docker push localhost:5000/hellooktaspa
 ## Access Applications in a Cluster
 
 [Kubernetes Web UI (Dashboard)](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
+[Kubernetes Dashboard](https://github.com/kubernetes/dashboard)
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
 kubectl proxy
 ```
 Dashboard will be available at [URL](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/)
@@ -61,13 +96,13 @@ helm repo update
 helm install nginx-ingress ingress-nginx/ingress-nginx
 ```
 
-### TLS/SSL
+### Cert Manager
 
-- [Deploy cert-manager CRD](https://cert-manager.io/docs/installation/kubernetes/)
+- [Installing with Helm](https://cert-manager.io/docs/installation/kubernetes/#installing-with-helm)
 ```
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.crds.yaml
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.3.1/cert-manager.crds.yaml
 ```
 
 - Create namespace for `cert-manager`
@@ -77,15 +112,20 @@ kubectl create namespace cert-manager
 
 - Install `cert-manager` Helm chart
 ```
-helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.0.1
+helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.3.1
 ```
 
 ### Install Application
+
+- **Application Properties**
+
+- Copy [`secret-values.yaml.sample`](hello-okta/secret-values.yaml.sample) to `secret-values.yaml` under `hello-okta`
+- Fill in your configuration properties instead of `???`
 ```
-helm install hello-okta-release ./helm/hello-okta --values ./helm/hello-okta/values.yaml
+helm install hello-okta-release ./helm/hello-okta --values ./helm/hello-okta/values.yaml --values ./helm/hello-okta/secret-values.yaml --create-namespace --namespace hello-okta
 ```
 
 ### Uninstall Application
 ```
-helm uninstall hello-okta-release
+helm uninstall hello-okta-release --namespace hello-okta
 ```

@@ -17,7 +17,7 @@ So, configuration properties can be changed the following way:
   - _Environment variables_ - `spring.profiles.active=localhost,actuator`.
   - _Localhost Spring Profile Configuration_
     - Copy [`secrets.yml.sample`](src/main/resources/secrets.yml.sample) to `secrets.yml` under `src/main/resources`
-    - Fill in your Okta related configuration instead of `???`
+    - Fill in your configuration properties instead of `???`
 
 Application will be running on port `8060` by default.
  

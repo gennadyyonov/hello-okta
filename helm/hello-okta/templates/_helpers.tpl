@@ -18,7 +18,7 @@ Expand the name of the chart.
 {{- end -}}
 
 {{- define "hello-okta-api.dns" -}}
-http://{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}-api.default.svc.cluster.local{{ .Values.api.env.SERVER_SERVLET_CONTEXT_PATH }}
+http://{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}-api.{{ .Release.Namespace }}.svc.cluster.local{{ .Values.api.env.SERVER_SERVLET_CONTEXT_PATH }}
 {{- end -}}
 
 {{/*
