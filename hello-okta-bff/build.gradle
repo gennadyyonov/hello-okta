@@ -4,19 +4,6 @@ plugins {
     id 'org.springframework.boot' version "$springBootVersion"
 }
 
-bootRun {
-    def localPropertiesFile = 'env/.env.localhost';
-    file(localPropertiesFile).readLines().each() {
-        if (!it.isEmpty() && !it.startsWith('#')) {
-            def (key, value) = it.tokenize('=')
-            if (System.getenv(key) == null) {
-                environment key, value
-            }
-        }
-    }
-    systemProperties System.properties
-}
-
 ext {
     set('graphqlJavaSpringBootVersion', '11.1.0')
 }

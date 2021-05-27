@@ -298,7 +298,11 @@ Click **Add Group**.
 
 **API**
 - Copy [`.env.dev.sample`](hello-okta-api/env/.env.dev.sample) to `.env.dev` under `hello-okta-api/env`
-- Fill in your Okta related configuration instead of `???`
+- Fill in your configuration properties instead of `???`
+
+**BFF**
+- Copy [`.env.dev.sample`](hello-okta-bff/env/.env.dev.sample) to `.env.dev` under `hello-okta-bff/env`
+- Fill in your configuration properties instead of `???`
 
 To [build](https://docs.docker.com/compose/reference/build/) API and BFF images:
 ```

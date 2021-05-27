@@ -12,7 +12,7 @@ services:
     build:
       context: ./hello-okta-bff
     env_file:
-      - ./hello-okta-bff/env/.env.localhost
+      - ./hello-okta-bff/env/.env.dev
     environment:
       hellooktaapiclient_baseUrl: http://host.docker.internal:8070
     ports:
