@@ -35,3 +35,6 @@ out/
 .env.dev
 secrets.yml
 secret-values.yaml
+/hello-okta-api-client/src/main/resources/pkce.properties
+/hello-okta-api-client/src/main/resources/demo.properties
+/hello-okta-api-client/src/main/resources/implicitFlow.properties

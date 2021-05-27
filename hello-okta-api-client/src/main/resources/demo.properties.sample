@@ -1,0 +1,6 @@
+issuer=???
+# Client ID and Secret of "Hello Okta Client" Application
+clientId=???
+clientSecret=???
+scope=message.read
+serverUri=http://localhost:8070
