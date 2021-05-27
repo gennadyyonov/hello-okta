@@ -1,11 +1,11 @@
-hellooktabff:
-  allowedOrigins: ${allowed_origins}
-  csrfEnabled: ${csrf_enabled:true}
-  chuckNorrisUrl: ${chuck_norris_url}
+hello-okta-bff:
+  allowed-origins: ${cors.allowed-origins}
+  csrf-enabled: true
+  chuck-norris-url: ${chuck-norris.url}
   security-mapping:
     ALLOWED_USERS:
       - HelloOkta_StandardUser
-  filterOrderMapping:
+  filter-order-mapping:
     COMMONS_REQUEST_LOGGING: -10
     USER_LOGGING: 10
 
@@ -22,11 +22,10 @@ spring:
       client:
         provider:
           okta:
-            issuer-uri: ${issuer}
-            authorization-uri: ${issuer}/v1/authorize
-            token-uri: ${issuer}/v1/token
-            user-info-uri: ${issuer}/v1/userinfo
-            jwk-set-uri: ${issuer}/v1/keys
+            authorization-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/authorize
+            token-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/token
+            user-info-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/userinfo
+            jwk-set-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/keys
             user-name-attribute: email
         registration:
           okta:
@@ -37,26 +36,25 @@ spring:
               - email
       resourceserver:
         jwt:
-          issuer-uri: ${issuer}
-          jwk-set-uri: ${issuer}/v1/keys
+          issuer-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}
+          jwk-set-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/keys
 
-hellooktaapiclient:
-  baseUrl: ${hellooktaapiclient_baseUrl}
-  runAsDetails:
-      grantType: client_credentials
-      clientId: ${hellooktaclient_id}
-      clientSecret: ${hellooktaclient_secret}
-      accessTokenUri: ${issuer}/v1/token
+hello-okta-api:
+  base-url: ${hello-okta-api.url}
+  client:
+    run-as-details:
+      grant-type: client_credentials
+      access-token-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/token
       scope: message.read
 
 logging:
   level:
-    org.springframework.security.oauth2.client.OAuth2RestTemplate: ${rest_template_log_level:INFO}
-    org.springframework.web.client.RestTemplate: ${rest_template_log_level:INFO}
-    lv.gennadyyonov.hellookta.bff.connectors.hellooktaapi.HelloOktaApiConnector: ${hello_okta_api_log_level:INFO}
-    lv.gennadyyonov.hellookta.connectors.TokenConnector: ${okta_token_log_level:INFO}
-    lv.gennadyyonov.hellookta.connectors.UserInfoConnector: ${okta_user_log_level:INFO}
-    org.springframework.web.filter.CommonsRequestLoggingFilter: ${http_log_level:INFO}
+    org.springframework.security.oauth2.client.OAuth2RestTemplate: INFO
+    org.springframework.web.client.RestTemplate: INFO
+    lv.gennadyyonov.hellookta.bff.connectors.hellooktaapi.HelloOktaApiConnector: INFO
+    lv.gennadyyonov.hellookta.connectors.TokenConnector: INFO
+    lv.gennadyyonov.hellookta.connectors.UserInfoConnector: INFO
+    org.springframework.web.filter.CommonsRequestLoggingFilter: INFO
 
 graphql:
   servlet:
@@ -67,9 +65,9 @@ graphql:
     execution:
       thread-name-prefix: GraphqlAsync-
       pool:
-        core-size: ${graphql_task_execution_pool_core_size:150}
-        max-size: ${graphql_task_execution_pool_max_size:550}
-        keep-alive-seconds: ${graphql_task_execution_pool_keep_alive_seconds:30}
+        core-size: 150
+        max-size: 550
+        keep-alive-seconds: 30
 
 schedule:
-  jwk-set-cache-refresh-time: ${jwk_set_cache_refresh_time:300000} # 5 minutes
+  jwk-set-cache-refresh-time: 300000 # 5 minutes

@@ -9,7 +9,10 @@ import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import lv.gennadyyonov.hellookta.bff.config.HelloOktaApiClientProperties;
 import lv.gennadyyonov.hellookta.config.feign.FeignInterceptorProvider;
+import lv.gennadyyonov.hellookta.dto.RunAsDetails;
 import org.springframework.context.annotation.Bean;
+
+import static java.util.Optional.ofNullable;
 
 public class RunAsHelloOktaApiConnectorConfig {
 
@@ -36,6 +39,9 @@ public class RunAsHelloOktaApiConnectorConfig {
     @Bean
     public RequestInterceptor clientCredentialsInterceptor(FeignInterceptorProvider feignInterceptorProvider,
                                                            HelloOktaApiClientProperties helloOktaApiClientProperties) {
-        return feignInterceptorProvider.getClientCredentialsInterceptor(helloOktaApiClientProperties.getRunAsDetails());
+        RunAsDetails runAsDetails = ofNullable(helloOktaApiClientProperties.getClient())
+            .map(HelloOktaApiClientProperties.Client::getRunAsDetails)
+            .orElseThrow(IllegalStateException::new);
+        return feignInterceptorProvider.getClientCredentialsInterceptor(runAsDetails);
     }
 }

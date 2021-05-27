@@ -39,7 +39,7 @@ spec:
           env:
             - name: SERVER_PORT
               value: "{{ .Values.bff.service.port }}"
-            - name: HELLOOKTAAPICLIENT_BASEURL
+            - name: HELLO_OKTA_API_URL
               value: {{ include "hello-okta-api.dns" . }}
           {{- range $key, $value := .Values.bff.env }}
             - name: {{ $key }}

@@ -2,7 +2,6 @@ package lv.gennadyyonov.hellookta.bff.config;
 
 import lv.gennadyyonov.hellookta.services.TechnicalEndpointService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -23,7 +22,6 @@ import static java.lang.Boolean.TRUE;
 import static java.util.Arrays.asList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
-import static lv.gennadyyonov.hellookta.bff.config.OktaConfig.HELLO_OKTA_BFF_PROPS_BEAN_NAME;
 import static lv.gennadyyonov.hellookta.bff.controller.EnvironmentConfigController.ENVIRONMENT_CONFIG_SUFFIX;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CACHE_CONTROL;
@@ -43,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final HelloOktaBffProps helloOktaBffProps;
     private final TechnicalEndpointService technicalEndpointService;
 
-    public SecurityConfig(@Qualifier(HELLO_OKTA_BFF_PROPS_BEAN_NAME) HelloOktaBffProps helloOktaBffProps,
+    public SecurityConfig(HelloOktaBffProps helloOktaBffProps,
                           @Autowired(required = false) TechnicalEndpointService technicalEndpointService) {
         this.helloOktaBffProps = helloOktaBffProps;
         this.technicalEndpointService = technicalEndpointService;

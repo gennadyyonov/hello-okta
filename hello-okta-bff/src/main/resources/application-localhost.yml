@@ -1,0 +1,20 @@
+server:
+  port: 8060
+
+cors:
+  allowed-origins: http://localhost:3000,https://dev-220281.okta.com
+
+chuck-norris:
+  url: https://api.chucknorris.io
+
+hello-okta-api:
+  url: http://localhost:8070
+
+logging:
+  level:
+    org.springframework.security.oauth2.client.OAuth2RestTemplate: DEBUG
+    org.springframework.web.client.RestTemplate: DEBUG
+
+spring:
+  config:
+    import: secrets.yml

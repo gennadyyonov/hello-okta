@@ -19,11 +19,10 @@ spring:
       client:
         provider:
           okta:
-            issuer-uri: ${issuer}
-            authorization-uri: ${issuer}/v1/authorize
-            token-uri: ${issuer}/v1/token
-            user-info-uri: ${issuer}/v1/userinfo
-            jwk-set-uri: ${issuer}/v1/keys
+            authorization-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/authorize
+            token-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/token
+            user-info-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/userinfo
+            jwk-set-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/keys
             user-name-attribute: email
         registration:
           okta:
@@ -34,17 +33,17 @@ spring:
               - email
       resourceserver:
         jwt:
-          issuer-uri: ${issuer}
-          jwk-set-uri: ${issuer}/v1/keys
+          issuer-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}
+          jwk-set-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/keys
 
 logging:
   level:
-    org.springframework.security.oauth2.client.OAuth2RestTemplate: ${rest_template_log_level:INFO}
-    org.springframework.web.client.RestTemplate: ${rest_template_log_level:INFO}
-    org.springframework.web.filter.CommonsRequestLoggingFilter: ${http_log_level:INFO}
+    org.springframework.security.oauth2.client.OAuth2RestTemplate: INFO
+    org.springframework.web.client.RestTemplate: INFO
+    org.springframework.web.filter.CommonsRequestLoggingFilter: INFO
 
 schedule:
-  jwk-set-cache-refresh-time: ${jwk_set_cache_refresh_time:300000} # 5 minutes
+  jwk-set-cache-refresh-time: 300000 # 5 minutes
 
 springdoc:
   swagger-ui:

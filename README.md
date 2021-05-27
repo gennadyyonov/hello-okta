@@ -294,6 +294,16 @@ Click **Add Group**.
 
 ## Docker
 
+### Spring Profile Configuration
+
+**API**
+- Copy [`.env.dev.sample`](hello-okta-api/env/.env.dev.sample) to `.env.dev` under `hello-okta-api/env`
+- Fill in your configuration properties instead of `???`
+
+**BFF**
+- Copy [`.env.dev.sample`](hello-okta-bff/env/.env.dev.sample) to `.env.dev` under `hello-okta-bff/env`
+- Fill in your configuration properties instead of `???`
+
 To [build](https://docs.docker.com/compose/reference/build/) API and BFF images:
 ```
 docker-compose build api
@@ -305,8 +315,8 @@ gradlew clean build
 ```
 To [bring up](https://docs.docker.com/compose/reference/up/) API and BFF services:
 ```
-docker-compose up api -d
-docker-compose up bff -d
+docker-compose up api
+docker-compose up bff
 ```
 To bring up all the services:
 ```

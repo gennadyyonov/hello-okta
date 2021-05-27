@@ -26,7 +26,8 @@ In order to run it the following properties should be checked and adjusted:
 
 ### Okta Client Application Properties
 
-Okta related settings are located in [`demo.properties`](src/main/resources/demo.properties).
+- Copy [`demo.properties.sample`](src/main/resources/demo.properties.sample) to `demo.properties` under `src/main/resources`
+- Fill in your Okta related configuration properties instead of `???`
 
 # Demo Implicit Flow Client
 
@@ -87,7 +88,8 @@ In order to run it the following properties should be checked and adjusted:
 
 ### Okta User Properties
 
-Okta related settings are located in `implicitFlow.properties`. Currently, only `password` is missing to run demo successfully.
+- Copy [`implicitFlow.properties.sample`](src/main/resources/implicitFlow.properties.sample) to `implicitFlow.properties` under `src/main/resources`
+- Fill in your Okta related configuration properties instead of `???`
 
 # Demo Authorization Code Flow with PKCE Client
 
@@ -105,4 +107,5 @@ In order to run it the following properties should be checked and adjusted:
 
 ### Okta User Properties
 
-Okta related settings are located in `pkce.properties`. Currently, only `password` is missing to run demo successfully.
+- Copy [`pkce.properties.sample`](src/main/resources/pkce.properties.sample) to `pkce.properties` under `src/main/resources`
+- Fill in your Okta related configuration properties instead of `???`

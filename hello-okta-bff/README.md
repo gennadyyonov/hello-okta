@@ -8,13 +8,16 @@ One of the easiest options to run application locally is using IntelliJ Gradle R
 
 ![IntelliJ Gradle Run Configuration](images/01-Gradle-Run-Configuration.PNG)
 
-This option uses `build.gradle` and sets localhost environment variables.
+This option uses `build.gradle`.
 
 So, configuration properties can be changed the following way:
 - **Corporate Proxy Settings** 
     - [`gradle.properties`](../gradle.properties) file. If no proxy exists leave these properties as is, i.e. empty.
 - **Application Properties**
-    - _Environment variables_ - mostly Okta related can be changed in [.env.localhost](env/.env.localhost) file.
+  - _Environment variables_ - `spring.profiles.active=localhost,actuator`.
+  - _Localhost Spring Profile Configuration_
+    - Copy [`secrets.yml.sample`](src/main/resources/secrets.yml.sample) to `secrets.yml` under `src/main/resources`
+    - Fill in your configuration properties instead of `???`
 
 Application will be running on port `8060` by default.
  
