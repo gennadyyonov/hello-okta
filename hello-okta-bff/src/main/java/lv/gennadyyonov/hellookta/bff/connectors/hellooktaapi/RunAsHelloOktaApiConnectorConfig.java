@@ -41,7 +41,7 @@ public class RunAsHelloOktaApiConnectorConfig {
                                                            HelloOktaApiClientProperties helloOktaApiClientProperties) {
         RunAsDetails runAsDetails = ofNullable(helloOktaApiClientProperties.getClient())
             .map(HelloOktaApiClientProperties.Client::getRunAsDetails)
-            .orElseThrow(IllegalMonitorStateException::new);
+            .orElseThrow(IllegalStateException::new);
         return feignInterceptorProvider.getClientCredentialsInterceptor(runAsDetails);
     }
 }
