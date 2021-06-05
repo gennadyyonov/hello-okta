@@ -29,7 +29,7 @@ subprojects {
     targetCompatibility = '15'
 
     configurations {
-        testImplementation {
+        implementation {
             // Low CVE-200, CVE-2020-15250 fix
             exclude group: 'junit', module: 'junit'
         }
