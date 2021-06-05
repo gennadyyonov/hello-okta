@@ -1,6 +1,6 @@
 package lv.gennadyyonov.hellookta.api;
 
-import lv.gennadyyonov.hellookta.api.config.DefaultIntegrationTest;
+import lv.gennadyyonov.hellookta.api.test.DefaultIntegrationTest;
 import org.junit.jupiter.api.Test;
 
 @DefaultIntegrationTest

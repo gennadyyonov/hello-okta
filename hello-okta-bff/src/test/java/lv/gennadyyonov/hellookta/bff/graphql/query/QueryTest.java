@@ -1,11 +1,11 @@
 package lv.gennadyyonov.hellookta.bff.graphql.query;
 
-import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.graphql.spring.boot.test.GraphQLResponse;
 import com.graphql.spring.boot.test.GraphQLTestTemplate;
 import lombok.SneakyThrows;
 import lv.gennadyyonov.hellookta.bff.config.DefaultIntegrationTestBase;
+import lv.gennadyyonov.hellookta.bff.test.chucknorris.ChuckNorris;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,16 +18,16 @@ class QueryTest extends DefaultIntegrationTestBase {
     @Autowired
     private GraphQLTestTemplate graphQLTestTemplate;
     @Autowired
-    private WireMockServer wireMockServer;
+    private ChuckNorris chuckNorris;
 
     @SneakyThrows
     @Test
     void ping() {
-        wireMockServer.stubFor(
-                WireMock.get("/chuck-norris/jokes/random")
-                        .willReturn(aResponse()
-                                .withHeader("Content-Type", APPLICATION_JSON_VALUE)
-                                .withBodyFile("chuck-norris/randomJoke.json"))
+        chuckNorris.stubFor(
+            WireMock.get("/chuck-norris/jokes/random")
+                .willReturn(aResponse()
+                    .withHeader("Content-Type", APPLICATION_JSON_VALUE)
+                    .withBodyFile("chuck-norris/randomJoke.json"))
         );
 
         GraphQLResponse response = graphQLTestTemplate.postForResource("graphql/ping.graphql");

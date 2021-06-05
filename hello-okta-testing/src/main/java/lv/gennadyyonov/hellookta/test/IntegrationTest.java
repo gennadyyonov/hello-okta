@@ -1,11 +1,8 @@
-package lv.gennadyyonov.hellookta.api.config;
+package lv.gennadyyonov.hellookta.test;
 
-import lv.gennadyyonov.hellookta.config.OktaResourceServerConfig;
-import lv.gennadyyonov.hellookta.config.OktaServiceConfig;
-import lv.gennadyyonov.hellookta.web.FilterConfig;
+import lv.gennadyyonov.hellookta.test.reset.ResettingListener;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
@@ -19,7 +16,9 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @Retention(RUNTIME)
 @Inherited
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-@Import({OktaServiceConfig.class, FilterConfig.class, OktaResourceServerConfig.class})
-@ContextConfiguration(initializers = {WireMockInitializer.class})
+@TestExecutionListeners(
+    listeners = ResettingListener.class,
+    mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS
+)
 public @interface IntegrationTest {
 }

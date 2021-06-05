@@ -1,8 +1,8 @@
 package lv.gennadyyonov.hellookta.bff.config;
 
-import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import lombok.RequiredArgsConstructor;
+import lv.gennadyyonov.hellookta.bff.test.okta.Okta;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.stereotype.Component;
@@ -24,7 +24,7 @@ public class AuthorizationConfigurer {
     private static final String DEFAULT_ROLE = "HelloOkta_StandardUser";
 
     private final TestRestTemplate testRestTemplate;
-    private final WireMockServer wireMockServer;
+    private final Okta okta;
 
     public void setUp() {
         setUp(DEFAULT_USERNAME, singletonList(DEFAULT_ROLE));
@@ -33,12 +33,12 @@ public class AuthorizationConfigurer {
     public void setUp(String username, List<String> groups) {
         reset();
         ofNullable(testRestTemplate.getRestTemplate())
-                .ifPresent(restTemplate -> addAuthorizationHeaderInterceptor(restTemplate, username, groups));
-        wireMockServer.stubFor(
-                WireMock.get("/okta/oauth2/default/v1/userinfo")
-                        .willReturn(aResponse()
-                                .withHeader("Content-Type", APPLICATION_JSON_VALUE)
-                                .withBodyFile("okta/oauth2/" + username.toLowerCase() + ".json"))
+            .ifPresent(restTemplate -> addAuthorizationHeaderInterceptor(restTemplate, username, groups));
+        okta.stubFor(
+            WireMock.get("/okta/oauth2/default/v1/userinfo")
+                .willReturn(aResponse()
+                    .withHeader("Content-Type", APPLICATION_JSON_VALUE)
+                    .withBodyFile("okta/oauth2/" + username.toLowerCase() + ".json"))
         );
     }
 
