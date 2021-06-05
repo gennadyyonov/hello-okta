@@ -33,7 +33,6 @@ dependencies {
     implementation 'io.github.openfeign:feign-httpclient'
     implementation 'io.github.openfeign.form:feign-form-spring'
     implementation "org.apache.httpcomponents:httpclient:$apacheHttpClientVersion"
-    implementation "commons-codec:commons-codec:$commonsCodecVersion"
     implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
 
     implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
@@ -42,6 +41,20 @@ dependencies {
         because 'Critical CVE-2021-27568 fix'
         version {
             strictly jsonSmartVersion
+        }
+    }
+
+    implementation('commons-io:commons-io') {
+        because 'Medium CVE-20, CVE-2021-29425 fix'
+        version {
+            strictly commonsIoVersion
+        }
+    }
+
+    implementation('commons-codec:commons-codec') {
+        because 'Medium CVE-200 fix'
+        version {
+            strictly commonsCodecVersion
         }
     }
 }
