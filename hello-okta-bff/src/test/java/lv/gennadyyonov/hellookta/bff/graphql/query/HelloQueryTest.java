@@ -4,7 +4,7 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 import com.graphql.spring.boot.test.GraphQLResponse;
 import com.graphql.spring.boot.test.GraphQLTestTemplate;
 import lombok.SneakyThrows;
-import lv.gennadyyonov.hellookta.bff.config.DefaultIntegrationTestBase;
+import lv.gennadyyonov.hellookta.bff.test.DefaultIntegrationTest;
 import lv.gennadyyonov.hellookta.bff.test.hellooktaapi.HelloOktaApi;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,8 @@ import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-class HelloQueryTest extends DefaultIntegrationTestBase {
+@DefaultIntegrationTest
+class HelloQueryTest {
 
     @Autowired
     private GraphQLTestTemplate graphQLTestTemplate;

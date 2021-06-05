@@ -3,7 +3,7 @@ package lv.gennadyyonov.hellookta.bff.graphql.query;
 import com.graphql.spring.boot.test.GraphQLResponse;
 import com.graphql.spring.boot.test.GraphQLTestTemplate;
 import lombok.SneakyThrows;
-import lv.gennadyyonov.hellookta.bff.config.DefaultIntegrationTestBase;
+import lv.gennadyyonov.hellookta.bff.test.DefaultIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,7 +11,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class UserInfoQueryTest extends DefaultIntegrationTestBase {
+@DefaultIntegrationTest
+class UserInfoQueryTest {
 
     @Autowired
     private GraphQLTestTemplate graphQLTestTemplate;

@@ -1,6 +1,7 @@
 package lv.gennadyyonov.hellookta.test;
 
 import lv.gennadyyonov.hellookta.test.reset.ResettingListener;
+import lv.gennadyyonov.hellookta.test.user.UserInfoListener;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestExecutionListeners;
 
@@ -17,7 +18,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @Inherited
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @TestExecutionListeners(
-    listeners = ResettingListener.class,
+    listeners = {ResettingListener.class, UserInfoListener.class},
     mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS
 )
 public @interface IntegrationTest {

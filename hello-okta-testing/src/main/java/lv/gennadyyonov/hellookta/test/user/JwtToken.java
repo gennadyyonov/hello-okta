@@ -1,4 +1,4 @@
-package lv.gennadyyonov.hellookta.bff.utils;
+package lv.gennadyyonov.hellookta.test.user;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.jsonwebtoken.Jwts;
@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Data;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
+import lv.gennadyyonov.hellookta.test.JsonUtils;
 
 import java.math.BigInteger;
 import java.security.KeyFactory;
@@ -21,32 +22,25 @@ import java.util.UUID;
 import static java.time.temporal.ChronoUnit.MINUTES;
 import static java.util.Arrays.asList;
 import static java.util.Base64.getUrlDecoder;
-import static lv.gennadyyonov.hellookta.bff.utils.JsonUtils.resourceToObject;
-import static org.springframework.security.oauth2.core.OAuth2AccessToken.TokenType.BEARER;
 
 @UtilityClass
-public class AuthorizationUtils {
+public class JwtToken {
 
     private static final int SIGNUM = 1;
     private static final long VALID_FOR_MINUTES = 5L;
-
     private static final String KEY_PAIR_FILE = "keys/rs256/keypair.json";
-    private static final KeyPair KEY_PAIR = resourceToObject(
-            AuthorizationUtils.class.getClassLoader().getResourceAsStream(KEY_PAIR_FILE),
-            new TypeReference<KeyPair>() {
-            }
+    private static final KeyPair KEY_PAIR = JsonUtils.resourceToObject(
+        JwtToken.class.getClassLoader().getResourceAsStream(KEY_PAIR_FILE),
+        new TypeReference<>() {
+        }
     );
-
-    public static String authorizationHeader(String username, List<String> groups) {
-        return BEARER.getValue() + " " + jwt(username, groups);
-    }
 
     /**
      * Build a JWT With a Private Key
      * <br>
      * https://developer.okta.com/docs/guides/build-self-signed-jwt/java/jwt-with-private-key/
      */
-    private static String jwt(String username, List<String> groups) {
+    public static String create(String username, List<String> groups) {
         PrivateKey privateKey = privateKey();
         Instant now = Instant.now();
         Map<String, Object> claims = new HashMap<>();
@@ -57,14 +51,14 @@ public class AuthorizationUtils {
         header.put("alg", KEY_PAIR.getAlg());
         header.put("kid", KEY_PAIR.getKid());
         return Jwts.builder()
-                .setIssuedAt(Date.from(now))
-                .setExpiration(Date.from(now.plus(VALID_FOR_MINUTES, MINUTES)))
-                .setSubject("john.doe@gmail.com")
-                .setClaims(claims)
-                .setHeader(header)
-                .setId(UUID.randomUUID().toString())
-                .signWith(SignatureAlgorithm.RS256, privateKey)
-                .compact();
+            .setIssuedAt(Date.from(now))
+            .setExpiration(Date.from(now.plus(VALID_FOR_MINUTES, MINUTES)))
+            .setSubject(username)
+            .setClaims(claims)
+            .setHeader(header)
+            .setId(UUID.randomUUID().toString())
+            .signWith(SignatureAlgorithm.RS256, privateKey)
+            .compact();
     }
 
     /**
@@ -81,8 +75,8 @@ public class AuthorizationUtils {
     @SneakyThrows
     private static PrivateKey privateKey() {
         RSAPrivateKeySpec rsaPrivateKeySpec = new RSAPrivateKeySpec(
-                new BigInteger(SIGNUM, getUrlDecoder().decode(KEY_PAIR.getN())),
-                new BigInteger(SIGNUM, getUrlDecoder().decode(KEY_PAIR.getD()))
+            new BigInteger(SIGNUM, getUrlDecoder().decode(KEY_PAIR.getN())),
+            new BigInteger(SIGNUM, getUrlDecoder().decode(KEY_PAIR.getD()))
         );
         KeyFactory factory = KeyFactory.getInstance(KEY_PAIR.getKty());
         return factory.generatePrivate(rsaPrivateKeySpec);
