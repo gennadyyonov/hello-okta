@@ -5,6 +5,7 @@ import com.graphql.spring.boot.test.GraphQLTestTemplate;
 import lombok.SneakyThrows;
 import lv.gennadyyonov.hellookta.bff.graphql.type.TranslationMapEntry;
 import lv.gennadyyonov.hellookta.bff.test.DefaultIntegrationTest;
+import lv.gennadyyonov.hellookta.test.user.UserInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,6 +19,7 @@ class TranslationQueryTest {
     @Autowired
     private GraphQLTestTemplate graphQLTestTemplate;
 
+    @UserInfo
     @SneakyThrows
     @Test
     void translationMap() {

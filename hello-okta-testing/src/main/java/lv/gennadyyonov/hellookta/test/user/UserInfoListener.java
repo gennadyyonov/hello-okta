@@ -5,6 +5,7 @@ import org.springframework.test.context.TestContext;
 import org.springframework.test.context.TestExecutionListener;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
@@ -12,28 +13,26 @@ import static java.util.Arrays.asList;
 public class UserInfoListener implements TestExecutionListener {
 
     @Override
-    public void beforeTestMethod(TestContext testContext) {
-        UserInfo userInfo = getUserInfo(testContext);
-        testContext.getApplicationContext()
+    public void beforeTestMethod(TestContext context) {
+        getUserInfo(context).ifPresent(userInfo -> context.getApplicationContext()
             .getBeansOfType(UserInfoConfig.class)
             .values()
-            .forEach(userInfoConfig -> userInfoConfig.setUp(userInfo.username(), asList(userInfo.groups())));
+            .forEach(config -> config.setUp(userInfo.username(), asList(userInfo.groups()))));
     }
 
     @Override
-    public void afterTestMethod(TestContext testContext) {
-        testContext.getApplicationContext()
+    public void afterTestMethod(TestContext context) {
+        context.getApplicationContext()
             .getBeansOfType(UserInfoConfig.class)
             .values()
             .forEach(UserInfoConfig::reset);
     }
 
-    private UserInfo getUserInfo(TestContext testContext) {
-        UserInfo methodAnnotation = AnnotationUtils.getAnnotation(testContext.getTestMethod(), UserInfo.class);
-        UserInfo classAnnotation = AnnotationUtils.getAnnotation(testContext.getTestClass(), UserInfo.class);
+    private Optional<UserInfo> getUserInfo(TestContext context) {
+        UserInfo methodAnnotation = AnnotationUtils.getAnnotation(context.getTestMethod(), UserInfo.class);
+        UserInfo classAnnotation = AnnotationUtils.getAnnotation(context.getTestClass(), UserInfo.class);
         return Stream.of(methodAnnotation, classAnnotation)
             .filter(Objects::nonNull)
-            .findFirst()
-            .orElse(AnnotationUtils.synthesizeAnnotation(UserInfo.class));
+            .findFirst();
     }
 }
