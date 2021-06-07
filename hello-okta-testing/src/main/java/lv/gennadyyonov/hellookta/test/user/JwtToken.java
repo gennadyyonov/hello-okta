@@ -57,7 +57,7 @@ public class JwtToken {
             .setClaims(claims)
             .setHeader(header)
             .setId(UUID.randomUUID().toString())
-            .signWith(SignatureAlgorithm.RS256, privateKey)
+            .signWith(privateKey, SignatureAlgorithm.RS256)
             .compact();
     }
 
