@@ -2,7 +2,7 @@ package lv.gennadyyonov.hellookta.bff.test.okta;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import lombok.Getter;
-import lv.gennadyyonov.hellookta.test.http.Request;
+import lv.gennadyyonov.hellookta.test.http.RequestStubbing;
 import lv.gennadyyonov.hellookta.test.http.Server;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpMethod;
@@ -20,7 +20,7 @@ public class Okta implements Server {
         this.delegate = server;
     }
 
-    public Request onGetUserInfo() {
+    public RequestStubbing onGetUserInfo() {
         return on()
             .request(HttpMethod.GET)
             .pathEqualTo("/okta/oauth2/default/v1/userinfo");
