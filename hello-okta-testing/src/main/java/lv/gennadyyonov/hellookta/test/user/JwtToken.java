@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import lv.gennadyyonov.hellookta.test.JsonUtils;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtClaimNames;
 
 import java.math.BigInteger;
 import java.security.KeyFactory;
@@ -35,30 +37,45 @@ public class JwtToken {
         }
     );
 
+    public static Jwt create(String username, List<String> groups) {
+        Jwt.Builder builder = Jwt.withTokenValue(createCompact(username, groups));
+        headers().forEach(builder::header);
+        claims(username, groups).forEach(builder::claim);
+        return builder.build();
+    }
+
     /**
      * Build a JWT With a Private Key
      * <br>
      * https://developer.okta.com/docs/guides/build-self-signed-jwt/java/jwt-with-private-key/
      */
-    public static String create(String username, List<String> groups) {
+    public static String createCompact(String username, List<String> groups) {
         PrivateKey privateKey = privateKey();
         Instant now = Instant.now();
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("sub", username);
-        claims.put("groups", groups);
-        claims.put("scp", asList("email", "openid", "profile"));
-        Map<String, Object> header = new HashMap<>();
-        header.put("alg", KEY_PAIR.getAlg());
-        header.put("kid", KEY_PAIR.getKid());
         return Jwts.builder()
             .setIssuedAt(Date.from(now))
             .setExpiration(Date.from(now.plus(VALID_FOR_MINUTES, MINUTES)))
             .setSubject(username)
-            .setClaims(claims)
-            .setHeader(header)
+            .setClaims(claims(username, groups))
+            .setHeader(headers())
             .setId(UUID.randomUUID().toString())
             .signWith(privateKey, SignatureAlgorithm.RS256)
             .compact();
+    }
+
+    private static Map<String, Object> headers() {
+        Map<String, Object> header = new HashMap<>();
+        header.put("alg", KEY_PAIR.getAlg());
+        header.put("kid", KEY_PAIR.getKid());
+        return header;
+    }
+
+    private static Map<String, Object> claims(String username, List<String> groups) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(JwtClaimNames.SUB, username);
+        claims.put("groups", groups);
+        claims.put("scp", asList("email", "openid", "profile"));
+        return claims;
     }
 
     /**

@@ -1,0 +1,16 @@
+{
+  "sub": "00u1zrebbapeCPvlR357",
+  "name": "John Doe",
+  "locale": "en-US",
+  "email": "John.Doe@gmail.com",
+  "preferred_username": "John.Doe@gmail.com",
+  "given_name": "John",
+  "family_name": "Doe",
+  "zoneinfo": "America/Los_Angeles",
+  "updated_at": 1596256666,
+  "email_verified": true,
+  "groups": [
+    "Everyone",
+    "HelloOkta_StandardUser"
+  ]
+}
