@@ -1,0 +1,16 @@
+{
+  "sub": "00u1zrebbapeCPvlR357",
+  "name": "Jane Smith",
+  "locale": "en-US",
+  "email": "Jane.Smith@gmail.com",
+  "preferred_username": "Jane.Smith@gmail.com",
+  "given_name": "Jane",
+  "family_name": "Smith",
+  "zoneinfo": "America/Los_Angeles",
+  "updated_at": 1596256666,
+  "email_verified": true,
+  "groups": [
+    "Everyone",
+    "HelloOkta_StandardUser"
+  ]
+}

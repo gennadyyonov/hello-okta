@@ -20,7 +20,7 @@ public class AuthHeaderInterceptor implements ClientHttpRequestInterceptor {
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-        request.getHeaders().add(AUTHORIZATION, BEARER.getValue() + " " + JwtToken.create(username, groups));
+        request.getHeaders().add(AUTHORIZATION, BEARER.getValue() + " " + JwtToken.createCompact(username, groups));
         return execution.execute(request, body);
     }
 }
