@@ -1,35 +1,35 @@
 package lv.gennadyyonov.hellookta.bff.graphql.query;
 
-import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.client.WireMock;
 import com.graphql.spring.boot.test.GraphQLResponse;
 import com.graphql.spring.boot.test.GraphQLTestTemplate;
 import lombok.SneakyThrows;
-import lv.gennadyyonov.hellookta.bff.config.DefaultIntegrationTestBase;
+import lv.gennadyyonov.hellookta.bff.test.DefaultIntegrationTest;
+import lv.gennadyyonov.hellookta.bff.test.hellooktaapi.HelloOktaApi;
+import lv.gennadyyonov.hellookta.test.user.UserInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-class HelloQueryTest extends DefaultIntegrationTestBase {
+@DefaultIntegrationTest
+class HelloQueryTest {
 
     @Autowired
     private GraphQLTestTemplate graphQLTestTemplate;
     @Autowired
-    private WireMockServer wireMockServer;
+    private HelloOktaApi helloOktaApi;
 
+    @UserInfo
     @SneakyThrows
     @Test
     void hello() {
-        wireMockServer.stubFor(
-                WireMock.get("/hello-okta-api/hello")
-                        .willReturn(aResponse()
-                                .withHeader("Content-Type", APPLICATION_JSON_VALUE)
-                                .withBodyFile("hello-okta-api/hello.json")
-                                .withTransformers("response-template"))
-        );
+        helloOktaApi.onGetHello()
+            .expect()
+            .header("Content-Type", APPLICATION_JSON_VALUE)
+            .transformers("response-template")
+            .bodyFile("hello-okta-api/hello.json")
+            .endStubbing();
 
         GraphQLResponse response = graphQLTestTemplate.postForResource("graphql/hello.graphql");
 
