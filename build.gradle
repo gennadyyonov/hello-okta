@@ -6,15 +6,15 @@ allprojects {
     ext {
         set('apacheHttpClientVersion', '4.5.13')
         set('commonsCodecVersion', '1.15')
-        set('commonsIoVersion', '2.9.0')
+        set('commonsIoVersion', '2.11.0')
         set('commonsLang3Version', '3.12.0')
         set('jsonwebtokenVersion', '0.11.2')
-        set('jsonSmartVersion', '2.4.1')
-        set('openApiVersion', '1.5.8')
-        set('springBootVersion', '2.5.0')
-        set('springCloudVersion', '2020.0.2')
+        set('jsonSmartVersion', '2.4.7')
+        set('openApiVersion', '1.5.10')
+        set('springBootVersion', '2.5.5')
+        set('springCloudVersion', '2020.0.4')
         set('springDependencyManagementVersion', '1.0.11.RELEASE')
-        set('wirmockVersion', '2.28.0')
+        set('wirmockVersion', '2.31.0')
     }
 }
 
