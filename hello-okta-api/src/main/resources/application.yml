@@ -53,3 +53,7 @@ springdoc:
         - openid
         - profile
         - email
+
+server:
+  servlet:
+    context-path: /api

@@ -65,16 +65,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .anyRequest()
             .authenticated()
             .and()
+            .oauth2ResourceServer().jwt();
+        // For auth throug BFF index.html
+        http.oauth2Login()
+            .and()
             .logout()
             .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
             .invalidateHttpSession(true)
             .clearAuthentication(true)
-            .deleteCookies(SESSION_ID_COOKIE_NAME, CSRF_COOKIE_NAME)
-            // For auth throug BFF index.html
-            .and()
-            .oauth2Login()
-            .and()
-            .oauth2ResourceServer().jwt();
+            .deleteCookies(SESSION_ID_COOKIE_NAME, CSRF_COOKIE_NAME);
     }
 
     private void configureCsrf(HttpSecurity http) throws Exception {
