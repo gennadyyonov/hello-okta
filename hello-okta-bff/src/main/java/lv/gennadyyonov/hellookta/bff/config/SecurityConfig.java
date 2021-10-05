@@ -36,10 +36,10 @@ import static org.springframework.http.HttpMethod.OPTIONS;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    public static final String CSRF_COOKIE_NAME = "XSRF-TOKEN";
+    public static final String CSRF_HEADER_NAME = "X-XSRF-TOKEN";
     private static final String ALL_URL_PATTERN = "/**";
     private static final String SESSION_ID_COOKIE_NAME = "JSESSIONID";
-    private static final String CSRF_COOKIE_NAME = "XSRF-TOKEN";
-    private static final String CSRF_HEADER_NAME = "X-XSRF-TOKEN";
     public static final String ALLOWED_ORIGINS_SEPARATOR = ",";
 
     private final HelloOktaBffProps helloOktaBffProps;

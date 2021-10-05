@@ -24,7 +24,7 @@ class HelloQueryTest {
     @SneakyThrows
     @Test
     void hello() {
-        helloOktaApi.onGetHello()
+        helloOktaApi.onPostHello()
             .expect()
             .header("Content-Type", APPLICATION_JSON_VALUE)
             .transformers("response-template")

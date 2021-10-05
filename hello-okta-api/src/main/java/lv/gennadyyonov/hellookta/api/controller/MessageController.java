@@ -5,7 +5,7 @@ import lv.gennadyyonov.hellookta.aspects.HasRole;
 import lv.gennadyyonov.hellookta.common.dto.Message;
 import lv.gennadyyonov.hellookta.logging.ParameterLogging;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static lv.gennadyyonov.hellookta.api.constants.HelloOktaApiSecurityConsts.MESSAGE_READ;
@@ -22,7 +22,7 @@ public class MessageController implements ParameterLogging {
         this.messageService = messageService;
     }
 
-    @GetMapping("/hello")
+    @PostMapping(value = "/hello")
     public Message hello() {
         return messageService.sayHello();
     }
