@@ -21,11 +21,11 @@ So, configuration properties can be changed the following way:
 
 Application will be running on port `8060` by default.
  
-It's API can be accessed via [GraphiQL](http://localhost:8060/graphiql) in your browser.
+It's API can be accessed via [GraphiQL](http://localhost:8060/bff/graphiql) in your browser.
 
 **Note** that in order to use it you need to be logged either into SPA application or BFF, authorization header then will be passed to graphql calls to server from graphiql.
 
-In order to do it in BFF, [index page](http://localhost:8060/) can be used. If you see Okta hosted sign-in page then things are working!
+In order to do it in BFF, [index page](http://localhost:8060/bff/) can be used. If you see Okta hosted sign-in page then things are working!
 
 You can login with the same account that you created when signing up for your Developer Org, or you can use a known username and password from your Okta Directory.
 

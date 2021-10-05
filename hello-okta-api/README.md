@@ -21,6 +21,6 @@ So, configuration properties can be changed the following way:
 
 Application will be running on port `8070` by default.
  
-It's API can be accessed via [Swagger UI](http://localhost:8070/swagger-ui.html) in your browser.
+It's API can be accessed via [Swagger UI](http://localhost:8070/api/swagger-ui.html) in your browser.
 
 ![Swagger UI](images/02-OpenApi-UI.PNG)
