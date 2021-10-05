@@ -71,3 +71,7 @@ graphql:
 
 schedule:
   jwk-set-cache-refresh-time: 300000 # 5 minutes
+
+server:
+  servlet:
+    context-path: /bff

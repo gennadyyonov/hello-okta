@@ -20,9 +20,9 @@ public class HelloOktaApi implements Server {
         this.delegate = server;
     }
 
-    public RequestStubbing onGetHello() {
+    public RequestStubbing onPostHello() {
         return on()
-            .request(HttpMethod.GET)
+            .request(HttpMethod.POST)
             .pathEqualTo("/hello-okta-api/hello");
     }
 }

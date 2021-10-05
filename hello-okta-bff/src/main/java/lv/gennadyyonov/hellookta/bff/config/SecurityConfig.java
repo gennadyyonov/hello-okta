@@ -36,10 +36,10 @@ import static org.springframework.http.HttpMethod.OPTIONS;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    public static final String CSRF_COOKIE_NAME = "XSRF-TOKEN";
+    public static final String CSRF_HEADER_NAME = "X-XSRF-TOKEN";
     private static final String ALL_URL_PATTERN = "/**";
     private static final String SESSION_ID_COOKIE_NAME = "JSESSIONID";
-    private static final String CSRF_COOKIE_NAME = "XSRF-TOKEN";
-    private static final String CSRF_HEADER_NAME = "X-XSRF-TOKEN";
     public static final String ALLOWED_ORIGINS_SEPARATOR = ",";
 
     private final HelloOktaBffProps helloOktaBffProps;
@@ -65,16 +65,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .anyRequest()
             .authenticated()
             .and()
+            .oauth2ResourceServer().jwt();
+        // For auth throug BFF index.html
+        http.oauth2Login()
+            .and()
             .logout()
             .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
             .invalidateHttpSession(true)
             .clearAuthentication(true)
-            .deleteCookies(SESSION_ID_COOKIE_NAME, CSRF_COOKIE_NAME)
-            // For auth throug BFF index.html
-            .and()
-            .oauth2Login()
-            .and()
-            .oauth2ResourceServer().jwt();
+            .deleteCookies(SESSION_ID_COOKIE_NAME, CSRF_COOKIE_NAME);
     }
 
     private void configureCsrf(HttpSecurity http) throws Exception {
@@ -99,6 +98,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
         csrfTokenRepository.setCookieName(CSRF_COOKIE_NAME);
         csrfTokenRepository.setHeaderName(CSRF_HEADER_NAME);
+        csrfTokenRepository.setCookiePath("/");
         return csrfTokenRepository;
     }
 

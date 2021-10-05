@@ -44,4 +44,9 @@ public class RunAsHelloOktaApiConnectorConfig {
             .orElseThrow(IllegalStateException::new);
         return feignInterceptorProvider.getClientCredentialsInterceptor(runAsDetails);
     }
+
+    @Bean
+    public RequestInterceptor csrfTokenInterceptor() {
+        return new DefaultCsrfTokenInterceptor();
+    }
 }

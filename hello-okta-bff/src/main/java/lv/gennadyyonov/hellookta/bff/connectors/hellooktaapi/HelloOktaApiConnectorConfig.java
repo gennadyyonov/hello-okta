@@ -36,4 +36,9 @@ public class HelloOktaApiConnectorConfig {
     public RequestInterceptor ssoInterceptor(FeignInterceptorProvider feignInterceptorProvider) {
         return feignInterceptorProvider.getSsoInterceptor();
     }
+
+    @Bean
+    public RequestInterceptor csrfTokenInterceptor() {
+        return new DefaultCsrfTokenInterceptor();
+    }
 }

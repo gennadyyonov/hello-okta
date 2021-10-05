@@ -47,9 +47,17 @@ schedule:
 
 springdoc:
   swagger-ui:
+    csrf:
+      enabled: true
+      cookie-name: XSRF-TOKEN
+      header-name: X-XSRF-TOKEN
     oauth:
       use-pkce-with-authorization-code-grant: true
       scopes:
         - openid
         - profile
         - email
+
+server:
+  servlet:
+    context-path: /api

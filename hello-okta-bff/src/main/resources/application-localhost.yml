@@ -8,7 +8,7 @@ chuck-norris:
   url: https://api.chucknorris.io
 
 hello-okta-api:
-  url: http://localhost:8070
+  url: http://localhost:8070/api
 
 logging:
   level:

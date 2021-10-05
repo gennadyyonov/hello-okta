@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -22,7 +23,8 @@ class MessageControllerTest {
     @SneakyThrows
     @Test
     void hello() {
-        mvc.perform(get("/hello"))
+        mvc.perform(post("/hello")
+                .with(csrf().asHeader()))
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.text").value("Hello, JANE.SMITH@GMAIL.COM!"));
