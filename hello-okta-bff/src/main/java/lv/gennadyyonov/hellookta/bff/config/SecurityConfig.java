@@ -3,6 +3,7 @@ package lv.gennadyyonov.hellookta.bff.config;
 import lv.gennadyyonov.hellookta.config.csrf.CsrfProperties;
 import lv.gennadyyonov.hellookta.services.TechnicalEndpointService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -20,11 +21,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static java.lang.Boolean.TRUE;
 import static java.util.Arrays.asList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static lv.gennadyyonov.hellookta.bff.controller.EnvironmentConfigController.ENVIRONMENT_CONFIG_SUFFIX;
+import static org.apache.commons.lang3.BooleanUtils.toBoolean;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CACHE_CONTROL;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
@@ -44,6 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final TechnicalEndpointService technicalEndpointService;
     private final Customizer<CsrfConfigurer<HttpSecurity>> csrfCustomizer;
     private final CsrfProperties csrfProperties;
+
+    @Value("${graphiql.enabled}")
+    private Boolean graphiQLEnabled;
 
     public SecurityConfig(HelloOktaBffProps helloOktaBffProps,
                           @Autowired(required = false) TechnicalEndpointService technicalEndpointService,
@@ -69,18 +73,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .anyRequest().authenticated()
             .and()
             .oauth2ResourceServer().jwt();
-        // For auth through BFF index.html
-        http.oauth2Login()
-            .and()
-            .logout()
-            .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
-            .invalidateHttpSession(true)
-            .clearAuthentication(true)
-            .deleteCookies(SESSION_ID_COOKIE_NAME, csrfProperties.getCookieName());
+        configureGraphiQL(http);
+    }
+
+    private void configureGraphiQL(HttpSecurity http) throws Exception {
+        if (toBoolean(graphiQLEnabled)) {
+            http.oauth2Login()
+                .and()
+                .logout()
+                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .deleteCookies(SESSION_ID_COOKIE_NAME, csrfProperties.getCookieName());
+        }
     }
 
     private void configureCsrf(HttpSecurity http) throws Exception {
-        if (TRUE.equals(helloOktaBffProps.getCsrfEnabled())) {
+        if (toBoolean(helloOktaBffProps.getCsrfEnabled())) {
             http.csrf(csrfCustomizer);
         } else {
             http.csrf().disable();

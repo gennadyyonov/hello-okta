@@ -61,15 +61,21 @@ logging:
 graphql:
   servlet:
     corsEnabled: false
+    # https://github.com/graphql-java-kickstart/graphql-spring-boot/issues/729
+    async-mode-enabled: false
     websocket:
       enabled: false
   task:
+    async-mode-enabled: true
     execution:
       thread-name-prefix: GraphqlAsync-
       pool:
         core-size: 150
         max-size: 550
         keep-alive-seconds: 30
+
+graphiql:
+  enabled: true
 
 schedule:
   jwk-set-cache-refresh-time: 300000 # 5 minutes
