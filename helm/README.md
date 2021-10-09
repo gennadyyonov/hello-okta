@@ -129,3 +129,5 @@ helm install hello-okta-release ./helm/hello-okta --values ./helm/hello-okta/val
 ```
 helm uninstall hello-okta-release --namespace hello-okta
 ```
+
+Workloads can be accessed in [Kubernetes Dashboard](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/overview?namespace=hello-okta)
