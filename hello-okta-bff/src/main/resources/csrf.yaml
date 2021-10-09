@@ -7,6 +7,7 @@ csrf:
     - OPTIONS
   ignored-endpoints:
     - pattern: /config/environment
+    - pattern: /config/csrfTokenInfo
     - pattern: /actuator/**
     - pattern: /oauth2/authorization/okta
     - pattern: /login/oauth2/code/okta

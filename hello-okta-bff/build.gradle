@@ -62,6 +62,9 @@ dependencies {
         }
     }
 
+    implementation "org.springdoc:springdoc-openapi-ui:${openApiVersion}"
+    implementation "org.springdoc:springdoc-openapi-security:${openApiVersion}"
+
     testImplementation project(':hello-okta-testing')
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

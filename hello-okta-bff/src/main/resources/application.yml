@@ -80,6 +80,19 @@ graphiql:
 schedule:
   jwk-set-cache-refresh-time: 300000 # 5 minutes
 
+springdoc:
+  swagger-ui:
+    csrf:
+      enabled: true
+      cookie-name: XSRF-TOKEN
+      header-name: X-XSRF-TOKEN
+    oauth:
+      use-pkce-with-authorization-code-grant: true
+      scopes:
+        - openid
+        - profile
+        - email
+
 server:
   servlet:
     context-path: /bff

@@ -2,14 +2,33 @@ package lv.gennadyyonov.hellookta.bff.service;
 
 import lv.gennadyyonov.hellookta.services.TechnicalEndpointService;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.springdoc.webmvc.api.OpenApiResource;
+import org.springdoc.webmvc.ui.SwaggerWelcomeCommon;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+
+import static java.util.Arrays.asList;
 
 @Service
 public class TechnicalEndpointServiceImpl implements TechnicalEndpointService {
 
+    private static final Collection<Class<?>> ALLOWED_CLASSES = asList(
+        // Springdoc OpenAPI 3.0
+        SwaggerWelcomeCommon.class,
+        OpenApiResource.class
+    );
+    private static final String[] ALLOWED_ENDPOINTS = {
+        // Springdoc OpenAPI 3.0
+        "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html"
+    };
+
     @Override
     public boolean isAllowed(ProceedingJoinPoint joinPoint) {
-        return false;
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        Class<?> clazz = signature.getMethod().getDeclaringClass();
+        return ALLOWED_CLASSES.stream().anyMatch(allowedClass -> allowedClass.isAssignableFrom(clazz));
     }
 
     @Override
@@ -19,6 +38,6 @@ public class TechnicalEndpointServiceImpl implements TechnicalEndpointService {
 
     @Override
     public String[] getAllowedEndpoints() {
-        return new String[0];
+        return ALLOWED_ENDPOINTS;
     }
 }
