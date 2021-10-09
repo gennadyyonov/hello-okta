@@ -1,0 +1,13 @@
+csrf:
+  cookie-name: XSRF-TOKEN
+  header-name: X-XSRF-TOKEN
+  allowed-methods:
+    - HEAD
+    - TRACE
+    - OPTIONS
+  ignored-endpoints:
+    - pattern: /actuator/**
+  ignored-tech-endpoints:
+    - /v3/api-docs/
+    - /swagger-ui/
+    - /swagger-ui.html

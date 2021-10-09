@@ -3,6 +3,7 @@ package lv.gennadyyonov.hellookta.bff.config.graphql;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -14,6 +15,7 @@ import javax.validation.constraints.NotNull;
 
 import static java.util.Optional.ofNullable;
 
+@ConditionalOnProperty(prefix = "graphql.task", name = "async-mode-enabled", havingValue = "true")
 @ConfigurationProperties(prefix = "graphql.task")
 @RequiredArgsConstructor
 @ConstructorBinding

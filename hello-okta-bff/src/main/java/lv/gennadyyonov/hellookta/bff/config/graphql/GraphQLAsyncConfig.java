@@ -6,6 +6,7 @@ import graphql.execution.instrumentation.parameters.InstrumentationFieldFetchPar
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.sleuth.instrument.async.TraceableExecutorService;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import static graphql.schema.AsyncDataFetcher.async;
 import static lv.gennadyyonov.hellookta.bff.config.graphql.AsyncContextUtils.createAsyncContext;
 
+@ConditionalOnProperty(prefix = "graphql.task", name = "async-mode-enabled", havingValue = "true")
 @EnableConfigurationProperties(GraphQLTaskProperties.class)
 @Configuration
 public class GraphQLAsyncConfig {

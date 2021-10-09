@@ -8,9 +8,12 @@ import feign.codec.Encoder;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import lv.gennadyyonov.hellookta.bff.config.HelloOktaApiClientProperties;
+import lv.gennadyyonov.hellookta.config.csrf.CsrfProperties;
+import lv.gennadyyonov.hellookta.config.csrf.CsrfTokenInterceptor;
 import lv.gennadyyonov.hellookta.config.feign.FeignInterceptorProvider;
 import lv.gennadyyonov.hellookta.dto.RunAsDetails;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
 
 import static java.util.Optional.ofNullable;
 
@@ -46,7 +49,8 @@ public class RunAsHelloOktaApiConnectorConfig {
     }
 
     @Bean
-    public RequestInterceptor csrfTokenInterceptor() {
-        return new DefaultCsrfTokenInterceptor();
+    public RequestInterceptor csrfTokenInterceptor(CsrfTokenRepository csrfTokenRepository,
+                                                   CsrfProperties csrfProperties) {
+        return new CsrfTokenInterceptor(csrfTokenRepository, csrfProperties);
     }
 }

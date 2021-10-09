@@ -5,7 +5,8 @@ plugins {
 }
 
 ext {
-    set('graphqlJavaSpringBootVersion', '11.1.0')
+    set('graphqlJavaSpringBootVersion', '12.0.0')
+    set('graphqlToolsJavaSpringBootVersion', '11.1.0')
 }
 
 dependencies {
@@ -23,7 +24,7 @@ dependencies {
 
     // GraphQL
     implementation "com.graphql-java-kickstart:graphql-spring-boot-starter:$graphqlJavaSpringBootVersion"
-    implementation "com.graphql-java-kickstart:graphiql-spring-boot-starter:$graphqlJavaSpringBootVersion"
+    implementation "com.graphql-java-kickstart:graphiql-spring-boot-starter:$graphqlToolsJavaSpringBootVersion"
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -60,6 +61,9 @@ dependencies {
             strictly commonsCodecVersion
         }
     }
+
+    implementation "org.springdoc:springdoc-openapi-ui:${openApiVersion}"
+    implementation "org.springdoc:springdoc-openapi-security:${openApiVersion}"
 
     testImplementation project(':hello-okta-testing')
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
