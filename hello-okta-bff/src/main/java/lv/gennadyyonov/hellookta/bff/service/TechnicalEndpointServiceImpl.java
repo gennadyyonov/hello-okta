@@ -29,6 +29,11 @@ public class TechnicalEndpointServiceImpl implements TechnicalEndpointService {
     }
 
     @Override
+    public boolean environmentSupported() {
+        return true;
+    }
+
+    @Override
     public String[] getAllowedEndpoints() {
         return ALLOWED_ENDPOINTS;
     }

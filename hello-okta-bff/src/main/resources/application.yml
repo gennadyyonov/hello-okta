@@ -38,6 +38,8 @@ spring:
         jwt:
           issuer-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}
           jwk-set-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/keys
+  config:
+    import: csrf.yaml
 
 hello-okta-api:
   base-url: ${hello-okta-api.url}

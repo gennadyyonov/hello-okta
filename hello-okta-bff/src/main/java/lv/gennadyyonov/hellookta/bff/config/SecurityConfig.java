@@ -1,17 +1,17 @@
 package lv.gennadyyonov.hellookta.bff.config;
 
+import lv.gennadyyonov.hellookta.config.csrf.CsrfProperties;
 import lv.gennadyyonov.hellookta.services.TechnicalEndpointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -36,19 +36,23 @@ import static org.springframework.http.HttpMethod.OPTIONS;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    public static final String CSRF_COOKIE_NAME = "XSRF-TOKEN";
-    public static final String CSRF_HEADER_NAME = "X-XSRF-TOKEN";
     private static final String ALL_URL_PATTERN = "/**";
     private static final String SESSION_ID_COOKIE_NAME = "JSESSIONID";
     public static final String ALLOWED_ORIGINS_SEPARATOR = ",";
 
     private final HelloOktaBffProps helloOktaBffProps;
     private final TechnicalEndpointService technicalEndpointService;
+    private final Customizer<CsrfConfigurer<HttpSecurity>> csrfCustomizer;
+    private final CsrfProperties csrfProperties;
 
     public SecurityConfig(HelloOktaBffProps helloOktaBffProps,
-                          @Autowired(required = false) TechnicalEndpointService technicalEndpointService) {
+                          @Autowired(required = false) TechnicalEndpointService technicalEndpointService,
+                          Customizer<CsrfConfigurer<HttpSecurity>> csrfCustomizer,
+                          CsrfProperties csrfProperties) {
         this.helloOktaBffProps = helloOktaBffProps;
         this.technicalEndpointService = technicalEndpointService;
+        this.csrfCustomizer = csrfCustomizer;
+        this.csrfProperties = csrfProperties;
     }
 
     @Override
@@ -62,44 +66,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             // Allow CORS option calls
             .antMatchers(OPTIONS, ALL_URL_PATTERN).permitAll()
             .antMatchers(GET, ENVIRONMENT_CONFIG_SUFFIX).permitAll()
-            .anyRequest()
-            .authenticated()
+            .anyRequest().authenticated()
             .and()
             .oauth2ResourceServer().jwt();
-        // For auth throug BFF index.html
+        // For auth through BFF index.html
         http.oauth2Login()
             .and()
             .logout()
             .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
             .invalidateHttpSession(true)
             .clearAuthentication(true)
-            .deleteCookies(SESSION_ID_COOKIE_NAME, CSRF_COOKIE_NAME);
+            .deleteCookies(SESSION_ID_COOKIE_NAME, csrfProperties.getCookieName());
     }
 
     private void configureCsrf(HttpSecurity http) throws Exception {
         if (TRUE.equals(helloOktaBffProps.getCsrfEnabled())) {
-            http.csrf(csrf -> csrf
-                .csrfTokenRepository(getCsrfTokenRepository())
-                // https://github.com/spring-projects/spring-security/issues/8668
-                .withObjectPostProcessor(new ObjectPostProcessor<CsrfFilter>() {
-                    @Override
-                    public <T extends CsrfFilter> T postProcess(T object) {
-                        object.setRequireCsrfProtectionMatcher(CsrfFilter.DEFAULT_CSRF_MATCHER);
-                        return object;
-                    }
-                })
-            );
+            http.csrf(csrfCustomizer);
         } else {
             http.csrf().disable();
         }
-    }
-
-    private CookieCsrfTokenRepository getCsrfTokenRepository() {
-        CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
-        csrfTokenRepository.setCookieName(CSRF_COOKIE_NAME);
-        csrfTokenRepository.setHeaderName(CSRF_HEADER_NAME);
-        csrfTokenRepository.setCookiePath("/");
-        return csrfTokenRepository;
     }
 
     @Bean
@@ -121,7 +106,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.setAllowCredentials(true);
         // setAllowedHeaders is important! Without it, OPTIONS preflight request
         // will fail with 403 Invalid CORS request
-        configuration.setAllowedHeaders(asList(AUTHORIZATION, CONTENT_TYPE, CACHE_CONTROL, PRAGMA, CSRF_HEADER_NAME));
+        List<String> allowedHeaders = asList(
+            AUTHORIZATION, CONTENT_TYPE, CACHE_CONTROL, PRAGMA, csrfProperties.getHeaderName()
+        );
+        configuration.setAllowedHeaders(allowedHeaders);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration(ALL_URL_PATTERN, configuration);
         return source;

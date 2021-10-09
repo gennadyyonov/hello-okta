@@ -27,6 +27,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-annotations'
     implementation 'org.slf4j:slf4j-api'
     implementation 'org.aspectj:aspectjweaver'
+    implementation 'org.hibernate.validator:hibernate-validator'
 
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'io.github.openfeign:feign-jackson'
