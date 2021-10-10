@@ -62,7 +62,7 @@ Each of them contains instructions how to **Run Application on localhost** in `R
 - [Spring Cloud Sleuth](https://github.com/spring-cloud/spring-cloud-sleuth) : Distributed tracing tool for Spring Cloud
 - [Lombok](https://projectlombok.org/features/index.html) : Utility library for Java language
 - [GraphQL](http://graphql.org/learn/) : API query runtime
-  - [GraphQL and GraphiQL Spring Framework Boot Starters](https://github.com/graphql-java-kickstart/graphql-spring-boot)
+  - [GraphQL Spring Framework Boot Starters](https://github.com/graphql-java-kickstart/graphql-spring-boot)
   - [GraphQL Java Tools](https://github.com/graphql-java-kickstart/graphql-java-tools)
 - [Feign](https://github.com/OpenFeign/feign) : Declarative REST Client
 - [WireMock](https://github.com/tomakehurst/wiremock) : Simulator for HTTP-based APIs

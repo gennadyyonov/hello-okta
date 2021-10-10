@@ -21,8 +21,6 @@ public class HelloOktaBffProps implements SecurityMappingProperties, FilterOrder
 
     private final String allowedOrigins;
     @NotNull
-    private final Boolean csrfEnabled;
-    @NotNull
     private final String chuckNorrisUrl;
     @NotNull
     private final Map<String, Set<String>> securityMapping;

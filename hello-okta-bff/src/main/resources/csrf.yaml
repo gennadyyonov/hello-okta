@@ -1,4 +1,5 @@
 csrf:
+  csrf-enabled: ${csrf.csrf-enabled}
   cookie-name: XSRF-TOKEN
   header-name: X-XSRF-TOKEN
   allowed-methods:
@@ -15,4 +16,3 @@ csrf:
     - /v3/api-docs/
     - /swagger-ui/
     - /swagger-ui.html
-    - /graphiql

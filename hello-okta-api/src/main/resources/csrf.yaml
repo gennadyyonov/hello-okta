@@ -1,4 +1,5 @@
 csrf:
+  csrf-enabled: ${csrf.csrf-enabled}
   cookie-name: XSRF-TOKEN
   header-name: X-XSRF-TOKEN
   allowed-methods:
