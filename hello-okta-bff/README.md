@@ -37,3 +37,9 @@ It's API can be accessed via the following links in your browser:
 **Bearer token** should be copied either from browser Network tab or Swagger `curl` and pasted in `REQUEST HEADER` tab.
 
 ![Playground](images/04-Playground.PNG)
+
+- [Altair](http://localhost:8060/bff/altair)
+
+**Bearer token** should be copied either from browser Network tab or Swagger `curl` and added in `Set Headers` popup.
+
+![Altair](images/05-Altair.PNG)

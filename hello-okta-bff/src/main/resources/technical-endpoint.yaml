@@ -8,6 +8,7 @@ technical-endpoint:
     - graphql.kickstart.graphiql.boot.ServletGraphiQLController
     - graphql.kickstart.voyager.boot.VoyagerController
     - graphql.kickstart.playground.boot.PlaygroundController
+    - graphql.kickstart.altair.boot.AltairController
   allowed-endpoints:
     - /v3/api-docs/**
     - /swagger-ui/**
@@ -21,3 +22,5 @@ technical-endpoint:
     - /vendor/voyager/**
     - /playground/**
     - /vendor/playground/**
+    - /altair/**
+    - /vendor/altair/**

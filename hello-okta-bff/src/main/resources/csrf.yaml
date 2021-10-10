@@ -20,3 +20,5 @@ csrf:
     - /vendor/voyager
     - /playground
     - /vendor/playground
+    - /altair
+    - /vendor/altair

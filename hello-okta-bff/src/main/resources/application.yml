@@ -83,6 +83,12 @@ graphql:
     staticPath:
       base: /bff/vendor/playground
 
+altair:
+  enabled: ${technical-endpoint.enabled}
+  base-path: /bff
+  options:
+    endpoint-url: /bff/graphql
+
 graphiql:
   enabled: ${technical-endpoint.enabled}
   props:
