@@ -77,6 +77,11 @@ graphql:
         keep-alive-seconds: 30
   tools:
     introspection-enabled: ${technical-endpoint.enabled}
+  playground:
+    enabled: ${technical-endpoint.enabled}
+    endpoint: /bff/graphql
+    staticPath:
+      base: /bff/vendor/playground
 
 graphiql:
   enabled: ${technical-endpoint.enabled}

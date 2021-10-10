@@ -18,3 +18,5 @@ csrf:
     - /vendor/graphiql
     - /voyager
     - /vendor/voyager
+    - /playground
+    - /vendor/playground

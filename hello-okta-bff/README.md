@@ -31,3 +31,9 @@ It's API can be accessed via the following links in your browser:
 - [Voyager](http://localhost:8060/bff/voyager)
 
 ![Voyager](images/03-Voyager.PNG)
+
+- [Playground](http://localhost:8060/bff/playground)
+
+**Bearer token** should be copied either from browser Network tab or Swagger `curl` and pasted in `REQUEST HEADER` tab.
+
+![Playground](images/04-Playground.PNG)
