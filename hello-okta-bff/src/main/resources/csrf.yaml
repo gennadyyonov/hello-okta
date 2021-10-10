@@ -14,3 +14,11 @@ csrf:
     - /v3/api-docs/
     - /swagger-ui/
     - /swagger-ui.html
+    - /graphiql
+    - /vendor/graphiql
+    - /voyager
+    - /vendor/voyager
+    - /playground
+    - /vendor/playground
+    - /altair
+    - /vendor/altair

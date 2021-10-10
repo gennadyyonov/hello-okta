@@ -14,9 +14,13 @@ logging:
   level:
     org.springframework.security.oauth2.client.OAuth2RestTemplate: DEBUG
     org.springframework.web.client.RestTemplate: DEBUG
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
 
 csrf:
   csrf-enabled: true
+
+technical-endpoint:
+  enabled: true
 
 spring:
   config:
