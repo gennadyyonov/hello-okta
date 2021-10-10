@@ -10,8 +10,6 @@ csrf:
     - pattern: /config/environment
     - pattern: /config/csrfTokenInfo
     - pattern: /actuator/**
-    - pattern: /oauth2/authorization/okta
-    - pattern: /login/oauth2/code/okta
   ignored-tech-endpoints:
     - /v3/api-docs/
     - /swagger-ui/
