@@ -36,7 +36,9 @@ spring:
           issuer-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}
           jwk-set-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/keys
   config:
-    import: csrf.yaml
+    import:
+      - csrf.yaml
+      - technical-endpoint.yaml
 
 logging:
   level:
@@ -49,8 +51,9 @@ schedule:
 
 springdoc:
   swagger-ui:
+    enabled: ${technical-endpoint.enabled}
     csrf:
-      enabled: true
+      enabled: ${csrf.csrf-enabled}
       cookie-name: XSRF-TOKEN
       header-name: X-XSRF-TOKEN
     oauth:

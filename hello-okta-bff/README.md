@@ -21,3 +21,9 @@ So, configuration properties can be changed the following way:
 
 Application will be running on port `8060` by default.
 
+It's API can be accessed via:
+- [GraphiQL](http://localhost:8060/bff/graphiql) in your browser.
+
+**Bearer token** should be copied either from browser Network tab or Swagger `curl` and pasted in `REQUEST HEADER` tab.
+
+![GraphiQL](images/02-GraphiQL.PNG)

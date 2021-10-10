@@ -1,0 +1,11 @@
+technical-endpoint:
+  enabled: ${technical-endpoint.enabled}
+  referrer-header-names:
+    - Referer
+  allowed-classes:
+    - org.springdoc.webmvc.ui.SwaggerWelcomeCommon
+    - org.springdoc.webmvc.api.OpenApiResource
+  allowed-endpoints:
+    - /v3/api-docs/**
+    - /swagger-ui/**
+    - /swagger-ui.html

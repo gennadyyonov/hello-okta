@@ -38,7 +38,9 @@ spring:
           issuer-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}
           jwk-set-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/keys
   config:
-    import: csrf.yaml
+    import:
+      - csrf.yaml
+      - technical-endpoint.yaml
 
 hello-okta-api:
   base-url: ${hello-okta-api.url}
@@ -59,6 +61,7 @@ logging:
 
 graphql:
   servlet:
+    exception-handlers-enabled: true
     corsEnabled: false
     # https://github.com/graphql-java-kickstart/graphql-spring-boot/issues/729
     async-mode-enabled: false
@@ -72,14 +75,23 @@ graphql:
         core-size: 150
         max-size: 550
         keep-alive-seconds: 30
+  tools:
+    introspection-enabled: ${technical-endpoint.enabled}
+
+graphiql:
+  enabled: ${technical-endpoint.enabled}
+  props:
+    variables:
+      headerEditorEnabled: true
 
 schedule:
   jwk-set-cache-refresh-time: 300000 # 5 minutes
 
 springdoc:
   swagger-ui:
+    enabled: ${technical-endpoint.enabled}
     csrf:
-      enabled: true
+      enabled: ${csrf.csrf-enabled}
       cookie-name: XSRF-TOKEN
       header-name: X-XSRF-TOKEN
     oauth:

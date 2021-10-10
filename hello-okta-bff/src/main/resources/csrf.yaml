@@ -14,3 +14,5 @@ csrf:
     - /v3/api-docs/
     - /swagger-ui/
     - /swagger-ui.html
+    - /graphiql
+    - /vendor/graphiql

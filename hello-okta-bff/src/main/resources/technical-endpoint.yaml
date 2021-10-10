@@ -1,0 +1,17 @@
+technical-endpoint:
+  enabled: ${technical-endpoint.enabled}
+  referrer-header-names:
+    - Referer
+  allowed-classes:
+    - org.springdoc.webmvc.ui.SwaggerWelcomeCommon
+    - org.springdoc.webmvc.api.OpenApiResource
+    - graphql.kickstart.graphiql.boot.ServletGraphiQLController
+  allowed-endpoints:
+    - /v3/api-docs/**
+    - /swagger-ui/**
+    - /swagger-ui.html
+    # Permit all on the GraphQL endpoint (allow introspection query w/o authentication for GraphQL tools)
+    # AOP based security is used in the resolvers
+    - /graphql
+    - /graphiql/**
+    - /vendor/graphiql/**

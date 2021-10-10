@@ -10,6 +10,9 @@ logging:
 csrf:
   csrf-enabled: true
 
+technical-endpoint:
+  enabled: true
+
 spring:
   config:
     import: secrets.yml
