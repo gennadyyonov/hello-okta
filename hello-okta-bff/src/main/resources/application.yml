@@ -84,6 +84,10 @@ graphiql:
     variables:
       headerEditorEnabled: true
 
+voyager:
+  enabled: ${technical-endpoint.enabled}
+  basePath: /bff/
+
 schedule:
   jwk-set-cache-refresh-time: 300000 # 5 minutes
 

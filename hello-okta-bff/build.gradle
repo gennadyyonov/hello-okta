@@ -26,6 +26,8 @@ dependencies {
     implementation "com.graphql-java-kickstart:graphql-spring-boot-starter:$graphqlJavaSpringBootVersion"
     implementation "com.graphql-java-kickstart:graphiql-spring-boot-starter:$graphqlToolsJavaSpringBootVersion"
     implementation "com.graphql-java-kickstart:graphiql-spring-boot-autoconfigure:$graphqlToolsJavaSpringBootVersion"
+    implementation "com.graphql-java-kickstart:voyager-spring-boot-starter:$graphqlToolsJavaSpringBootVersion"
+    implementation "com.graphql-java-kickstart:voyager-spring-boot-autoconfigure:$graphqlToolsJavaSpringBootVersion"
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'

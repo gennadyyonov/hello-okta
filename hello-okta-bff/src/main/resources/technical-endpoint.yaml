@@ -6,6 +6,7 @@ technical-endpoint:
     - org.springdoc.webmvc.ui.SwaggerWelcomeCommon
     - org.springdoc.webmvc.api.OpenApiResource
     - graphql.kickstart.graphiql.boot.ServletGraphiQLController
+    - graphql.kickstart.voyager.boot.VoyagerController
   allowed-endpoints:
     - /v3/api-docs/**
     - /swagger-ui/**
@@ -15,3 +16,5 @@ technical-endpoint:
     - /graphql
     - /graphiql/**
     - /vendor/graphiql/**
+    - /voyager/**
+    - /vendor/voyager/**
