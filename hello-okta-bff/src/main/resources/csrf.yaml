@@ -1,4 +1,5 @@
 csrf:
+  csrf-enabled: ${csrf.csrf-enabled}
   cookie-name: XSRF-TOKEN
   header-name: X-XSRF-TOKEN
   allowed-methods:
@@ -9,10 +10,7 @@ csrf:
     - pattern: /config/environment
     - pattern: /config/csrfTokenInfo
     - pattern: /actuator/**
-    - pattern: /oauth2/authorization/okta
-    - pattern: /login/oauth2/code/okta
   ignored-tech-endpoints:
     - /v3/api-docs/
     - /swagger-ui/
     - /swagger-ui.html
-    - /graphiql

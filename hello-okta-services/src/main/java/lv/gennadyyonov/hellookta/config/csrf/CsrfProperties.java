@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 import static org.springframework.http.HttpMethod.GET;
@@ -19,6 +20,8 @@ import static org.springframework.http.HttpMethod.GET;
 @Value
 public class CsrfProperties {
 
+    @NotNull
+    Boolean csrfEnabled;
     @NotBlank
     String cookieName;
     @NotBlank

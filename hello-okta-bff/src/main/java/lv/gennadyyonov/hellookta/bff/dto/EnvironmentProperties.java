@@ -13,4 +13,5 @@ public class EnvironmentProperties {
 
     private String oktaClientId;
     private String oktaIssuer;
+    private Boolean csrfEnabled;
 }

@@ -3,7 +3,6 @@ package lv.gennadyyonov.hellookta.bff.config;
 import lv.gennadyyonov.hellookta.config.csrf.CsrfProperties;
 import lv.gennadyyonov.hellookta.services.TechnicalEndpointService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
-import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -32,31 +30,28 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpHeaders.PRAGMA;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.OPTIONS;
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String ALL_URL_PATTERN = "/**";
-    private static final String SESSION_ID_COOKIE_NAME = "JSESSIONID";
     public static final String ALLOWED_ORIGINS_SEPARATOR = ",";
 
     private final HelloOktaBffProps helloOktaBffProps;
     private final TechnicalEndpointService technicalEndpointService;
-    private final Customizer<CsrfConfigurer<HttpSecurity>> csrfCustomizer;
     private final CsrfProperties csrfProperties;
-
-    @Value("${graphiql.enabled}")
-    private Boolean graphiQLEnabled;
+    private final Customizer<CsrfConfigurer<HttpSecurity>> csrfCustomizer;
 
     public SecurityConfig(HelloOktaBffProps helloOktaBffProps,
                           @Autowired(required = false) TechnicalEndpointService technicalEndpointService,
-                          Customizer<CsrfConfigurer<HttpSecurity>> csrfCustomizer,
-                          CsrfProperties csrfProperties) {
+                          CsrfProperties csrfProperties,
+                          Customizer<CsrfConfigurer<HttpSecurity>> csrfCustomizer) {
         this.helloOktaBffProps = helloOktaBffProps;
         this.technicalEndpointService = technicalEndpointService;
-        this.csrfCustomizer = csrfCustomizer;
         this.csrfProperties = csrfProperties;
+        this.csrfCustomizer = csrfCustomizer;
     }
 
     @Override
@@ -73,26 +68,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .anyRequest().authenticated()
             .and()
             .oauth2ResourceServer().jwt();
-        configureGraphiQL(http);
-    }
-
-    private void configureGraphiQL(HttpSecurity http) throws Exception {
-        if (toBoolean(graphiQLEnabled)) {
-            http.oauth2Login()
-                .and()
-                .logout()
-                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .deleteCookies(SESSION_ID_COOKIE_NAME, csrfProperties.getCookieName());
-        }
     }
 
     private void configureCsrf(HttpSecurity http) throws Exception {
-        if (toBoolean(helloOktaBffProps.getCsrfEnabled())) {
+        if (toBoolean(csrfProperties.getCsrfEnabled())) {
             http.csrf(csrfCustomizer);
         } else {
-            http.csrf().disable();
+            http.sessionManagement().sessionCreationPolicy(STATELESS)
+                .and()
+                .csrf().disable();
         }
     }
 

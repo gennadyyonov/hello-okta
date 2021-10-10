@@ -7,6 +7,9 @@ logging:
     org.springframework.web.client.RestTemplate: DEBUG
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
 
+csrf:
+  csrf-enabled: true
+
 spring:
   config:
     import: secrets.yml

@@ -62,7 +62,7 @@ Each of them contains instructions how to **Run Application on localhost** in `R
 - [Spring Cloud Sleuth](https://github.com/spring-cloud/spring-cloud-sleuth) : Distributed tracing tool for Spring Cloud
 - [Lombok](https://projectlombok.org/features/index.html) : Utility library for Java language
 - [GraphQL](http://graphql.org/learn/) : API query runtime
-  - [GraphQL and GraphiQL Spring Framework Boot Starters](https://github.com/graphql-java-kickstart/graphql-spring-boot)
+  - [GraphQL Spring Framework Boot Starters](https://github.com/graphql-java-kickstart/graphql-spring-boot)
   - [GraphQL Java Tools](https://github.com/graphql-java-kickstart/graphql-java-tools)
 - [Feign](https://github.com/OpenFeign/feign) : Declarative REST Client
 - [WireMock](https://github.com/tomakehurst/wiremock) : Simulator for HTTP-based APIs
@@ -86,7 +86,7 @@ Populate the fields with these values:
 | FIELD NAME | VALUE |
 | --- | ---|
 | **Name** | `Hello Okta App` |
-| **Login redirect URIs**  | http://localhost:8060/bff/login/oauth2/code/okta<br>http://localhost:8060/bff/swagger-ui/oauth2-redirect.html<br>http://localhost:8070/api/swagger-ui/oauth2-redirect.html<br>http://localhost:3000/implicit/callback<br>https://kubernetes.docker.internal/bff/login/oauth2/code/okta<br>https://kubernetes.docker.internal/bff/swagger-ui/oauth2-redirect.html<br>https://kubernetes.docker.internal/api/swagger-ui/oauth2-redirect.html<br>https://kubernetes.docker.internal/implicit/callback |
+| **Login redirect URIs**  | http://localhost:8060/bff/swagger-ui/oauth2-redirect.html<br>http://localhost:8070/api/swagger-ui/oauth2-redirect.html<br>http://localhost:3000/implicit/callback<br>https://kubernetes.docker.internal/bff/swagger-ui/oauth2-redirect.html<br>https://kubernetes.docker.internal/api/swagger-ui/oauth2-redirect.html<br>https://kubernetes.docker.internal/implicit/callback |
 | **Logout redirect URIs** | http://localhost:3000<br>https://kubernetes.docker.internal |
 | **Allowed grant types**  | `Authorization Code` |
 

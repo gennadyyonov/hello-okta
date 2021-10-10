@@ -1,6 +1,5 @@
 hello-okta-bff:
   allowed-origins: ${cors.allowed-origins}
-  csrf-enabled: true
   chuck-norris-url: ${chuck-norris.url}
   security-mapping:
     ALLOWED_USERS:
@@ -73,9 +72,6 @@ graphql:
         core-size: 150
         max-size: 550
         keep-alive-seconds: 30
-
-graphiql:
-  enabled: true
 
 schedule:
   jwk-set-cache-refresh-time: 300000 # 5 minutes
