@@ -28,9 +28,8 @@ class TranslationQueryTest {
         assertThat(response.isOk()).isTrue();
         assertThat(response.get("$.data.translationMap.locale")).isEqualTo("en");
         List<TranslationMapEntry> entries = response.getList("$.data.translationMap.entries", TranslationMapEntry.class);
-        assertThat(entries).hasSize(3);
         assertThat(entries)
-            .contains(
+            .containsExactlyInAnyOrder(
                 TranslationMapEntry.builder()
                     .key("home_button_ping")
                     .value("Ping")
@@ -42,6 +41,10 @@ class TranslationQueryTest {
                 TranslationMapEntry.builder()
                     .key("button_logout")
                     .value("Logout")
+                    .build(),
+                TranslationMapEntry.builder()
+                    .key("SC.ER.ACCESSDENIED")
+                    .value("You don't have access rights to application.")
                     .build()
             );
     }

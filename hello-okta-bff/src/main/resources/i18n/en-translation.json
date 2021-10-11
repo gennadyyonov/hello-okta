@@ -1,5 +1,6 @@
 {
   "home_button_ping": "Ping",
   "logout_hint": "Pressing 'Logout' button will sign current user out",
-  "button_logout": "Logout"
+  "button_logout": "Logout",
+  "SC.ER.ACCESSDENIED": "You don't have access rights to application."
 }
