@@ -15,11 +15,31 @@ logging:
     org.springframework.security.oauth2.client.OAuth2RestTemplate: DEBUG
     org.springframework.web.client.RestTemplate: DEBUG
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+    lv.gennadyyonov.hellookta.services.UserInfoService: DEBUG
 
 csrf:
   csrf-enabled: true
 
 technical-endpoint:
+  enabled: true
+
+springdoc:
+  swagger-ui:
+    enabled: true
+
+graphql:
+  tools:
+    introspection-enabled: true
+  playground:
+    enabled: true
+
+altair:
+  enabled: true
+
+graphiql:
+  enabled: true
+
+voyager:
   enabled: true
 
 spring:

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 import static lv.gennadyyonov.hellookta.utils.StreamUtils.getNullableFlatStream;
 import static org.apache.commons.lang3.BooleanUtils.toBoolean;
 import static org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN;
@@ -28,7 +29,7 @@ public class TechnicalEndpointService {
     public TechnicalEndpointService(TechnicalEndpointProperties techEndpointProps) {
         technicalEndpointEnabled = toBoolean(techEndpointProps.getEnabled());
         referrerHeaderNames = technicalEndpointEnabled ? getReferrerHeaderNames(techEndpointProps) : Collections.emptyList();
-        allowedClasses = technicalEndpointEnabled ? getAllowedClasses(techEndpointProps) : Collections.emptyList();
+        allowedClasses = technicalEndpointEnabled ? getAllowedClasses(techEndpointProps) : Collections.emptySet();
         allowedEndpoints = technicalEndpointEnabled ? getAllowedEndpoints(techEndpointProps) : new String[0];
     }
 
@@ -36,8 +37,12 @@ public class TechnicalEndpointService {
         return getNullableFlatStream(techEndpointProps.getReferrerHeaderNames()).collect(toList());
     }
 
-    private List<Class<?>> getAllowedClasses(TechnicalEndpointProperties techEndpointProps) {
-        return getNullableFlatStream(techEndpointProps.getAllowedClasses())
+    private Collection<Class<?>> getAllowedClasses(TechnicalEndpointProperties techEndpointProps) {
+        return getNullableFlatStream(techEndpointProps.getEndpoints())
+            .filter(endpoint -> toBoolean(endpoint.getEnabled()))
+            .map(TechnicalEndpointProperties.Endpoint::getAllowedClasses)
+            .filter(Objects::nonNull)
+            .flatMap(Collection::stream)
             .map(clazz -> {
                 try {
                     return Class.forName(clazz);
@@ -45,15 +50,23 @@ public class TechnicalEndpointService {
                     throw new IllegalArgumentException(ex);
                 }
             })
-            .collect(toList());
+            .collect(toSet());
     }
 
     private String[] getAllowedEndpoints(TechnicalEndpointProperties techEndpointProps) {
-        return getNullableFlatStream(techEndpointProps.getAllowedEndpoints())
+        return getNullableFlatStream(techEndpointProps.getEndpoints())
+            .filter(endpoint -> toBoolean(endpoint.getEnabled()))
+            .map(TechnicalEndpointProperties.Endpoint::getAllowedEndpoints)
+            .filter(Objects::nonNull)
+            .flatMap(Collection::stream)
+            .collect(toSet())
             .toArray(String[]::new);
     }
 
     public boolean isAllowed(ProceedingJoinPoint joinPoint) {
+        if (!technicalEndpointEnabled) {
+            return false;
+        }
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Class<?> clazz = signature.getMethod().getDeclaringClass();
         return allowedClasses.stream().anyMatch(allowedClass -> allowedClass.isAssignableFrom(clazz));
@@ -61,6 +74,9 @@ public class TechnicalEndpointService {
 
     @SneakyThrows
     public void configure(HttpSecurity http) {
+        if (!technicalEndpointEnabled) {
+            return;
+        }
         if (ArrayUtils.isNotEmpty(allowedEndpoints)) {
             http
                 .authorizeRequests()

@@ -47,6 +47,7 @@ api:
     SPRING_PROFILES_ACTIVE: "dev,actuator"
     CSRF_CSRF_ENABLED: "false"
     TECHNICAL_ENDPOINT_ENABLED: "false"
+    SPRINGDOC_SWAGGER_UI_ENABLED: "false"
 
 bff:
   port: 80
@@ -76,6 +77,12 @@ bff:
     CHUCK_NORRIS_URL: "https://api.chucknorris.io"
     CSRF_CSRF_ENABLED: "false"
     TECHNICAL_ENDPOINT_ENABLED: "false"
+    SPRINGDOC_SWAGGER_UI_ENABLED: "false"
+    GRAPHQL_TOOLS_INTROSPECTION_ENABLED: "false"
+    GRAPHIQL_ENABLED: "false"
+    VOYAGER_ENABLED: "false"
+    GRAPHQL_PLAYGROUND_ENABLED: "false"
+    ALTAIR_ENABLED: "false"
 
 spa:
   port: 80
