@@ -5,11 +5,6 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
 import java.util.HashMap;
@@ -27,12 +22,6 @@ import static org.springframework.security.oauth2.core.OAuth2AccessToken.TokenTy
 public class AuthenticationService {
 
     private static final String GROUPS_CLAIM = "groups";
-
-    private final OAuth2AuthorizedClientService authorizedClientService;
-
-    public AuthenticationService(OAuth2AuthorizedClientService authorizedClientService) {
-        this.authorizedClientService = authorizedClientService;
-    }
 
     public String getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -82,14 +71,7 @@ public class AuthenticationService {
     }
 
     private String getTokenValue(Authentication authentication) {
-        if (authentication instanceof OAuth2AuthenticationToken) {
-            OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
-            OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(
-                oauthToken.getAuthorizedClientRegistrationId(),
-                oauthToken.getName());
-            OAuth2AccessToken accessToken = client.getAccessToken();
-            return accessToken.getTokenValue();
-        } else if (authentication instanceof JwtAuthenticationToken) {
+        if (authentication instanceof JwtAuthenticationToken) {
             JwtAuthenticationToken oauthToken = (JwtAuthenticationToken) authentication;
             return oauthToken.getToken().getTokenValue();
         }
@@ -104,11 +86,7 @@ public class AuthenticationService {
     }
 
     private Map<String, Object> getTokenAttributes(Authentication authentication) {
-        if (authentication instanceof OAuth2AuthenticationToken) {
-            OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
-            OAuth2User principal = oauthToken.getPrincipal();
-            return principal.getAttributes();
-        } else if (authentication instanceof JwtAuthenticationToken) {
+        if (authentication instanceof JwtAuthenticationToken) {
             JwtAuthenticationToken oauthToken = (JwtAuthenticationToken) authentication;
             return oauthToken.getTokenAttributes();
         } else if (authentication instanceof AnonymousAuthenticationToken) {
