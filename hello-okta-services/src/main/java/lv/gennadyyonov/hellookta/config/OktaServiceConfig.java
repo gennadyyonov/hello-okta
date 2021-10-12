@@ -13,14 +13,12 @@ import lv.gennadyyonov.hellookta.services.TokenService;
 import lv.gennadyyonov.hellookta.services.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 
 import static lv.gennadyyonov.hellookta.utils.OktaUtils.getIssuerUri;
 
-@EnableConfigurationProperties(OAuth2ClientProperties.class)
 @RequiredArgsConstructor
 @Configuration
 public class OktaServiceConfig {
