@@ -77,27 +77,26 @@ graphql:
         keep-alive-seconds: 30
   tools:
     introspection-enabled: ${graphql.tools.introspection-enabled:false}
+  graphiql:
+    enabled: ${graphiql.enabled:false}
+  voyager:
+    enabled: ${voyager.enabled:false}
+    basePath: /bff/
   playground:
     enabled: ${graphql.playground.enabled:false}
     endpoint: /bff/graphql
     staticPath:
       base: /bff/vendor/playground
-
-altair:
-  enabled: ${altair.enabled:false}
-  base-path: /bff
-  options:
-    endpoint-url: /bff/graphql
+  altair:
+    enabled: ${altair.enabled:false}
+    base-path: /bff
+    options:
+      endpoint-url: /bff/graphql
 
 graphiql:
-  enabled: ${graphiql.enabled:false}
   props:
     variables:
       headerEditorEnabled: true
-
-voyager:
-  enabled: ${voyager.enabled:false}
-  basePath: /bff/
 
 schedule:
   jwk-set-cache-refresh-time: 300000 # 5 minutes

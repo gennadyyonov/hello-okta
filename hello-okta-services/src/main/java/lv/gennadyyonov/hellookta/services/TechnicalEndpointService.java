@@ -12,6 +12,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
@@ -37,12 +39,8 @@ public class TechnicalEndpointService {
         return getNullableFlatStream(techEndpointProps.getReferrerHeaderNames()).collect(toList());
     }
 
-    private Collection<Class<?>> getAllowedClasses(TechnicalEndpointProperties techEndpointProps) {
-        return getNullableFlatStream(techEndpointProps.getEndpoints())
-            .filter(endpoint -> toBoolean(endpoint.getEnabled()))
-            .map(TechnicalEndpointProperties.Endpoint::getAllowedClasses)
-            .filter(Objects::nonNull)
-            .flatMap(Collection::stream)
+    private Collection<Class<?>> getAllowedClasses(TechnicalEndpointProperties props) {
+        return getEnabledEndpointFlatStream(props, TechnicalEndpointProperties.Endpoint::getAllowedClasses)
             .map(clazz -> {
                 try {
                     return Class.forName(clazz);
@@ -53,14 +51,19 @@ public class TechnicalEndpointService {
             .collect(toSet());
     }
 
-    private String[] getAllowedEndpoints(TechnicalEndpointProperties techEndpointProps) {
-        return getNullableFlatStream(techEndpointProps.getEndpoints())
-            .filter(endpoint -> toBoolean(endpoint.getEnabled()))
-            .map(TechnicalEndpointProperties.Endpoint::getAllowedEndpoints)
-            .filter(Objects::nonNull)
-            .flatMap(Collection::stream)
+    private String[] getAllowedEndpoints(TechnicalEndpointProperties props) {
+        return getEnabledEndpointFlatStream(props, TechnicalEndpointProperties.Endpoint::getAllowedEndpoints)
             .collect(toSet())
             .toArray(String[]::new);
+    }
+
+    private <T> Stream<T> getEnabledEndpointFlatStream(TechnicalEndpointProperties techEndpointProps,
+                                                       Function<TechnicalEndpointProperties.Endpoint, List<T>> func) {
+        return getNullableFlatStream(techEndpointProps.getEndpoints())
+            .filter(endpoint -> toBoolean(endpoint.getEnabled()))
+            .map(func)
+            .filter(Objects::nonNull)
+            .flatMap(Collection::stream);
     }
 
     public boolean isAllowed(ProceedingJoinPoint joinPoint) {
