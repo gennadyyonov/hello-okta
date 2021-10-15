@@ -16,7 +16,6 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2Clien
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 
 import static lv.gennadyyonov.hellookta.utils.OktaUtils.getIssuerUri;
 
@@ -24,12 +23,11 @@ import static lv.gennadyyonov.hellookta.utils.OktaUtils.getIssuerUri;
 @Configuration
 public class OktaServiceConfig {
 
-    private final OAuth2AuthorizedClientService authorizedClientService;
     private final OAuth2ClientProperties oktaOAuth2Properties;
 
     @Bean
     public AuthenticationService authenticationService() {
-        return new AuthenticationService(authorizedClientService);
+        return new AuthenticationService();
     }
 
     @Bean

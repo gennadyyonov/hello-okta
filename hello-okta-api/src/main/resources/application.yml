@@ -51,7 +51,7 @@ schedule:
 
 springdoc:
   swagger-ui:
-    enabled: ${technical-endpoint.enabled}
+    enabled: ${springdoc.swagger-ui.enabled:false}
     csrf:
       enabled: ${csrf.csrf-enabled}
       cookie-name: XSRF-TOKEN

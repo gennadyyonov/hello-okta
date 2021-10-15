@@ -76,35 +76,34 @@ graphql:
         max-size: 550
         keep-alive-seconds: 30
   tools:
-    introspection-enabled: ${technical-endpoint.enabled}
+    introspection-enabled: ${graphql.tools.introspection-enabled:false}
+  graphiql:
+    enabled: ${graphiql.enabled:false}
+  voyager:
+    enabled: ${voyager.enabled:false}
+    basePath: /bff/
   playground:
-    enabled: ${technical-endpoint.enabled}
+    enabled: ${graphql.playground.enabled:false}
     endpoint: /bff/graphql
     staticPath:
       base: /bff/vendor/playground
-
-altair:
-  enabled: ${technical-endpoint.enabled}
-  base-path: /bff
-  options:
-    endpoint-url: /bff/graphql
+  altair:
+    enabled: ${altair.enabled:false}
+    base-path: /bff
+    options:
+      endpoint-url: /bff/graphql
 
 graphiql:
-  enabled: ${technical-endpoint.enabled}
   props:
     variables:
       headerEditorEnabled: true
-
-voyager:
-  enabled: ${technical-endpoint.enabled}
-  basePath: /bff/
 
 schedule:
   jwk-set-cache-refresh-time: 300000 # 5 minutes
 
 springdoc:
   swagger-ui:
-    enabled: ${technical-endpoint.enabled}
+    enabled: ${springdoc.swagger-ui.enabled:false}
     csrf:
       enabled: ${csrf.csrf-enabled}
       cookie-name: XSRF-TOKEN
