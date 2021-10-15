@@ -56,6 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        http.sessionManagement().sessionCreationPolicy(STATELESS);
         configureCsrf(http);
         ofNullable(technicalEndpointService).ifPresent(service -> service.configure(http));
         http
@@ -74,9 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         if (toBoolean(csrfProperties.getCsrfEnabled())) {
             http.csrf(csrfCustomizer);
         } else {
-            http.sessionManagement().sessionCreationPolicy(STATELESS)
-                .and()
-                .csrf().disable();
+            http.csrf().disable();
         }
     }
 
