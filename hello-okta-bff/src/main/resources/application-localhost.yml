@@ -2,7 +2,9 @@ server:
   port: 8060
 
 cors:
-  allowed-origins: http://localhost:3000,https://dev-220281.okta.com
+  allowed-origins:
+    - http://localhost:3000
+    - https://dev-220281.okta.com
 
 chuck-norris:
   url: https://api.chucknorris.io

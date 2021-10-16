@@ -1,0 +1,18 @@
+cors:
+  url-pattern: /**
+  allow-credentials: true
+  allowed-origins: ${cors.allowed-origins}
+  allowed-headers:
+    - Authorization
+    - Content-Type
+    - Cache-Control
+    - Pragma
+  allowed-methods:
+    - GET
+    - HEAD
+    - POST
+    - PUT
+    - PATCH
+    - DELETE
+    - OPTIONS
+    - TRACE

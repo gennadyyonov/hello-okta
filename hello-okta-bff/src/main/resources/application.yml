@@ -1,5 +1,4 @@
 hello-okta-bff:
-  allowed-origins: ${cors.allowed-origins}
   chuck-norris-url: ${chuck-norris.url}
   security-mapping:
     ALLOWED_USERS:
@@ -39,6 +38,7 @@ spring:
           jwk-set-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/keys
   config:
     import:
+      - cors.yaml
       - csrf.yaml
       - technical-endpoint.yaml
 
