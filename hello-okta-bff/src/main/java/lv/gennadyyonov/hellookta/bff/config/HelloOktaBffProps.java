@@ -1,7 +1,7 @@
 package lv.gennadyyonov.hellookta.bff.config;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import lv.gennadyyonov.hellookta.dto.FilterOrderProperties;
 import lv.gennadyyonov.hellookta.dto.SecurityMappingProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -16,14 +16,13 @@ import java.util.Set;
 @RequiredArgsConstructor
 @ConstructorBinding
 @Validated
-@Getter
+@Value
 public class HelloOktaBffProps implements SecurityMappingProperties, FilterOrderProperties {
 
-    private final String allowedOrigins;
     @NotNull
-    private final String chuckNorrisUrl;
+    String chuckNorrisUrl;
     @NotNull
-    private final Map<String, Set<String>> securityMapping;
+    Map<String, Set<String>> securityMapping;
     @NotNull
-    private final Map<String, Integer> filterOrderMapping;
+    Map<String, Integer> filterOrderMapping;
 }
