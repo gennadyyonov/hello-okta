@@ -19,7 +19,6 @@ public class TechnicalEndpointProperties {
 
     @NotNull
     Boolean enabled;
-    List<String> referrerHeaderNames;
     @Valid
     List<Endpoint> endpoints;
 

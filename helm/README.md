@@ -40,6 +40,10 @@ Server: Docker Engine - Community
 ```
 docker run -d -p 5000:5000 --name registry registry:2
 ```
+or just start if already exists:
+```
+docker start registry
+```
 
 ## Copy Images to Local Registry
 
@@ -121,13 +125,39 @@ helm install cert-manager jetstack/cert-manager --namespace cert-manager --versi
 
 - Copy [`secret-values.yaml.sample`](hello-okta/secret-values.yaml.sample) to `secret-values.yaml` under `hello-okta`
 - Fill in your configuration properties instead of `???`
-```
-helm install hello-okta-release ./helm/hello-okta --values ./helm/hello-okta/values.yaml --values ./helm/hello-okta/secret-values.yaml --create-namespace --namespace hello-okta
-```
+- Either install release:
+    ```
+    helm install hello-okta-release ./helm/hello-okta --values ./helm/hello-okta/values.yaml --values ./helm/hello-okta/secret-values.yaml --create-namespace --namespace hello-okta
+    ```
+    or upgrade release if already installed:
+    ```
+    helm upgrade hello-okta-release ./helm/hello-okta --values ./helm/hello-okta/values.yaml --values ./helm/hello-okta/secret-values.yaml --create-namespace --namespace hello-okta
+    ```
+
+Workloads can be accessed in [Kubernetes Dashboard](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/overview?namespace=hello-okta)
 
 ### Uninstall Application
 ```
 helm uninstall hello-okta-release --namespace hello-okta
 ```
 
-Workloads can be accessed in [Kubernetes Dashboard](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/overview?namespace=hello-okta)
+### Debug Helm Template
+
+```
+helm install --dry-run --debug hello-okta-release ./helm/hello-okta --values ./helm/hello-okta/values.yaml --values ./helm/hello-okta/secret-values.yaml --create-namespace --namespace hello-okta
+```
+or
+```
+helm template --debug hello-okta-release ./helm/hello-okta --values ./helm/hello-okta/values.yaml --values ./helm/hello-okta/secret-values.yaml --create-namespace --namespace hello-okta
+```
+
+### Restart Pods
+```
+kubectl rollout restart deployment/hello-okta-api -n hello-okta
+kubectl rollout restart deployment/hello-okta-bff -n hello-okta
+kubectl rollout restart deployment/hello-okta -n hello-okta
+```
+
+### Useful Resources
+
+* [kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)

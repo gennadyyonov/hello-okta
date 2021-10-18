@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         configureCsrf(http);
-        ofNullable(technicalEndpointService).ifPresent(service -> service.configure(http));
+        ofNullable(technicalEndpointService).ifPresent(service -> service.allowTechnicalEndpoints(http));
         http
             .authorizeRequests()
             // Allow CORS option calls

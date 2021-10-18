@@ -68,8 +68,7 @@ public class CsrfConfiguration {
         List<RequestMatcher> ignores = getNullableFlatStream(csrfProperties.getIgnoredEndpoints())
             .map(endpoint -> new AntPathRequestMatcher(endpoint.getPattern(), endpoint.getMethod()))
             .collect(toList());
-        List<String> ignoredTechEndpoints = csrfProperties.getIgnoredTechEndpoints();
-        ignores.add(request -> technicalEndpointService.isWhitelistedUrl(request, ignoredTechEndpoints));
+        ignores.add(technicalEndpointService::isWhitelistedUrl);
         return ignores;
     }
 

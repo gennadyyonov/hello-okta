@@ -2,41 +2,33 @@ package lv.gennadyyonov.hellookta.services;
 
 import lombok.SneakyThrows;
 import lv.gennadyyonov.hellookta.config.TechnicalEndpointProperties;
-import org.apache.commons.lang3.ArrayUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
+import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toSet;
 import static lv.gennadyyonov.hellookta.utils.StreamUtils.getNullableFlatStream;
 import static org.apache.commons.lang3.BooleanUtils.toBoolean;
-import static org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN;
 
 public class TechnicalEndpointService {
 
-    private final Collection<String> referrerHeaderNames;
     private final Collection<Class<?>> allowedClasses;
-    private final String[] allowedEndpoints;
+    private final Collection<AntPathRequestMatcher> allowedRequestMatchers;
     private final boolean technicalEndpointEnabled;
 
-    public TechnicalEndpointService(TechnicalEndpointProperties techEndpointProps) {
-        technicalEndpointEnabled = toBoolean(techEndpointProps.getEnabled());
-        referrerHeaderNames = technicalEndpointEnabled ? getReferrerHeaderNames(techEndpointProps) : Collections.emptyList();
-        allowedClasses = technicalEndpointEnabled ? getAllowedClasses(techEndpointProps) : Collections.emptySet();
-        allowedEndpoints = technicalEndpointEnabled ? getAllowedEndpoints(techEndpointProps) : new String[0];
-    }
-
-    private Collection<String> getReferrerHeaderNames(TechnicalEndpointProperties techEndpointProps) {
-        return getNullableFlatStream(techEndpointProps.getReferrerHeaderNames()).collect(toList());
+    public TechnicalEndpointService(TechnicalEndpointProperties props) {
+        technicalEndpointEnabled = toBoolean(props.getEnabled());
+        allowedClasses = technicalEndpointEnabled ? getAllowedClasses(props) : emptySet();
+        allowedRequestMatchers = technicalEndpointEnabled ? getAllowedRequestMatchers(props) : emptySet();
     }
 
     private Collection<Class<?>> getAllowedClasses(TechnicalEndpointProperties props) {
@@ -51,10 +43,10 @@ public class TechnicalEndpointService {
             .collect(toSet());
     }
 
-    private String[] getAllowedEndpoints(TechnicalEndpointProperties props) {
+    private Collection<AntPathRequestMatcher> getAllowedRequestMatchers(TechnicalEndpointProperties props) {
         return getEnabledEndpointFlatStream(props, TechnicalEndpointProperties.Endpoint::getAllowedEndpoints)
-            .collect(toSet())
-            .toArray(String[]::new);
+            .map(AntPathRequestMatcher::new)
+            .collect(toSet());
     }
 
     private <T> Stream<T> getEnabledEndpointFlatStream(TechnicalEndpointProperties techEndpointProps,
@@ -76,30 +68,25 @@ public class TechnicalEndpointService {
     }
 
     @SneakyThrows
-    public void configure(HttpSecurity http) {
+    public void allowTechnicalEndpoints(HttpSecurity http) {
         if (!technicalEndpointEnabled) {
             return;
         }
-        if (ArrayUtils.isNotEmpty(allowedEndpoints)) {
+        if (!allowedRequestMatchers.isEmpty()) {
+            String[] allowedPatterns = allowedRequestMatchers.stream()
+                .map(AntPathRequestMatcher::getPattern)
+                .toArray(String[]::new);
             http
                 .authorizeRequests()
-                .antMatchers(allowedEndpoints)
+                .antMatchers(allowedPatterns)
                 .permitAll();
-            http.headers().referrerPolicy(SAME_ORIGIN);
         }
     }
 
-    public boolean isWhitelistedUrl(HttpServletRequest request, List<String> endpoints) {
+    public boolean isWhitelistedUrl(HttpServletRequest request) {
         if (!technicalEndpointEnabled) {
             return false;
         }
-        List<String> referrers = referrerHeaderNames.stream()
-            .map(request::getHeader)
-            .filter(Objects::nonNull)
-            .collect(toList());
-        String requestUri = request.getRequestURI();
-        return getNullableFlatStream(endpoints)
-            .anyMatch(endpoint -> requestUri.contains(endpoint) || referrers.stream()
-                .anyMatch(referrer -> referrer.contains(endpoint)));
+        return getNullableFlatStream(allowedRequestMatchers).anyMatch(matcher -> matcher.matches(request));
     }
 }

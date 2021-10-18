@@ -1,0 +1,3 @@
+headers:
+  csp:
+    directives: ${headers.csp.directives}
