@@ -1,5 +1,7 @@
 technical-endpoint:
   enabled: ${technical-endpoint.enabled:false}
+  referrer-header-names:
+    - referer
   endpoints:
     - enabled: ${springdoc.swagger-ui.enabled:false}
       allowed-classes:

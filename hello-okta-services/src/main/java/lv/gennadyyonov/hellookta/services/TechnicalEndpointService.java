@@ -1,7 +1,11 @@
 package lv.gennadyyonov.hellookta.services;
 
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import lv.gennadyyonov.hellookta.config.TechnicalEndpointProperties;
+import lv.gennadyyonov.hellookta.web.util.DelegatingAntPathRequestMatcher;
+import lv.gennadyyonov.hellookta.web.util.PatternRequestMatcher;
+import lv.gennadyyonov.hellookta.web.util.RefererHeaderRequestMatcher;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,21 +18,30 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
+import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toSet;
 import static lv.gennadyyonov.hellookta.utils.StreamUtils.getNullableFlatStream;
 import static org.apache.commons.lang3.BooleanUtils.toBoolean;
 
+@Slf4j
 public class TechnicalEndpointService {
 
-    private final Collection<Class<?>> allowedClasses;
-    private final Collection<AntPathRequestMatcher> allowedRequestMatchers;
     private final boolean technicalEndpointEnabled;
+    private final Collection<String> additionalRealEndpoints;
+    private final Collection<Class<?>> allowedClasses;
+    private final Collection<PatternRequestMatcher> allowedRequestMatchers;
 
     public TechnicalEndpointService(TechnicalEndpointProperties props) {
         technicalEndpointEnabled = toBoolean(props.getEnabled());
+        additionalRealEndpoints = technicalEndpointEnabled ? getAdditionalRealEndpoints(props) : emptyList();
         allowedClasses = technicalEndpointEnabled ? getAllowedClasses(props) : emptySet();
         allowedRequestMatchers = technicalEndpointEnabled ? getAllowedRequestMatchers(props) : emptySet();
+    }
+
+    private Collection<String> getAdditionalRealEndpoints(TechnicalEndpointProperties props) {
+        return ofNullable(props.getAdditionalRealEndpoints()).orElse(emptyList());
     }
 
     private Collection<Class<?>> getAllowedClasses(TechnicalEndpointProperties props) {
@@ -43,10 +56,17 @@ public class TechnicalEndpointService {
             .collect(toSet());
     }
 
-    private Collection<AntPathRequestMatcher> getAllowedRequestMatchers(TechnicalEndpointProperties props) {
-        return getEnabledEndpointFlatStream(props, TechnicalEndpointProperties.Endpoint::getAllowedEndpoints)
-            .map(AntPathRequestMatcher::new)
+    private Collection<PatternRequestMatcher> getAllowedRequestMatchers(TechnicalEndpointProperties props) {
+        Collection<String> endpoints = getEnabledEndpointFlatStream(props, TechnicalEndpointProperties.Endpoint::getAllowedEndpoints)
             .collect(toSet());
+        Collection<PatternRequestMatcher> allMatchers = endpoints.stream()
+            .map(AntPathRequestMatcher::new)
+            .map(DelegatingAntPathRequestMatcher::new)
+            .collect(toSet());
+        getNullableFlatStream(props.getReferrerHeaderNames())
+            .forEach(headerName ->
+                endpoints.forEach(endpoint -> allMatchers.add(new RefererHeaderRequestMatcher(headerName, endpoint))));
+        return allMatchers;
     }
 
     private <T> Stream<T> getEnabledEndpointFlatStream(TechnicalEndpointProperties techEndpointProps,
@@ -72,13 +92,14 @@ public class TechnicalEndpointService {
         if (!technicalEndpointEnabled) {
             return;
         }
-        if (!allowedRequestMatchers.isEmpty()) {
-            String[] allowedPatterns = allowedRequestMatchers.stream()
-                .map(AntPathRequestMatcher::getPattern)
-                .toArray(String[]::new);
+        Collection<String> allowedPatterns = allowedRequestMatchers.stream()
+            .map(PatternRequestMatcher::getPattern)
+            .collect(toSet());
+        allowedPatterns.addAll(additionalRealEndpoints);
+        if (!allowedPatterns.isEmpty()) {
             http
                 .authorizeRequests()
-                .antMatchers(allowedPatterns)
+                .antMatchers(allowedPatterns.toArray(new String[0]))
                 .permitAll();
         }
     }

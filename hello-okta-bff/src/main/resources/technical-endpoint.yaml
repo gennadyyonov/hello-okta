@@ -1,5 +1,11 @@
 technical-endpoint:
   enabled: ${technical-endpoint.enabled}
+  additional-real-endpoints:
+    # Permit all on the GraphQL endpoint (allow introspection query w/o authentication for GraphQL tools)
+    # AOP based security is used in the resolvers
+    - /graphql
+  referrer-header-names:
+    - referer
   endpoints:
     - enabled: ${springdoc.swagger-ui.enabled:false}
       allowed-classes:
@@ -13,29 +19,23 @@ technical-endpoint:
       allowed-classes:
         - graphql.kickstart.autoconfigure.editor.graphiql.ServletGraphiQLController
       allowed-endpoints:
-        # Permit all on the GraphQL endpoint (allow introspection query w/o authentication for GraphQL tools)
-        # AOP based security is used in the resolvers
-        - /graphql
         - /graphiql/**
         - /vendor/graphiql/**
     - enabled: ${voyager.enabled:false}
       allowed-classes:
         - graphql.kickstart.autoconfigure.editor.voyager.VoyagerController
       allowed-endpoints:
-        - /graphql
         - /voyager/**
         - /vendor/voyager/**
     - enabled: ${graphql.playground.enabled:false}
       allowed-classes:
         - graphql.kickstart.autoconfigure.editor.playground.PlaygroundController
       allowed-endpoints:
-        - /graphql
         - /playground/**
         - /vendor/playground/**
     - enabled: ${altair.enabled:false}
       allowed-classes:
         - graphql.kickstart.autoconfigure.editor.altair.AltairController
       allowed-endpoints:
-        - /graphql
         - /altair/**
         - /vendor/altair/**
