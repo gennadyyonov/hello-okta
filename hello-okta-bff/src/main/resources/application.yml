@@ -38,6 +38,7 @@ spring:
           jwk-set-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/keys
   config:
     import:
+      - headers.yaml
       - cors.yaml
       - csrf.yaml
       - technical-endpoint.yaml

@@ -19,6 +19,7 @@ public class TechnicalEndpointProperties {
 
     @NotNull
     Boolean enabled;
+    List<String> additionalRealEndpoints;
     List<String> referrerHeaderNames;
     @Valid
     List<Endpoint> endpoints;

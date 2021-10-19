@@ -16,9 +16,10 @@ spec:
       app: {{ include "hello-okta-api.name" . }}
   template:
     metadata:
-      {{- with .Values.api.podAnnotations }}
       annotations:
-        {{- toYaml . | nindent 8 }}
+        rollme: {{ randAlphaNum 5 | quote }}
+      {{- with .Values.api.podAnnotations }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
         app: {{ include "hello-okta-api.name" . }}

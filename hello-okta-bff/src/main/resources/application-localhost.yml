@@ -6,6 +6,10 @@ cors:
     - http://localhost:3000
     - https://dev-220281.okta.com
 
+headers:
+  csp:
+    directives: "default-src 'self'; script-src 'self'; connect-src 'self' localhost:* *.okta.com; img-src 'self' *.oktacdn.com data: blob:; frame-src 'self' *.okta.com; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; font-src 'self' *.oktacdn.com; manifest-src 'self'; media-src 'self'; worker-src 'none';"
+
 chuck-norris:
   url: https://api.chucknorris.io
 

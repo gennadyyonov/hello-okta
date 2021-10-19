@@ -46,6 +46,16 @@ This project contains several modules, here are the main ones you to focus on an
 
 Other modules contains shared source code.
 
+### Dependencies
+
+* API module:
+
+`$ gradlew hello-okta-api:dependencies > api-dependencies.txt`
+
+* BFF module:
+
+`$ gradlew hello-okta-bff:dependencies > bff-dependencies.txt`
+
 ## Run Modules
 
 There are 2 runnable modules in this project:

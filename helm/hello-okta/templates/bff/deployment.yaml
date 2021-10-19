@@ -16,9 +16,10 @@ spec:
       app: {{ include "hello-okta-bff.name" . }}
   template:
     metadata:
-      {{- with .Values.bff.podAnnotations }}
       annotations:
-        {{- toYaml . | nindent 8 }}
+        rollme: {{ randAlphaNum 5 | quote }}
+      {{- with .Values.bff.podAnnotations }}
+      {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
         app: {{ include "hello-okta-bff.name" . }}

@@ -29,7 +29,6 @@ public class CsrfProperties {
     List<String> allowedMethods;
     @Valid
     List<Endpoint> ignoredEndpoints;
-    List<String> ignoredTechEndpoints;
 
     @Value
     static class Endpoint {
