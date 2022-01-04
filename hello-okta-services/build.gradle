@@ -35,6 +35,7 @@ dependencies {
     implementation 'io.github.openfeign.form:feign-form-spring'
     implementation "org.apache.httpcomponents:httpclient:$apacheHttpClientVersion"
     implementation 'org.apache.commons:commons-lang3'
+    implementation 'commons-codec:commons-codec'
 
     implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
 
