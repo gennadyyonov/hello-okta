@@ -35,24 +35,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
 
-    implementation('net.minidev:json-smart') {
-        because 'Critical CVE-2021-27568 fix'
-        version {
-            strictly jsonSmartVersion
-        }
-    }
+    implementation 'commons-codec:commons-codec'
 
     implementation('commons-io:commons-io') {
         because 'Medium CVE-20, CVE-2021-29425 fix'
         version {
             strictly commonsIoVersion
-        }
-    }
-
-    implementation('commons-codec:commons-codec') {
-        because 'Medium CVE-200 fix'
-        version {
-            strictly commonsCodecVersion
         }
     }
 
