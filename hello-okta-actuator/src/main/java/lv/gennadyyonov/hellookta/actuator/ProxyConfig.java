@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.security.PermitAll;
@@ -15,6 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 
 import static java.util.Optional.ofNullable;
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.HEAD;
+import static org.springframework.web.bind.annotation.RequestMethod.OPTIONS;
+import static org.springframework.web.bind.annotation.RequestMethod.PATCH;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @RequiredArgsConstructor
 @ConditionalOnProperty(prefix = "management.endpoints.proxy", name = "enabled", havingValue = "true")
@@ -26,8 +32,13 @@ public class ProxyConfig {
 
     private final ProxyProperties proxyProperties;
 
-    @RequestMapping(value = "/**", method = {RequestMethod.GET, RequestMethod.HEAD, RequestMethod.OPTIONS})
+    @RequestMapping(value = "/**", method = {GET, HEAD, OPTIONS})
     public <T> ResponseEntity<T> readOperations(ProxyExchange<T> exchange, HttpServletRequest request) {
+        return proxyRequest(exchange, request);
+    }
+
+    @RequestMapping(value = "/**", method = {POST, PUT, PATCH, DELETE})
+    public <T> ResponseEntity<T> writeOperations(ProxyExchange<T> exchange, HttpServletRequest request) {
         return proxyRequest(exchange, request);
     }
 
@@ -49,6 +60,7 @@ public class ProxyConfig {
             case OPTIONS -> exchange.options();
             case POST -> exchange.post();
             case PUT -> exchange.put();
+            case PATCH -> exchange.put();
             case DELETE -> exchange.delete();
             default -> throw new IllegalArgumentException("HTTP method not supported : " + method + "!");
         };
