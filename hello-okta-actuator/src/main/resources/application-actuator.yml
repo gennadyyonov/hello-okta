@@ -1,8 +1,30 @@
 management:
+  server:
+    port: ${server.port}
+  endpoint:
+    health:
+      showDetails: always
+    loggers:
+      enabled: true
   endpoints:
+    enabledByDefault: true
     web:
+      basePath: /actuator
       exposure:
-        include: "${management_endpoints_web_exposure_include:info, health, metrics, auditevents, httptrace, prometheus}"
+        include: ${management_endpoints_web_exposure_include:info,health,loggers,metrics,auditevents,httptrace,prometheus}
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        actuator:
+          enabled: true
+          path: /proxy/actuator
+          url: http://localhost:${management.server.port}${server.servlet.context-path:}${management.endpoints.web.basePath}
 
 info:
   app:
@@ -10,4 +32,3 @@ info:
     java:
       source: 15
       target: 15
-

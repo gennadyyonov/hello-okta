@@ -47,7 +47,12 @@ public class SecurityRoleAspect {
         // Do nothing. Method for declaration
     }
 
-    @Around("controllers() && !annotated()")
+    @Pointcut("(@annotation(javax.annotation.security.PermitAll) || @within(javax.annotation.security.PermitAll))")
+    public void permitAll() {
+        // Do nothing. Method for declaration
+    }
+
+    @Around("controllers() && !annotated() && !permitAll()")
     public Object restrictByAllowedUserRoles(ProceedingJoinPoint joinPoint) throws Throwable {
         if (isSecured(joinPoint) && !securityService.hasAnyRoles(SecurityConstants.ALLOWED_USERS, new String[0])) {
             String userId = authenticationService.getUserId();
