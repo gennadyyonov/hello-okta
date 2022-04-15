@@ -5,6 +5,9 @@ plugins {
 }
 
 dependencies {
+    // Import BOM-s
+    implementation enforcedPlatform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
@@ -12,6 +15,7 @@ dependencies {
     compileOnly 'org.springframework.boot:spring-boot-autoconfigure'
     compileOnly 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.cloud:spring-cloud-gateway-mvc'
     implementation 'io.micrometer:micrometer-registry-prometheus'
 }
 

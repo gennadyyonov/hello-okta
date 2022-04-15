@@ -1,6 +1,19 @@
 server:
   port: 8070
 
+management:
+  server:
+    port: 8011
+  endpoints:
+    security:
+      enabled: true
+      allowedRoles:
+        - APPLICATION_MONITOR
+    proxy:
+      enabled: true
+      path: /proxy/actuator
+      url: http://localhost:${management.server.port}/actuator
+
 logging:
   level:
     org.springframework.security.oauth2.client.OAuth2RestTemplate: DEBUG

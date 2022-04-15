@@ -1,13 +1,18 @@
 package lv.gennadyyonov.hellookta.services;
 
+import lv.gennadyyonov.hellookta.dto.User;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configurers.provisioning.InMemoryUserDetailsManagerConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,6 +22,7 @@ import static java.util.Base64.getEncoder;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toSet;
 import static lv.gennadyyonov.hellookta.utils.OktaUtils.extractCollection;
+import static lv.gennadyyonov.hellookta.utils.StreamUtils.getNullableFlatStream;
 import static org.springframework.security.oauth2.core.OAuth2AccessToken.TokenType.BEARER;
 
 public class AuthenticationService {
@@ -95,5 +101,15 @@ public class AuthenticationService {
         throw new UnsupportedOperationException(
             authentication.getClass().getName() + " token attributes retrieval is not supported yet!"
         );
+    }
+
+    public void initUsers(AuthenticationManagerBuilder auth, List<User> users) throws Exception {
+        InMemoryUserDetailsManagerConfigurer<AuthenticationManagerBuilder> configurer = auth.inMemoryAuthentication();
+        getNullableFlatStream(users).forEach(user -> configurer
+            .withUser(user.getName())
+            .password(user.getPassword())
+            .roles(ofNullable(user.getRoles())
+                .orElseGet(ArrayList::new)
+                .toArray(new String[0])));
     }
 }
