@@ -17,11 +17,11 @@ import java.util.Enumeration;
 import static java.util.Optional.ofNullable;
 
 @RequiredArgsConstructor
-@ConditionalOnProperty(prefix = "spring.cloud.gateway.routes.actuator", name = "enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "management.endpoints.proxy", name = "enabled", havingValue = "true")
 @Configuration
 @PermitAll
 @RestController
-@RequestMapping("${spring.cloud.gateway.routes.actuator.path}")
+@RequestMapping("${management.endpoints.proxy.path}")
 public class ProxyConfig {
 
     private final ProxyProperties proxyProperties;

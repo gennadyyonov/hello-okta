@@ -1,6 +1,15 @@
 server:
   port: 8060
 
+management:
+  server:
+    port: 8012
+  endpoints:
+    proxy:
+      enabled: true
+      path: /proxy/actuator
+      url: http://localhost:${management.server.port}/actuator
+
 cors:
   allowed-origins:
     - http://localhost:3000
