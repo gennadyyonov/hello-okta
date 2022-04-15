@@ -5,6 +5,10 @@ management:
   server:
     port: 8012
   endpoints:
+    security:
+      enabled: true
+      allowedRoles:
+        - APPLICATION_MONITOR
     proxy:
       enabled: true
       path: /proxy/actuator
