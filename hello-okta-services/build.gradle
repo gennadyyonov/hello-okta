@@ -7,6 +7,7 @@ plugins {
 dependencies {
     // Import BOM-s
     implementation enforcedPlatform("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
+    implementation enforcedPlatform("io.micrometer:micrometer-tracing-bom:$micrometerTracingVersion")
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -14,7 +15,7 @@ dependencies {
     implementation project(':hello-okta-logging-api')
     implementation project(':hello-okta-logging-impl')
 
-    compileOnly "javax.servlet:javax.servlet-api"
+    compileOnly "jakarta.servlet:jakarta.servlet-api"
 
     implementation 'org.springframework:spring-web'
     implementation 'org.springframework:spring-context'
@@ -37,7 +38,8 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3'
     implementation 'commons-codec:commons-codec'
 
-    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+    implementation 'io.micrometer:micrometer-tracing'
+    implementation 'io.micrometer:micrometer-tracing-bridge-brave'
 
     implementation('commons-io:commons-io') {
         because 'Medium CVE-20, CVE-2021-29425 fix'

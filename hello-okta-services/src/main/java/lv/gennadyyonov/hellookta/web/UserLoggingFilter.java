@@ -1,10 +1,9 @@
 package lv.gennadyyonov.hellookta.web;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lv.gennadyyonov.hellookta.services.AuthenticationService;
 import org.slf4j.MDC;
 import org.springframework.web.filter.AbstractRequestLoggingFilter;
-
-import javax.servlet.http.HttpServletRequest;
 
 public class UserLoggingFilter extends AbstractRequestLoggingFilter {
 

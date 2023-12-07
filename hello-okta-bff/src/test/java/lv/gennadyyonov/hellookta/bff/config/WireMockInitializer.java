@@ -1,8 +1,11 @@
 package lv.gennadyyonov.hellookta.bff.config;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.common.ClasspathFileSource;
+import com.github.tomakehurst.wiremock.common.FileSource;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer;
+import com.github.tomakehurst.wiremock.extension.responsetemplating.TemplateEngine;
 import lv.gennadyyonov.hellookta.bff.test.chucknorris.ChuckNorris;
 import lv.gennadyyonov.hellookta.bff.test.hellooktaapi.HelloOktaApi;
 import lv.gennadyyonov.hellookta.bff.test.okta.Okta;
@@ -10,6 +13,8 @@ import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.event.ContextClosedEvent;
+
+import java.util.List;
 
 public class WireMockInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
@@ -46,10 +51,16 @@ public class WireMockInitializer implements ApplicationContextInitializer<Config
     }
 
     private WireMockConfiguration createWireMockConfiguration() {
+        FileSource fileSource = new ClasspathFileSource("src/test/resources/wiremock");
         return new WireMockConfiguration()
             .dynamicPort()
             .usingFilesUnderClasspath("wiremock")
-            .extensions(new ResponseTemplateTransformer(true));
+            .extensions(new ResponseTemplateTransformer(
+                TemplateEngine.defaultTemplateEngine(),
+                true,
+                fileSource,
+                List.of()
+            ));
     }
 
     private String serverUrl(WireMockServer server) {

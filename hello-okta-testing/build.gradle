@@ -13,7 +13,7 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-    implementation "com.github.tomakehurst:wiremock-jre8:$wirmockVersion"
+    implementation "org.wiremock:wiremock:$wirmockVersion"
     implementation "io.jsonwebtoken:jjwt-api:$jsonwebtokenVersion"
     implementation "io.jsonwebtoken:jjwt-gson:$jsonwebtokenVersion"
     implementation "io.jsonwebtoken:jjwt-impl:$jsonwebtokenVersion"

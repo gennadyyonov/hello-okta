@@ -1,5 +1,6 @@
 package lv.gennadyyonov.hellookta.config.csrf;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lv.gennadyyonov.hellookta.services.TechnicalEndpointService;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -12,13 +13,13 @@ import org.springframework.security.config.annotation.web.configurers.CsrfConfig
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.util.matcher.AndRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -34,17 +35,29 @@ public class CsrfConfiguration {
     private final CsrfProperties csrfProperties;
     private final TechnicalEndpointService technicalEndpointService;
 
+    /**
+     * <b>CSRF protection</b> - ensure backward compatibility with Spring Security 5.8 - <u>Opt-out of Deferred CSRF Tokens</u>
+     * (set <code>CsrfTokenRequestAttributeHandler#csrfRequestAttributeName</code> to <code>null</code>)
+     *
+     * @see <a href="https://github.com/spring-projects/spring-security/issues/13011">Spring Security 6.x / Single Page Web Application / CSRF - formLogin not working anymore</a>
+     * @see <a href="https://docs.spring.io/spring-security/reference/migration/servlet/exploits.html#_defer_loading_csrftoken">Defer Loading CsrfToken</a>
+     */
     @Bean
     public Customizer<CsrfConfigurer<HttpSecurity>> csrfCustomizer(CsrfTokenRepository csrfTokenRepository) {
-        return csrf -> csrf.csrfTokenRepository(csrfTokenRepository)
-            // https://github.com/spring-projects/spring-security/issues/8668
-            .withObjectPostProcessor(new ObjectPostProcessor<CsrfFilter>() {
-                @Override
-                public <T extends CsrfFilter> T postProcess(T object) {
-                    object.setRequireCsrfProtectionMatcher(getRequireCsrfProtectionMatcher());
-                    return object;
-                }
-            });
+        CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
+        // Opt-out of Deferred CSRF Tokens
+        requestHandler.setCsrfRequestAttributeName(null);
+        return csrf ->
+            csrf
+                .csrfTokenRepository(csrfTokenRepository)
+                .csrfTokenRequestHandler(requestHandler)// https://github.com/spring-projects/spring-security/issues/8668
+                .withObjectPostProcessor(new ObjectPostProcessor<CsrfFilter>() {
+                    @Override
+                    public <T extends CsrfFilter> T postProcess(T object) {
+                        object.setRequireCsrfProtectionMatcher(getRequireCsrfProtectionMatcher());
+                        return object;
+                    }
+                });
     }
 
     @Bean

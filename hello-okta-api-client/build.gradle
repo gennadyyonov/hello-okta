@@ -50,7 +50,7 @@ bootJar {
     enabled = false
 }
 
-bootJarMainClassName {
+resolveMainClassName {
     enabled = false
 }
 

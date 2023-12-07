@@ -8,7 +8,7 @@ management:
     enabledByDefault: true
     web:
       exposure:
-        include: ${management_endpoints_web_exposure_include:info,health,loggers,metrics,auditevents,httptrace,prometheus}
+        include: ${management_endpoints_web_exposure_include:info,health,loggers,metrics,auditevents,httpexchanges,prometheus}
   metrics:
     export:
       prometheus:

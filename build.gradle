@@ -7,11 +7,12 @@ allprojects {
         set('apacheHttpClientVersion', '4.5.13')
         set('commonsIoVersion', '2.11.0')
         set('jsonwebtokenVersion', '0.11.2')
-        set('openApiVersion', '1.6.3')
-        set('springBootVersion', '2.6.6')
-        set('springCloudVersion', '2021.0.1')
-        set('springDependencyManagementVersion', '1.0.11.RELEASE')
-        set('wirmockVersion', '2.32.0')
+        set('micrometerTracingVersion', 'latest.release')
+        set('openApiVersion', '1.7.0')
+        set('springBootVersion', '3.1.6')
+        set('springCloudVersion', '2022.0.4')
+        set('springDependencyManagementVersion', '1.1.4')
+        set('wirmockVersion', '3.3.1')
     }
 }
 
@@ -22,8 +23,8 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
 
-    sourceCompatibility = '15'
-    targetCompatibility = '15'
+    sourceCompatibility = '20'
+    targetCompatibility = '20'
 
     configurations {
         implementation {

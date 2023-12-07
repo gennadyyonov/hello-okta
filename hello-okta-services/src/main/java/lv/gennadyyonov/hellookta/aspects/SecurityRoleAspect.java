@@ -47,7 +47,7 @@ public class SecurityRoleAspect {
         // Do nothing. Method for declaration
     }
 
-    @Pointcut("(@annotation(javax.annotation.security.PermitAll) || @within(javax.annotation.security.PermitAll))")
+    @Pointcut("(@annotation(jakarta.annotation.security.PermitAll) || @within(jakarta.annotation.security.PermitAll))")
     public void permitAll() {
         // Do nothing. Method for declaration
     }

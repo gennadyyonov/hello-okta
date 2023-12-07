@@ -1,5 +1,4 @@
 hello-okta-bff:
-  chuck-norris-url: ${chuck-norris.url}
   security-mapping:
     ALLOWED_USERS:
       - HelloOkta_StandardUser
@@ -36,6 +35,20 @@ spring:
         jwt:
           issuer-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}
           jwk-set-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/keys
+  cloud:
+    openfeign:
+      client:
+        config:
+          helloOktaApiConnector:
+            url: ${hello-okta-api.url}
+          runAsHelloOktaApiConnector:
+            url: ${hello-okta-api.url}
+          chuckNorrisConnector:
+            url: ${chuck-norris.url}
+          userInfoConnector:
+            url: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/userinfo
+          tokenConnector:
+            url: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/token
   config:
     import:
       - headers.yaml
@@ -44,11 +57,9 @@ spring:
       - technical-endpoint.yaml
 
 hello-okta-api:
-  base-url: ${hello-okta-api.url}
   client:
     run-as-details:
       grant-type: client_credentials
-      access-token-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/token
       scope: message.read
 
 logging:

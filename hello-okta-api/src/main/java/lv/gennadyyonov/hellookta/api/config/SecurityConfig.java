@@ -6,13 +6,15 @@ import lv.gennadyyonov.hellookta.services.AuthenticationService;
 import lv.gennadyyonov.hellookta.services.TechnicalEndpointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.security.web.SecurityFilterChain;
 
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.BooleanUtils.toBoolean;
@@ -23,7 +25,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableWebSecurity
 @EnableConfigurationProperties(UserCacheProperties.class)
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
     private static final String ALL_URL_PATTERN = "/**";
 
@@ -33,25 +35,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AuthenticationService authenticationService;
     private final UserCacheProperties userCacheProperties;
 
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.sessionManagement().sessionCreationPolicy(STATELESS);
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.sessionManagement(session -> session.sessionCreationPolicy(STATELESS));
         configureCsrf(http);
         ofNullable(technicalEndpointService).ifPresent(service -> service.allowTechnicalEndpoints(http));
         http
-            .authorizeRequests()
+            .authorizeHttpRequests(auth -> auth
+                // Allow CORS option calls
+                .requestMatchers(OPTIONS, ALL_URL_PATTERN).permitAll()
+                .anyRequest().authenticated())
             // Allow CORS option calls
-            .antMatchers(OPTIONS, ALL_URL_PATTERN).permitAll()
-            .anyRequest().authenticated()
-            .and()
-            .oauth2ResourceServer().jwt();
+            .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()));
+        return http.build();
     }
 
     private void configureCsrf(HttpSecurity http) throws Exception {
         if (toBoolean(csrfProperties.getCsrfEnabled())) {
             http.csrf(csrfCustomizer);
         } else {
-            http.csrf().disable();
+            http.csrf(AbstractHttpConfigurer::disable);
         }
     }
 

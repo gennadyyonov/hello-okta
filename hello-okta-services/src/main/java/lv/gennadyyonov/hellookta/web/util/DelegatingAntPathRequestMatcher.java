@@ -1,11 +1,10 @@
 package lv.gennadyyonov.hellookta.web.util;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import javax.servlet.http.HttpServletRequest;
 
 @EqualsAndHashCode
 @ToString

@@ -1,28 +1,15 @@
 package lv.gennadyyonov.hellookta.actuator;
 
-import org.springframework.boot.actuate.trace.http.HttpExchangeTracer;
-import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
-import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository;
-import org.springframework.boot.actuate.web.trace.servlet.HttpTraceFilter;
+import org.springframework.boot.actuate.web.exchanges.HttpExchangeRepository;
+import org.springframework.boot.actuate.web.exchanges.InMemoryHttpExchangeRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.Collection;
-
-import static java.util.Collections.singletonList;
 
 @Configuration
 public class HttpTracingConfig {
 
     @Bean
-    public HttpTraceRepository httpTraceRepository() {
-        return new InMemoryHttpTraceRepository();
-    }
-
-    @Bean
-    public HttpTraceFilter httpTraceFilter(PathService pathService,
-                                           HttpTraceRepository repository, HttpExchangeTracer tracer) {
-        Collection<String> basePaths = singletonList(pathService.getBasePath());
-        return new HttpTraceExclusionFilter(repository, tracer, basePaths);
+    public HttpExchangeRepository httpExchangeRepository() {
+        return new InMemoryHttpExchangeRepository();
     }
 }

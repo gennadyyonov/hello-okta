@@ -1,16 +1,16 @@
 package lv.gennadyyonov.hellookta.actuator;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.gateway.mvc.ProxyExchange;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.security.PermitAll;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 
 import static java.util.Optional.ofNullable;
@@ -47,13 +47,13 @@ public class ProxyConfig {
         ProxyExchange<T> targetExchange = exchange
             .sensitive()
             .uri(getUri(exchange));
-        ResponseEntity<T> entity = ofNullable(HttpMethod.resolve(request.getMethod()))
+        ResponseEntity<T> entity = ofNullable(RequestMethod.resolve(request.getMethod()))
             .map(method -> execute(targetExchange, method))
             .orElseThrow(() -> new IllegalArgumentException("HTTP methd MUST NOT be null!"));
         return new ResponseEntity<>(entity.getBody(), entity.getStatusCode());
     }
 
-    private <T> ResponseEntity<T> execute(ProxyExchange<T> exchange, HttpMethod method) {
+    private <T> ResponseEntity<T> execute(ProxyExchange<T> exchange, RequestMethod method) {
         return switch (method) {
             case GET -> exchange.get();
             case HEAD -> exchange.head();

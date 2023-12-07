@@ -1,5 +1,6 @@
 package lv.gennadyyonov.hellookta.web;
 
+import jakarta.servlet.Filter;
 import lv.gennadyyonov.hellookta.config.OktaServiceConfig;
 import lv.gennadyyonov.hellookta.dto.FilterOrder;
 import lv.gennadyyonov.hellookta.dto.FilterOrderProperties;
@@ -13,8 +14,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.filter.ForwardedHeaderFilter;
-
-import javax.servlet.Filter;
 
 import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 

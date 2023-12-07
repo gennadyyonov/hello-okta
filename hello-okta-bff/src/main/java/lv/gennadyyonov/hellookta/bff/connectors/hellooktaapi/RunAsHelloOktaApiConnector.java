@@ -7,8 +7,6 @@ import lv.gennadyyonov.hellookta.logging.ParameterLogging;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 
-import java.net.URI;
-
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
 @FeignClient(name = "runAsHelloOktaApiConnector", configuration = RunAsHelloOktaApiConnectorConfig.class)
@@ -16,5 +14,5 @@ public interface RunAsHelloOktaApiConnector extends ParameterLogging {
 
     @RequestLine("POST /hello")
     @Headers({CONTENT_TYPE + ": " + MediaType.TEXT_PLAIN_VALUE})
-    Message hello(URI baseUri);
+    Message hello();
 }

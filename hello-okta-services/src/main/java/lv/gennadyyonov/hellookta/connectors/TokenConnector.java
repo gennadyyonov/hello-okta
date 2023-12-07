@@ -10,7 +10,6 @@ import lv.gennadyyonov.hellookta.logging.ParameterLogging;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 
-import java.net.URI;
 import java.util.Map;
 
 import static org.springframework.http.HttpHeaders.ACCEPT;
@@ -26,6 +25,6 @@ public interface TokenConnector extends ParameterLogging {
         ACCEPT + ": " + MediaType.APPLICATION_JSON_VALUE,
         CACHE_CONTROL + ": no-cache"
     })
-    TokenResponse getAccessToken(URI baseUri, @LoggingExclusion @HeaderMap Map<String, Object> headers,
+    TokenResponse getAccessToken(@LoggingExclusion @HeaderMap Map<String, Object> headers,
                                  @Param("grant_type") String grantType, @Param("scope") String scope);
 }

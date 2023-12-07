@@ -1,5 +1,6 @@
 package lv.gennadyyonov.hellookta.services;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lv.gennadyyonov.hellookta.config.TechnicalEndpointProperties;
@@ -10,8 +11,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -97,10 +98,13 @@ public class TechnicalEndpointService {
             .collect(toSet());
         allowedPatterns.addAll(additionalRealEndpoints);
         if (!allowedPatterns.isEmpty()) {
+            RequestMatcher[] matchers = allowedPatterns.stream()
+                .map(AntPathRequestMatcher::antMatcher)
+                .toArray(AntPathRequestMatcher[]::new);
             http
-                .authorizeRequests()
-                .antMatchers(allowedPatterns.toArray(new String[0]))
-                .permitAll();
+                .authorizeHttpRequests(auth -> auth
+                    .requestMatchers(matchers)
+                    .permitAll());
         }
     }
 

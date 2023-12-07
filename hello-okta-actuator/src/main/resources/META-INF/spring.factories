@@ -1,6 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-lv.gennadyyonov.hellookta.actuator.SecurityConfig,\
-lv.gennadyyonov.hellookta.actuator.BaseConfig,\
-lv.gennadyyonov.hellookta.actuator.HttpTracingConfig,\
-lv.gennadyyonov.hellookta.actuator.AuditingConfig,\
-lv.gennadyyonov.hellookta.actuator.ProxyConfig
