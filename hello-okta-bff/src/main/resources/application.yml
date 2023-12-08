@@ -91,6 +91,9 @@ graphql:
     introspection-enabled: ${graphql.tools.introspection-enabled:false}
   graphiql:
     enabled: ${graphiql.enabled:false}
+    props:
+      variables:
+        header-editor-enabled: true
   voyager:
     enabled: ${voyager.enabled:false}
     basePath: /bff/
@@ -104,11 +107,6 @@ graphql:
     base-path: /bff
     options:
       endpoint-url: /bff/graphql
-
-graphiql:
-  props:
-    variables:
-      headerEditorEnabled: true
 
 schedule:
   jwk-set-cache-refresh-time: 300000 # 5 minutes
