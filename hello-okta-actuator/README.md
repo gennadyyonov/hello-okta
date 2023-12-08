@@ -11,14 +11,14 @@ The following endpoint enabled in this module by default:
 - `httptrace`
 - `prometheus`
 
-| ID | Description |
-| --- | --- |
-| [info](http://localhost:8070/actuator/info) | Displays arbitrary application information. |
-| [health](http://localhost:8070/actuator/health) | Shows application health information. |
-| [metrics](http://localhost:8070/actuator/metrics) | Shows 'metrics' information for the current application. |
-| [auditevents](http://localhost:8070/actuator/auditevents) | Exposes audit events information for the current application. Requires an `AuditEventRepository` bean. |
-| [httptrace](http://localhost:8070/actuator/httptrace) | Displays HTTP trace information (by default, the last 100 HTTP request-response exchanges). Requires an `HttpTraceRepository` bean. |
-| [prometheus](http://localhost:8070/actuator/prometheus) | Exposes metrics in a format that can be scraped by a Prometheus server. Requires a dependency on `micrometer-registry-prometheus`. |
+| ID                                                            | Description                                                                                                                               |
+|---------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| [info](http://localhost:8070/actuator/info)                   | Displays arbitrary application information.                                                                                               |
+| [health](http://localhost:8070/actuator/health)               | Shows application health information.                                                                                                     |
+| [metrics](http://localhost:8070/actuator/metrics)             | Shows 'metrics' information for the current application.                                                                                  |
+| [auditevents](http://localhost:8070/actuator/auditevents)     | Exposes audit events information for the current application. Requires an `AuditEventRepository` bean.                                    |
+| [httpexchanges](http://localhost:8070/actuator/httpexchanges) | Displays HTTP exchange information (by default, the last 100 HTTP request-response exchanges). Requires an `HttpExchangeRepository` bean. |
+| [prometheus](http://localhost:8070/actuator/prometheus)       | Exposes metrics in a format that can be scraped by a Prometheus server. Requires a dependency on `micrometer-registry-prometheus`.        |
 
 ## Application Information
 
@@ -51,9 +51,9 @@ Click **Add data source**, search for `Prometheus` and select it.
 
 Fill in the fields with these values (leave those not mentioned as their defaults):
 
-| FIELD NAME | VALUE |
-| --- | ---|
-| **URL** | `http://host.docker.internal:9090` |
+| FIELD NAME | VALUE                              |
+|------------|------------------------------------|
+| **URL**    | `http://host.docker.internal:9090` |
 
 ![Prometheus](images/02-Data-Sources-Prometheus.PNG)
 

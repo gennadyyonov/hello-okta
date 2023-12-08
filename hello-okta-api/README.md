@@ -24,3 +24,11 @@ Application will be running on port `8070` by default.
 It's API can be accessed via [Swagger UI](http://localhost:8070/api/swagger-ui.html) in your browser.
 
 ![Swagger UI](images/02-OpenApi-UI.PNG)
+
+Actuator end-points can be accessed via [Proxy URL](http://localhost:8070/api/proxy/actuator) using credentials defined in [secrets.yml](./src/main/resources/secrets.yml.sample):
+```
+user-cache:
+  users:
+    - name: ???
+      password: ???
+```
