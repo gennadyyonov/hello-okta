@@ -38,11 +38,11 @@ IntelliJ IDEA supports a fully-functional integration with Gradle.
 
 This project contains several modules, here are the main ones you to focus on and run:
 
-| MODULE | DESCRIPTION |
-| --- | --- |
-| [hello-okta-api](hello-okta-api/README.md) | REST API Backend Server.<br> Exposes domain API over REST.<br>Secured by Okta. |
-| [hello-okta-bff](hello-okta-bff/README.md) | BFF (Backend for Frontend) Server.<br>Aggregates data from downstream services (for example [hello-okta-api](hello-okta-api/README.md)) providing API tailored to Front-end (SPA) needs.<br>Secured by Okta.|
-| [hello-okta-api-client](hello-okta-api-client/README.md) | [REST API Server](hello-okta-api/README.md) Client. |
+| MODULE                                                   | DESCRIPTION                                                                                                                                                                                                  |
+|----------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [hello-okta-api](hello-okta-api/README.md)               | REST API Backend Server.<br> Exposes domain API over REST.<br>Secured by Okta.                                                                                                                               |
+| [hello-okta-bff](hello-okta-bff/README.md)               | BFF (Backend for Frontend) Server.<br>Aggregates data from downstream services (for example [hello-okta-api](hello-okta-api/README.md)) providing API tailored to Front-end (SPA) needs.<br>Secured by Okta. |
+| [hello-okta-api-client](hello-okta-api-client/README.md) | [REST API Server](hello-okta-api/README.md) Client.                                                                                                                                                          |
 
 Other modules contains shared source code.
 
@@ -121,9 +121,9 @@ Choose _Service_ and click **Next**.
 
 Populate the fields with these values:
 
-| FIELD NAME | VALUE |
-| --- | ---|
-| **Name** | `Hello Okta App Client` |
+| FIELD NAME | VALUE                   |
+|------------|-------------------------|
+| **Name**   | `Hello Okta App Client` |
 
 Click **Done**.
 
@@ -138,11 +138,11 @@ Scroll down to the **Client Credentials** section and copy the `Client ID` and `
 Navigate to **API > Authorization Servers**. Click **Add Authorization Server**. 
 Fill in the values:
 
-| FIELD NAME | VALUE |
-| --- | ---|
-| **Name** | `Hello Okta App` |
-| **Description** | `Hello Okta App` |
-| **Audience** | `api://hellookta` |
+| FIELD NAME      | VALUE             |
+|-----------------|-------------------|
+| **Name**        | `Hello Okta App`  |
+| **Description** | `Hello Okta App`  |
+| **Audience**    | `api://hellookta` |
 
 Click **Done**.
 
@@ -172,12 +172,12 @@ Let's add a **Groups** claim to _ID tokens_ and _access tokens_ to perform authe
 
 Click **Claims > Add Claim**. Fill in the fields with these values (leave those not mentioned as their defaults):
 
-| FIELD NAME | VALUE |
-| --- | ---|
-| **Name** | `groups` |
+| FIELD NAME                | VALUE                      |
+|---------------------------|----------------------------|
+| **Name**                  | `groups`                   |
 | **Include in token type** | `Access Token`<br>`Always` |
-| **Value type** | `Groups` |
-| **Filter** | `Matches regex` `.*` |
+| **Value type**            | `Groups`                   |
+| **Filter**                | `Matches regex` `.*`       |
 
 Click **Create**.
 
@@ -189,12 +189,12 @@ Created **Claim** will look like:
 
 Click **Claims > Add Claim**. Fill in the fields with these values (leave those not mentioned as their defaults):
 
-| FIELD NAME | VALUE |
-| --- | ---|
-| **Name** | `groups` |
+| FIELD NAME                | VALUE                  |
+|---------------------------|------------------------|
+| **Name**                  | `groups`               |
 | **Include in token type** | `ID Token`<br>`Always` |
-| **Value type** | `Groups` |
-| **Filter** | `Matches regex` `.*` |
+| **Value type**            | `Groups`               |
+| **Filter**                | `Matches regex` `.*`   |
 
 Click **Create**.
 
@@ -213,11 +213,11 @@ Each **Access Policy** applies to a particular OpenID Connect application.
 
 Click the **Access Policies** tab. Click **Add Policy**. Fill in the fields with these values:
 
-| FIELD NAME | VALUE |
-| --- | ---|
-| **Name** | `Hello Okta App` |
-| **Description** | `Hello Okta App` |
-| **Assign to** | The following clients: `Hello Okta App` |
+| FIELD NAME      | VALUE                                   |
+|-----------------|-----------------------------------------|
+| **Name**        | `Hello Okta App`                        |
+| **Description** | `Hello Okta App`                        |
+| **Assign to**   | The following clients: `Hello Okta App` |
 
 Click **Create Policy**.
 
@@ -229,10 +229,10 @@ Created **Policy** will look like:
 
 Click **Add Rule**. Fill in the fields with these values:
 
-| FIELD NAME | VALUE |
-| --- | ---|
-| **Name** | `All users of Hello Okta App has access` |
-| **Grant type is** | `Authorization Code` |
+| FIELD NAME           | VALUE                                       |
+|----------------------|---------------------------------------------|
+| **Name**             | `All users of Hello Okta App has access`    |
+| **Grant type is**    | `Authorization Code`                        |
 | **Scopes requested** | The following scopes: `OIDC default scopes` |
 
 Click **Create Rule**.
@@ -245,11 +245,11 @@ Created **Rule** should look like:
 
 Click the **Access Policies** tab. Click **Add Policy**. Fill in the fields with these values:
 
-| FIELD NAME | VALUE |
-| --- | ---|
-| **Name** | `Hello Okta App Client` |
-| **Description** | `Hello Okta App` |
-| **Assign to** | The following clients: `Hello Okta App Client` |
+| FIELD NAME      | VALUE                                          |
+|-----------------|------------------------------------------------|
+| **Name**        | `Hello Okta App Client`                        |
+| **Description** | `Hello Okta App`                               |
+| **Assign to**   | The following clients: `Hello Okta App Client` |
 
 Click **Create Policy**.
 
@@ -261,10 +261,10 @@ Created **Policy** will look like:
 
 Click **Add Rule**. Fill in the fields with these values:
 
-| FIELD NAME | VALUE |
-| --- | ---|
-| **Name** | `Message read` |
-| **Grant type is** | `Client Credentials` |
+| FIELD NAME           | VALUE                                |
+|----------------------|--------------------------------------|
+| **Name**             | `Message read`                       |
+| **Grant type is**    | `Client Credentials`                 |
 | **Scopes requested** | The following scopes: `message.read` |
 
 Click **Create Rule**.
@@ -278,9 +278,9 @@ Created **Rule** should look like:
 #### Add HelloOkta_StandardUser Group
 Navigate to **Users > Groups**. Click **Add Group**. Fill in the values:
 
-| FIELD NAME | VALUE |
-| --- | ---|
-| **Name** | `HelloOkta_StandardUser` |
+| FIELD NAME            | VALUE                     |
+|-----------------------|---------------------------|
+| **Name**              | `HelloOkta_StandardUser`  |
 | **Group Description** | `HELLOOKTA Standard User` |
 
 ![HelloOkta_StandardUser Group](images/11-HelloOkta_StandardUser-Group.PNG)
