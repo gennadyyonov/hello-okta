@@ -21,16 +21,17 @@ import java.util.List;
 import static java.lang.Boolean.TRUE;
 import static java.util.Optional.ofNullable;
 
+// https://docs.spring.io/spring-security/reference/servlet/configuration/java.html#_multiple_httpsecurity_instances
 @RequiredArgsConstructor
 @EnableConfigurationProperties({ProxyProperties.class, SecurityProperties.class})
 @Configuration(proxyBeanMethods = false)
-@Order(50)
 public class SecurityConfig {
 
     private final ProxyProperties proxyProperties;
     private final SecurityProperties securityProperties;
 
     @Bean
+    @Order(50)
     protected SecurityFilterChain actuatorSecurityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable)

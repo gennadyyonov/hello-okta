@@ -18,8 +18,7 @@ dependencies {
     implementation project(':hello-okta-services')
     implementation project(':hello-okta-actuator')
 
-    implementation "org.springdoc:springdoc-openapi-ui:${openApiVersion}"
-    implementation "org.springdoc:springdoc-openapi-security:${openApiVersion}"
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:$openApiVersion"
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
