@@ -78,6 +78,7 @@ Each of them contains instructions how to **Run Application on localhost** in `R
 - [WireMock](https://github.com/tomakehurst/wiremock) : Simulator for HTTP-based APIs
 - [Springdoc OpenAPI 3.0](https://github.com/springdoc/springdoc-openapi) : Spring Boot RESTful API Documentation
 - [Checkstyle](https://checkstyle.sourceforge.io/index.html)
+- [Helm](https://helm.sh) : Package manager for Kubernetes
 
 ## Okta Configuration
 
@@ -331,3 +332,5 @@ To bring up all the services:
 ```
 docker-compose up -d
 ```
+
+See [README.md](./helm/README.md) to deploy application to Kubernetes Cluster (Docker Desktop)

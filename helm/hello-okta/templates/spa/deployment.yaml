@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "hello-okta.name" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "hello-okta.name" . }}
+    helm.sh/chart: {{ include "hello-okta.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app: {{ include "hello-okta.name" . }}
+spec:
+  progressDeadlineSeconds: 600
+  replicas: {{ .Values.spa.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "hello-okta.name" . }}
+  template:
+    metadata:
+      annotations:
+        rollme: {{ randAlphaNum 5 | quote }}
+      {{- with .Values.spa.podAnnotations }}
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: {{ include "hello-okta.name" . }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "hello-okta.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ include "hello-okta.name" . }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.spa.image.repository }}:{{ .Values.spa.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.spa.image.pullPolicy }}
+          env:
+          {{- range $key, $value := .Values.spa.env }}
+            - name: {{ $key }}
+              value: "{{ $value }}"
+          {{- end }}
+          ports:
+            - name: http-spa
+              containerPort: {{ .Values.spa.service.port }}
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.spa.resources | nindent 12 }}
+      {{- with .Values.spa.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.spa.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.spa.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
