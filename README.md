@@ -93,12 +93,12 @@ Choose _Native_ and click **Next**.
 
 Populate the fields with these values:
 
-| FIELD NAME | VALUE |
-| --- | ---|
-| **Name** | `Hello Okta App` |
+| FIELD NAME               | VALUE                                                                                                                                                                                                                                                                                                                                                                         |
+|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Name**                 | `Hello Okta App`                                                                                                                                                                                                                                                                                                                                                              |
 | **Login redirect URIs**  | http://localhost:8060/bff/swagger-ui/oauth2-redirect.html<br>http://localhost:8070/api/swagger-ui/oauth2-redirect.html<br>http://localhost:3000/implicit/callback<br>https://kubernetes.docker.internal/bff/swagger-ui/oauth2-redirect.html<br>https://kubernetes.docker.internal/api/swagger-ui/oauth2-redirect.html<br>https://kubernetes.docker.internal/implicit/callback |
-| **Logout redirect URIs** | http://localhost:3000<br>https://kubernetes.docker.internal |
-| **Allowed grant types**  | `Authorization Code` |
+| **Logout redirect URIs** | http://localhost:3000<br>https://kubernetes.docker.internal                                                                                                                                                                                                                                                                                                                   |
+| **Allowed grant types**  | `Authorization Code`                                                                                                                                                                                                                                                                                                                                                          |
 
 Click **Done**.
 
