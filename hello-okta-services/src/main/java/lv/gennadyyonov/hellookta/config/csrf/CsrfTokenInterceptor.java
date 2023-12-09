@@ -2,11 +2,11 @@ package lv.gennadyyonov.hellookta.config.csrf;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 
-import javax.servlet.http.HttpServletRequest;
 import java.net.HttpCookie;
 
 import static lv.gennadyyonov.hellookta.utils.RequestUtils.getHttpServletRequest;

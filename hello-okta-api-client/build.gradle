@@ -4,25 +4,25 @@ plugins {
     id 'org.springframework.boot' version "${springBootVersion}"
 }
 
-task runHelloClientDemo(type: JavaExec) {
+tasks.register('runHelloClientDemo', JavaExec) {
     group = 'execution'
     description = 'Run HelloClientDemo'
     classpath = sourceSets.main.runtimeClasspath
-    main = 'lv.gennadyyonov.hellookta.api.client.HelloClientDemo'
+    mainClass = 'lv.gennadyyonov.hellookta.api.client.HelloClientDemo'
 }
 
-task runHelloImplicitFlowClientDemo(type: JavaExec) {
+tasks.register('runHelloImplicitFlowClientDemo', JavaExec) {
     group = 'execution'
     description = 'Run HelloImplicitFlowClientDemo'
     classpath = sourceSets.main.runtimeClasspath
-    main = 'lv.gennadyyonov.hellookta.api.client.ImplicitFlowHelloClientDemo'
+    mainClass = 'lv.gennadyyonov.hellookta.api.client.ImplicitFlowHelloClientDemo'
 }
 
-task runHelloPKCEClientDemo(type: JavaExec) {
+tasks.register('runHelloPKCEClientDemo', JavaExec) {
     group = 'execution'
     description = 'Run HelloPKCEClientDemo'
     classpath = sourceSets.main.runtimeClasspath
-    main = 'lv.gennadyyonov.hellookta.api.client.PkceHelloClientDemo'
+    mainClass = 'lv.gennadyyonov.hellookta.api.client.PkceHelloClientDemo'
 }
 
 dependencies {
@@ -50,7 +50,7 @@ bootJar {
     enabled = false
 }
 
-bootJarMainClassName {
+resolveMainClassName {
     enabled = false
 }
 

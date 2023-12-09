@@ -1,9 +1,9 @@
-FROM adoptopenjdk/openjdk15:alpine AS build
+FROM eclipse-temurin:20-jdk-alpine AS build
 WORKDIR /workspace/app
 COPY . /workspace/app
 RUN mkdir -p build/dependency && (cd build/dependency; jar -xf ../libs/app.jar)
 
-FROM adoptopenjdk/openjdk15:alpine-jre
+FROM eclipse-temurin:20-jre-alpine
 VOLUME /tmp
 RUN addgroup -S hellookta && adduser -S hellookta -G hellookta
 USER hellookta:hellookta

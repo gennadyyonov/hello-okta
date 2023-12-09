@@ -12,18 +12,13 @@ import lv.gennadyyonov.hellookta.services.TechnicalEndpointService;
 import lv.gennadyyonov.hellookta.services.TokenService;
 import lv.gennadyyonov.hellookta.services.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 
-import static lv.gennadyyonov.hellookta.utils.OktaUtils.getIssuerUri;
-
 @RequiredArgsConstructor
 @Configuration
 public class OktaServiceConfig {
-
-    private final OAuth2ClientProperties oktaOAuth2Properties;
 
     @Bean
     public AuthenticationService authenticationService() {
@@ -33,8 +28,7 @@ public class OktaServiceConfig {
     @Bean
     public UserInfoService userInfoService(AuthenticationService authenticationService,
                                            @Lazy UserInfoConnector userInfoConnector) {
-        String issuerUrl = getIssuerUri(oktaOAuth2Properties);
-        return new UserInfoService(authenticationService, issuerUrl, userInfoConnector);
+        return new UserInfoService(authenticationService, userInfoConnector);
     }
 
     @Bean

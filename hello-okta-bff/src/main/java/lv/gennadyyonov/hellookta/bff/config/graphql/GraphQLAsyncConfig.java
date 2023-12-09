@@ -1,14 +1,14 @@
 package lv.gennadyyonov.hellookta.bff.config.graphql;
 
 import graphql.execution.instrumentation.Instrumentation;
-import graphql.execution.instrumentation.SimpleInstrumentation;
 import graphql.execution.instrumentation.parameters.InstrumentationFieldFetchParameters;
 import graphql.schema.DataFetcher;
+import io.micrometer.context.ContextExecutorService;
+import io.micrometer.context.ContextSnapshot;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.sleuth.instrument.async.TraceableExecutorService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -64,16 +64,20 @@ public class GraphQLAsyncConfig {
         };
     }
 
+    /**
+     * <a href="https://github.com/micrometer-metrics/tracing/wiki/Spring-Cloud-Sleuth-3.1-Migration-Guide#async-instrumentation">Async Instrumentation</a>
+     */
     @Bean
     public Instrumentation instrumentation(BeanFactory beanFactory,
                                            @Qualifier(TASK_EXECUTOR_NAME) ThreadPoolTaskExecutor taskExecutor) {
-        return new SimpleInstrumentation() {
+        return new Instrumentation() {
             @Override
-            public DataFetcher<?> instrumentDataFetcher(DataFetcher<?> dataFetcher, InstrumentationFieldFetchParameters parameters) {
+            public DataFetcher<?> instrumentDataFetcher(DataFetcher<?> dataFetcher,
+                                                        InstrumentationFieldFetchParameters parameters) {
                 AsyncContext asyncContext = createAsyncContext();
                 ThreadPoolExecutor threadPoolExecutor = taskExecutor.getThreadPoolExecutor();
                 ExecutorService delegate = new ContextCopyingDelegateExecutorService(asyncContext, threadPoolExecutor);
-                ExecutorService executor = new TraceableExecutorService(beanFactory, delegate);
+                ExecutorService executor = ContextExecutorService.wrap(delegate, ContextSnapshot::captureAll);
                 return async(dataFetcher, executor);
             }
         };

@@ -1,1 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=lv.gennadyyonov.hellookta.test.config.TestingAutoConfiguration

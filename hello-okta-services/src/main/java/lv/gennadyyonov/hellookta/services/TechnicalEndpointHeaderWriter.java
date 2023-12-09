@@ -1,10 +1,9 @@
 package lv.gennadyyonov.hellookta.services;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.web.header.HeaderWriter;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @RequiredArgsConstructor
 public class TechnicalEndpointHeaderWriter implements HeaderWriter {

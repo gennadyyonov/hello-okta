@@ -35,6 +35,14 @@ spring:
         jwt:
           issuer-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}
           jwk-set-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/keys
+  cloud:
+    openfeign:
+      client:
+        config:
+          userInfoConnector:
+            url: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/userinfo
+          tokenConnector:
+            url: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/token
   config:
     import:
       - csrf.yaml

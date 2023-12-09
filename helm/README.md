@@ -4,31 +4,30 @@ Docker version used:
 ```
 C:\>docker version
 Client:
- Cloud integration: 1.0.14
- Version:           20.10.6
- API version:       1.41
- Go version:        go1.16.3
- Git commit:        370c289
- Built:             Fri Apr  9 22:49:36 2021
+ Cloud integration: v1.0.35+desktop.5
+ Version:           24.0.6
+ API version:       1.43
+ Go version:        go1.20.7
+ Git commit:        ed223bc
+ Built:             Mon Sep  4 12:32:48 2023
  OS/Arch:           windows/amd64
  Context:           default
- Experimental:      true
 
-Server: Docker Engine - Community
+Server: Docker Desktop 4.25.0 (126437)
  Engine:
-  Version:          20.10.6
-  API version:      1.41 (minimum version 1.12)
-  Go version:       go1.13.15
-  Git commit:       8728dd2
-  Built:            Fri Apr  9 22:44:56 2021
+  Version:          24.0.6
+  API version:      1.43 (minimum version 1.12)
+  Go version:       go1.20.7
+  Git commit:       1a79695
+  Built:            Mon Sep  4 12:32:16 2023
   OS/Arch:          linux/amd64
   Experimental:     false
  containerd:
-  Version:          1.4.4
-  GitCommit:        05f951a3781f4f2c1911b05e61c160e9c30eaa8e
+  Version:          1.6.22
+  GitCommit:        8165feabfdfe38c65b599c4993d227328c231fca
  runc:
-  Version:          1.0.0-rc93
-  GitCommit:        12644e614e25b05da6fd08a38ffa0cfe1903fdec
+  Version:          1.1.8
+  GitCommit:        v1.1.8-0-g82f18fe
  docker-init:
   Version:          0.19.0
   GitCommit:        de40ad0
@@ -47,13 +46,13 @@ docker start registry
 
 ## Copy Images to Local Registry
 
-- Tag images 
+- Tag images
 ```
-docker tag hello-okta_api localhost:5000/hellooktaapi
-docker tag hello-okta_bff localhost:5000/hellooktabff
-docker tag hello-okta-spa_web localhost:5000/hellooktaspa
+docker tag hello-okta-api localhost:5000/hellooktaapi
+docker tag hello-okta-bff localhost:5000/hellooktabff
+docker tag hello-okta-spa-web localhost:5000/hellooktaspa
 ```
-`hello-okta-spa_web` Docker image can be build using instructions from [here](https://github.com/gennadyyonov/hello-okta-spa).
+`hello-okta-spa-web` Docker image can be build using instructions from [here](https://github.com/gennadyyonov/hello-okta-spa).
 
 - Push images
 ```
@@ -68,18 +67,27 @@ docker push localhost:5000/hellooktaspa
 [Kubernetes Dashboard](https://github.com/kubernetes/dashboard)
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
+```
+
+[Create Sample User](https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md)
+
+Run the following scripts (copied from link above) from [sample-user](sample-user) folder:
+```
+kubectl apply -f dashboard-adminuser-service-account.yaml
+kubectl apply -f dashboard-adminuser-cluster-role-binding.yaml
+kubectl apply -f dashboard-secret.yaml
+```
+
+After Secret is created, we can execute the following command (in bash) to get the token which saved in the Secret:
+```
+kubectl get secret admin-user -n kubernetes-dashboard -o jsonpath={".data.token"} | base64 -d
+```
+
+```
 kubectl proxy
 ```
 Dashboard will be available at [URL](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/)
-
-If `Not enough data to create auth info structure` is displayed trying to log-in using Kubeconfig (`C:\Users\<USER>\.kube\config`)
-execute the following script in bash:
-```
-#!/bin/bash
-TOKEN=$(kubectl -n kube-system describe secret default| awk '$1=="token:"{print $2}')
-kubectl config set-credentials docker-desktop --token="${TOKEN}"
-```
 
 ### Helm
 
@@ -97,7 +105,13 @@ Ingress exposes HTTP and HTTPS routes from outside the cluster to services withi
 ```
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo update
+```
+```
 helm install nginx-ingress ingress-nginx/ingress-nginx
+```
+or
+```
+helm upgrade nginx-ingress ingress-nginx/ingress-nginx
 ```
 
 ### Cert Manager
@@ -106,7 +120,7 @@ helm install nginx-ingress ingress-nginx/ingress-nginx
 ```
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.3.1/cert-manager.crds.yaml
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.13.2/cert-manager.crds.yaml
 ```
 
 - Create namespace for `cert-manager`
@@ -116,7 +130,7 @@ kubectl create namespace cert-manager
 
 - Install `cert-manager` Helm chart
 ```
-helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.3.1
+helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.13.2
 ```
 
 ### Install Application
@@ -129,10 +143,12 @@ helm install cert-manager jetstack/cert-manager --namespace cert-manager --versi
     ```
     helm install hello-okta-release ./helm/hello-okta --values ./helm/hello-okta/values.yaml --values ./helm/hello-okta/secret-values.yaml --create-namespace --namespace hello-okta
     ```
-    or upgrade release if already installed:
+  or upgrade release if already installed:
     ```
     helm upgrade hello-okta-release ./helm/hello-okta --values ./helm/hello-okta/values.yaml --values ./helm/hello-okta/secret-values.yaml --create-namespace --namespace hello-okta
     ```
+Application can be accessed via URL: https://kubernetes.docker.internal/. 
+It may take some time to have it up and running and accessible (check logs).
 
 Workloads can be accessed in [Kubernetes Dashboard](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/overview?namespace=hello-okta)
 

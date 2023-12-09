@@ -10,7 +10,7 @@ dependencies {
 
     implementation project(':hello-okta-logging-api')
 
-    compileOnly 'javax.servlet:javax.servlet-api'
+    compileOnly 'jakarta.servlet:jakarta.servlet-api'
 
     implementation 'org.apache.commons:commons-lang3'
     implementation 'com.fasterxml.jackson.core:jackson-core'

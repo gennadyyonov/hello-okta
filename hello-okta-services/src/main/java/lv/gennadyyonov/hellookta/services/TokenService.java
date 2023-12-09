@@ -5,7 +5,6 @@ import lv.gennadyyonov.hellookta.connectors.TokenConnector;
 import lv.gennadyyonov.hellookta.dto.RunAsDetails;
 import lv.gennadyyonov.hellookta.dto.TokenResponse;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,11 +30,10 @@ public class TokenService {
      */
     @SneakyThrows
     public String getClientCredentialsAccessToken(RunAsDetails runAsDetails) {
-        URI baseUri = new URI(runAsDetails.getAccessTokenUri());
         Map<String, Object> headers = headers(runAsDetails);
         String grantType = runAsDetails.getGrantType();
         String scope = getScope(runAsDetails);
-        TokenResponse tokenResponse = tokenConnector.getAccessToken(baseUri, headers, grantType, scope);
+        TokenResponse tokenResponse = tokenConnector.getAccessToken(headers, grantType, scope);
         return tokenResponse.getAccessToken();
     }
 

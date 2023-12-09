@@ -27,7 +27,7 @@ public class HeadersConfig {
                 technicalEndpointService, cspHeaderWriter
             );
             headers.addHeaderWriter(headerWriter);
-            headers.referrerPolicy(SAME_ORIGIN);
+            headers.referrerPolicy(referrer -> referrer.policy(SAME_ORIGIN));
         };
     }
 }

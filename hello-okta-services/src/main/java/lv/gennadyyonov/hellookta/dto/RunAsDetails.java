@@ -20,7 +20,5 @@ public class RunAsDetails {
     private String clientId;
     private String clientSecret;
     @JsonView(View.LoggingView.class)
-    private String accessTokenUri;
-    @JsonView(View.LoggingView.class)
     private List<String> scope;
 }

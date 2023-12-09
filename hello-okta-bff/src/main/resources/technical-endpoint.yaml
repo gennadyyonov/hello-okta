@@ -11,6 +11,8 @@ technical-endpoint:
       allowed-classes:
         - org.springdoc.webmvc.ui.SwaggerWelcomeCommon
         - org.springdoc.webmvc.api.OpenApiResource
+        - org.springdoc.webmvc.ui.SwaggerConfigResource
+        - org.springdoc.webmvc.api.MultipleOpenApiResource
       allowed-endpoints:
         - /v3/api-docs/**
         - /swagger-ui/**

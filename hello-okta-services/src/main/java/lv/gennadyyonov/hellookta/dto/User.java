@@ -1,10 +1,12 @@
 package lv.gennadyyonov.hellookta.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Value;
+import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 
+@Validated
 @Value
 public class User {
 
