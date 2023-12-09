@@ -1,3 +1,7 @@
+plugins {
+    id 'java'
+}
+
 allprojects {
     repositories {
         mavenCentral()
@@ -16,15 +20,17 @@ allprojects {
     }
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_20
+    targetCompatibility = JavaVersion.VERSION_20
+}
+
 subprojects {
     group = 'lv.gennadyyonov.hello'
     version = '0.0.1-SNAPSHOT'
 
     apply plugin: 'java'
     apply plugin: 'idea'
-
-    sourceCompatibility = '20'
-    targetCompatibility = '20'
 
     configurations {
         implementation {
