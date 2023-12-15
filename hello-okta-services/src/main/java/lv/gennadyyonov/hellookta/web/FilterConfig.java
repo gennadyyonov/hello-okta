@@ -1,7 +1,7 @@
 package lv.gennadyyonov.hellookta.web;
 
 import jakarta.servlet.Filter;
-import lv.gennadyyonov.hellookta.config.OktaServiceConfig;
+import lv.gennadyyonov.hellookta.config.okta.OktaServiceConfig;
 import lv.gennadyyonov.hellookta.dto.FilterOrder;
 import lv.gennadyyonov.hellookta.dto.FilterOrderProperties;
 import lv.gennadyyonov.hellookta.services.AuthenticationService;

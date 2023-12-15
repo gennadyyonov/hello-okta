@@ -2,6 +2,7 @@ package lv.gennadyyonov.hellookta.api.config;
 
 import lombok.RequiredArgsConstructor;
 import lv.gennadyyonov.hellookta.config.csrf.CsrfProperties;
+import lv.gennadyyonov.hellookta.config.okta.LoggingAuthenticationEntryPoint;
 import lv.gennadyyonov.hellookta.services.AuthenticationService;
 import lv.gennadyyonov.hellookta.services.TechnicalEndpointService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.security.oauth2.server.resource.authentication.JwtIssuerAuthenticationManagerResolver;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static java.util.Optional.ofNullable;
@@ -29,6 +32,7 @@ public class SecurityConfig {
 
     private static final String ALL_URL_PATTERN = "/**";
 
+    private final JwtIssuerAuthenticationManagerResolver jwtIssuerAuthenticationManagerResolver;
     private final TechnicalEndpointService technicalEndpointService;
     private final CsrfProperties csrfProperties;
     private final Customizer<CsrfConfigurer<HttpSecurity>> csrfCustomizer;
@@ -40,13 +44,16 @@ public class SecurityConfig {
         http.sessionManagement(session -> session.sessionCreationPolicy(STATELESS));
         configureCsrf(http);
         ofNullable(technicalEndpointService).ifPresent(service -> service.allowTechnicalEndpoints(http));
+        var authenticationEntryPoint = new BearerTokenAuthenticationEntryPoint();
         http
             .authorizeHttpRequests(auth -> auth
                 // Allow CORS option calls
                 .requestMatchers(OPTIONS, ALL_URL_PATTERN).permitAll()
                 .anyRequest().authenticated())
             // Allow CORS option calls
-            .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()));
+            .oauth2ResourceServer(oauth -> oauth
+                .authenticationManagerResolver(jwtIssuerAuthenticationManagerResolver)
+                .authenticationEntryPoint(new LoggingAuthenticationEntryPoint(authenticationEntryPoint)));
         return http.build();
     }
 

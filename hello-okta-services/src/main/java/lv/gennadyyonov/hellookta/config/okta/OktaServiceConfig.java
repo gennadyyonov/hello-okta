@@ -1,4 +1,4 @@
-package lv.gennadyyonov.hellookta.config;
+package lv.gennadyyonov.hellookta.config.okta;
 
 import lombok.RequiredArgsConstructor;
 import lv.gennadyyonov.hellookta.aspects.SecurityRoleAspect;

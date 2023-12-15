@@ -1,6 +1,7 @@
 package lv.gennadyyonov.hellookta.test.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.boot.test.context.TestComponent;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -15,7 +16,10 @@ import static java.util.Optional.ofNullable;
 @TestComponent
 public class AuthUserInfoConfig implements UserInfoConfig {
 
+    private static final String OKTA = "okta";
+
     private final TestRestTemplate testRestTemplate;
+    private final OAuth2ClientProperties oktaOAuth2Properties;
 
     @Override
     public void setUp(String username, List<String> groups) {
@@ -32,8 +36,9 @@ public class AuthUserInfoConfig implements UserInfoConfig {
         if (hasAuthHeaderInterceptor(restTemplate)) {
             return;
         }
+        String issuer = getIssuerUri(oktaOAuth2Properties);
         List<ClientHttpRequestInterceptor> interceptors = restTemplate.getInterceptors();
-        interceptors.add(new AuthHeaderInterceptor(username, groups));
+        interceptors.add(new AuthHeaderInterceptor(issuer, username, groups));
         restTemplate.setInterceptors(interceptors);
     }
 
@@ -47,5 +52,13 @@ public class AuthUserInfoConfig implements UserInfoConfig {
 
     private Predicate<ClientHttpRequestInterceptor> oktaAuthHeaderInterceptor() {
         return interceptor -> interceptor instanceof AuthHeaderInterceptor;
+    }
+
+    private String getIssuerUri(OAuth2ClientProperties properties) {
+        return ofNullable(properties)
+            .map(OAuth2ClientProperties::getProvider)
+            .map(map -> map.get(OKTA))
+            .map(OAuth2ClientProperties.Provider::getIssuerUri)
+            .orElse(null);
     }
 }

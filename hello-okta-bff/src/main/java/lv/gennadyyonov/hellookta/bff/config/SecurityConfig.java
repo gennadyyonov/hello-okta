@@ -2,6 +2,7 @@ package lv.gennadyyonov.hellookta.bff.config;
 
 import lombok.RequiredArgsConstructor;
 import lv.gennadyyonov.hellookta.config.csrf.CsrfProperties;
+import lv.gennadyyonov.hellookta.config.okta.LoggingAuthenticationEntryPoint;
 import lv.gennadyyonov.hellookta.services.AuthenticationService;
 import lv.gennadyyonov.hellookta.services.TechnicalEndpointService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.oauth2.server.resource.authentication.JwtIssuerAuthenticationManagerResolver;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static java.util.Optional.ofNullable;
@@ -33,6 +36,7 @@ public class SecurityConfig {
 
     private static final String ALL_URL_PATTERN = "/**";
 
+    private final JwtIssuerAuthenticationManagerResolver jwtIssuerAuthenticationManagerResolver;
     private final TechnicalEndpointService technicalEndpointService;
     private final CsrfProperties csrfProperties;
     private final Customizer<CsrfConfigurer<HttpSecurity>> csrfCustomizer;
@@ -45,6 +49,7 @@ public class SecurityConfig {
         http.sessionManagement(session -> session.sessionCreationPolicy(STATELESS));
         configureCsrf(http);
         ofNullable(technicalEndpointService).ifPresent(service -> service.allowTechnicalEndpoints(http));
+        var authenticationEntryPoint = new BearerTokenAuthenticationEntryPoint();
         http
             .headers(headersCustomizer)
             .cors(Customizer.withDefaults())
@@ -54,7 +59,8 @@ public class SecurityConfig {
                 .requestMatchers(antMatcher(GET, ENVIRONMENT_CONFIG_SUFFIX)).permitAll()
                 .anyRequest().authenticated())
             .oauth2ResourceServer(oauth -> oauth
-                .jwt(Customizer.withDefaults()));
+                .authenticationManagerResolver(jwtIssuerAuthenticationManagerResolver)
+                .authenticationEntryPoint(new LoggingAuthenticationEntryPoint(authenticationEntryPoint)));
         return http.build();
     }
 
