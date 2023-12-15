@@ -13,9 +13,10 @@ import com.nimbusds.jwt.proc.DefaultJWTProcessor;
 import com.nimbusds.jwt.proc.JWTProcessor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -33,37 +34,36 @@ import java.util.stream.Stream;
 
 import static lv.gennadyyonov.hellookta.utils.OktaUtils.getIssuerUri;
 
-@ConditionalOnProperty(name = "spring.security.oauth2.resourceserver.jwt.jwk-set-uri")
+@Conditional(OnJwkSetCacheCondition.class)
+@EnableConfigurationProperties(OktaResourceServerJwkSetCacheProperties.class)
 @Configuration
 @Slf4j
 public class OktaResourceServerConfig {
 
-    private static final int MILLIS_PER_SECOND = 1000;
-    private static final int SECONDS_PER_MINUTE = 60;
-    private static final int JWK_SET_CACHE_REFRESH_TIME_MILLIS = 5 * SECONDS_PER_MINUTE * MILLIS_PER_SECOND;
-    private static final int CACHE_REFRESH_AHEAD_TIME_MILLIS = 5 * SECONDS_PER_MINUTE * MILLIS_PER_SECOND;
-    private static final int CACHE_REFRESH_TIMEOUT = 1500;
-
     @Bean
-    public JwtIssuerAuthenticationManagerResolver jwtIssuerAuthenticationManagerResolver(OAuth2ClientProperties oktaOAuth2Properties) {
+    public JwtIssuerAuthenticationManagerResolver jwtIssuerAuthenticationManagerResolver(OAuth2ClientProperties oktaOAuth2Properties,
+                                                                                         OktaResourceServerJwkSetCacheProperties jwkSetCacheProperties) {
         var issuer = getIssuerUri(oktaOAuth2Properties);
         var authenticationManagers = Stream.of(issuer)
-            .collect(Collectors.toMap(Function.identity(), this::getAuthenticationManager));
+            .collect(Collectors.toMap(Function.identity(), it -> getAuthenticationManager(it, jwkSetCacheProperties)));
         return new JwtIssuerAuthenticationManagerResolver(new TrustedIssuerJwtAuthenticationManagerResolver(authenticationManagers));
     }
 
     @SneakyThrows
-    private AuthenticationManager getAuthenticationManager(String issuer) {
+    private AuthenticationManager getAuthenticationManager(String issuer,
+                                                           OktaResourceServerJwkSetCacheProperties jwkSetCacheProperties) {
         var jwkSetUrl = new URI(issuer + "/v1/keys").toURL();
-        var jwtDecoder = jwtDecoder(jwkSetUrl);
+        var jwtDecoder = jwtDecoder(jwkSetUrl, jwkSetCacheProperties);
         return new JwtAuthenticationProvider(jwtDecoder)::authenticate;
     }
 
-    private JwtDecoder jwtDecoder(URL jwkSetUrl) {
+    private JwtDecoder jwtDecoder(URL jwkSetUrl,
+                                  OktaResourceServerJwkSetCacheProperties jwkSetCacheProperties) {
         var jwkSetRetriever = jwkSetRetriever();
         var jwtSource = JWKSourceBuilder.create(jwkSetUrl, jwkSetRetriever)
-            .cache(JWK_SET_CACHE_REFRESH_TIME_MILLIS + CACHE_REFRESH_AHEAD_TIME_MILLIS, CACHE_REFRESH_TIMEOUT)
-            .refreshAheadCache(CACHE_REFRESH_AHEAD_TIME_MILLIS, true, this::refreshCacheEventListener)
+            .cache(jwkSetCacheProperties.getRefreshTime() + jwkSetCacheProperties.getRefreshAheadTime(),
+                jwkSetCacheProperties.getRefreshTimeout())
+            .refreshAheadCache(jwkSetCacheProperties.getRefreshAheadTime(), true, this::refreshCacheEventListener)
             .rateLimited(0)
             .build();
         var jwtProcessor = processor(jwtSource);

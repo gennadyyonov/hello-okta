@@ -35,6 +35,12 @@ spring:
         jwt:
           issuer-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}
           jwk-set-uri: ${spring.security.oauth2.client.provider.okta.issuer-uri}/v1/keys
+          jwk-set:
+            cache:
+              enabled: true
+              refresh-time: 300000 # 5 minutes
+              refresh-ahead-time: 300000 # 5 minutes
+              refresh-timeout: 1500 # 1.5 second
   cloud:
     openfeign:
       client:
