@@ -38,9 +38,13 @@ public class JwtToken {
     );
 
     public static Jwt create(String username, List<String> groups) {
-        Jwt.Builder builder = Jwt.withTokenValue(createCompact(username, groups));
+        return create(null, username, groups);
+    }
+
+    public static Jwt create(String issuer, String username, List<String> groups) {
+        Jwt.Builder builder = Jwt.withTokenValue(createCompact(issuer, username, groups));
         headers().forEach(builder::header);
-        claims(username, groups).forEach(builder::claim);
+        claims(issuer, username, groups).forEach(builder::claim);
         return builder.build();
     }
 
@@ -49,14 +53,14 @@ public class JwtToken {
      * <br>
      * https://developer.okta.com/docs/guides/build-self-signed-jwt/java/jwt-with-private-key/
      */
-    public static String createCompact(String username, List<String> groups) {
+    public static String createCompact(String issuer, String username, List<String> groups) {
         PrivateKey privateKey = privateKey();
         Instant now = Instant.now();
         return Jwts.builder()
             .setIssuedAt(Date.from(now))
             .setExpiration(Date.from(now.plus(VALID_FOR_MINUTES, MINUTES)))
             .setSubject(username)
-            .setClaims(claims(username, groups))
+            .setClaims(claims(issuer, username, groups))
             .setHeader(headers())
             .setId(UUID.randomUUID().toString())
             .signWith(privateKey, SignatureAlgorithm.RS256)
@@ -70,8 +74,9 @@ public class JwtToken {
         return header;
     }
 
-    private static Map<String, Object> claims(String username, List<String> groups) {
+    private static Map<String, Object> claims(String issuer, String username, List<String> groups) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put(JwtClaimNames.ISS, issuer);
         claims.put(JwtClaimNames.SUB, username);
         claims.put("groups", groups);
         claims.put("scp", asList("email", "openid", "profile"));

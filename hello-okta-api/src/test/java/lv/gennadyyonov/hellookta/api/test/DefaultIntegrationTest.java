@@ -1,8 +1,8 @@
 package lv.gennadyyonov.hellookta.api.test;
 
 import lv.gennadyyonov.hellookta.api.config.WireMockInitializer;
-import lv.gennadyyonov.hellookta.config.OktaResourceServerConfig;
-import lv.gennadyyonov.hellookta.config.OktaServiceConfig;
+import lv.gennadyyonov.hellookta.config.okta.OktaResourceServerConfig;
+import lv.gennadyyonov.hellookta.config.okta.OktaServiceConfig;
 import lv.gennadyyonov.hellookta.test.IntegrationTest;
 import lv.gennadyyonov.hellookta.web.FilterConfig;
 import org.springframework.context.annotation.Import;
