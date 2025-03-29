@@ -14,7 +14,9 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-    implementation "org.wiremock:wiremock:$wirmockVersion"
+    implementation 'com.fasterxml.jackson.core:jackson-core'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation "org.wiremock:wiremock-standalone:$wirmockVersion"
     implementation "io.jsonwebtoken:jjwt-api:$jsonwebtokenVersion"
     implementation "io.jsonwebtoken:jjwt-gson:$jsonwebtokenVersion"
     implementation "io.jsonwebtoken:jjwt-impl:$jsonwebtokenVersion"

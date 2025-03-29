@@ -1,12 +1,12 @@
 package lv.gennadyyonov.hellookta.test.http;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.github.tomakehurst.wiremock.client.MappingBuilder;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import com.github.tomakehurst.wiremock.http.DelayDistribution;
 import com.github.tomakehurst.wiremock.http.Fault;
 import com.github.tomakehurst.wiremock.http.HttpHeaders;
 import lombok.RequiredArgsConstructor;
+import wiremock.com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.Map;
 
