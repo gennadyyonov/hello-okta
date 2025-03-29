@@ -16,7 +16,7 @@ allprojects {
         set('openApiVersion', '2.3.0')
         set('springBootVersion', '3.1.6')
         set('springCloudVersion', '2022.0.5')
-        set('springDependencyManagementVersion', '1.1.4')
+        set('springDependencyManagementVersion', '1.1.7')
         set('wirmockVersion', '3.3.1')
     }
 }
