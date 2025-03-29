@@ -31,7 +31,7 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'io.github.openfeign:feign-jackson'
     implementation 'io.github.openfeign:feign-httpclient'
-    implementation 'io.github.openfeign.form:feign-form-spring'
+    implementation 'io.github.openfeign:feign-form-spring'
     implementation "org.apache.httpcomponents:httpclient:${apacheHttpClientVersion}"
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -51,7 +51,7 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation "org.wiremock:wiremock:$wirmockVersion"
+    testImplementation "org.wiremock:wiremock-standalone:$wirmockVersion"
     testCompileOnly "org.projectlombok:lombok"
     testAnnotationProcessor "org.projectlombok:lombok"
     testImplementation "io.jsonwebtoken:jjwt-api:$jsonwebtokenVersion"

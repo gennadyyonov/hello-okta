@@ -13,11 +13,11 @@ allprojects {
         set('jsonwebtokenVersion', '0.12.6')
         set('micrometerTracingVersion', 'latest.release')
         set('nimbusdsVersion', '10.0.2')
-        set('openApiVersion', '2.3.0')
-        set('springBootVersion', '3.1.6')
-        set('springCloudVersion', '2022.0.5')
+        set('openApiVersion', '2.8.6')
+        set('springBootVersion', '3.4.4')
+        set('springCloudVersion', '2024.0.1')
         set('springDependencyManagementVersion', '1.1.7')
-        set('wirmockVersion', '3.3.1')
+        set('wirmockVersion', '3.12.1')
     }
 }
 

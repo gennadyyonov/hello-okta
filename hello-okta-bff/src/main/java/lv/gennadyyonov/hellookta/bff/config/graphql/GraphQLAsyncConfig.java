@@ -1,6 +1,7 @@
 package lv.gennadyyonov.hellookta.bff.config.graphql;
 
 import graphql.execution.instrumentation.Instrumentation;
+import graphql.execution.instrumentation.InstrumentationState;
 import graphql.execution.instrumentation.parameters.InstrumentationFieldFetchParameters;
 import graphql.schema.DataFetcher;
 import io.micrometer.context.ContextExecutorService;
@@ -73,7 +74,8 @@ public class GraphQLAsyncConfig {
         return new Instrumentation() {
             @Override
             public DataFetcher<?> instrumentDataFetcher(DataFetcher<?> dataFetcher,
-                                                        InstrumentationFieldFetchParameters parameters) {
+                                                        InstrumentationFieldFetchParameters parameters,
+                                                        InstrumentationState state) {
                 AsyncContext asyncContext = createAsyncContext();
                 ThreadPoolExecutor threadPoolExecutor = taskExecutor.getThreadPoolExecutor();
                 ExecutorService delegate = new ContextCopyingDelegateExecutorService(asyncContext, threadPoolExecutor);
