@@ -60,7 +60,7 @@ dependencies {
 }
 
 checkstyle {
-    toolVersion = '8.45.1'
+    toolVersion = '10.21.4'
     configProperties.configDir = parent.file("config/checkstyle")
 }
 
