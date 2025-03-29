@@ -10,7 +10,7 @@ allprojects {
     ext {
         set('apacheHttpClientVersion', '4.5.14')
         set('commonsIoVersion', '2.11.0')
-        set('jsonwebtokenVersion', '0.11.2')
+        set('jsonwebtokenVersion', '0.12.6')
         set('micrometerTracingVersion', 'latest.release')
         set('nimbusdsVersion', '9.31')
         set('openApiVersion', '2.3.0')
