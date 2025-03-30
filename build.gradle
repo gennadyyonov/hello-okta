@@ -31,7 +31,7 @@ java {
 
 configurations.configureEach {
     resolutionStrategy {
-        force 'com.google.guava:guava:32.0.1-jre'
+        force 'com.google.guava:guava:33.4.6-jre'
     }
 }
 
