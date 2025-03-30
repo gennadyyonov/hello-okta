@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CsrfTokenInfo {
 
-    private String cookieName;
-    private String headerName;
+  private String cookieName;
+  private String headerName;
 }

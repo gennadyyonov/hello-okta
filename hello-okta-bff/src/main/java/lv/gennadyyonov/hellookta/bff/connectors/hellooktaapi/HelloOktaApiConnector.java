@@ -12,7 +12,7 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 @FeignClient(name = "helloOktaApiConnector", configuration = HelloOktaApiConnectorConfig.class)
 public interface HelloOktaApiConnector extends ParameterLogging {
 
-    @RequestLine("POST /hello")
-    @Headers({CONTENT_TYPE + ": " + MediaType.TEXT_PLAIN_VALUE})
-    Message hello();
+  @RequestLine("POST /hello")
+  @Headers({CONTENT_TYPE + ": " + MediaType.TEXT_PLAIN_VALUE})
+  Message hello();
 }

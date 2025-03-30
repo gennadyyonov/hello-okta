@@ -10,9 +10,7 @@ import java.util.List;
 @Value
 public class User {
 
-    @NotBlank
-    String name;
-    @NotBlank
-    String password;
-    List<String> roles;
+  @NotBlank String name;
+  @NotBlank String password;
+  List<String> roles;
 }

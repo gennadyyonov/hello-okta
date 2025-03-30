@@ -9,14 +9,14 @@ import lv.gennadyyonov.hellookta.services.TokenService;
 @RequiredArgsConstructor
 public class FeignInterceptorProvider {
 
-    private final AuthenticationService authenticationService;
-    private final TokenService tokenService;
+  private final AuthenticationService authenticationService;
+  private final TokenService tokenService;
 
-    public RequestInterceptor getSsoInterceptor() {
-        return new SsoInterceptor(authenticationService);
-    }
+  public RequestInterceptor getSsoInterceptor() {
+    return new SsoInterceptor(authenticationService);
+  }
 
-    public RequestInterceptor getClientCredentialsInterceptor(RunAsDetails runAsDetails) {
-        return new ClientCredentialsInterceptor(tokenService, runAsDetails);
-    }
+  public RequestInterceptor getClientCredentialsInterceptor(RunAsDetails runAsDetails) {
+    return new ClientCredentialsInterceptor(tokenService, runAsDetails);
+  }
 }

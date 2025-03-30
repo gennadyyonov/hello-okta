@@ -10,19 +10,17 @@ import static java.lang.String.format;
 @Service
 public class MessageService {
 
-    private static final String GREETING_FORMAT = "Hello, %s!";
+  private static final String GREETING_FORMAT = "Hello, %s!";
 
-    private final AuthenticationService authenticationService;
+  private final AuthenticationService authenticationService;
 
-    @Autowired
-    public MessageService(AuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
-    }
+  @Autowired
+  public MessageService(AuthenticationService authenticationService) {
+    this.authenticationService = authenticationService;
+  }
 
-    public Message sayHello() {
-        String userId = authenticationService.getUserId();
-        return Message.builder()
-                .text(format(GREETING_FORMAT, userId))
-                .build();
-    }
+  public Message sayHello() {
+    String userId = authenticationService.getUserId();
+    return Message.builder().text(format(GREETING_FORMAT, userId)).build();
+  }
 }

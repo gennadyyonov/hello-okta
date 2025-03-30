@@ -19,12 +19,14 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 @FeignClient(name = "tokenConnector", configuration = TokenConnectorConfig.class)
 public interface TokenConnector extends ParameterLogging {
 
-    @RequestLine("POST")
-    @Headers({
-        CONTENT_TYPE + ": " + MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-        ACCEPT + ": " + MediaType.APPLICATION_JSON_VALUE,
-        CACHE_CONTROL + ": no-cache"
-    })
-    TokenResponse getAccessToken(@LoggingExclusion @HeaderMap Map<String, Object> headers,
-                                 @Param("grant_type") String grantType, @Param("scope") String scope);
+  @RequestLine("POST")
+  @Headers({
+    CONTENT_TYPE + ": " + MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+    ACCEPT + ": " + MediaType.APPLICATION_JSON_VALUE,
+    CACHE_CONTROL + ": no-cache"
+  })
+  TokenResponse getAccessToken(
+      @LoggingExclusion @HeaderMap Map<String, Object> headers,
+      @Param("grant_type") String grantType,
+      @Param("scope") String scope);
 }

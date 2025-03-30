@@ -14,39 +14,40 @@ import org.springframework.context.event.ContextClosedEvent;
 
 import java.util.List;
 
-public class WireMockInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+public class WireMockInitializer
+    implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
-    @Override
-    public void initialize(ConfigurableApplicationContext context) {
-        WireMockConfiguration config = createWireMockConfiguration();
-        WireMockServer oktaServer = new WireMockServer(config);
-        oktaServer.start();
+  @Override
+  public void initialize(ConfigurableApplicationContext context) {
+    WireMockConfiguration config = createWireMockConfiguration();
+    WireMockServer oktaServer = new WireMockServer(config);
+    oktaServer.start();
 
-        context.getBeanFactory().registerSingleton(Okta.SERVER_NAME, oktaServer);
+    context.getBeanFactory().registerSingleton(Okta.SERVER_NAME, oktaServer);
 
-        context.addApplicationListener(applicationEvent -> {
-            if (applicationEvent instanceof ContextClosedEvent) {
-                oktaServer.stop();
-            }
+    context.addApplicationListener(
+        applicationEvent -> {
+          if (applicationEvent instanceof ContextClosedEvent) {
+            oktaServer.stop();
+          }
         });
 
-        String oktaServerUrl = "http://localhost:" + oktaServer.port();
+    String oktaServerUrl = "http://localhost:" + oktaServer.port();
 
-        TestPropertyValues
-            .of("spring.security.oauth2.client.provider.okta.issuer-uri:" + oktaServerUrl + "/okta/oauth2/default")
-            .applyTo(context);
-    }
+    TestPropertyValues.of(
+            "spring.security.oauth2.client.provider.okta.issuer-uri:"
+                + oktaServerUrl
+                + "/okta/oauth2/default")
+        .applyTo(context);
+  }
 
-    private WireMockConfiguration createWireMockConfiguration() {
-        FileSource fileSource = new ClasspathFileSource("src/test/resources/wiremock");
-        return new WireMockConfiguration()
-            .dynamicPort()
-            .usingFilesUnderClasspath("wiremock")
-            .extensions(new ResponseTemplateTransformer(
-                TemplateEngine.defaultTemplateEngine(),
-                true,
-                fileSource,
-                List.of()
-            ));
-    }
+  private WireMockConfiguration createWireMockConfiguration() {
+    FileSource fileSource = new ClasspathFileSource("src/test/resources/wiremock");
+    return new WireMockConfiguration()
+        .dynamicPort()
+        .usingFilesUnderClasspath("wiremock")
+        .extensions(
+            new ResponseTemplateTransformer(
+                TemplateEngine.defaultTemplateEngine(), true, fileSource, List.of()));
+  }
 }

@@ -11,7 +11,7 @@ import org.springframework.validation.annotation.Validated;
 @Value
 public class ProxyProperties {
 
-    Boolean enabled;
-    String path;
-    String url;
+  Boolean enabled;
+  String path;
+  String url;
 }

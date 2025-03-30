@@ -15,13 +15,18 @@ import static org.springframework.security.oauth2.core.OAuth2AccessToken.TokenTy
 @RequiredArgsConstructor
 public class AuthHeaderInterceptor implements ClientHttpRequestInterceptor {
 
-    private final String issuer;
-    private final String username;
-    private final List<String> groups;
+  private final String issuer;
+  private final String username;
+  private final List<String> groups;
 
-    @Override
-    public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-        request.getHeaders().add(AUTHORIZATION, BEARER.getValue() + " " + JwtToken.createCompact(issuer, username, groups));
-        return execution.execute(request, body);
-    }
+  @Override
+  public ClientHttpResponse intercept(
+      HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
+    request
+        .getHeaders()
+        .add(
+            AUTHORIZATION,
+            BEARER.getValue() + " " + JwtToken.createCompact(issuer, username, groups));
+    return execution.execute(request, body);
+  }
 }

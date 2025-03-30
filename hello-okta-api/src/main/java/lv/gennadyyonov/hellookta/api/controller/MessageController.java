@@ -16,20 +16,27 @@ import static lv.gennadyyonov.hellookta.api.constants.HelloOktaApiSecurityConsts
 import static lv.gennadyyonov.hellookta.constants.SecurityConstants.ALLOWED_USERS;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@HasRole(alias = ALLOWED_USERS, roles = {MESSAGE_READ})
+@HasRole(
+    alias = ALLOWED_USERS,
+    roles = {MESSAGE_READ})
 @RestController
 @RequiredArgsConstructor
 public class MessageController implements ParameterLogging {
 
-    private final MessageService messageService;
+  private final MessageService messageService;
 
-    @Operation(summary = "Say Hello", description = "Returns Greeting for logged in user")
-    @ApiResponses(value = {
+  @Operation(summary = "Say Hello", description = "Returns Greeting for logged in user")
+  @ApiResponses(
+      value = {
         @ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json")),
         @ApiResponse(responseCode = "4xx", description = "Bad Request", content = @Content),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content)})
-    @PostMapping(value = "/hello", produces = APPLICATION_JSON_VALUE)
-    public Message hello() {
-        return messageService.sayHello();
-    }
+        @ApiResponse(
+            responseCode = "500",
+            description = "Internal Server Error",
+            content = @Content)
+      })
+  @PostMapping(value = "/hello", produces = APPLICATION_JSON_VALUE)
+  public Message hello() {
+    return messageService.sayHello();
+  }
 }

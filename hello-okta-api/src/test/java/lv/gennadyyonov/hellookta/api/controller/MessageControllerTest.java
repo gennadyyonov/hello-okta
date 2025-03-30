@@ -16,17 +16,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DefaultIntegrationTest
 class MessageControllerTest {
 
-    @Autowired
-    private MockMvc mvc;
+  @Autowired private MockMvc mvc;
 
-    @UserInfo("jane.smith@gmail.com")
-    @SneakyThrows
-    @Test
-    void hello() {
-        mvc.perform(post("/hello")
-                .with(csrf().asHeader()))
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.text").value("Hello, JANE.SMITH@GMAIL.COM!"));
-    }
+  @UserInfo("jane.smith@gmail.com")
+  @SneakyThrows
+  @Test
+  void hello() {
+    mvc.perform(post("/hello").with(csrf().asHeader()))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.text").value("Hello, JANE.SMITH@GMAIL.COM!"));
+  }
 }

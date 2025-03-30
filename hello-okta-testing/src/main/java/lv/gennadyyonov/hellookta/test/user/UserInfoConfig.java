@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface UserInfoConfig {
 
-    void setUp(String username, List<String> groups);
+  void setUp(String username, List<String> groups);
 
-    void reset();
+  void reset();
 }

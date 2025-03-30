@@ -6,5 +6,4 @@ import org.springframework.context.annotation.Import;
 
 @Import(AuthUserInfoConfig.class)
 @Configuration(proxyBeanMethods = false)
-public class TestingAutoConfiguration {
-}
+public class TestingAutoConfiguration {}

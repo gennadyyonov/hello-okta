@@ -14,5 +14,5 @@ import java.util.List;
 @Value
 public class UserCacheProperties {
 
-    List<User> users;
+  List<User> users;
 }

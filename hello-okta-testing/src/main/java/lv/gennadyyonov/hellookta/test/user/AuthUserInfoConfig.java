@@ -16,49 +16,50 @@ import static java.util.Optional.ofNullable;
 @TestComponent
 public class AuthUserInfoConfig implements UserInfoConfig {
 
-    private static final String OKTA = "okta";
+  private static final String OKTA = "okta";
 
-    private final TestRestTemplate testRestTemplate;
-    private final OAuth2ClientProperties oktaOAuth2Properties;
+  private final TestRestTemplate testRestTemplate;
+  private final OAuth2ClientProperties oktaOAuth2Properties;
 
-    @Override
-    public void setUp(String username, List<String> groups) {
-        ofNullable(testRestTemplate.getRestTemplate())
-            .ifPresent(restTemplate -> addAuthHeaderInterceptor(restTemplate, username, groups));
+  @Override
+  public void setUp(String username, List<String> groups) {
+    ofNullable(testRestTemplate.getRestTemplate())
+        .ifPresent(restTemplate -> addAuthHeaderInterceptor(restTemplate, username, groups));
+  }
+
+  @Override
+  public void reset() {
+    ofNullable(testRestTemplate.getRestTemplate()).ifPresent(this::removeAuthHeaderInterceptor);
+  }
+
+  private void addAuthHeaderInterceptor(
+      RestTemplate restTemplate, String username, List<String> groups) {
+    if (hasAuthHeaderInterceptor(restTemplate)) {
+      return;
     }
+    String issuer = getIssuerUri(oktaOAuth2Properties);
+    List<ClientHttpRequestInterceptor> interceptors = restTemplate.getInterceptors();
+    interceptors.add(new AuthHeaderInterceptor(issuer, username, groups));
+    restTemplate.setInterceptors(interceptors);
+  }
 
-    @Override
-    public void reset() {
-        ofNullable(testRestTemplate.getRestTemplate()).ifPresent(this::removeAuthHeaderInterceptor);
-    }
+  private void removeAuthHeaderInterceptor(RestTemplate restTemplate) {
+    restTemplate.getInterceptors().removeIf(oktaAuthHeaderInterceptor());
+  }
 
-    private void addAuthHeaderInterceptor(RestTemplate restTemplate, String username, List<String> groups) {
-        if (hasAuthHeaderInterceptor(restTemplate)) {
-            return;
-        }
-        String issuer = getIssuerUri(oktaOAuth2Properties);
-        List<ClientHttpRequestInterceptor> interceptors = restTemplate.getInterceptors();
-        interceptors.add(new AuthHeaderInterceptor(issuer, username, groups));
-        restTemplate.setInterceptors(interceptors);
-    }
+  private boolean hasAuthHeaderInterceptor(RestTemplate restTemplate) {
+    return restTemplate.getInterceptors().stream().anyMatch(oktaAuthHeaderInterceptor());
+  }
 
-    private void removeAuthHeaderInterceptor(RestTemplate restTemplate) {
-        restTemplate.getInterceptors().removeIf(oktaAuthHeaderInterceptor());
-    }
+  private Predicate<ClientHttpRequestInterceptor> oktaAuthHeaderInterceptor() {
+    return interceptor -> interceptor instanceof AuthHeaderInterceptor;
+  }
 
-    private boolean hasAuthHeaderInterceptor(RestTemplate restTemplate) {
-        return restTemplate.getInterceptors().stream().anyMatch(oktaAuthHeaderInterceptor());
-    }
-
-    private Predicate<ClientHttpRequestInterceptor> oktaAuthHeaderInterceptor() {
-        return interceptor -> interceptor instanceof AuthHeaderInterceptor;
-    }
-
-    private String getIssuerUri(OAuth2ClientProperties properties) {
-        return ofNullable(properties)
-            .map(OAuth2ClientProperties::getProvider)
-            .map(map -> map.get(OKTA))
-            .map(OAuth2ClientProperties.Provider::getIssuerUri)
-            .orElse(null);
-    }
+  private String getIssuerUri(OAuth2ClientProperties properties) {
+    return ofNullable(properties)
+        .map(OAuth2ClientProperties::getProvider)
+        .map(map -> map.get(OKTA))
+        .map(OAuth2ClientProperties.Provider::getIssuerUri)
+        .orElse(null);
+  }
 }

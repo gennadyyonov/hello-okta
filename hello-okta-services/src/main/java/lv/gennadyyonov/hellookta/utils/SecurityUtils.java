@@ -11,15 +11,15 @@ import static lv.gennadyyonov.hellookta.constants.SecurityConstants.PUBLIC_ENDPO
 @UtilityClass
 public class SecurityUtils {
 
-    public boolean hasAnyRoles(UserInfo profile, String[] roles) {
-        return stream(roles).anyMatch(role -> profile.getRoles().contains(role));
-    }
+  public boolean hasAnyRoles(UserInfo profile, String[] roles) {
+    return stream(roles).anyMatch(role -> profile.getRoles().contains(role));
+  }
 
-    public boolean hasAnyRoles(UserInfo profile, Stream<String> rolesStream) {
-        return rolesStream.anyMatch(role -> profile.getRoles().contains(role));
-    }
+  public boolean hasAnyRoles(UserInfo profile, Stream<String> rolesStream) {
+    return rolesStream.anyMatch(role -> profile.getRoles().contains(role));
+  }
 
-    public boolean shouldBypassSecurityValidation(String alias) {
-        return PUBLIC_ENDPOINT.equals(alias);
-    }
+  public boolean shouldBypassSecurityValidation(String alias) {
+    return PUBLIC_ENDPOINT.equals(alias);
+  }
 }

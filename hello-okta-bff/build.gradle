@@ -1,5 +1,4 @@
 plugins {
-    id 'checkstyle'
     id 'io.spring.dependency-management' version "$springDependencyManagementVersion"
     id 'org.springframework.boot' version "$springBootVersion"
 }
@@ -66,15 +65,6 @@ dependencies {
     testImplementation "io.jsonwebtoken:jjwt-api:$jsonwebtokenVersion"
     testImplementation "io.jsonwebtoken:jjwt-gson:$jsonwebtokenVersion"
     testImplementation "io.jsonwebtoken:jjwt-impl:$jsonwebtokenVersion"
-}
-
-checkstyle {
-    toolVersion = '10.21.4'
-    configProperties.configDir = parent.file("config/checkstyle")
-}
-
-checkstyleTest {
-    enabled = false
 }
 
 test {

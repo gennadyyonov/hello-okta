@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class EnvironmentProperties {
 
-    private String oktaClientId;
-    private String oktaIssuer;
+  private String oktaClientId;
+  private String oktaIssuer;
 }

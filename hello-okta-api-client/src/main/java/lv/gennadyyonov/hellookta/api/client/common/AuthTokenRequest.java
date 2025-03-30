@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lv.gennadyyonov.hellookta.api.client.common.EnvironmentProperties;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,9 +11,9 @@ import lv.gennadyyonov.hellookta.api.client.common.EnvironmentProperties;
 @Builder
 public class AuthTokenRequest {
 
-    private String spaUri;
-    private EnvironmentProperties environmentProperties;
-    private String orgUrl;
-    private String username;
-    private String password;
+  private String spaUri;
+  private EnvironmentProperties environmentProperties;
+  private String orgUrl;
+  private String username;
+  private String password;
 }

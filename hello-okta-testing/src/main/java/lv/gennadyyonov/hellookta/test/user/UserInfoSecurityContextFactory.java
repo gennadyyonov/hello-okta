@@ -16,15 +16,15 @@ import java.util.stream.Stream;
 
 public class UserInfoSecurityContextFactory implements WithSecurityContextFactory<UserInfo> {
 
-    @Override
-    public SecurityContext createSecurityContext(UserInfo userInfo) {
-        Jwt jwt = JwtToken.create(userInfo.username(), Arrays.asList(userInfo.groups()));
-        List<GrantedAuthority> grantedAuthorities = Stream.of(userInfo.groups())
-            .map(SimpleGrantedAuthority::new)
-            .collect(Collectors.toList());
-        Authentication authentication = new JwtAuthenticationToken(jwt, grantedAuthorities, userInfo.username());
-        SecurityContext context = SecurityContextHolder.createEmptyContext();
-        context.setAuthentication(authentication);
-        return context;
-    }
+  @Override
+  public SecurityContext createSecurityContext(UserInfo userInfo) {
+    Jwt jwt = JwtToken.create(userInfo.username(), Arrays.asList(userInfo.groups()));
+    List<GrantedAuthority> grantedAuthorities =
+        Stream.of(userInfo.groups()).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+    Authentication authentication =
+        new JwtAuthenticationToken(jwt, grantedAuthorities, userInfo.username());
+    SecurityContext context = SecurityContextHolder.createEmptyContext();
+    context.setAuthentication(authentication);
+    return context;
+  }
 }

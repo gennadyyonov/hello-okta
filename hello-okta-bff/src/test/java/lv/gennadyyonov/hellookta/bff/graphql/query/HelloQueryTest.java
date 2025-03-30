@@ -15,25 +15,24 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @DefaultIntegrationTest
 class HelloQueryTest {
 
-    @Autowired
-    private GraphQLTestTemplate graphQLTestTemplate;
-    @Autowired
-    private HelloOktaApi helloOktaApi;
+  @Autowired private GraphQLTestTemplate graphQLTestTemplate;
+  @Autowired private HelloOktaApi helloOktaApi;
 
-    @UserInfo
-    @SneakyThrows
-    @Test
-    void hello() {
-        helloOktaApi.onPostHello()
-            .expect()
-            .header("Content-Type", APPLICATION_JSON_VALUE)
-            .transformers("response-template")
-            .bodyFile("hello-okta-api/hello.json")
-            .endStubbing();
+  @UserInfo
+  @SneakyThrows
+  @Test
+  void hello() {
+    helloOktaApi
+        .onPostHello()
+        .expect()
+        .header("Content-Type", APPLICATION_JSON_VALUE)
+        .transformers("response-template")
+        .bodyFile("hello-okta-api/hello.json")
+        .endStubbing();
 
-        GraphQLResponse response = graphQLTestTemplate.postForResource("graphql/hello.graphql");
+    GraphQLResponse response = graphQLTestTemplate.postForResource("graphql/hello.graphql");
 
-        assertThat(response.isOk()).isTrue();
-        assertThat(response.get("$.data.hello.text")).isEqualTo("Hello, JOHN.DOE@GMAIL.COM!");
-    }
+    assertThat(response.isOk()).isTrue();
+    assertThat(response.get("$.data.hello.text")).isEqualTo("Hello, JOHN.DOE@GMAIL.COM!");
+  }
 }

@@ -16,19 +16,19 @@ import static org.slf4j.MDC.getCopyOfContextMap;
 @UtilityClass
 public class AsyncContextUtils {
 
-    static AsyncContext createAsyncContext() {
-        Map<String, String> mdcContextMap = ofNullable(getCopyOfContextMap()).orElseGet(HashMap::new);
-        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        return AsyncContext.builder()
-                .mdcContextMap(mdcContextMap)
-                .requestAttributes(requestAttributes)
-                .securityContext(securityContext)
-                .build();
-    }
+  static AsyncContext createAsyncContext() {
+    Map<String, String> mdcContextMap = ofNullable(getCopyOfContextMap()).orElseGet(HashMap::new);
+    RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+    SecurityContext securityContext = SecurityContextHolder.getContext();
+    return AsyncContext.builder()
+        .mdcContextMap(mdcContextMap)
+        .requestAttributes(requestAttributes)
+        .securityContext(securityContext)
+        .build();
+  }
 
-    static void populate(AsyncContext asyncContext) {
-        asyncContext.getMdcContextMap().forEach(MDC::put);
-        RequestContextHolder.setRequestAttributes(asyncContext.getRequestAttributes());
-    }
+  static void populate(AsyncContext asyncContext) {
+    asyncContext.getMdcContextMap().forEach(MDC::put);
+    RequestContextHolder.setRequestAttributes(asyncContext.getRequestAttributes());
+  }
 }

@@ -13,7 +13,8 @@ import lv.gennadyyonov.hellookta.logging.View;
 @AllArgsConstructor
 public class Joke {
 
-    private String id;
-    @JsonView(View.LoggingView.class)
-    private String value;
+  private String id;
+
+  @JsonView(View.LoggingView.class)
+  private String value;
 }

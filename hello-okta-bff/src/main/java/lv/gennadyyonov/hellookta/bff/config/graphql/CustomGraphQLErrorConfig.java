@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @Component
 public class CustomGraphQLErrorConfig {
 
-    private static final String ACCESS_DENIED_ERROR_ID = "SC.ER.ACCESSDENIED";
+  private static final String ACCESS_DENIED_ERROR_ID = "SC.ER.ACCESSDENIED";
 
-    @ExceptionHandler(AccessDeniedException.class)
-    public GraphQLError handle(AccessDeniedException e) {
-        log.error("Handling access denied exception : {}", e.getMessage());
-        return new ThrowableGraphQLError(e, ACCESS_DENIED_ERROR_ID);
-    }
+  @ExceptionHandler(AccessDeniedException.class)
+  public GraphQLError handle(AccessDeniedException e) {
+    log.error("Handling access denied exception : {}", e.getMessage());
+    return new ThrowableGraphQLError(e, ACCESS_DENIED_ERROR_ID);
+  }
 }

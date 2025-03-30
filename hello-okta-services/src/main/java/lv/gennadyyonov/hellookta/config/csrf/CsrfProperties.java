@@ -17,23 +17,17 @@ import static org.springframework.http.HttpMethod.GET;
 @Value
 public class CsrfProperties {
 
-    @NotNull
-    Boolean csrfEnabled;
-    @NotBlank
-    String cookieName;
-    @NotBlank
-    String headerName;
-    List<String> allowedMethods;
-    @NotNull
-    List<Endpoint> ignoredEndpoints;
+  @NotNull Boolean csrfEnabled;
+  @NotBlank String cookieName;
+  @NotBlank String headerName;
+  List<String> allowedMethods;
+  @NotNull List<Endpoint> ignoredEndpoints;
 
-    @Validated
-    @Value
-    static class Endpoint {
+  @Validated
+  @Value
+  static class Endpoint {
 
-        @NotBlank
-        String pattern;
-        @NotBlank
-        String method = GET.name();
-    }
+    @NotBlank String pattern;
+    @NotBlank String method = GET.name();
+  }
 }

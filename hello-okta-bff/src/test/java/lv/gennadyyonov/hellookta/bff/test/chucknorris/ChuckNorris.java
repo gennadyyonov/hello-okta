@@ -12,17 +12,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class ChuckNorris implements Server {
 
-    public static final String SERVER_NAME = "chuckNorrisWireMockServer";
+  public static final String SERVER_NAME = "chuckNorrisWireMockServer";
 
-    private final WireMockServer delegate;
+  private final WireMockServer delegate;
 
-    public ChuckNorris(@Qualifier(SERVER_NAME) WireMockServer server) {
-        this.delegate = server;
-    }
+  public ChuckNorris(@Qualifier(SERVER_NAME) WireMockServer server) {
+    this.delegate = server;
+  }
 
-    public RequestStubbing onGetRandomJoke() {
-        return on()
-            .request(HttpMethod.GET)
-            .pathEqualTo("/chuck-norris/jokes/random");
-    }
+  public RequestStubbing onGetRandomJoke() {
+    return on().request(HttpMethod.GET).pathEqualTo("/chuck-norris/jokes/random");
+  }
 }

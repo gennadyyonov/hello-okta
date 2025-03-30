@@ -27,41 +27,38 @@ import static java.util.Optional.ofNullable;
 @Configuration(proxyBeanMethods = false)
 public class SecurityConfig {
 
-    private final ProxyProperties proxyProperties;
-    private final SecurityProperties securityProperties;
+  private final ProxyProperties proxyProperties;
+  private final SecurityProperties securityProperties;
 
-    @Bean
-    @Order(50)
-    protected SecurityFilterChain actuatorSecurityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(AbstractHttpConfigurer::disable)
-            .securityMatcher(new OrRequestMatcher(getRequestMatchers()));
-        configureAuthentication(http);
-        return http.build();
-    }
+  @Bean
+  @Order(50)
+  protected SecurityFilterChain actuatorSecurityFilterChain(HttpSecurity http) throws Exception {
+    http.csrf(AbstractHttpConfigurer::disable)
+        .securityMatcher(new OrRequestMatcher(getRequestMatchers()));
+    configureAuthentication(http);
+    return http.build();
+  }
 
-    @SneakyThrows
-    private void configureAuthentication(HttpSecurity http) {
-        if (TRUE.equals(securityProperties.getEnabled())) {
-            String[] allowedRoles = ofNullable(securityProperties.getAllowedRoles())
-                .map(roles -> roles.toArray(new String[0]))
-                .orElseThrow(() -> new IllegalArgumentException("Allowed roles MUST NOT be null!"));
-            http
-                .authorizeHttpRequests(auth -> auth
-                    .anyRequest()
-                    .hasAnyRole(allowedRoles))
-                .httpBasic(Customizer.withDefaults());
-        } else {
-            http.authorizeHttpRequests(requests -> requests.anyRequest().permitAll());
-        }
+  @SneakyThrows
+  private void configureAuthentication(HttpSecurity http) {
+    if (TRUE.equals(securityProperties.getEnabled())) {
+      String[] allowedRoles =
+          ofNullable(securityProperties.getAllowedRoles())
+              .map(roles -> roles.toArray(new String[0]))
+              .orElseThrow(() -> new IllegalArgumentException("Allowed roles MUST NOT be null!"));
+      http.authorizeHttpRequests(auth -> auth.anyRequest().hasAnyRole(allowedRoles))
+          .httpBasic(Customizer.withDefaults());
+    } else {
+      http.authorizeHttpRequests(requests -> requests.anyRequest().permitAll());
     }
+  }
 
-    private List<RequestMatcher> getRequestMatchers() {
-        List<RequestMatcher> requestMatchers = new ArrayList<>();
-        requestMatchers.add(EndpointRequest.toAnyEndpoint());
-        if (TRUE.equals(proxyProperties.getEnabled())) {
-            requestMatchers.add(new AntPathRequestMatcher(proxyProperties.getPath() + "/**"));
-        }
-        return requestMatchers;
+  private List<RequestMatcher> getRequestMatchers() {
+    List<RequestMatcher> requestMatchers = new ArrayList<>();
+    requestMatchers.add(EndpointRequest.toAnyEndpoint());
+    if (TRUE.equals(proxyProperties.getEnabled())) {
+      requestMatchers.add(new AntPathRequestMatcher(proxyProperties.getPath() + "/**"));
     }
+    return requestMatchers;
+  }
 }

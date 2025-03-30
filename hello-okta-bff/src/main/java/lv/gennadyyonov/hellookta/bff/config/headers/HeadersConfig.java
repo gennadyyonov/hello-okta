@@ -16,18 +16,17 @@ import static org.springframework.security.web.header.writers.ReferrerPolicyHead
 @EnableConfigurationProperties(HeadersProperties.class)
 public class HeadersConfig {
 
-    @Bean
-    public Customizer<HeadersConfigurer<HttpSecurity>> headersCustomizer(TechnicalEndpointService technicalEndpointService,
-                                                                         HeadersProperties props) {
-        return headers -> {
-            ContentSecurityPolicyHeaderWriter cspHeaderWriter = new ContentSecurityPolicyHeaderWriter();
-            HeadersProperties.Csp csp = props.getCsp();
-            cspHeaderWriter.setPolicyDirectives(csp.getDirectives());
-            TechnicalEndpointHeaderWriter headerWriter = new TechnicalEndpointHeaderWriter(
-                technicalEndpointService, cspHeaderWriter
-            );
-            headers.addHeaderWriter(headerWriter);
-            headers.referrerPolicy(referrer -> referrer.policy(SAME_ORIGIN));
-        };
-    }
+  @Bean
+  public Customizer<HeadersConfigurer<HttpSecurity>> headersCustomizer(
+      TechnicalEndpointService technicalEndpointService, HeadersProperties props) {
+    return headers -> {
+      ContentSecurityPolicyHeaderWriter cspHeaderWriter = new ContentSecurityPolicyHeaderWriter();
+      HeadersProperties.Csp csp = props.getCsp();
+      cspHeaderWriter.setPolicyDirectives(csp.getDirectives());
+      TechnicalEndpointHeaderWriter headerWriter =
+          new TechnicalEndpointHeaderWriter(technicalEndpointService, cspHeaderWriter);
+      headers.addHeaderWriter(headerWriter);
+      headers.referrerPolicy(referrer -> referrer.policy(SAME_ORIGIN));
+    };
+  }
 }

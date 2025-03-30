@@ -9,8 +9,9 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(TechnicalEndpointProperties.class)
 public class TechnicalEndpointConfig {
 
-    @Bean
-    public TechnicalEndpointService technicalEndpointService(TechnicalEndpointProperties technicalEndpointProperties) {
-        return new TechnicalEndpointService(technicalEndpointProperties);
-    }
+  @Bean
+  public TechnicalEndpointService technicalEndpointService(
+      TechnicalEndpointProperties technicalEndpointProperties) {
+    return new TechnicalEndpointService(technicalEndpointProperties);
+  }
 }

@@ -12,10 +12,7 @@ import org.springframework.validation.annotation.Validated;
 @Value
 public class OktaResourceServerJwkSetCacheProperties {
 
-    @NotNull
-    Long refreshTime;
-    @NotNull
-    Long refreshAheadTime;
-    @NotNull
-    Long refreshTimeout;
+  @NotNull Long refreshTime;
+  @NotNull Long refreshAheadTime;
+  @NotNull Long refreshTimeout;
 }

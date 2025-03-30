@@ -23,5 +23,4 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @IntegrationTest
 @Import({OktaServiceConfig.class, FilterConfig.class, OktaResourceServerConfig.class})
 @ContextConfiguration(initializers = WireMockInitializer.class)
-public @interface DefaultIntegrationTest {
-}
+public @interface DefaultIntegrationTest {}

@@ -11,9 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SessionTokenRequest {
 
-    private String orgUrl;
-    private String username;
-    private String password;
-    @Builder.Default
-    private AuthOptions options = new AuthOptions();
+  private String orgUrl;
+  private String username;
+  private String password;
+  @Builder.Default private AuthOptions options = new AuthOptions();
 }

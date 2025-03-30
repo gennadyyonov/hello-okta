@@ -14,16 +14,16 @@ import static lv.gennadyyonov.hellookta.bff.config.Constants.GRAPHQL;
 @Component
 public class TranslationQuery implements GraphQLQueryResolver, ParameterLogging {
 
-    private static final String DEFAULT_LOCALE = "en";
+  private static final String DEFAULT_LOCALE = "en";
 
-    private final TranslationService translationService;
+  private final TranslationService translationService;
 
-    @Autowired
-    public TranslationQuery(TranslationService translationService) {
-        this.translationService = translationService;
-    }
+  @Autowired
+  public TranslationQuery(TranslationService translationService) {
+    this.translationService = translationService;
+  }
 
-    public TranslationMap translationMap() {
-        return translationService.translationMap(DEFAULT_LOCALE);
-    }
+  public TranslationMap translationMap() {
+    return translationService.translationMap(DEFAULT_LOCALE);
+  }
 }

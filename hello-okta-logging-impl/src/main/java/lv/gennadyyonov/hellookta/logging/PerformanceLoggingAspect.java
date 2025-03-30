@@ -19,37 +19,40 @@ import static org.springframework.core.annotation.AnnotatedElementUtils.getMerge
 @Slf4j
 public class PerformanceLoggingAspect {
 
-    @Pointcut("@annotation(PerformanceLogging) || @within(PerformanceLogging)")
-    public void performanceLogging() {
-        // Pointcut for annotation based logging
-    }
+  @Pointcut("@annotation(PerformanceLogging) || @within(PerformanceLogging)")
+  public void performanceLogging() {
+    // Pointcut for annotation based logging
+  }
 
-    @Around("performanceLogging()")
-    public Object logAroundAnnotation(ProceedingJoinPoint joinPoint) {
-        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-        PerformanceLogging annotation = getPerformanceLoggingAnnotation(methodSignature);
-        String layer = ofNullable(annotation).map(PerformanceLogging::layer).orElse(DEFAULT);
-        return logAround(joinPoint, layer);
-    }
+  @Around("performanceLogging()")
+  public Object logAroundAnnotation(ProceedingJoinPoint joinPoint) {
+    MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+    PerformanceLogging annotation = getPerformanceLoggingAnnotation(methodSignature);
+    String layer = ofNullable(annotation).map(PerformanceLogging::layer).orElse(DEFAULT);
+    return logAround(joinPoint, layer);
+  }
 
-    @SneakyThrows
-    private Object logAround(ProceedingJoinPoint joinPoint, String layer) {
-        long start = currentTimeMillis();
-        String className = joinPoint.getSignature().getDeclaringType().getSimpleName();
-        String methodFullName = className + "." + joinPoint.getSignature().getName();
-        try {
-            return joinPoint.proceed();
-        } finally {
-            long stop = currentTimeMillis();
-            log.info(LOG_FORMAT, PERFORMANCE_MARKER, layer, methodFullName, "", (stop - start) + " ms");
-        }
+  @SneakyThrows
+  private Object logAround(ProceedingJoinPoint joinPoint, String layer) {
+    long start = currentTimeMillis();
+    String className = joinPoint.getSignature().getDeclaringType().getSimpleName();
+    String methodFullName = className + "." + joinPoint.getSignature().getName();
+    try {
+      return joinPoint.proceed();
+    } finally {
+      long stop = currentTimeMillis();
+      log.info(LOG_FORMAT, PERFORMANCE_MARKER, layer, methodFullName, "", (stop - start) + " ms");
     }
+  }
 
-    private PerformanceLogging getPerformanceLoggingAnnotation(MethodSignature methodSignature) {
-        PerformanceLogging annotation = getMergedAnnotation(methodSignature.getMethod(), PerformanceLogging.class);
-        if (annotation == null) {
-            annotation = getMergedAnnotation(methodSignature.getMethod().getDeclaringClass(), PerformanceLogging.class);
-        }
-        return annotation;
+  private PerformanceLogging getPerformanceLoggingAnnotation(MethodSignature methodSignature) {
+    PerformanceLogging annotation =
+        getMergedAnnotation(methodSignature.getMethod(), PerformanceLogging.class);
+    if (annotation == null) {
+      annotation =
+          getMergedAnnotation(
+              methodSignature.getMethod().getDeclaringClass(), PerformanceLogging.class);
     }
+    return annotation;
+  }
 }

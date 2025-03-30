@@ -19,13 +19,11 @@ import static lv.gennadyyonov.hellookta.constants.SecurityConstants.ALLOWED_USER
 @Component
 public class Query implements GraphQLQueryResolver, ParameterLogging {
 
-    private static final String PONG = "pong";
+  private static final String PONG = "pong";
 
-    private final ChuckNorrisGateway chuckNorrisGateway;
+  private final ChuckNorrisGateway chuckNorrisGateway;
 
-    public String ping() {
-        return ofNullable(chuckNorrisGateway.randomJoke())
-                .map(Joke::getValue)
-                .orElse(PONG);
-    }
+  public String ping() {
+    return ofNullable(chuckNorrisGateway.randomJoke()).map(Joke::getValue).orElse(PONG);
+  }
 }

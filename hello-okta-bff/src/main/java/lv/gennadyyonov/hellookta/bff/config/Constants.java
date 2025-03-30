@@ -5,5 +5,5 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class Constants {
 
-    public static final String GRAPHQL = "GRAPHQL";
+  public static final String GRAPHQL = "GRAPHQL";
 }

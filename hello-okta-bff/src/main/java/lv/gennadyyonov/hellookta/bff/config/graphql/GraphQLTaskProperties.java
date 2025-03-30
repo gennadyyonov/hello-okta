@@ -21,45 +21,48 @@ import static java.util.Optional.ofNullable;
 @Getter
 public class GraphQLTaskProperties {
 
-    private static final int MIN_POOL_CORE_SIZE = 0;
-    private static final int MIN_POOL_MAX_SIZE = 1;
-    private static final int MIN_POOL_KEEP_ALIVE_SECONDS = 0;
+  private static final int MIN_POOL_CORE_SIZE = 0;
+  private static final int MIN_POOL_MAX_SIZE = 1;
+  private static final int MIN_POOL_KEEP_ALIVE_SECONDS = 0;
+
+  @NotNull @Valid private final Execution execution;
+
+  void populate(ThreadPoolTaskExecutor taskExecutor) {
+    ofNullable(execution)
+        .map(Execution::getPool)
+        .ifPresent(
+            pool -> {
+              ofNullable(pool.getCoreSize()).ifPresent(taskExecutor::setCorePoolSize);
+              ofNullable(pool.getMaxSize()).ifPresent(taskExecutor::setMaxPoolSize);
+              ofNullable(pool.getKeepAliveSeconds()).ifPresent(taskExecutor::setKeepAliveSeconds);
+            });
+    ofNullable(execution)
+        .map(Execution::getThreadNamePrefix)
+        .ifPresent(taskExecutor::setThreadNamePrefix);
+  }
+
+  @RequiredArgsConstructor
+  @Getter
+  @Value
+  private static class Execution {
+
+    String threadNamePrefix;
+    @NotNull @Valid Pool pool;
+  }
+
+  @RequiredArgsConstructor
+  @Getter
+  @Value
+  private static class Pool {
+
+    @Min(MIN_POOL_CORE_SIZE)
+    Integer coreSize;
 
     @NotNull
-    @Valid
-    private final Execution execution;
+    @Min(MIN_POOL_MAX_SIZE)
+    Integer maxSize;
 
-    void populate(ThreadPoolTaskExecutor taskExecutor) {
-        ofNullable(execution).map(Execution::getPool).ifPresent(pool -> {
-            ofNullable(pool.getCoreSize()).ifPresent(taskExecutor::setCorePoolSize);
-            ofNullable(pool.getMaxSize()).ifPresent(taskExecutor::setMaxPoolSize);
-            ofNullable(pool.getKeepAliveSeconds()).ifPresent(taskExecutor::setKeepAliveSeconds);
-        });
-        ofNullable(execution).map(Execution::getThreadNamePrefix).ifPresent(taskExecutor::setThreadNamePrefix);
-    }
-
-    @RequiredArgsConstructor
-    @Getter
-    @Value
-    private static class Execution {
-
-        String threadNamePrefix;
-        @NotNull
-        @Valid
-        Pool pool;
-    }
-
-    @RequiredArgsConstructor
-    @Getter
-    @Value
-    private static class Pool {
-
-        @Min(MIN_POOL_CORE_SIZE)
-        Integer coreSize;
-        @NotNull
-        @Min(MIN_POOL_MAX_SIZE)
-        Integer maxSize;
-        @Min(MIN_POOL_KEEP_ALIVE_SECONDS)
-        Integer keepAliveSeconds;
-    }
+    @Min(MIN_POOL_KEEP_ALIVE_SECONDS)
+    Integer keepAliveSeconds;
+  }
 }

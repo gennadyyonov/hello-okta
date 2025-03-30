@@ -16,13 +16,13 @@ import static lv.gennadyyonov.hellookta.constants.SecurityConstants.ALLOWED_USER
 @Component
 public class UserInfoQuery implements GraphQLQueryResolver, ParameterLogging {
 
-    private final UserInfoService userInfoService;
+  private final UserInfoService userInfoService;
 
-    public UserInfoQuery(UserInfoService userInfoService) {
-        this.userInfoService = userInfoService;
-    }
+  public UserInfoQuery(UserInfoService userInfoService) {
+    this.userInfoService = userInfoService;
+  }
 
-    public UserInfo me() {
-        return userInfoService.getUserInfo();
-    }
+  public UserInfo me() {
+    return userInfoService.getUserInfo();
+  }
 }

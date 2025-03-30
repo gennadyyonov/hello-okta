@@ -10,15 +10,15 @@ import static org.springframework.security.oauth2.core.OAuth2AccessToken.TokenTy
 
 public class SsoInterceptor implements RequestInterceptor {
 
-    private final AuthenticationService authenticationService;
+  private final AuthenticationService authenticationService;
 
-    public SsoInterceptor(AuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
-    }
+  public SsoInterceptor(AuthenticationService authenticationService) {
+    this.authenticationService = authenticationService;
+  }
 
-    @Override
-    public void apply(RequestTemplate template) {
-        String tokenValue = authenticationService.bearerTokenValue();
-        template.header(AUTHORIZATION, format("%s %s", BEARER.getValue(), tokenValue));
-    }
+  @Override
+  public void apply(RequestTemplate template) {
+    String tokenValue = authenticationService.bearerTokenValue();
+    template.header(AUTHORIZATION, format("%s %s", BEARER.getValue(), tokenValue));
+  }
 }

@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class ClientConfig {
 
-    private String issuer;
-    private String clientId;
-    private String clientSecret;
-    private String scope;
-    private String serverUri;
+  private String issuer;
+  private String clientId;
+  private String clientSecret;
+  private String scope;
+  private String serverUri;
 }

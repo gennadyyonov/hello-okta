@@ -11,11 +11,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface HasRole {
 
-    @AliasFor("alias")
-    String value() default "";
+  @AliasFor("alias")
+  String value() default "";
 
-    @AliasFor("value")
-    String alias() default "";
+  @AliasFor("value")
+  String alias() default "";
 
-    String[] roles() default {};
+  String[] roles() default {};
 }

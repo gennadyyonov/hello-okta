@@ -21,7 +21,5 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @AutoConfigureMockMvc
 @TestExecutionListeners(
     listeners = {ResettingListener.class, UserInfoListener.class},
-    mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS
-)
-public @interface IntegrationTest {
-}
+    mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
+public @interface IntegrationTest {}

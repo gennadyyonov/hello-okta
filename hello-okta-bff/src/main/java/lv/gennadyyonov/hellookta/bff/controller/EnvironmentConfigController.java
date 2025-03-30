@@ -22,22 +22,29 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 public class EnvironmentConfigController {
 
-    public static final String ENVIRONMENT_CONFIG_SUFFIX = "/config/environment";
+  public static final String ENVIRONMENT_CONFIG_SUFFIX = "/config/environment";
 
-    private final OAuth2ClientProperties oktaOAuth2Properties;
-    private final CsrfProperties csrfProperties;
+  private final OAuth2ClientProperties oktaOAuth2Properties;
+  private final CsrfProperties csrfProperties;
 
-    @Operation(summary = "Environment Configuration", description = "Returns Environment Configuration")
-    @ApiResponses(value = {
+  @Operation(
+      summary = "Environment Configuration",
+      description = "Returns Environment Configuration")
+  @ApiResponses(
+      value = {
         @ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json")),
         @ApiResponse(responseCode = "4xx", description = "Bad Request", content = @Content),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content)})
-    @GetMapping(value = ENVIRONMENT_CONFIG_SUFFIX, produces = APPLICATION_JSON_VALUE)
-    public EnvironmentProperties environmentConfig() {
-        return EnvironmentProperties.builder()
-            .oktaClientId(getClientId(oktaOAuth2Properties))
-            .oktaIssuer(getIssuerUri(oktaOAuth2Properties))
-            .csrfEnabled(csrfProperties.getCsrfEnabled())
-            .build();
-    }
+        @ApiResponse(
+            responseCode = "500",
+            description = "Internal Server Error",
+            content = @Content)
+      })
+  @GetMapping(value = ENVIRONMENT_CONFIG_SUFFIX, produces = APPLICATION_JSON_VALUE)
+  public EnvironmentProperties environmentConfig() {
+    return EnvironmentProperties.builder()
+        .oktaClientId(getClientId(oktaOAuth2Properties))
+        .oktaIssuer(getIssuerUri(oktaOAuth2Properties))
+        .csrfEnabled(csrfProperties.getCsrfEnabled())
+        .build();
+  }
 }

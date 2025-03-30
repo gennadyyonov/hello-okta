@@ -36,84 +36,95 @@ import static lv.gennadyyonov.hellookta.api.client.utils.ResponseUtils.jsonStrin
 
 public class PkceFlowAuthTokenResponseClient {
 
-    private static final String TOKEN_PATH = "/v1/token";
-    private static final Pattern ACCESS_TOKEN_PATTERN = compile(jsonStringAttributeValueRegex("access_token"));
-    private static final Pattern TOKEN_TYPE_PATTERN = compile(jsonStringAttributeValueRegex("token_type"));
+  private static final String TOKEN_PATH = "/v1/token";
+  private static final Pattern ACCESS_TOKEN_PATTERN =
+      compile(jsonStringAttributeValueRegex("access_token"));
+  private static final Pattern TOKEN_TYPE_PATTERN =
+      compile(jsonStringAttributeValueRegex("token_type"));
 
-    @SneakyThrows
-    public AuthTokenResponse getTokenResponse(AuthTokenRequest request) {
-        SessionTokenResponseClient sessionTokenResponseClient = new SessionTokenResponseClient();
-        SessionTokenRequest sessionTokenRequest = SessionTokenRequest.builder()
-                .orgUrl(request.getOrgUrl())
-                .username(request.getUsername())
-                .password(request.getPassword())
-                .build();
-        String sessionToken = sessionTokenResponseClient.getTokenResponse(sessionTokenRequest);
-        PkceCodeGenerator pkceCodeGenerator = new PkceCodeGenerator();
-        Map<String, String> pkceParameters = pkceCodeGenerator.pkceParameters();
-        String spaUri = request.getSpaUri();
-        EnvironmentProperties environmentProperties = request.getEnvironmentProperties();
-        String redirectUri = spaUri + "/implicit/callback";
-        String oktaIssuer = environmentProperties.getOktaIssuer();
-        String oktaClientId = environmentProperties.getOktaClientId();
-        String uri = authorizationUri(oktaIssuer, oktaClientId, redirectUri, sessionToken, pkceParameters);
-        HttpURLConnection connection = doGet(uri);
-        int responseCode = connection.getResponseCode();
-        if (responseCode != HTTP_MOVED_TEMP) {
-            throw new IllegalStateException();
-        }
-        String location = connection.getHeaderField("Location");
-        Map<String, String> refParams = extractRefParams(location);
-        String code = refParams.get("code");
-        URLConnection urlConnection = exchangeCodeForTokens(oktaIssuer, oktaClientId, redirectUri, code, pkceParameters);
-        String response = readResponse(urlConnection);
-        String tokenType = extractValueByPattern(TOKEN_TYPE_PATTERN, response);
-        String accessToken = extractValueByPattern(ACCESS_TOKEN_PATTERN, response);
-        return AuthTokenResponse.builder()
-                .tokenType(tokenType)
-                .accessToken(accessToken)
-                .build();
+  @SneakyThrows
+  public AuthTokenResponse getTokenResponse(AuthTokenRequest request) {
+    SessionTokenResponseClient sessionTokenResponseClient = new SessionTokenResponseClient();
+    SessionTokenRequest sessionTokenRequest =
+        SessionTokenRequest.builder()
+            .orgUrl(request.getOrgUrl())
+            .username(request.getUsername())
+            .password(request.getPassword())
+            .build();
+    String sessionToken = sessionTokenResponseClient.getTokenResponse(sessionTokenRequest);
+    PkceCodeGenerator pkceCodeGenerator = new PkceCodeGenerator();
+    Map<String, String> pkceParameters = pkceCodeGenerator.pkceParameters();
+    String spaUri = request.getSpaUri();
+    EnvironmentProperties environmentProperties = request.getEnvironmentProperties();
+    String redirectUri = spaUri + "/implicit/callback";
+    String oktaIssuer = environmentProperties.getOktaIssuer();
+    String oktaClientId = environmentProperties.getOktaClientId();
+    String uri =
+        authorizationUri(oktaIssuer, oktaClientId, redirectUri, sessionToken, pkceParameters);
+    HttpURLConnection connection = doGet(uri);
+    int responseCode = connection.getResponseCode();
+    if (responseCode != HTTP_MOVED_TEMP) {
+      throw new IllegalStateException();
     }
+    String location = connection.getHeaderField("Location");
+    Map<String, String> refParams = extractRefParams(location);
+    String code = refParams.get("code");
+    URLConnection urlConnection =
+        exchangeCodeForTokens(oktaIssuer, oktaClientId, redirectUri, code, pkceParameters);
+    String response = readResponse(urlConnection);
+    String tokenType = extractValueByPattern(TOKEN_TYPE_PATTERN, response);
+    String accessToken = extractValueByPattern(ACCESS_TOKEN_PATTERN, response);
+    return AuthTokenResponse.builder().tokenType(tokenType).accessToken(accessToken).build();
+  }
 
-    @SneakyThrows
-    private String authorizationUri(String oktaIssuer, String oktaClientId, String redirectUri, String sessionToken,
-                                    Map<String, String> pkceParameters) {
-        Map<String, String> queryParams = new LinkedHashMap<>();
-        queryParams.put("client_id", oktaClientId);
-        queryParams.put("response_type", "code");
-        queryParams.put("response_mode", "fragment");
-        queryParams.put("scope", "email+profile+openid");
-        queryParams.put("redirect_uri", encode(redirectUri, UTF_8.name()));
-        queryParams.put("state", "foo");
-        queryParams.put("nonce", "bar");
-        queryParams.put("sessionToken", sessionToken);
-        queryParams.put(CODE_CHALLENGE_METHOD, pkceParameters.get(CODE_CHALLENGE_METHOD));
-        queryParams.put(CODE_CHALLENGE, pkceParameters.get(CODE_CHALLENGE));
-        String query = queryParams.entrySet().stream()
-                .map(entry -> format("%s=%s", entry.getKey(), entry.getValue()))
-                .collect(joining("&"));
-        return oktaIssuer + "/v1/authorize?" + query;
-    }
+  @SneakyThrows
+  private String authorizationUri(
+      String oktaIssuer,
+      String oktaClientId,
+      String redirectUri,
+      String sessionToken,
+      Map<String, String> pkceParameters) {
+    Map<String, String> queryParams = new LinkedHashMap<>();
+    queryParams.put("client_id", oktaClientId);
+    queryParams.put("response_type", "code");
+    queryParams.put("response_mode", "fragment");
+    queryParams.put("scope", "email+profile+openid");
+    queryParams.put("redirect_uri", encode(redirectUri, UTF_8.name()));
+    queryParams.put("state", "foo");
+    queryParams.put("nonce", "bar");
+    queryParams.put("sessionToken", sessionToken);
+    queryParams.put(CODE_CHALLENGE_METHOD, pkceParameters.get(CODE_CHALLENGE_METHOD));
+    queryParams.put(CODE_CHALLENGE, pkceParameters.get(CODE_CHALLENGE));
+    String query =
+        queryParams.entrySet().stream()
+            .map(entry -> format("%s=%s", entry.getKey(), entry.getValue()))
+            .collect(joining("&"));
+    return oktaIssuer + "/v1/authorize?" + query;
+  }
 
-    @SneakyThrows
-    private URLConnection exchangeCodeForTokens(String oktaIssuer, String oktaClientId, String redirectUri,
-                                                String code, Map<String, String> pkceParameters) {
-        String tokenUri = oktaIssuer + TOKEN_PATH;
-        String content = createContent(oktaClientId, redirectUri, code, pkceParameters);
-        Map<String, String> headers = new HashMap<>();
-        headers.put(CONTENT_TYPE_HEADER, APPLICATION_X_WWW_FORM_URLENCODED);
-        headers.put(ACCEPT_HEADER, APPLICATION_JSON);
-        return HttpClientUtils.doPost(tokenUri, headers, content);
-    }
+  @SneakyThrows
+  private URLConnection exchangeCodeForTokens(
+      String oktaIssuer,
+      String oktaClientId,
+      String redirectUri,
+      String code,
+      Map<String, String> pkceParameters) {
+    String tokenUri = oktaIssuer + TOKEN_PATH;
+    String content = createContent(oktaClientId, redirectUri, code, pkceParameters);
+    Map<String, String> headers = new HashMap<>();
+    headers.put(CONTENT_TYPE_HEADER, APPLICATION_X_WWW_FORM_URLENCODED);
+    headers.put(ACCEPT_HEADER, APPLICATION_JSON);
+    return HttpClientUtils.doPost(tokenUri, headers, content);
+  }
 
-    @SneakyThrows
-    private String createContent(String oktaClientId, String redirectUri,
-                                 String code, Map<String, String> pkceParameters) {
-        String content = "grant_type=authorization_code";
-        content += "&client_id=" + oktaClientId;
-        content += "&redirect_uri=" + encode(redirectUri, UTF_8.name());
-        content += "&code=" + code;
-        content += "&code_verifier=" + pkceParameters.get(CODE_VERIFIER);
-        return content;
-    }
+  @SneakyThrows
+  private String createContent(
+      String oktaClientId, String redirectUri, String code, Map<String, String> pkceParameters) {
+    String content = "grant_type=authorization_code";
+    content += "&client_id=" + oktaClientId;
+    content += "&redirect_uri=" + encode(redirectUri, UTF_8.name());
+    content += "&code=" + code;
+    content += "&code_verifier=" + pkceParameters.get(CODE_VERIFIER);
+    return content;
+  }
 }

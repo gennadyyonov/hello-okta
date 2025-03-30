@@ -12,17 +12,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class HelloOktaApi implements Server {
 
-    public static final String SERVER_NAME = "helloOktaApiWireMockServer";
+  public static final String SERVER_NAME = "helloOktaApiWireMockServer";
 
-    private final WireMockServer delegate;
+  private final WireMockServer delegate;
 
-    public HelloOktaApi(@Qualifier(SERVER_NAME) WireMockServer server) {
-        this.delegate = server;
-    }
+  public HelloOktaApi(@Qualifier(SERVER_NAME) WireMockServer server) {
+    this.delegate = server;
+  }
 
-    public RequestStubbing onPostHello() {
-        return on()
-            .request(HttpMethod.POST)
-            .pathEqualTo("/hello-okta-api/hello");
-    }
+  public RequestStubbing onPostHello() {
+    return on().request(HttpMethod.POST).pathEqualTo("/hello-okta-api/hello");
+  }
 }

@@ -14,14 +14,17 @@ import lv.gennadyyonov.hellookta.logging.View;
 @NoArgsConstructor
 public class TokenResponse {
 
-    @JsonView(View.LoggingView.class)
-    @JsonProperty("token_type")
-    private String tokenType;
-    @JsonProperty("access_token")
-    private String accessToken;
-    @JsonView(View.LoggingView.class)
-    @JsonProperty("expires_in")
-    private Integer expiresIn;
-    @JsonView(View.LoggingView.class)
-    private String scope;
+  @JsonView(View.LoggingView.class)
+  @JsonProperty("token_type")
+  private String tokenType;
+
+  @JsonProperty("access_token")
+  private String accessToken;
+
+  @JsonView(View.LoggingView.class)
+  @JsonProperty("expires_in")
+  private Integer expiresIn;
+
+  @JsonView(View.LoggingView.class)
+  private String scope;
 }

@@ -19,38 +19,40 @@ import static java.util.Optional.ofNullable;
 
 public class RunAsHelloOktaApiConnectorConfig {
 
-    @Bean
-    public Contract contract() {
-        return new Contract.Default();
-    }
+  @Bean
+  public Contract contract() {
+    return new Contract.Default();
+  }
 
-    @Bean
-    public Logger.Level loggerLevel() {
-        return Logger.Level.HEADERS;
-    }
+  @Bean
+  public Logger.Level loggerLevel() {
+    return Logger.Level.HEADERS;
+  }
 
-    @Bean
-    public Encoder encoder() {
-        return new JacksonEncoder();
-    }
+  @Bean
+  public Encoder encoder() {
+    return new JacksonEncoder();
+  }
 
-    @Bean
-    public Decoder decoder() {
-        return new JacksonDecoder();
-    }
+  @Bean
+  public Decoder decoder() {
+    return new JacksonDecoder();
+  }
 
-    @Bean
-    public RequestInterceptor clientCredentialsInterceptor(FeignInterceptorProvider feignInterceptorProvider,
-                                                           HelloOktaApiClientProperties helloOktaApiClientProperties) {
-        RunAsDetails runAsDetails = ofNullable(helloOktaApiClientProperties.getClient())
+  @Bean
+  public RequestInterceptor clientCredentialsInterceptor(
+      FeignInterceptorProvider feignInterceptorProvider,
+      HelloOktaApiClientProperties helloOktaApiClientProperties) {
+    RunAsDetails runAsDetails =
+        ofNullable(helloOktaApiClientProperties.getClient())
             .map(HelloOktaApiClientProperties.Client::getRunAsDetails)
             .orElseThrow(IllegalStateException::new);
-        return feignInterceptorProvider.getClientCredentialsInterceptor(runAsDetails);
-    }
+    return feignInterceptorProvider.getClientCredentialsInterceptor(runAsDetails);
+  }
 
-    @Bean
-    public RequestInterceptor csrfTokenInterceptor(CsrfTokenRepository csrfTokenRepository,
-                                                   CsrfProperties csrfProperties) {
-        return new CsrfTokenInterceptor(csrfTokenRepository, csrfProperties);
-    }
+  @Bean
+  public RequestInterceptor csrfTokenInterceptor(
+      CsrfTokenRepository csrfTokenRepository, CsrfProperties csrfProperties) {
+    return new CsrfTokenInterceptor(csrfTokenRepository, csrfProperties);
+  }
 }

@@ -40,52 +40,64 @@ import static lv.gennadyyonov.hellookta.utils.OktaUtils.getIssuerUri;
 @Slf4j
 public class OktaResourceServerConfig {
 
-    @Bean
-    public JwtIssuerAuthenticationManagerResolver jwtIssuerAuthenticationManagerResolver(OAuth2ClientProperties oktaOAuth2Properties,
-                                                                                         OktaResourceServerJwkSetCacheProperties jwkSetCacheProperties) {
-        var issuer = getIssuerUri(oktaOAuth2Properties);
-        var authenticationManagers = Stream.of(issuer)
-            .collect(Collectors.toMap(Function.identity(), it -> getAuthenticationManager(it, jwkSetCacheProperties)));
-        return new JwtIssuerAuthenticationManagerResolver(new TrustedIssuerJwtAuthenticationManagerResolver(authenticationManagers));
-    }
+  @Bean
+  public JwtIssuerAuthenticationManagerResolver jwtIssuerAuthenticationManagerResolver(
+      OAuth2ClientProperties oktaOAuth2Properties,
+      OktaResourceServerJwkSetCacheProperties jwkSetCacheProperties) {
+    var issuer = getIssuerUri(oktaOAuth2Properties);
+    var authenticationManagers =
+        Stream.of(issuer)
+            .collect(
+                Collectors.toMap(
+                    Function.identity(),
+                    it -> getAuthenticationManager(it, jwkSetCacheProperties)));
+    return new JwtIssuerAuthenticationManagerResolver(
+        new TrustedIssuerJwtAuthenticationManagerResolver(authenticationManagers));
+  }
 
-    @SneakyThrows
-    private AuthenticationManager getAuthenticationManager(String issuer,
-                                                           OktaResourceServerJwkSetCacheProperties jwkSetCacheProperties) {
-        var jwkSetUrl = new URI(issuer + "/v1/keys").toURL();
-        var jwtDecoder = jwtDecoder(jwkSetUrl, jwkSetCacheProperties);
-        return new JwtAuthenticationProvider(jwtDecoder)::authenticate;
-    }
+  @SneakyThrows
+  private AuthenticationManager getAuthenticationManager(
+      String issuer, OktaResourceServerJwkSetCacheProperties jwkSetCacheProperties) {
+    var jwkSetUrl = new URI(issuer + "/v1/keys").toURL();
+    var jwtDecoder = jwtDecoder(jwkSetUrl, jwkSetCacheProperties);
+    return new JwtAuthenticationProvider(jwtDecoder)::authenticate;
+  }
 
-    private JwtDecoder jwtDecoder(URL jwkSetUrl,
-                                  OktaResourceServerJwkSetCacheProperties jwkSetCacheProperties) {
-        var jwkSetRetriever = jwkSetRetriever();
-        var jwtSource = JWKSourceBuilder.create(jwkSetUrl, jwkSetRetriever)
-            .cache(jwkSetCacheProperties.getRefreshTime() + jwkSetCacheProperties.getRefreshAheadTime(),
+  private JwtDecoder jwtDecoder(
+      URL jwkSetUrl, OktaResourceServerJwkSetCacheProperties jwkSetCacheProperties) {
+    var jwkSetRetriever = jwkSetRetriever();
+    var jwtSource =
+        JWKSourceBuilder.create(jwkSetUrl, jwkSetRetriever)
+            .cache(
+                jwkSetCacheProperties.getRefreshTime()
+                    + jwkSetCacheProperties.getRefreshAheadTime(),
                 jwkSetCacheProperties.getRefreshTimeout())
-            .refreshAheadCache(jwkSetCacheProperties.getRefreshAheadTime(), true, this::refreshCacheEventListener)
+            .refreshAheadCache(
+                jwkSetCacheProperties.getRefreshAheadTime(), true, this::refreshCacheEventListener)
             .rateLimited(0)
             .build();
-        var jwtProcessor = processor(jwtSource);
-        return new NimbusJwtDecoder(jwtProcessor);
-    }
+    var jwtProcessor = processor(jwtSource);
+    return new NimbusJwtDecoder(jwtProcessor);
+  }
 
-    private void refreshCacheEventListener(Event<CachingJWKSetSource<SecurityContext>, SecurityContext> event) {
-        if (event instanceof CachingJWKSetSource.RefreshInitiatedEvent<SecurityContext>) {
-            log.info("Refreshing JWK Set Cache...");
-        }
+  private void refreshCacheEventListener(
+      Event<CachingJWKSetSource<SecurityContext>, SecurityContext> event) {
+    if (event instanceof CachingJWKSetSource.RefreshInitiatedEvent<SecurityContext>) {
+      log.info("Refreshing JWK Set Cache...");
     }
+  }
 
-    private ResourceRetriever jwkSetRetriever() {
-        RestOperations restOperations = new RestTemplate();
-        return new RestOperationsResourceRetriever(restOperations);
-    }
+  private ResourceRetriever jwkSetRetriever() {
+    RestOperations restOperations = new RestTemplate();
+    return new RestOperationsResourceRetriever(restOperations);
+  }
 
-    @SneakyThrows
-    private JWTProcessor<SecurityContext> processor(JWKSource<SecurityContext> jwkSource) {
-        JWSKeySelector<SecurityContext> jwsKeySelector = JWSAlgorithmFamilyJWSKeySelector.fromJWKSource(jwkSource);
-        ConfigurableJWTProcessor<SecurityContext> jwtProcessor = new DefaultJWTProcessor<>();
-        jwtProcessor.setJWSKeySelector(jwsKeySelector);
-        return jwtProcessor;
-    }
+  @SneakyThrows
+  private JWTProcessor<SecurityContext> processor(JWKSource<SecurityContext> jwkSource) {
+    JWSKeySelector<SecurityContext> jwsKeySelector =
+        JWSAlgorithmFamilyJWSKeySelector.fromJWKSource(jwkSource);
+    ConfigurableJWTProcessor<SecurityContext> jwtProcessor = new DefaultJWTProcessor<>();
+    jwtProcessor.setJWSKeySelector(jwsKeySelector);
+    return jwtProcessor;
+  }
 }

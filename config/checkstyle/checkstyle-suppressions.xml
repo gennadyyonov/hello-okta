@@ -5,4 +5,9 @@
         "https://checkstyle.org/dtds/suppressions_1_2.dtd">
 
 <suppressions>
+    <suppress files=".*" checks="CustomImportOrder"/>
+    <suppress files=".*" checks="MissingJavadocType"/>
+    <suppress files=".*" checks="MissingJavadocMethod"/>
+    <suppress files=".*" checks="AbbreviationAsWordInName"/>
+    <suppress files=".*" checks="SummaryJavadoc"/>
 </suppressions>

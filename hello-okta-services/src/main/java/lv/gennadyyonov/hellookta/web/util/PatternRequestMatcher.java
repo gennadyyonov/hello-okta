@@ -4,5 +4,5 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 
 public interface PatternRequestMatcher extends RequestMatcher {
 
-    String getPattern();
+  String getPattern();
 }
