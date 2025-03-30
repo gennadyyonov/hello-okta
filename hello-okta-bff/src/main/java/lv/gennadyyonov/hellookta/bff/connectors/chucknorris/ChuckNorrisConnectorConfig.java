@@ -10,23 +10,23 @@ import org.springframework.context.annotation.Bean;
 
 public class ChuckNorrisConnectorConfig {
 
-    @Bean
-    public Contract contract() {
-        return new Contract.Default();
-    }
+  @Bean
+  public Contract contract() {
+    return new Contract.Default();
+  }
 
-    @Bean
-    public Logger.Level loggerLevel() {
-        return Logger.Level.HEADERS;
-    }
+  @Bean
+  public Logger.Level loggerLevel() {
+    return Logger.Level.HEADERS;
+  }
 
-    @Bean
-    public Encoder encoder() {
-        return new JacksonEncoder();
-    }
+  @Bean
+  public Encoder encoder() {
+    return new JacksonEncoder();
+  }
 
-    @Bean
-    public Decoder decoder() {
-        return new JacksonDecoder();
-    }
+  @Bean
+  public Decoder decoder() {
+    return new JacksonDecoder();
+  }
 }

@@ -15,34 +15,34 @@ import org.springframework.security.web.csrf.CsrfTokenRepository;
 
 public class HelloOktaApiConnectorConfig {
 
-    @Bean
-    public Contract contract() {
-        return new Contract.Default();
-    }
+  @Bean
+  public Contract contract() {
+    return new Contract.Default();
+  }
 
-    @Bean
-    public Logger.Level loggerLevel() {
-        return Logger.Level.HEADERS;
-    }
+  @Bean
+  public Logger.Level loggerLevel() {
+    return Logger.Level.HEADERS;
+  }
 
-    @Bean
-    public Encoder encoder() {
-        return new JacksonEncoder();
-    }
+  @Bean
+  public Encoder encoder() {
+    return new JacksonEncoder();
+  }
 
-    @Bean
-    public Decoder decoder() {
-        return new JacksonDecoder();
-    }
+  @Bean
+  public Decoder decoder() {
+    return new JacksonDecoder();
+  }
 
-    @Bean
-    public RequestInterceptor ssoInterceptor(FeignInterceptorProvider feignInterceptorProvider) {
-        return feignInterceptorProvider.getSsoInterceptor();
-    }
+  @Bean
+  public RequestInterceptor ssoInterceptor(FeignInterceptorProvider feignInterceptorProvider) {
+    return feignInterceptorProvider.getSsoInterceptor();
+  }
 
-    @Bean
-    public RequestInterceptor csrfTokenInterceptor(CsrfTokenRepository csrfTokenRepository,
-                                                   CsrfProperties csrfProperties) {
-        return new CsrfTokenInterceptor(csrfTokenRepository, csrfProperties);
-    }
+  @Bean
+  public RequestInterceptor csrfTokenInterceptor(
+      CsrfTokenRepository csrfTokenRepository, CsrfProperties csrfProperties) {
+    return new CsrfTokenInterceptor(csrfTokenRepository, csrfProperties);
+  }
 }

@@ -8,18 +8,18 @@ import static lv.gennadyyonov.hellookta.api.client.utils.ResponseUtils.jsonStrin
 
 public class DefaultHelloClient extends HelloClient<String> {
 
-    private static final Pattern TEXT_PATTERN = compile(jsonStringAttributeValueRegex("text"));
+  private static final Pattern TEXT_PATTERN = compile(jsonStringAttributeValueRegex("text"));
 
-    public DefaultHelloClient(ClientConfig config) {
-        super(config, DefaultHelloClient::extractCaseUrl);
-    }
+  public DefaultHelloClient(ClientConfig config) {
+    super(config, DefaultHelloClient::extractCaseUrl);
+  }
 
-    @Override
-    protected String getAccessToken(ClientCredentialsRequest request) {
-        return new DefaultClientCredentialsTokenResponseClient().getTokenResponse(request);
-    }
+  @Override
+  protected String getAccessToken(ClientCredentialsRequest request) {
+    return new DefaultClientCredentialsTokenResponseClient().getTokenResponse(request);
+  }
 
-    private static String extractCaseUrl(String response) {
-        return extractValueByPattern(TEXT_PATTERN, response);
-    }
+  private static String extractCaseUrl(String response) {
+    return extractValueByPattern(TEXT_PATTERN, response);
+  }
 }

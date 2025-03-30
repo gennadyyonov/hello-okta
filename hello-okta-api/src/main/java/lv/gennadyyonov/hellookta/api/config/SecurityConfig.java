@@ -30,43 +30,50 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @Configuration
 public class SecurityConfig {
 
-    private static final String ALL_URL_PATTERN = "/**";
+  private static final String ALL_URL_PATTERN = "/**";
 
-    private final JwtIssuerAuthenticationManagerResolver jwtIssuerAuthenticationManagerResolver;
-    private final TechnicalEndpointService technicalEndpointService;
-    private final CsrfProperties csrfProperties;
-    private final Customizer<CsrfConfigurer<HttpSecurity>> csrfCustomizer;
-    private final AuthenticationService authenticationService;
-    private final UserCacheProperties userCacheProperties;
+  private final JwtIssuerAuthenticationManagerResolver jwtIssuerAuthenticationManagerResolver;
+  private final TechnicalEndpointService technicalEndpointService;
+  private final CsrfProperties csrfProperties;
+  private final Customizer<CsrfConfigurer<HttpSecurity>> csrfCustomizer;
+  private final AuthenticationService authenticationService;
+  private final UserCacheProperties userCacheProperties;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.sessionManagement(session -> session.sessionCreationPolicy(STATELESS));
-        configureCsrf(http);
-        ofNullable(technicalEndpointService).ifPresent(service -> service.allowTechnicalEndpoints(http));
-        var authenticationEntryPoint = new BearerTokenAuthenticationEntryPoint();
-        http
-            .authorizeHttpRequests(auth -> auth
-                // Allow CORS option calls
-                .requestMatchers(OPTIONS, ALL_URL_PATTERN).permitAll()
-                .anyRequest().authenticated())
-            // Allow CORS option calls
-            .oauth2ResourceServer(oauth -> oauth
-                .authenticationManagerResolver(jwtIssuerAuthenticationManagerResolver)
-                .authenticationEntryPoint(new LoggingAuthenticationEntryPoint(authenticationEntryPoint)));
-        return http.build();
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http.sessionManagement(session -> session.sessionCreationPolicy(STATELESS));
+    configureCsrf(http);
+    ofNullable(technicalEndpointService)
+        .ifPresent(service -> service.allowTechnicalEndpoints(http));
+    var authenticationEntryPoint = new BearerTokenAuthenticationEntryPoint();
+    http.authorizeHttpRequests(
+            auth ->
+                auth
+                    // Allow CORS option calls
+                    .requestMatchers(OPTIONS, ALL_URL_PATTERN)
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated())
+        // Allow CORS option calls
+        .oauth2ResourceServer(
+            oauth ->
+                oauth
+                    .authenticationManagerResolver(jwtIssuerAuthenticationManagerResolver)
+                    .authenticationEntryPoint(
+                        new LoggingAuthenticationEntryPoint(authenticationEntryPoint)));
+    return http.build();
+  }
+
+  private void configureCsrf(HttpSecurity http) throws Exception {
+    if (toBoolean(csrfProperties.getCsrfEnabled())) {
+      http.csrf(csrfCustomizer);
+    } else {
+      http.csrf(AbstractHttpConfigurer::disable);
     }
+  }
 
-    private void configureCsrf(HttpSecurity http) throws Exception {
-        if (toBoolean(csrfProperties.getCsrfEnabled())) {
-            http.csrf(csrfCustomizer);
-        } else {
-            http.csrf(AbstractHttpConfigurer::disable);
-        }
-    }
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        authenticationService.initUsers(auth, userCacheProperties.getUsers());
-    }
+  @Autowired
+  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    authenticationService.initUsers(auth, userCacheProperties.getUsers());
+  }
 }

@@ -13,6 +13,6 @@ import java.util.List;
 @Value
 public class SecurityProperties {
 
-    Boolean enabled;
-    List<String> allowedRoles;
+  Boolean enabled;
+  List<String> allowedRoles;
 }

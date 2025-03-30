@@ -5,5 +5,5 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class HelloOktaApiSecurityConsts {
 
-    public static final String MESSAGE_READ = "SCOPE_message.read";
+  public static final String MESSAGE_READ = "SCOPE_message.read";
 }

@@ -13,9 +13,9 @@ import static lv.gennadyyonov.hellookta.logging.LoggingUtils.DEFAULT;
 @Target({ElementType.METHOD, ElementType.TYPE})
 public @interface PerformanceLogging {
 
-    @AliasFor("layer")
-    String value() default DEFAULT;
+  @AliasFor("layer")
+  String value() default DEFAULT;
 
-    @AliasFor("value")
-    String layer() default DEFAULT;
+  @AliasFor("value")
+  String layer() default DEFAULT;
 }

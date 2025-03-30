@@ -19,14 +19,14 @@ import static lv.gennadyyonov.hellookta.constants.SecurityConstants.ALLOWED_USER
 @Component
 public class HelloQuery implements GraphQLQueryResolver, ParameterLogging {
 
-    private final HelloOktaApiGateway helloOktaApiGateway;
+  private final HelloOktaApiGateway helloOktaApiGateway;
 
-    @Autowired
-    public HelloQuery(HelloOktaApiGateway helloOktaApiGateway) {
-        this.helloOktaApiGateway = helloOktaApiGateway;
-    }
+  @Autowired
+  public HelloQuery(HelloOktaApiGateway helloOktaApiGateway) {
+    this.helloOktaApiGateway = helloOktaApiGateway;
+  }
 
-    public Message hello(AuthType authType) {
-        return (authType == USER) ? helloOktaApiGateway.helloUser() : helloOktaApiGateway.helloClient();
-    }
+  public Message hello(AuthType authType) {
+    return (authType == USER) ? helloOktaApiGateway.helloUser() : helloOktaApiGateway.helloClient();
+  }
 }

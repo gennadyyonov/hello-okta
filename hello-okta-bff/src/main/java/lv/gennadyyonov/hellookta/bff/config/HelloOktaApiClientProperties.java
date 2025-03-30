@@ -16,17 +16,13 @@ import javax.validation.Valid;
 @Getter
 public class HelloOktaApiClientProperties {
 
-    @NotNull
-    @Valid
-    private final Client client;
+  @NotNull @Valid private final Client client;
 
-    @RequiredArgsConstructor
-    @Getter
-    @Value
-    public static class Client {
+  @RequiredArgsConstructor
+  @Getter
+  @Value
+  public static class Client {
 
-        @NotNull
-        @Valid
-        RunAsDetails runAsDetails;
-    }
+    @NotNull @Valid RunAsDetails runAsDetails;
+  }
 }

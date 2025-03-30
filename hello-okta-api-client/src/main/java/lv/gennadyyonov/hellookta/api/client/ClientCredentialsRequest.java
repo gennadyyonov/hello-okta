@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ClientCredentialsRequest {
 
-    private String tokenUri;
-    private String clientId;
-    private String clientSecret;
-    private String scope;
+  private String tokenUri;
+  private String clientId;
+  private String clientSecret;
+  private String scope;
 }

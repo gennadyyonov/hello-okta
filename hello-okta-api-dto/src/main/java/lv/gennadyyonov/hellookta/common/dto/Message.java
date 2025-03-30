@@ -13,6 +13,6 @@ import lv.gennadyyonov.hellookta.logging.View;
 @AllArgsConstructor
 public class Message {
 
-    @JsonView(View.LoggingView.class)
-    private String text;
+  @JsonView(View.LoggingView.class)
+  private String text;
 }

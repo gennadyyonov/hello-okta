@@ -15,11 +15,13 @@ import java.util.Set;
 @NoArgsConstructor
 public class UserInfo {
 
-    @JsonView(View.LoggingView.class)
-    private String userId;
-    private String firstName;
-    private String lastName;
-    private String email;
-    @JsonView(View.LoggingView.class)
-    private Set<String> roles;
+  @JsonView(View.LoggingView.class)
+  private String userId;
+
+  private String firstName;
+  private String lastName;
+  private String email;
+
+  @JsonView(View.LoggingView.class)
+  private Set<String> roles;
 }

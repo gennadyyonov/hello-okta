@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AuditingConfig {
 
-    @Bean
-    public AuditEventRepository auditEventRepository() {
-        return new InMemoryAuditEventRepository();
-    }
+  @Bean
+  public AuditEventRepository auditEventRepository() {
+    return new InMemoryAuditEventRepository();
+  }
 }

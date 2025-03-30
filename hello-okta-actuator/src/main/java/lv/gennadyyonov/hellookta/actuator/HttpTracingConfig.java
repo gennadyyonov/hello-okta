@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class HttpTracingConfig {
 
-    @Bean
-    public HttpExchangeRepository httpExchangeRepository() {
-        return new InMemoryHttpExchangeRepository();
-    }
+  @Bean
+  public HttpExchangeRepository httpExchangeRepository() {
+    return new InMemoryHttpExchangeRepository();
+  }
 }

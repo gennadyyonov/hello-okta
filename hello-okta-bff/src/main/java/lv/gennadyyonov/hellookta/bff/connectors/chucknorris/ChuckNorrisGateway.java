@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class ChuckNorrisGateway {
 
-    private final ChuckNorrisConnector chuckNorrisConnector;
+  private final ChuckNorrisConnector chuckNorrisConnector;
 
-    @SneakyThrows
-    public Joke randomJoke() {
-        return chuckNorrisConnector.randomJoke();
-    }
+  @SneakyThrows
+  public Joke randomJoke() {
+    return chuckNorrisConnector.randomJoke();
+  }
 }

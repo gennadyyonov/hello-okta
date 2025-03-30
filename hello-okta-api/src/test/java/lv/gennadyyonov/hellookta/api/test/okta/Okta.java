@@ -12,17 +12,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class Okta implements Server {
 
-    public static final String SERVER_NAME = "oktaWireMockServer";
+  public static final String SERVER_NAME = "oktaWireMockServer";
 
-    private final WireMockServer delegate;
+  private final WireMockServer delegate;
 
-    public Okta(@Qualifier(SERVER_NAME) WireMockServer server) {
-        this.delegate = server;
-    }
+  public Okta(@Qualifier(SERVER_NAME) WireMockServer server) {
+    this.delegate = server;
+  }
 
-    public RequestStubbing onGetUserInfo() {
-        return on()
-            .request(HttpMethod.GET)
-            .pathEqualTo("/okta/oauth2/default/v1/userinfo");
-    }
+  public RequestStubbing onGetUserInfo() {
+    return on().request(HttpMethod.GET).pathEqualTo("/okta/oauth2/default/v1/userinfo");
+  }
 }

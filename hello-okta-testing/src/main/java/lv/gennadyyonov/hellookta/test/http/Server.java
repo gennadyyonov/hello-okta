@@ -12,39 +12,38 @@ import java.util.function.BiConsumer;
 
 public interface Server extends Resettable, SmartLifecycle {
 
-    default Client.Stubbing on() {
-        return new Client.Stubbing((request, response) -> getDelegate().givenThat(request.willReturn(response)));
-    }
+  default Client.Stubbing on() {
+    return new Client.Stubbing(
+        (request, response) -> getDelegate().givenThat(request.willReturn(response)));
+  }
 
-    default Client.Verification verify() {
-        return new Client.Verification((request, strategy) -> getDelegate().verify(strategy, request));
-    }
+  default Client.Verification verify() {
+    return new Client.Verification((request, strategy) -> getDelegate().verify(strategy, request));
+  }
 
-    @Override
-    default void start() {
-        getDelegate().start();
-    }
+  @Override
+  default void start() {
+    getDelegate().start();
+  }
 
-    @Override
-    default void stop() {
-        getDelegate().stop();
-    }
+  @Override
+  default void stop() {
+    getDelegate().stop();
+  }
 
-    @Override
-    default boolean isRunning() {
-        return getDelegate().isRunning();
-    }
+  @Override
+  default boolean isRunning() {
+    return getDelegate().isRunning();
+  }
 
-    @Override
-    default void reset() {
-        getDelegate().resetAll();
-    }
+  @Override
+  default void reset() {
+    getDelegate().resetAll();
+  }
 
-    WireMockServer getDelegate();
+  WireMockServer getDelegate();
 
-    interface Stubbing extends BiConsumer<MappingBuilder, ResponseDefinitionBuilder> {
-    }
+  interface Stubbing extends BiConsumer<MappingBuilder, ResponseDefinitionBuilder> {}
 
-    interface Verification extends BiConsumer<RequestPatternBuilder, CountMatchingStrategy> {
-    }
+  interface Verification extends BiConsumer<RequestPatternBuilder, CountMatchingStrategy> {}
 }

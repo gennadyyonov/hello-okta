@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class HelloOktaApiGateway {
 
-    private final HelloOktaApiConnector helloOktaApiConnector;
-    private final RunAsHelloOktaApiConnector runAsHelloOktaApiConnector;
+  private final HelloOktaApiConnector helloOktaApiConnector;
+  private final RunAsHelloOktaApiConnector runAsHelloOktaApiConnector;
 
-    @SneakyThrows
-    public Message helloUser() {
-        return helloOktaApiConnector.hello();
-    }
+  @SneakyThrows
+  public Message helloUser() {
+    return helloOktaApiConnector.hello();
+  }
 
-    @SneakyThrows
-    public Message helloClient() {
-        return runAsHelloOktaApiConnector.hello();
-    }
+  @SneakyThrows
+  public Message helloClient() {
+    return runAsHelloOktaApiConnector.hello();
+  }
 }

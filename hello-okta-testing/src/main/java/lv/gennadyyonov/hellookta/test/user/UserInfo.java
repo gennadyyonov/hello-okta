@@ -17,14 +17,14 @@ import static lv.gennadyyonov.hellookta.test.config.TestConstants.DEFAULT_USERNA
 @WithSecurityContext(factory = UserInfoSecurityContextFactory.class)
 public @interface UserInfo {
 
-    @AliasFor("username")
-    String value() default DEFAULT_USERNAME;
+  @AliasFor("username")
+  String value() default DEFAULT_USERNAME;
 
-    @AliasFor("value")
-    String username() default DEFAULT_USERNAME;
+  @AliasFor("value")
+  String username() default DEFAULT_USERNAME;
 
-    String[] groups() default {DEFAULT_ROLE};
+  String[] groups() default {DEFAULT_ROLE};
 
-    @AliasFor(annotation = WithSecurityContext.class)
-    TestExecutionEvent setupBefore() default TestExecutionEvent.TEST_METHOD;
+  @AliasFor(annotation = WithSecurityContext.class)
+  TestExecutionEvent setupBefore() default TestExecutionEvent.TEST_METHOD;
 }

@@ -21,20 +21,25 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 public class CsrfTokenInfoController {
 
-    public static final String CSRF_TOKEN_INFO_SUFFIX = "/config/csrfTokenInfo";
+  public static final String CSRF_TOKEN_INFO_SUFFIX = "/config/csrfTokenInfo";
 
-    private final CsrfProperties csrfProperties;
+  private final CsrfProperties csrfProperties;
 
-    @Operation(summary = "CSRF Token Info", description = "Returns CSRF Token Info")
-    @ApiResponses(value = {
+  @Operation(summary = "CSRF Token Info", description = "Returns CSRF Token Info")
+  @ApiResponses(
+      value = {
         @ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json")),
         @ApiResponse(responseCode = "4xx", description = "Bad Request", content = @Content),
-        @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content)})
-    @GetMapping(value = CSRF_TOKEN_INFO_SUFFIX, produces = APPLICATION_JSON_VALUE)
-    public CsrfTokenInfo csrfTokenInfo() {
-        return CsrfTokenInfo.builder()
-            .cookieName(csrfProperties.getCookieName())
-            .headerName(csrfProperties.getHeaderName())
-            .build();
-    }
+        @ApiResponse(
+            responseCode = "500",
+            description = "Internal Server Error",
+            content = @Content)
+      })
+  @GetMapping(value = CSRF_TOKEN_INFO_SUFFIX, produces = APPLICATION_JSON_VALUE)
+  public CsrfTokenInfo csrfTokenInfo() {
+    return CsrfTokenInfo.builder()
+        .cookieName(csrfProperties.getCookieName())
+        .headerName(csrfProperties.getHeaderName())
+        .build();
+  }
 }

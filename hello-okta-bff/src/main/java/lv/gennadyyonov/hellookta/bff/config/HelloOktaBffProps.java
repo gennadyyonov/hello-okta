@@ -17,8 +17,6 @@ import java.util.Set;
 @Value
 public class HelloOktaBffProps implements SecurityMappingProperties, FilterOrderProperties {
 
-    @NotNull
-    Map<String, Set<String>> securityMapping;
-    @NotNull
-    Map<String, Integer> filterOrderMapping;
+  @NotNull Map<String, Set<String>> securityMapping;
+  @NotNull Map<String, Integer> filterOrderMapping;
 }

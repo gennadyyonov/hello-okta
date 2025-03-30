@@ -9,13 +9,11 @@ import java.util.stream.Stream;
 @UtilityClass
 public class StreamUtils {
 
-    public static <T> Stream<T> getNullableStream(T obj) {
-        return Optional.ofNullable(obj)
-            .map(Stream::of)
-            .orElseGet(Stream::empty);
-    }
+  public static <T> Stream<T> getNullableStream(T obj) {
+    return Optional.ofNullable(obj).map(Stream::of).orElseGet(Stream::empty);
+  }
 
-    public static <T> Stream<T> getNullableFlatStream(Collection<T> elements) {
-        return getNullableStream(elements).flatMap(Collection::stream);
-    }
+  public static <T> Stream<T> getNullableFlatStream(Collection<T> elements) {
+    return getNullableStream(elements).flatMap(Collection::stream);
+  }
 }

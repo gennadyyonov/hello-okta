@@ -11,18 +11,17 @@ import static org.springframework.security.oauth2.core.OAuth2AccessToken.TokenTy
 
 public class ClientCredentialsInterceptor implements RequestInterceptor {
 
-    private final TokenService tokenService;
-    private final RunAsDetails runAsDetails;
+  private final TokenService tokenService;
+  private final RunAsDetails runAsDetails;
 
-    public ClientCredentialsInterceptor(TokenService tokenService,
-                                        RunAsDetails runAsDetails) {
-        this.tokenService = tokenService;
-        this.runAsDetails = runAsDetails;
-    }
+  public ClientCredentialsInterceptor(TokenService tokenService, RunAsDetails runAsDetails) {
+    this.tokenService = tokenService;
+    this.runAsDetails = runAsDetails;
+  }
 
-    @Override
-    public void apply(RequestTemplate template) {
-        String accessToken = tokenService.getClientCredentialsAccessToken(runAsDetails);
-        template.header(AUTHORIZATION, format("%s %s", BEARER.getValue(), accessToken));
-    }
+  @Override
+  public void apply(RequestTemplate template) {
+    String accessToken = tokenService.getClientCredentialsAccessToken(runAsDetails);
+    template.header(AUTHORIZATION, format("%s %s", BEARER.getValue(), accessToken));
+  }
 }

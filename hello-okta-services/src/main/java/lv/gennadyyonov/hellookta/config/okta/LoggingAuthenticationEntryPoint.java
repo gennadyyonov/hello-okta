@@ -14,12 +14,13 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class LoggingAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-    private final AuthenticationEntryPoint delegate;
+  private final AuthenticationEntryPoint delegate;
 
-    @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response,
-                         AuthenticationException ex) throws IOException, ServletException {
-        log.warn("Failed to process authentication request. {}", ex.getMessage());
-        delegate.commence(request, response, ex);
-    }
+  @Override
+  public void commence(
+      HttpServletRequest request, HttpServletResponse response, AuthenticationException ex)
+      throws IOException, ServletException {
+    log.warn("Failed to process authentication request. {}", ex.getMessage());
+    delegate.commence(request, response, ex);
+  }
 }

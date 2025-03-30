@@ -20,21 +20,22 @@ import static org.apache.commons.lang3.BooleanUtils.toBoolean;
 @EnableConfigurationProperties(CorsProperties.class)
 public class CorsConfig {
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource(CorsProperties corsProperties,
-                                                           CsrfProperties csrfProperties) {
-        CorsConfiguration configuration = new CorsConfiguration();
-        List<String> allowedOrigins = ofNullable(corsProperties.getAllowedOrigins()).orElse(new ArrayList<>());
-        configuration.setAllowedOrigins(allowedOrigins);
-        configuration.setAllowedMethods(corsProperties.getAllowedMethods());
-        configuration.setAllowCredentials(toBoolean(corsProperties.getAllowCredentials()));
-        Set<String> allowedHeaders = new HashSet<>(corsProperties.getAllowedHeaders());
-        if (toBoolean(csrfProperties.getCsrfEnabled())) {
-            allowedHeaders.add(csrfProperties.getHeaderName());
-        }
-        configuration.setAllowedHeaders(new ArrayList<>(allowedHeaders));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration(corsProperties.getUrlPattern(), configuration);
-        return source;
+  @Bean
+  public CorsConfigurationSource corsConfigurationSource(
+      CorsProperties corsProperties, CsrfProperties csrfProperties) {
+    CorsConfiguration configuration = new CorsConfiguration();
+    List<String> allowedOrigins =
+        ofNullable(corsProperties.getAllowedOrigins()).orElse(new ArrayList<>());
+    configuration.setAllowedOrigins(allowedOrigins);
+    configuration.setAllowedMethods(corsProperties.getAllowedMethods());
+    configuration.setAllowCredentials(toBoolean(corsProperties.getAllowCredentials()));
+    Set<String> allowedHeaders = new HashSet<>(corsProperties.getAllowedHeaders());
+    if (toBoolean(csrfProperties.getCsrfEnabled())) {
+      allowedHeaders.add(csrfProperties.getHeaderName());
     }
+    configuration.setAllowedHeaders(new ArrayList<>(allowedHeaders));
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration(corsProperties.getUrlPattern(), configuration);
+    return source;
+  }
 }

@@ -11,7 +11,7 @@ import java.util.Map;
 @Builder
 public class AsyncContext {
 
-    private Map<String, String> mdcContextMap;
-    private RequestAttributes requestAttributes;
-    private SecurityContext securityContext;
+  private Map<String, String> mdcContextMap;
+  private RequestAttributes requestAttributes;
+  private SecurityContext securityContext;
 }

@@ -11,30 +11,30 @@ import static com.github.tomakehurst.wiremock.client.WireMock.moreThanOrExactly;
 @RequiredArgsConstructor
 public class RequestCount {
 
-    private final Server.Verification verification;
-    private final RequestPatternBuilder request;
+  private final Server.Verification verification;
+  private final RequestPatternBuilder request;
 
-    public void never() {
-        times(0);
-    }
+  public void never() {
+    times(0);
+  }
 
-    public void once() {
-        times(1);
-    }
+  public void once() {
+    times(1);
+  }
 
-    public void times(int count) {
-        endVerification(exactly(count));
-    }
+  public void times(int count) {
+    endVerification(exactly(count));
+  }
 
-    public void atLeast(int count) {
-        endVerification(moreThanOrExactly(count));
-    }
+  public void atLeast(int count) {
+    endVerification(moreThanOrExactly(count));
+  }
 
-    public void atMost(int count) {
-        endVerification(lessThanOrExactly(count));
-    }
+  public void atMost(int count) {
+    endVerification(lessThanOrExactly(count));
+  }
 
-    private void endVerification(CountMatchingStrategy strategy) {
-        verification.accept(request, strategy);
-    }
+  private void endVerification(CountMatchingStrategy strategy) {
+    verification.accept(request, strategy);
+  }
 }

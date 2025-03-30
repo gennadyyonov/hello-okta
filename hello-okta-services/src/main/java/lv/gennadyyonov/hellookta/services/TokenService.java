@@ -14,40 +14,40 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 public class TokenService {
 
-    private final TokenConnector tokenConnector;
-    private final AuthenticationService authenticationService;
+  private final TokenConnector tokenConnector;
+  private final AuthenticationService authenticationService;
 
-    public TokenService(TokenConnector tokenConnector,
-                        AuthenticationService authenticationService) {
-        this.tokenConnector = tokenConnector;
-        this.authenticationService = authenticationService;
-    }
+  public TokenService(TokenConnector tokenConnector, AuthenticationService authenticationService) {
+    this.tokenConnector = tokenConnector;
+    this.authenticationService = authenticationService;
+  }
 
-    /**
-     * Gets access token for Client Credentials flow.
-     *
-     * @see <a href="https://developer.okta.com/docs/guides/implement-client-creds/use-flow/">Use the Client Credentials Flow</a>
-     */
-    @SneakyThrows
-    public String getClientCredentialsAccessToken(RunAsDetails runAsDetails) {
-        Map<String, Object> headers = headers(runAsDetails);
-        String grantType = runAsDetails.getGrantType();
-        String scope = getScope(runAsDetails);
-        TokenResponse tokenResponse = tokenConnector.getAccessToken(headers, grantType, scope);
-        return tokenResponse.getAccessToken();
-    }
+  /**
+   * Gets access token for Client Credentials flow.
+   *
+   * @see <a href="https://developer.okta.com/docs/guides/implement-client-creds/use-flow/">Use the
+   *     Client Credentials Flow</a>
+   */
+  @SneakyThrows
+  public String getClientCredentialsAccessToken(RunAsDetails runAsDetails) {
+    Map<String, Object> headers = headers(runAsDetails);
+    String grantType = runAsDetails.getGrantType();
+    String scope = getScope(runAsDetails);
+    TokenResponse tokenResponse = tokenConnector.getAccessToken(headers, grantType, scope);
+    return tokenResponse.getAccessToken();
+  }
 
-    private Map<String, Object> headers(RunAsDetails runAsDetails) {
-        Map<String, Object> headers = new HashMap<>();
-        headers.put(
-            AUTHORIZATION,
-            authenticationService.basicAuthorizationHeaderValue(runAsDetails.getClientId(), runAsDetails.getClientSecret())
-        );
-        return headers;
-    }
+  private Map<String, Object> headers(RunAsDetails runAsDetails) {
+    Map<String, Object> headers = new HashMap<>();
+    headers.put(
+        AUTHORIZATION,
+        authenticationService.basicAuthorizationHeaderValue(
+            runAsDetails.getClientId(), runAsDetails.getClientSecret()));
+    return headers;
+  }
 
-    private String getScope(RunAsDetails runAsDetails) {
-        List<String> scope = runAsDetails.getScope();
-        return ofNullable(scope).map(values -> String.join(" ", values)).orElse(null);
-    }
+  private String getScope(RunAsDetails runAsDetails) {
+    List<String> scope = runAsDetails.getScope();
+    return ofNullable(scope).map(values -> String.join(" ", values)).orElse(null);
+  }
 }

@@ -1,5 +1,4 @@
 plugins {
-    id 'checkstyle'
     id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
     id 'org.springframework.boot' version "${springBootVersion}"
 }
@@ -31,15 +30,6 @@ dependencies {
 
     implementation 'org.slf4j:slf4j-api'
     implementation 'org.slf4j:slf4j-simple'
-}
-
-checkstyle {
-    toolVersion = '10.21.4'
-    configProperties.configDir = parent.file("config/checkstyle")
-}
-
-checkstyleTest {
-    enabled = false
 }
 
 test {

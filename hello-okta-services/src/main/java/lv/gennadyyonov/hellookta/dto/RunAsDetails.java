@@ -15,10 +15,12 @@ import java.util.List;
 @NoArgsConstructor
 public class RunAsDetails {
 
-    @JsonView(View.LoggingView.class)
-    private String grantType;
-    private String clientId;
-    private String clientSecret;
-    @JsonView(View.LoggingView.class)
-    private List<String> scope;
+  @JsonView(View.LoggingView.class)
+  private String grantType;
+
+  private String clientId;
+  private String clientSecret;
+
+  @JsonView(View.LoggingView.class)
+  private List<String> scope;
 }

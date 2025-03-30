@@ -6,13 +6,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class LoggingConfig {
 
-    @Bean
-    public ParameterLoggingAspect parameterLoggingAspect() {
-        return new ParameterLoggingAspect();
-    }
+  @Bean
+  public ParameterLoggingAspect parameterLoggingAspect() {
+    return new ParameterLoggingAspect();
+  }
 
-    @Bean
-    public PerformanceLoggingAspect performanceLoggingAspect() {
-        return new PerformanceLoggingAspect();
-    }
+  @Bean
+  public PerformanceLoggingAspect performanceLoggingAspect() {
+    return new PerformanceLoggingAspect();
+  }
 }

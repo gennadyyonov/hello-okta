@@ -23,59 +23,68 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @RequiredArgsConstructor
-@ConditionalOnProperty(prefix = "management.endpoints.proxy", name = "enabled", havingValue = "true")
+@ConditionalOnProperty(
+    prefix = "management.endpoints.proxy",
+    name = "enabled",
+    havingValue = "true")
 @Configuration
 @PermitAll
 @RestController
 @RequestMapping("${management.endpoints.proxy.path}")
 public class ProxyConfig {
 
-    private final ProxyProperties proxyProperties;
+  private final ProxyProperties proxyProperties;
 
-    @RequestMapping(value = "/**", method = {GET, HEAD, OPTIONS})
-    public <T> ResponseEntity<T> readOperations(ProxyExchange<T> exchange, HttpServletRequest request) {
-        return proxyRequest(exchange, request);
-    }
+  @RequestMapping(
+      value = "/**",
+      method = {GET, HEAD, OPTIONS})
+  public <T> ResponseEntity<T> readOperations(
+      ProxyExchange<T> exchange, HttpServletRequest request) {
+    return proxyRequest(exchange, request);
+  }
 
-    @RequestMapping(value = "/**", method = {POST, PUT, PATCH, DELETE})
-    public <T> ResponseEntity<T> writeOperations(ProxyExchange<T> exchange, HttpServletRequest request) {
-        return proxyRequest(exchange, request);
-    }
+  @RequestMapping(
+      value = "/**",
+      method = {POST, PUT, PATCH, DELETE})
+  public <T> ResponseEntity<T> writeOperations(
+      ProxyExchange<T> exchange, HttpServletRequest request) {
+    return proxyRequest(exchange, request);
+  }
 
-    private <T> ResponseEntity<T> proxyRequest(ProxyExchange<T> exchange, HttpServletRequest request) {
-        setHeaders(request, exchange);
-        ProxyExchange<T> targetExchange = exchange
-            .sensitive()
-            .uri(getUri(exchange));
-        ResponseEntity<T> entity = ofNullable(RequestMethod.resolve(request.getMethod()))
+  private <T> ResponseEntity<T> proxyRequest(
+      ProxyExchange<T> exchange, HttpServletRequest request) {
+    setHeaders(request, exchange);
+    ProxyExchange<T> targetExchange = exchange.sensitive().uri(getUri(exchange));
+    ResponseEntity<T> entity =
+        ofNullable(RequestMethod.resolve(request.getMethod()))
             .map(method -> execute(targetExchange, method))
             .orElseThrow(() -> new IllegalArgumentException("HTTP methd MUST NOT be null!"));
-        return new ResponseEntity<>(entity.getBody(), entity.getStatusCode());
-    }
+    return new ResponseEntity<>(entity.getBody(), entity.getStatusCode());
+  }
 
-    private <T> ResponseEntity<T> execute(ProxyExchange<T> exchange, RequestMethod method) {
-        return switch (method) {
-            case GET -> exchange.get();
-            case HEAD -> exchange.head();
-            case OPTIONS -> exchange.options();
-            case POST -> exchange.post();
-            case PUT -> exchange.put();
-            case PATCH -> exchange.put();
-            case DELETE -> exchange.delete();
-            default -> throw new IllegalArgumentException("HTTP method not supported : " + method + "!");
-        };
-    }
+  private <T> ResponseEntity<T> execute(ProxyExchange<T> exchange, RequestMethod method) {
+    return switch (method) {
+      case GET -> exchange.get();
+      case HEAD -> exchange.head();
+      case OPTIONS -> exchange.options();
+      case POST -> exchange.post();
+      case PUT -> exchange.put();
+      case PATCH -> exchange.put();
+      case DELETE -> exchange.delete();
+      default -> throw new IllegalArgumentException("HTTP method not supported : " + method + "!");
+    };
+  }
 
-    private <T> void setHeaders(HttpServletRequest from, ProxyExchange<T> to) {
-        Enumeration<String> headerNames = from.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String headerName = headerNames.nextElement();
-            to.header(headerName, from.getHeader(headerName));
-        }
+  private <T> void setHeaders(HttpServletRequest from, ProxyExchange<T> to) {
+    Enumeration<String> headerNames = from.getHeaderNames();
+    while (headerNames.hasMoreElements()) {
+      String headerName = headerNames.nextElement();
+      to.header(headerName, from.getHeader(headerName));
     }
+  }
 
-    private <T> String getUri(ProxyExchange<T> exchange) {
-        String suffix = exchange.path(proxyProperties.getPath());
-        return proxyProperties.getUrl() + suffix;
-    }
+  private <T> String getUri(ProxyExchange<T> exchange) {
+    String suffix = exchange.path(proxyProperties.getPath());
+    return proxyProperties.getUrl() + suffix;
+  }
 }

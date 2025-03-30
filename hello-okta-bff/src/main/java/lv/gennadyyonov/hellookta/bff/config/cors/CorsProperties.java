@@ -15,12 +15,9 @@ import java.util.List;
 @Value
 public class CorsProperties {
 
-    @NotBlank
-    String urlPattern;
-    Boolean allowCredentials;
-    List<String> allowedOrigins;
-    @NotNull
-    List<String> allowedHeaders;
-    @NotNull
-    List<String> allowedMethods;
+  @NotBlank String urlPattern;
+  Boolean allowCredentials;
+  List<String> allowedOrigins;
+  @NotNull List<String> allowedHeaders;
+  @NotNull List<String> allowedMethods;
 }

@@ -14,13 +14,11 @@ import javax.validation.Valid;
 @Value
 public class HeadersProperties {
 
-    @Valid
-    Csp csp;
+  @Valid Csp csp;
 
-    @Value
-    static class Csp {
+  @Value
+  static class Csp {
 
-        @NotBlank
-        String directives;
-    }
+    @NotBlank String directives;
+  }
 }

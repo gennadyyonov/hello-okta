@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AuthOptions {
 
-    private boolean multiOptionalFactorEnroll;
-    private boolean warnBeforePasswordExpired;
+  private boolean multiOptionalFactorEnroll;
+  private boolean warnBeforePasswordExpired;
 }

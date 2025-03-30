@@ -15,15 +15,15 @@ import static org.springframework.http.HttpHeaders.COOKIE;
 @RequiredArgsConstructor
 public class CsrfTokenInterceptor implements RequestInterceptor {
 
-    private final CsrfTokenRepository csrfTokenRepository;
-    private final CsrfProperties csrfProperties;
+  private final CsrfTokenRepository csrfTokenRepository;
+  private final CsrfProperties csrfProperties;
 
-    @Override
-    public void apply(RequestTemplate template) {
-        HttpServletRequest request = getHttpServletRequest();
-        CsrfToken csrfToken = csrfTokenRepository.generateToken(request);
-        HttpCookie csrfCookie = new HttpCookie(csrfProperties.getCookieName(), csrfToken.getToken());
-        template.header(COOKIE, csrfCookie.toString());
-        template.header(csrfProperties.getHeaderName(), csrfToken.getToken());
-    }
+  @Override
+  public void apply(RequestTemplate template) {
+    HttpServletRequest request = getHttpServletRequest();
+    CsrfToken csrfToken = csrfTokenRepository.generateToken(request);
+    HttpCookie csrfCookie = new HttpCookie(csrfProperties.getCookieName(), csrfToken.getToken());
+    template.header(COOKIE, csrfCookie.toString());
+    template.header(csrfProperties.getHeaderName(), csrfToken.getToken());
+  }
 }

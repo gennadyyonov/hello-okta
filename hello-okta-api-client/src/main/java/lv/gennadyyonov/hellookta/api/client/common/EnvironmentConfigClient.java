@@ -18,28 +18,30 @@ import static lv.gennadyyonov.hellookta.api.client.utils.ResponseUtils.jsonStrin
 
 public class EnvironmentConfigClient {
 
-    private static final Pattern OKTA_CLIENT_ID_PATTERN = compile(jsonStringAttributeValueRegex("oktaClientId"));
-    private static final Pattern OKTA_ISSUER_PATTERN = compile(jsonStringAttributeValueRegex("oktaIssuer"));
+  private static final Pattern OKTA_CLIENT_ID_PATTERN =
+      compile(jsonStringAttributeValueRegex("oktaClientId"));
+  private static final Pattern OKTA_ISSUER_PATTERN =
+      compile(jsonStringAttributeValueRegex("oktaIssuer"));
 
-    private final String serverBaseUri;
+  private final String serverBaseUri;
 
-    public EnvironmentConfigClient(String serverBaseUri) {
-        this.serverBaseUri = serverBaseUri;
-    }
+  public EnvironmentConfigClient(String serverBaseUri) {
+    this.serverBaseUri = serverBaseUri;
+  }
 
-    @SneakyThrows
-    public EnvironmentProperties getEnvironmentProperties() {
-        String environmentUri = serverBaseUri + "/config/environment";
-        Map<String, String> headers = new HashMap<>();
-        headers.put(ACCEPT_HEADER, APPLICATION_JSON);
-        headers.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
-        HttpURLConnection connection = doGet(environmentUri, headers);
-        String response = readResponse(connection);
-        String oktaClientId = extractValueByPattern(OKTA_CLIENT_ID_PATTERN, response);
-        String oktaIssuer = extractValueByPattern(OKTA_ISSUER_PATTERN, response);
-        return EnvironmentProperties.builder()
-                .oktaClientId(oktaClientId)
-                .oktaIssuer(oktaIssuer)
-                .build();
-    }
+  @SneakyThrows
+  public EnvironmentProperties getEnvironmentProperties() {
+    String environmentUri = serverBaseUri + "/config/environment";
+    Map<String, String> headers = new HashMap<>();
+    headers.put(ACCEPT_HEADER, APPLICATION_JSON);
+    headers.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
+    HttpURLConnection connection = doGet(environmentUri, headers);
+    String response = readResponse(connection);
+    String oktaClientId = extractValueByPattern(OKTA_CLIENT_ID_PATTERN, response);
+    String oktaIssuer = extractValueByPattern(OKTA_ISSUER_PATTERN, response);
+    return EnvironmentProperties.builder()
+        .oktaClientId(oktaClientId)
+        .oktaIssuer(oktaIssuer)
+        .build();
+  }
 }

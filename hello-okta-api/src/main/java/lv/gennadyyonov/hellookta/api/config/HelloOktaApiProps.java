@@ -12,6 +12,6 @@ import java.util.Set;
 @Data
 public class HelloOktaApiProps implements SecurityMappingProperties, FilterOrderProperties {
 
-    private Map<String, Set<String>> securityMapping;
-    private Map<String, Integer> filterOrderMapping;
+  private Map<String, Set<String>> securityMapping;
+  private Map<String, Integer> filterOrderMapping;
 }

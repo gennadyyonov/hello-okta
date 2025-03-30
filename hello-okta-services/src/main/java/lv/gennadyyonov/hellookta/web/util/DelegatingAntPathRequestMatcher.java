@@ -11,15 +11,15 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @RequiredArgsConstructor
 public class DelegatingAntPathRequestMatcher implements PatternRequestMatcher {
 
-    private final AntPathRequestMatcher delegate;
+  private final AntPathRequestMatcher delegate;
 
-    @Override
-    public String getPattern() {
-        return delegate.getPattern();
-    }
+  @Override
+  public String getPattern() {
+    return delegate.getPattern();
+  }
 
-    @Override
-    public boolean matches(HttpServletRequest request) {
-        return delegate.matches(request);
-    }
+  @Override
+  public boolean matches(HttpServletRequest request) {
+    return delegate.matches(request);
+  }
 }
