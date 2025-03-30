@@ -36,13 +36,19 @@ dependencies {
     implementation 'io.github.openfeign:feign-form-spring'
     implementation "org.apache.httpcomponents:httpclient:$apacheHttpClientVersion"
     implementation 'org.apache.commons:commons-lang3'
-    implementation 'commons-codec:commons-codec'
+
+    implementation ('commons-codec:commons-codec') {
+        because 'CVE-2024-25710, CVE-2024-26308 fix'
+        version {
+            strictly commonsCodecVersion
+        }
+    }
 
     implementation 'io.micrometer:micrometer-tracing'
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'
 
     implementation('commons-io:commons-io') {
-        because 'Medium CVE-20, CVE-2021-29425 fix'
+        because 'CVE-2024-47554 fix'
         version {
             strictly commonsIoVersion
         }

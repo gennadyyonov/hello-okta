@@ -11,7 +11,8 @@ allprojects {
 
     ext {
         set('apacheHttpClientVersion', '4.5.14')
-        set('commonsIoVersion', '2.11.0')
+        set('commonsIoVersion', '2.14.0')
+        set('commonsCodecVersion', '1.26.0')
         set('jsonwebtokenVersion', '0.12.6')
         set('micrometerTracingVersion', 'latest.release')
         set('nimbusdsVersion', '10.0.2')
