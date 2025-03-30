@@ -36,10 +36,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
 
-    implementation ('commons-codec:commons-codec') {
+    implementation 'commons-codec:commons-codec'
+
+    implementation ('org.apache.commons:commons-compress') {
         because 'CVE-2024-25710, CVE-2024-26308 fix'
         version {
-            strictly commonsCodecVersion
+            strictly commonsCompressVersion
         }
     }
 
