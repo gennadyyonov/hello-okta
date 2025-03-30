@@ -29,6 +29,12 @@ java {
     targetCompatibility = JavaVersion.VERSION_21
 }
 
+configurations.configureEach {
+    resolutionStrategy {
+        force 'com.google.guava:guava:32.0.1-jre'
+    }
+}
+
 subprojects {
     group = 'lv.gennadyyonov.hello'
     version = '0.0.1-SNAPSHOT'
