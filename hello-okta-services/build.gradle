@@ -36,11 +36,12 @@ dependencies {
     implementation 'io.github.openfeign:feign-form-spring'
     implementation "org.apache.httpcomponents:httpclient:$apacheHttpClientVersion"
     implementation 'org.apache.commons:commons-lang3'
+    implementation 'commons-codec:commons-codec'
 
-    implementation ('commons-codec:commons-codec') {
+    implementation ('org.apache.commons:commons-compress') {
         because 'CVE-2024-25710, CVE-2024-26308 fix'
         version {
-            strictly commonsCodecVersion
+            strictly commonsCompressVersion
         }
     }
 
