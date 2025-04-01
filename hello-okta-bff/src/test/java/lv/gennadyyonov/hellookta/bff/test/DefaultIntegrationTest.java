@@ -5,6 +5,7 @@ import lv.gennadyyonov.hellookta.config.okta.OktaResourceServerConfig;
 import lv.gennadyyonov.hellookta.config.okta.OktaServiceConfig;
 import lv.gennadyyonov.hellookta.test.IntegrationTest;
 import lv.gennadyyonov.hellookta.web.FilterConfig;
+import org.springframework.boot.test.autoconfigure.graphql.tester.AutoConfigureHttpGraphQlTester;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
@@ -21,6 +22,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Inherited
 @TestPropertySource("/testpropertysource/default.properties")
 @IntegrationTest
+@AutoConfigureHttpGraphQlTester
 @Import({OktaServiceConfig.class, FilterConfig.class, OktaResourceServerConfig.class})
 @ContextConfiguration(initializers = WireMockInitializer.class)
 public @interface DefaultIntegrationTest {}

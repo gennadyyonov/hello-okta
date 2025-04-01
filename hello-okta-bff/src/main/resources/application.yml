@@ -41,7 +41,6 @@ spring:
               refresh-time: 300000 # 5 minutes
               refresh-ahead-time: 300000 # 5 minutes
               refresh-timeout: 1500 # 1.5 second
-
   cloud:
     openfeign:
       client:
@@ -62,6 +61,14 @@ spring:
       - cors.yaml
       - csrf.yaml
       - technical-endpoint.yaml
+  graphql:
+    path: /graphql
+    schema:
+      introspection:
+        enabled: ${spring.graphql.schema.introspection.enabled:false}
+    graphiql:
+      enabled: ${spring.graphql.graphiql.enabled:false}
+      path: /graphiql
 
 hello-okta-api:
   client:
@@ -77,43 +84,6 @@ logging:
     lv.gennadyyonov.hellookta.connectors.TokenConnector: INFO
     lv.gennadyyonov.hellookta.connectors.UserInfoConnector: INFO
     org.springframework.web.filter.CommonsRequestLoggingFilter: INFO
-
-graphql:
-  servlet:
-    exception-handlers-enabled: true
-    corsEnabled: false
-    # https://github.com/graphql-java-kickstart/graphql-spring-boot/issues/729
-    async-mode-enabled: false
-    websocket:
-      enabled: false
-  task:
-    async-mode-enabled: true
-    execution:
-      thread-name-prefix: GraphqlAsync-
-      pool:
-        core-size: 150
-        max-size: 550
-        keep-alive-seconds: 30
-  tools:
-    introspection-enabled: ${graphql.tools.introspection-enabled:false}
-  graphiql:
-    enabled: ${graphiql.enabled:false}
-    props:
-      variables:
-        header-editor-enabled: true
-  voyager:
-    enabled: ${voyager.enabled:false}
-    basePath: /bff/
-  playground:
-    enabled: ${graphql.playground.enabled:false}
-    endpoint: /bff/graphql
-    staticPath:
-      base: /bff/vendor/playground
-  altair:
-    enabled: ${altair.enabled:false}
-    base-path: /bff
-    options:
-      endpoint-url: /bff/graphql
 
 schedule:
   jwk-set-cache-refresh-time: 300000 # 5 minutes
