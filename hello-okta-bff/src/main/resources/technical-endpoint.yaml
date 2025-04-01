@@ -17,27 +17,7 @@ technical-endpoint:
         - /v3/api-docs/**
         - /swagger-ui/**
         - /swagger-ui.html
-    - enabled: ${graphiql.enabled:false}
-      allowed-classes:
-        - graphql.kickstart.autoconfigure.editor.graphiql.ServletGraphiQLController
+    - enabled: ${spring.graphql.graphiql.enabled:false}
       allowed-endpoints:
         - /graphiql/**
         - /vendor/graphiql/**
-    - enabled: ${voyager.enabled:false}
-      allowed-classes:
-        - graphql.kickstart.autoconfigure.editor.voyager.VoyagerController
-      allowed-endpoints:
-        - /voyager/**
-        - /vendor/voyager/**
-    - enabled: ${graphql.playground.enabled:false}
-      allowed-classes:
-        - graphql.kickstart.autoconfigure.editor.playground.PlaygroundController
-      allowed-endpoints:
-        - /playground/**
-        - /vendor/playground/**
-    - enabled: ${altair.enabled:false}
-      allowed-classes:
-        - graphql.kickstart.autoconfigure.editor.altair.AltairController
-      allowed-endpoints:
-        - /altair/**
-        - /vendor/altair/**

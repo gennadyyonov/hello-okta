@@ -46,21 +46,12 @@ springdoc:
   swagger-ui:
     enabled: true
 
-graphql:
-  tools:
-    introspection-enabled: true
-  playground:
-    enabled: true
-
-altair:
-  enabled: true
-
-graphiql:
-  enabled: true
-
-voyager:
-  enabled: true
-
 spring:
+  graphql:
+    schema:
+      introspection:
+        enabled: true
+    graphiql:
+      enabled: true
   config:
     import: secrets.yml

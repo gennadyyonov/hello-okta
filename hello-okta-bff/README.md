@@ -22,27 +22,11 @@ So, configuration properties can be changed the following way:
 Application will be running on port `8060` by default.
 
 It's API can be accessed via the following links in your browser:
-- [GraphiQL](http://localhost:8060/bff/graphiql)
+- [GraphiQL](http://localhost:8060/bff/graphiql?path=/bff/graphql)
 
 **Bearer token** should be copied either from browser Network tab or Swagger `curl` and pasted in `REQUEST HEADER` tab.
 
 ![GraphiQL](images/02-GraphiQL.PNG)
-
-- [Voyager](http://localhost:8060/bff/voyager)
-
-![Voyager](images/03-Voyager.PNG)
-
-- [Playground](http://localhost:8060/bff/playground)
-
-**Bearer token** should be copied either from browser Network tab or Swagger `curl` and pasted in `REQUEST HEADER` tab.
-
-![Playground](images/04-Playground.PNG)
-
-- [Altair](http://localhost:8060/bff/altair)
-
-**Bearer token** should be copied either from browser Network tab or Swagger `curl` and added in `Set Headers` popup.
-
-![Altair](images/05-Altair.PNG)
 
 Actuator end-points can be accessed via [Proxy URL](http://localhost:8060/bff/proxy/actuator) using credentials defined in [secrets.yml](./src/main/resources/secrets.yml.sample):
 ```

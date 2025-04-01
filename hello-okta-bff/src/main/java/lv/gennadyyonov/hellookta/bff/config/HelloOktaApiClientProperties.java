@@ -1,5 +1,6 @@
 package lv.gennadyyonov.hellookta.bff.config;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -7,8 +8,6 @@ import lombok.Value;
 import lv.gennadyyonov.hellookta.dto.RunAsDetails;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
-
-import javax.validation.Valid;
 
 @ConfigurationProperties("hello-okta-api")
 @RequiredArgsConstructor
