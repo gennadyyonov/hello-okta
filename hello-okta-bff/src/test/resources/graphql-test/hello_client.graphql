@@ -1,0 +1,5 @@
+{
+  hello(authType: CLIENT) {
+    text
+  }
+}
