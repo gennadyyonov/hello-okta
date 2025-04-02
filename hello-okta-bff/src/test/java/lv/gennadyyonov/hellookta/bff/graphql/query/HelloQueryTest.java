@@ -5,9 +5,15 @@ import lv.gennadyyonov.hellookta.bff.config.HttpGraphQlTesterFactory;
 import lv.gennadyyonov.hellookta.bff.test.DefaultIntegrationTest;
 import lv.gennadyyonov.hellookta.bff.test.hellooktaapi.HelloOktaApi;
 import lv.gennadyyonov.hellookta.bff.test.okta.Okta;
+import lv.gennadyyonov.hellookta.bff.test.user.MoonChild;
 import lv.gennadyyonov.hellookta.test.user.UserInfo;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.graphql.execution.ErrorType;
+
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -68,5 +74,29 @@ class HelloQueryTest {
             .entity(String.class)
             .get();
     assertThat(response).isEqualTo("Hello, 0oa2m950mjcFnPPNJ357!");
+  }
+
+  @MoonChild
+  @SneakyThrows
+  @ParameterizedTest(name = "Document Name = {0}")
+  @ValueSource(strings = {"hello_user", "hello_client"})
+  void forbidden(String documentName) {
+    var graphQlTester = graphQlTesterFactory.createTester();
+    graphQlTester
+        .documentName(documentName)
+        .execute()
+        .errors()
+        .satisfy(
+            errors -> {
+              assertThat(errors).hasSize(1);
+              var error = errors.getFirst();
+              assertThat(error.getErrorType()).isEqualTo(ErrorType.FORBIDDEN);
+              assertThat(error.getMessage())
+                  .isEqualTo("User 'MOON.CHILD@GMAIL.COM' has no access to HelloQuery.hello(..)");
+              assertThat(error.getPath()).isEqualTo("hello");
+              assertThat(error.getExtensions())
+                  .containsAllEntriesOf(
+                      Map.of("code", "SC.ER.ACCESSDENIED", "classification", "FORBIDDEN"));
+            });
   }
 }

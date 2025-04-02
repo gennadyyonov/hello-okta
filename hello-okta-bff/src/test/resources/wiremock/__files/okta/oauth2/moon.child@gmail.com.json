@@ -1,0 +1,16 @@
+{
+  "sub": "00u2asfccbqfDQwmS468",
+  "name": "Moon Child",
+  "locale": "en-US",
+  "email": "Moon.Child@gmail.com",
+  "preferred_username": "Moon.Child@gmail.com",
+  "given_name": "Moon",
+  "family_name": "Child",
+  "zoneinfo": "America/Los_Angeles",
+  "updated_at": 1596256789,
+  "email_verified": true,
+  "groups": [
+    "Everyone",
+    "Sandbox_StandardUser"
+  ]
+}

@@ -1,7 +1,9 @@
 plugins {
     id 'java'
     id 'checkstyle'
+    id 'jacoco'
     id 'com.diffplug.spotless' version '7.0.2' apply false
+    id 'org.barfuin.gradle.jacocolog' version '3.1.0' apply false
 }
 
 allprojects {
@@ -43,6 +45,8 @@ subprojects {
     apply plugin: 'idea'
     apply plugin: 'com.diffplug.spotless'
     apply plugin: 'checkstyle'
+    apply plugin: 'jacoco'
+    apply plugin: 'org.barfuin.gradle.jacocolog'
 
     spotless {
         java {
@@ -70,6 +74,68 @@ subprojects {
     tasks.compileJava.finalizedBy tasks.checkstyleMain
     tasks.compileTestJava.finalizedBy tasks.checkstyleTest
 
+    tasks.named('jacocoTestReport') {
+        dependsOn('test')
+
+        reports {
+            xml.required = true
+            html.required = true
+        }
+    }
+
+    tasks.named('jacocoTestCoverageVerification') {
+        dependsOn('jacocoTestReport')
+
+        if (!project.hasProperty('overrideJacocoCoverageVerification')) {
+            violationRules {
+                rule {
+                    limit {
+                        minimum = 0.85
+                    }
+                }
+                rule {
+                    limit {
+                        counter = 'LINE'
+                        value = 'COVEREDRATIO'
+                        minimum = 0.85
+                    }
+                }
+                rule {
+                    limit {
+                        counter = 'BRANCH'
+                        value = 'COVEREDRATIO'
+                        minimum = 0.75
+                    }
+                }
+                rule {
+                    limit {
+                        counter = 'COMPLEXITY'
+                        value = 'COVEREDRATIO'
+                        minimum = 0.80
+                    }
+                }
+                rule {
+                    limit {
+                        counter = 'METHOD'
+                        value = 'COVEREDRATIO'
+                        minimum = 0.85
+                    }
+                }
+                rule {
+                    limit {
+                        counter = 'CLASS'
+                        value = 'COVEREDRATIO'
+                        minimum = 0.90
+                    }
+                }
+            }
+        }
+    }
+
+    tasks.named('check') {
+        dependsOn('jacocoTestCoverageVerification')
+    }
+
     configurations {
         implementation {
             // Low CVE-200, CVE-2020-15250 fix
@@ -77,4 +143,3 @@ subprojects {
         }
     }
 }
-

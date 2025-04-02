@@ -8,14 +8,12 @@ import lombok.RequiredArgsConstructor;
 import lv.gennadyyonov.hellookta.aspects.HasRole;
 import lv.gennadyyonov.hellookta.bff.dto.CsrfTokenInfo;
 import lv.gennadyyonov.hellookta.config.csrf.CsrfProperties;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static lv.gennadyyonov.hellookta.constants.SecurityConstants.ALLOWED_USERS;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@ConditionalOnProperty(prefix = "csrf", name = "csrf-enabled", havingValue = "true")
 @RequiredArgsConstructor
 @HasRole(ALLOWED_USERS)
 @RestController
