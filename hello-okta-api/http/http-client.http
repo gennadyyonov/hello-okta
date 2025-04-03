@@ -2,7 +2,12 @@
 
 ### Message
 
-GET {{api-host}}/hello
+< scripts/csrf-token.js
+
+POST {{api-host}}/hello
+Content-Type: application/json
 Authorization: {{okta-token-type}} {{okta-access-token}}
+Cookie: XSRF-TOKEN={{csrf-token}}
+X-XSRF-TOKEN: {{csrf-token}}
 
 ###

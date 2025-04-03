@@ -11,7 +11,7 @@ SPA Demo to show [Authorization Code Flow with PKCE](https://developer.okta.com/
 
 ### Java
 
-- JDK 15
+- JDK 21
 
 ### Lombok
 
@@ -80,61 +80,65 @@ Each of them contains instructions how to **Run Application on localhost** in `R
 
 ## Okta Configuration
 
-Head on over to [developer.okta.com](https://developer.okta.com/signup/) to create a free-forever developer account. 
+Head on over to [Set up your Okta org](https://developer.okta.com/docs/guides/oie-embedded-common-org-setup/java/main/) to create a free developer account. 
 Look for the email to complete the initialization of your Okta org. 
 
 ### Set Up OpenID Connect Application
 
-Login to your Okta account.
-Navigate to **Applications** in the admin console and click: **Add Application**. 
-Choose _Native_ and click **Next**.
+- Login to your Okta account.
+- Navigate to **Applications** in the admin console and click: **Create App Integration**.
+- Select the following values:
 
-Populate the fields with these values:
+| FIELD NAME           | VALUE                     |
+|----------------------|---------------------------|
+| **Sign-in method**   | `OIDC - OpenID Connect`   |
+| **Application type** | `Single-Page Application` |
 
-| FIELD NAME               | VALUE                                                                                                                                                                                                                                                                                                                                                                         |
-|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Name**                 | `Hello Okta App`                                                                                                                                                                                                                                                                                                                                                              |
-| **Login redirect URIs**  | http://localhost:8060/bff/swagger-ui/oauth2-redirect.html<br>http://localhost:8070/api/swagger-ui/oauth2-redirect.html<br>http://localhost:3000/implicit/callback<br>https://kubernetes.docker.internal/bff/swagger-ui/oauth2-redirect.html<br>https://kubernetes.docker.internal/api/swagger-ui/oauth2-redirect.html<br>https://kubernetes.docker.internal/implicit/callback |
-| **Logout redirect URIs** | http://localhost:3000<br>https://kubernetes.docker.internal                                                                                                                                                                                                                                                                                                                   |
-| **Allowed grant types**  | `Authorization Code`                                                                                                                                                                                                                                                                                                                                                          |
+- Click **Next**.
 
-Click **Done**.
+- Populate the fields with the following values:
 
-**General Settings** tab will be displayed:
+| SECTION              | FIELD NAME               | VALUE                                                                                                                                                                                                                                                                                                                                                                         |
+|----------------------|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **General Settings** | **App integration name** | `Hello Okta App`                                                                                                                                                                                                                                                                                                                                                              |
+| **General Settings** | **Grant type**           | `Authorization Code`, `Refresh Token`                                                                                                                                                                                                                                                                                                                                         |
+| **General Settings** | **Login redirect URIs**  | http://localhost:8060/bff/swagger-ui/oauth2-redirect.html<br>http://localhost:8070/api/swagger-ui/oauth2-redirect.html<br>http://localhost:3000/implicit/callback<br>https://kubernetes.docker.internal/bff/swagger-ui/oauth2-redirect.html<br>https://kubernetes.docker.internal/api/swagger-ui/oauth2-redirect.html<br>https://kubernetes.docker.internal/implicit/callback |
+| **General Settings** | **Logout redirect URIs** | http://localhost:3000<br>https://kubernetes.docker.internal                                                                                                                                                                                                                                                                                                                   |
+| **Trusted Origins**  | **Base URIs**            | http://localhost:3000<br>https://kubernetes.docker.internal                                                                                                                                                                                                                                                                                                                   |
+| **Assignments**      | **Controlled access**    | `Skip group assignment for now`                                                                                                                                                                                                                                                                                                                                               |
 
-![Hello Okta App General Settings](images/01-Hello-Okta-App.PNG)
-
-Scroll down to the **Client Credentials** section and copy the `Client ID`. This value will be used by our app.
-
-Make sure that:
-* **Initiate login URI** is empty
-* **Use PKCE (for public clients)** radio button is selected as **Client authentication** in **Client Credentials** section.
+- Click **Save**. **General Settings** tab will be displayed
+- Scroll to the **Client Credentials** section and copy the `Client ID`. This value will be used by our app.
+- Make sure that:
+  * **Initiate login URI** is empty
+  * **Use PKCE (for public clients)** radio button is selected as **Client authentication** in **Client Credentials** section.
 
 ### Set Up Client Application
 
 This Application will be used for Server-to-Server Communication between Client and Server application back-ends using [Client Credentials](https://developer.okta.com/docs/guides/implement-client-creds/overview/) authorization flow.
 
-Navigate to **Applications** in the admin console and click: **Add Application**. 
-Choose _Service_ and click **Next**.
+- Navigate to **Applications** in the admin console and click: **Create App Integration**.
+- Select the following values:
 
-Populate the fields with these values:
+| FIELD NAME         | VALUE          |
+|--------------------|----------------|
+| **Sign-in method** | `API Services` |
 
-| FIELD NAME | VALUE                   |
-|------------|-------------------------|
-| **Name**   | `Hello Okta App Client` |
+- Click **Next**.
+- Populate the fields with the following values:
 
-Click **Done**.
+| FIELD NAME               | VALUE                   |
+|--------------------------|-------------------------|
+| **App integration name** | `Hello Okta App Client` |
 
-**General Settings** tab will be displayed:
-
-![Hello Okta App Client General Settings](images/02-Hello-Okta-App-Client.PNG)
-
-Scroll down to the **Client Credentials** section and copy the `Client ID` and `Client Secret`. These values will be used by our app.
+- Click **Save**. **General Settings** tab will be displayed
+- **IMPORTANT!** Ensure **Proof of possession** _Require Demonstrating Proof of Possession (DPoP) header in token requests_ checkbox is unchecked.
+- Scroll down to the **Client Credentials** section and copy the `Client ID` and `Client Secret`. These values will be used by our app.
 
 ### Set Up Authorization Server
 
-Navigate to **API > Authorization Servers**. Click **Add Authorization Server**. 
-Fill in the values:
+Navigate to **Security > API > Authorization Servers**. Click **Add Authorization Server**. 
+- Fill in the values:
 
 | FIELD NAME      | VALUE             |
 |-----------------|-------------------|
@@ -142,23 +146,25 @@ Fill in the values:
 | **Description** | `Hello Okta App`  |
 | **Audience**    | `api://hellookta` |
 
-Click **Done**.
-
-**Settings** tab will be displayed:
-
-![Hello Okta App Authorization Server Settings](images/03-Authorization-Server.PNG)
-
-Copy the `Issuer` URL. This value will be used by our app.
+- Click **Save**. **Settings** tab will be displayed
+- Return to **Authorization Servers** and copy the `Issuer URI`. This value will be used by our app.
 
 #### Scopes
 
-Create a [custom scope](https://www.oauth.com/oauth2-servers/scope/defining-scopes/) for our consumer application to restrict access token to this example.
+Create a [custom scope](https://help.okta.com/en-us/content/topics/security/api-config-scopes.htm) for our consumer application to restrict access token to this example.
 
-From the menu bar select **API > Authorization Servers**. 
-Edit the authorization server created in the previous step by clicking on the edit pencil, then click **Scopes > Add Scope**. 
-Fill out the name field with `message.read` and press **Create**:
+- From the menu bar select **API > Authorization Servers**. 
+- Edit the authorization server created in the previous step by clicking on the edit pencil, then click **Scopes > Add Scope**. 
+- Fill in the values:
 
-![Custom Scope](images/04-Custom-Scope.PNG)
+| FIELD NAME         | VALUE                     |
+|--------------------|---------------------------|
+| **Name**           | `message.read`            |
+| **Display phrase** | `Read messages`           |
+| **Description**    | `Allows to read messages` |
+| **User consent**   | `Implicit`                |
+
+- Press **Create**.
 
 #### Claims
 
@@ -168,48 +174,48 @@ Let's add a **Groups** claim to _ID tokens_ and _access tokens_ to perform authe
 
 ##### Access Token groups Claim
 
-Click **Claims > Add Claim**. Fill in the fields with these values (leave those not mentioned as their defaults):
+- Click **Claims > Add Claim**. 
+- Fill in the fields with these values (leave those not mentioned as their defaults):
 
 | FIELD NAME                | VALUE                      |
 |---------------------------|----------------------------|
 | **Name**                  | `groups`                   |
 | **Include in token type** | `Access Token`<br>`Always` |
 | **Value type**            | `Groups`                   |
-| **Filter**                | `Matches regex` `.*`       |
+| **Filter**                | `Starts with` `HelloOkta_` |
+| **Include in**            | `Any scope`                |
 
-Click **Create**.
-
-Created **Claim** will look like:
-
-![Access Token groups Claim](images/05-Access-Token-groups-Claim.PNG)
+- Click **Create**.
 
 ##### ID Token groups Claim
 
-Click **Claims > Add Claim**. Fill in the fields with these values (leave those not mentioned as their defaults):
+- Click **Claims > Add Claim**. 
+- Fill in the fields with these values (leave those not mentioned as their defaults):
 
-| FIELD NAME                | VALUE                  |
-|---------------------------|------------------------|
-| **Name**                  | `groups`               |
-| **Include in token type** | `ID Token`<br>`Always` |
-| **Value type**            | `Groups`               |
-| **Filter**                | `Matches regex` `.*`   |
+| FIELD NAME                | VALUE                      |
+|---------------------------|----------------------------|
+| **Name**                  | `groups`                   |
+| **Include in token type** | `ID Token`<br>`Always`     |
+| **Value type**            | `Groups`                   |
+| **Filter**                | `Starts with` `HelloOkta_` |
+| **Include in**            | `Any scope`                |
 
-Click **Create**.
-
-Created **Claim** will look like:
-
-![ID Token groups Claim](images/06-ID-Token-groups-Claim.PNG)
+- Click **Create**.
 
 #### Access Policies
 
 Okta **Access Policies** allows to restrict access to application resources.
+
 Each **Access Policy** applies to a particular OpenID Connect application. 
+
 **Access Policies** are containers for rules.
+
 **Rules** define different access depending on the nature of the token request.
 
 ##### Access Policy for Hello Okta App
 
-Click the **Access Policies** tab. Click **Add Policy**. Fill in the fields with these values:
+- Click the **Access Policies** tab. Click **Add Policy**. 
+- Fill in the fields with these values:
 
 | FIELD NAME      | VALUE                                   |
 |-----------------|-----------------------------------------|
@@ -217,86 +223,90 @@ Click the **Access Policies** tab. Click **Add Policy**. Fill in the fields with
 | **Description** | `Hello Okta App`                        |
 | **Assign to**   | The following clients: `Hello Okta App` |
 
-Click **Create Policy**.
-
-Created **Policy** will look like:
-
-![Hello Okta App Access Policy](images/07-Hello-Okta-App-Policy.PNG)
+- Click **Create Policy**.
 
 ###### Hello Okta App Access Policy Rules
 
-Click **Add Rule**. Fill in the fields with these values:
+- Click **Add Rule**. Fill in the fields with these values:
 
-| FIELD NAME           | VALUE                                       |
-|----------------------|---------------------------------------------|
-| **Name**             | `All users of Hello Okta App has access`    |
-| **Grant type is**    | `Authorization Code`                        |
-| **Scopes requested** | The following scopes: `OIDC default scopes` |
+| FIELD NAME                            | VALUE                                       |
+|---------------------------------------|---------------------------------------------|
+| **Name**                              | `All users of Hello Okta App has access`    |
+| **Grant type is**                     | `Authorization Code`                        |
+| **User is**                           | `Any user assigned the app`                 |
+| **Scopes requested**                  | The following scopes: `OIDC default scopes` |
+| **Use this inline hook**              | `None (disabled)`                           |
+| **Access token lifetime is**          | `15 Minutes`                                |
+| **Refresh token lifetime is**         | `2 Days`                                    |
+| **but will expire if not used every** | `1 Hours`                                   |
 
-Click **Create Rule**.
-
-Created **Rule** should look like:
-
-![Hello Okta App Access Policy Rule](images/08-Hello-Okta-App-Policy-Rule.PNG)
+- Click **Create Rule**.
 
 ##### Access Policy for Hello Okta Client App
 
-Click the **Access Policies** tab. Click **Add Policy**. Fill in the fields with these values:
+- Click the **Access Policies** tab. Click **Add Policy**. 
+- Fill in the fields with these values:
 
 | FIELD NAME      | VALUE                                          |
 |-----------------|------------------------------------------------|
 | **Name**        | `Hello Okta App Client`                        |
-| **Description** | `Hello Okta App`                               |
+| **Description** | `Hello Okta App Client`                        |
 | **Assign to**   | The following clients: `Hello Okta App Client` |
 
-Click **Create Policy**.
-
-Created **Policy** will look like:
-
-![Hello Okta App Client Access Policy](images/09-Hello-Okta-App-Client-Policy.PNG)
+- Click **Create Policy**.
 
 ###### Hello Okta App Client Access Policy Rules
 
-Click **Add Rule**. Fill in the fields with these values:
+- Click **Add Rule**. 
+- Fill in the fields with these values:
 
-| FIELD NAME           | VALUE                                |
-|----------------------|--------------------------------------|
-| **Name**             | `Message read`                       |
-| **Grant type is**    | `Client Credentials`                 |
-| **Scopes requested** | The following scopes: `message.read` |
+| FIELD NAME                            | VALUE                                |
+|---------------------------------------|--------------------------------------|
+| **Name**                              | `Message read`                       |
+| **Grant type is**                     | `Client Credentials`                 |
+| **User is**                           | `Any user assigned the app`          |
+| **Scopes requested**                  | The following scopes: `message.read` |
+| **Use this inline hook**              | `None (disabled)`                    |
+| **Access token lifetime is**          | `15 Minutes`                         |
+| **Refresh token lifetime is**         | `2 Days`                             |
+| **but will expire if not used every** | `1 Hours`                            |
 
-Click **Create Rule**.
-
-Created **Rule** should look like:
-
-![Hello Okta App Client Access Policy Rule](images/10-Hello-Okta-App-Client-Policy-Rule.PNG)
+- Click **Create Rule**.
 
 ### Set Up Okta Group
 
 #### Add HelloOkta_StandardUser Group
-Navigate to **Users > Groups**. Click **Add Group**. Fill in the values:
+- Navigate to **Directory > Groups**. Click **Add Group**. 
+- Fill in the values:
 
 | FIELD NAME            | VALUE                     |
 |-----------------------|---------------------------|
 | **Name**              | `HelloOkta_StandardUser`  |
 | **Group Description** | `HELLOOKTA Standard User` |
 
-![HelloOkta_StandardUser Group](images/11-HelloOkta_StandardUser-Group.PNG)
-
-Click **Add Group**.
+- Click **Add Group**.
 
 #### Add User to HelloOkta_StandardUser Group
 
-- Navigate to **Users > Groups**.
+- Navigate to **Directory > Groups**.
 - Click on the **HelloOkta_StandardUser** group. 
 - Click on the **Manage People** button. 
 - Use the search box to find your user and add yourself to the group.
 - Click **Save** button
 
-#### Add Trusted Origins
+#### Setup Hello Okta App Application Group Assignments
+
+- Navigate to **Applications > Applications**.
+- Click on the **Hello Okta App**. 
+- Navigate to the **Assignments** tab. 
+- Click **Assign** split button and select **Assign to Groups**, **Assign Hello Okta App to Groups** dialog will appear.
+- Click **Assign** next to **HelloOkta_StandardUser**
+- Click **Done**
+
+### Ensure Trusted Origins
 
 - Navigate to **API > Trusted Origins**.
-- Add the following 2 Origins with both `CORS` and `Redirect`:
+- Ensure the following 2 Origins with both `CORS` and `Redirect` present:
     - http://localhost:3000
     - https://kubernetes.docker.internal
 

@@ -10,16 +10,17 @@ import lv.gennadyyonov.hellookta.api.client.pkce.PkceFlowAuthTokenResponseClient
 import lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils;
 
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
 
 import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.ACCEPT_HEADER;
 import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.APPLICATION_JSON;
 import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.AUTHORIZATION_HEADER;
 import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.CONTENT_TYPE_HEADER;
-import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.doGet;
+import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.doPost;
+import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.setUpLogging;
 import static lv.gennadyyonov.hellookta.api.client.utils.LocalhostUtils.disableSsl;
 
 @Slf4j
@@ -31,6 +32,7 @@ public class PkceHelloClientDemo {
   @SneakyThrows
   public static void main(String[] args) {
     disableSsl();
+    setUpLogging();
     Properties properties = loadProperties();
     String username = properties.getProperty("username");
     String password = properties.getProperty("password");
@@ -56,7 +58,7 @@ public class PkceHelloClientDemo {
 
     String uri = apiUri + HELLO_PATH;
     Map<String, String> headers = headers(tokenResponse);
-    HttpURLConnection connection = doGet(uri, headers);
+    var connection = doPost(uri, headers, "");
     String response = HttpClientUtils.readResponse(connection);
     log.info("Hello Response : {}", response);
   }
@@ -76,6 +78,9 @@ public class PkceHelloClientDemo {
         AUTHORIZATION_HEADER, tokenResponse.getTokenType() + " " + tokenResponse.getAccessToken());
     headers.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
     headers.put(ACCEPT_HEADER, APPLICATION_JSON);
+    var csrfToken = UUID.randomUUID().toString();
+    headers.put("X-XSRF-TOKEN", csrfToken);
+    headers.put("Cookie", "XSRF-TOKEN=" + csrfToken);
     return headers;
   }
 }

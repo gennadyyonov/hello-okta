@@ -5,13 +5,14 @@ import lombok.SneakyThrows;
 import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 
 import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.ACCEPT_HEADER;
 import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.APPLICATION_JSON;
 import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.AUTHORIZATION_HEADER;
 import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.CONTENT_TYPE_HEADER;
-import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.doGet;
+import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.doPost;
 import static lv.gennadyyonov.hellookta.api.client.utils.HttpClientUtils.readResponse;
 
 public abstract class HelloClient<T> {
@@ -38,8 +39,11 @@ public abstract class HelloClient<T> {
     headers.put(AUTHORIZATION_HEADER, "Bearer " + getAccessToken());
     headers.put(CONTENT_TYPE_HEADER, APPLICATION_JSON);
     headers.put(ACCEPT_HEADER, APPLICATION_JSON);
+    var csrfToken = UUID.randomUUID().toString();
+    headers.put("X-XSRF-TOKEN", csrfToken);
+    headers.put("Cookie", "XSRF-TOKEN=" + csrfToken);
     String uri = config.getServerUri() + HELLO_PATH;
-    return doGet(uri, headers);
+    return doPost(uri, headers, "");
   }
 
   @SneakyThrows

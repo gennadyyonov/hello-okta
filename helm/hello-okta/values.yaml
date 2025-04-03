@@ -74,7 +74,6 @@ bff:
     SERVER_SERVLET_CONTEXT_PATH: "/bff"
     SPRING_PROFILES_ACTIVE: "dev,actuator"
     HEADERS_CSP_DIRECTIVES: "default-src 'self'; script-src 'self'; connect-src 'self' *.okta.com; img-src 'self' *.oktacdn.com data: blob:; frame-src 'self' *.okta.com; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; font-src 'self' *.oktacdn.com; manifest-src 'self'; media-src 'self'; worker-src 'none';"
-    CORS_ALLOWED_ORIGINS: "https://dev-220281.okta.com"
     CHUCK_NORRIS_URL: "https://api.chucknorris.io"
     CSRF_CSRF_ENABLED: "false"
     TECHNICAL_ENDPOINT_ENABLED: "true"
