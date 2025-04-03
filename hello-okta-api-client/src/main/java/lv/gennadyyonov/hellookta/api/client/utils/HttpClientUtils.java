@@ -13,6 +13,7 @@ import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.lang.System.setProperty;
 import static java.util.Base64.getEncoder;
 
 @UtilityClass
@@ -69,5 +70,14 @@ public class HttpClientUtils {
       }
       return sb.toString();
     }
+  }
+
+  public static void setUpLogging() {
+    URL resource = HttpClientUtils.class.getResource("/logging.properties");
+    if (resource == null) {
+      throw new IllegalStateException("logging.properties not found in classpath");
+    }
+    String path = resource.getPath();
+    setProperty("java.util.logging.config.file", path);
   }
 }

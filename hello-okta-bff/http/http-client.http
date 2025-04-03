@@ -4,29 +4,48 @@
 
 ### User Profile
 
+< scripts/csrf-token.js
+
 POST {{bff-host}}/graphql
 Authorization: {{okta-token-type}} {{okta-access-token}}
+Cookie: XSRF-TOKEN={{csrf-token}}
+X-XSRF-TOKEN: {{csrf-token}}
 Content-Type: application/json
 
 < ./requests/me.json
 
 ### Translation Map
+
+< scripts/csrf-token.js
+
 POST {{bff-host}}/graphql
 Authorization: {{okta-token-type}} {{okta-access-token}}
+Cookie: XSRF-TOKEN={{csrf-token}}
+X-XSRF-TOKEN: {{csrf-token}}
 Content-Type: application/json
 
 < ./requests/translationMap.json
 
 ### Hello
+
+< scripts/csrf-token.js
+
 POST {{bff-host}}/graphql
 Authorization: {{okta-token-type}} {{okta-access-token}}
+Cookie: XSRF-TOKEN={{csrf-token}}
+X-XSRF-TOKEN: {{csrf-token}}
 Content-Type: application/json
 
 < ./requests/hello.json
 
 ### Ping
+
+< scripts/csrf-token.js
+
 POST {{bff-host}}/graphql
 Authorization: {{okta-token-type}} {{okta-access-token}}
+Cookie: XSRF-TOKEN={{csrf-token}}
+X-XSRF-TOKEN: {{csrf-token}}
 Content-Type: application/json
 
 < ./requests/ping.json

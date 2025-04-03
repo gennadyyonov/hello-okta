@@ -29,11 +29,11 @@ In order to run it the following properties should be checked and adjusted:
 - Copy [`demo.properties.sample`](src/main/resources/demo.properties.sample) to `demo.properties` under `src/main/resources`
 - Fill in your Okta related configuration properties instead of `???`
 
-# Demo Implicit Flow Client
+# Demo Authorization Code Flow with PKCE Client
 
-Client demonstrates usage of implicit flow which consists of 3 steps:
+Client demonstrates usage of implicit flow which consists of the following steps:
 * [Primary authentication](https://developer.okta.com/docs/reference/api/authn/#primary-authentication) to get `sessionToken`
-* [Use the Implicit Flow](https://developer.okta.com/docs/guides/implement-implicit/use-flow/) to get access token
+* [Use the Authorization Code Flow with PKCE](https://developer.okta.com/docs/guides/implement-auth-code-pkce/use-flow/) to get access token
 * Call protected resource using this token
 
 ## Primary authentication
@@ -78,25 +78,6 @@ Location: ${serverBaseUri}/implicit/callback/#access_token=${access_token}&token
 ```
 Authorization: Bearer ${access_token}
 ```
-
-## Running Demo Locally
-
-Main class `lv.gennadyyonov.hellookta.api.client.ImplicitFlowHelloClientDemo` in main sources.
-In order to run it the following properties should be checked and adjusted:
-* Proxy Settings
-* Okta User Properties
-
-### Okta User Properties
-
-- Copy [`implicitFlow.properties.sample`](src/main/resources/implicitFlow.properties.sample) to `implicitFlow.properties` under `src/main/resources`
-- Fill in your Okta related configuration properties instead of `???`
-
-# Demo Authorization Code Flow with PKCE Client
-
-Client demonstrates usage of implicit flow which consists of the following steps:
-* [Primary authentication](https://developer.okta.com/docs/reference/api/authn/#primary-authentication) to get `sessionToken`
-* [Use the Authorization Code Flow with PKCE](https://developer.okta.com/docs/guides/implement-auth-code-pkce/use-flow/) to get access token
-* Call protected resource using this token
 
 ## Running Demo Locally
 
