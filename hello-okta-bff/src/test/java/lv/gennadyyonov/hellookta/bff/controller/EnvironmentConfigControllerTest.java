@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static lv.gennadyyonov.hellookta.bff.controller.EnvironmentConfigController.ENVIRONMENT_CONFIG_SUFFIX;
+import static lv.gennadyyonov.hellookta.bff.controller.EnvironmentConfigController.ENVIRONMENT_CONFIG_PATH;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -23,7 +23,7 @@ class EnvironmentConfigControllerTest {
   @Test
   void environmentConfig() {
     String baseUrl = okta.getDelegate().baseUrl();
-    mvc.perform(get(ENVIRONMENT_CONFIG_SUFFIX))
+    mvc.perform(get(ENVIRONMENT_CONFIG_PATH))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.oktaClientId").value("0oa4yt76r3KSPx094357"))

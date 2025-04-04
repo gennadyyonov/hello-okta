@@ -6,7 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Data;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
-import lv.gennadyyonov.hellookta.test.JsonUtils;
+import lv.gennadyyonov.hellookta.test.JsonTestUtils;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtClaimNames;
 
@@ -32,7 +32,7 @@ public class JwtToken {
   private static final long VALID_FOR_MINUTES = 5L;
   private static final String KEY_PAIR_FILE = "keys/rs256/keypair.json";
   private static final KeyPair KEY_PAIR =
-      JsonUtils.resourceToObject(
+      JsonTestUtils.deserialize(
           JwtToken.class.getClassLoader().getResourceAsStream(KEY_PAIR_FILE),
           new TypeReference<>() {});
 

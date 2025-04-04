@@ -57,7 +57,7 @@ class QueryTest {
               assertThat(error.getPath()).isEqualTo("ping");
               assertThat(error.getExtensions())
                   .containsAllEntriesOf(
-                      Map.of("code", "SC.ER.ACCESSDENIED", "classification", "FORBIDDEN"));
+                      Map.of("code", "HO.ER.ACCESSDENIED", "classification", "FORBIDDEN"));
             });
   }
 }

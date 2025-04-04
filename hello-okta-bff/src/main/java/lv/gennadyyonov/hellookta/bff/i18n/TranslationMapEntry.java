@@ -1,4 +1,4 @@
-package lv.gennadyyonov.hellookta.bff.graphql.type;
+package lv.gennadyyonov.hellookta.bff.i18n;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

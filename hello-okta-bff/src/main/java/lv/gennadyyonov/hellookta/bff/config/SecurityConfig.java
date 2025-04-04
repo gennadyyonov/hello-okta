@@ -21,7 +21,9 @@ import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthen
 import org.springframework.security.web.SecurityFilterChain;
 
 import static java.util.Optional.ofNullable;
-import static lv.gennadyyonov.hellookta.bff.controller.EnvironmentConfigController.ENVIRONMENT_CONFIG_SUFFIX;
+import static lv.gennadyyonov.hellookta.bff.controller.CsrfTokenInfoController.CSRF_TOKEN_INFO_PATH;
+import static lv.gennadyyonov.hellookta.bff.controller.EnvironmentConfigController.ENVIRONMENT_CONFIG_PATH;
+import static lv.gennadyyonov.hellookta.bff.controller.TranslationController.TRANSLATION_MAP_PATH;
 import static org.apache.commons.lang3.BooleanUtils.toBoolean;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.OPTIONS;
@@ -59,7 +61,11 @@ public class SecurityConfig {
                     // Allow CORS option calls
                     .requestMatchers(antMatcher(OPTIONS, ALL_URL_PATTERN))
                     .permitAll()
-                    .requestMatchers(antMatcher(GET, ENVIRONMENT_CONFIG_SUFFIX))
+                    .requestMatchers(antMatcher(GET, ENVIRONMENT_CONFIG_PATH))
+                    .permitAll()
+                    .requestMatchers(antMatcher(GET, CSRF_TOKEN_INFO_PATH))
+                    .permitAll()
+                    .requestMatchers(antMatcher(GET, TRANSLATION_MAP_PATH))
                     .permitAll()
                     .anyRequest()
                     .authenticated())

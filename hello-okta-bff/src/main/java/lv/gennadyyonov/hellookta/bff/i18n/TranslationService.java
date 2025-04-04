@@ -1,8 +1,6 @@
 package lv.gennadyyonov.hellookta.bff.i18n;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import lv.gennadyyonov.hellookta.bff.graphql.type.TranslationMap;
-import lv.gennadyyonov.hellookta.bff.graphql.type.TranslationMapEntry;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

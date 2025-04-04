@@ -2,5 +2,8 @@
   "home_button_ping": "Ping",
   "logout_hint": "Pressing 'Logout' button will sign current user out",
   "button_logout": "Logout",
-  "SC.ER.ACCESSDENIED": "You don't have access rights to application."
+  "button_go_home": "Go Home",
+  "HO.ER.ACCESSDENIED": "You don't have access rights to application.",
+  "HO.ER.UNAUTHORIZED.TITLE": "Unauthorized Access",
+  "HO.ER.UNAUTHORIZED.TEXT": "You are not authenticated or your session has expired. Please log in again to continue."
 }
