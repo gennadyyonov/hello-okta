@@ -8,21 +8,24 @@ import lombok.RequiredArgsConstructor;
 import lv.gennadyyonov.hellookta.aspects.HasRole;
 import lv.gennadyyonov.hellookta.bff.dto.EnvironmentProperties;
 import lv.gennadyyonov.hellookta.config.csrf.CsrfProperties;
+import lv.gennadyyonov.hellookta.logging.PerformanceLogging;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static lv.gennadyyonov.hellookta.bff.config.Constants.REST_API;
 import static lv.gennadyyonov.hellookta.constants.SecurityConstants.PUBLIC_ENDPOINT;
 import static lv.gennadyyonov.hellookta.utils.OktaUtils.getClientId;
 import static lv.gennadyyonov.hellookta.utils.OktaUtils.getIssuerUri;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@PerformanceLogging(REST_API)
 @RequiredArgsConstructor
 @HasRole(alias = PUBLIC_ENDPOINT)
 @RestController
 public class EnvironmentConfigController {
 
-  public static final String ENVIRONMENT_CONFIG_SUFFIX = "/config/environment";
+  public static final String ENVIRONMENT_CONFIG_PATH = "/config/environment";
 
   private final OAuth2ClientProperties oktaOAuth2Properties;
   private final CsrfProperties csrfProperties;
@@ -39,7 +42,7 @@ public class EnvironmentConfigController {
             description = "Internal Server Error",
             content = @Content)
       })
-  @GetMapping(value = ENVIRONMENT_CONFIG_SUFFIX, produces = APPLICATION_JSON_VALUE)
+  @GetMapping(value = ENVIRONMENT_CONFIG_PATH, produces = APPLICATION_JSON_VALUE)
   public EnvironmentProperties environmentConfig() {
     return EnvironmentProperties.builder()
         .oktaClientId(getClientId(oktaOAuth2Properties))

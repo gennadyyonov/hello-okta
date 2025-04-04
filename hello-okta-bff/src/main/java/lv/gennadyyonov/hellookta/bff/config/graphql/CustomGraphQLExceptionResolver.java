@@ -17,7 +17,7 @@ import java.util.Map;
 @Component
 public class CustomGraphQLExceptionResolver implements DataFetcherExceptionResolver {
 
-  private static final String ACCESS_DENIED_ERROR_ID = "SC.ER.ACCESSDENIED";
+  private static final String ACCESS_DENIED_ERROR_ID = "HO.ER.ACCESSDENIED";
 
   @Override
   public Mono<List<GraphQLError>> resolveException(

@@ -60,7 +60,7 @@ class UserInfoQueryTest {
               assertThat(error.getPath()).isEqualTo("me");
               assertThat(error.getExtensions())
                   .containsAllEntriesOf(
-                      Map.of("code", "SC.ER.ACCESSDENIED", "classification", "FORBIDDEN"));
+                      Map.of("code", "HO.ER.ACCESSDENIED", "classification", "FORBIDDEN"));
             });
   }
 }

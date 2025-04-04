@@ -18,13 +18,11 @@ Content-Type: application/json
 
 < scripts/csrf-token.js
 
-POST {{bff-host}}/graphql
+GET {{bff-host}}/translationmap
 Authorization: {{okta-token-type}} {{okta-access-token}}
 Cookie: XSRF-TOKEN={{csrf-token}}
 X-XSRF-TOKEN: {{csrf-token}}
 Content-Type: application/json
-
-< ./requests/translationMap.json
 
 ### Hello
 

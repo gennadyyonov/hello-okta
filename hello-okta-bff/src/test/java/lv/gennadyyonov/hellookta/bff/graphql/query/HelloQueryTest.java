@@ -96,7 +96,7 @@ class HelloQueryTest {
               assertThat(error.getPath()).isEqualTo("hello");
               assertThat(error.getExtensions())
                   .containsAllEntriesOf(
-                      Map.of("code", "SC.ER.ACCESSDENIED", "classification", "FORBIDDEN"));
+                      Map.of("code", "HO.ER.ACCESSDENIED", "classification", "FORBIDDEN"));
             });
   }
 }
