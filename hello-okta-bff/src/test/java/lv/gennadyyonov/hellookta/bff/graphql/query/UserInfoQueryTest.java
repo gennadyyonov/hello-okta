@@ -3,11 +3,13 @@ package lv.gennadyyonov.hellookta.bff.graphql.query;
 import lombok.SneakyThrows;
 import lv.gennadyyonov.hellookta.bff.config.HttpGraphQlTesterFactory;
 import lv.gennadyyonov.hellookta.bff.test.DefaultIntegrationTest;
+import lv.gennadyyonov.hellookta.bff.test.okta.Okta;
 import lv.gennadyyonov.hellookta.bff.test.user.MoonChild;
 import lv.gennadyyonov.hellookta.test.user.UserInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.execution.ErrorType;
+import org.springframework.http.HttpStatus;
 
 import java.util.Map;
 
@@ -17,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class UserInfoQueryTest {
 
   @Autowired private HttpGraphQlTesterFactory graphQlTesterFactory;
+  @Autowired private Okta okta;
 
   @UserInfo("jane.smith@gmail.com")
   @SneakyThrows
@@ -61,6 +64,30 @@ class UserInfoQueryTest {
               assertThat(error.getExtensions())
                   .containsAllEntriesOf(
                       Map.of("code", "HO.ER.ACCESSDENIED", "classification", "FORBIDDEN"));
+            });
+  }
+
+  @UserInfo
+  @SneakyThrows
+  @Test
+  void externalSystemError() {
+    okta.onGetUserInfo().expect().status(HttpStatus.SERVICE_UNAVAILABLE).endStubbing();
+
+    var graphQlTester = graphQlTesterFactory.createTester();
+    graphQlTester
+        .documentName("me")
+        .execute()
+        .errors()
+        .satisfy(
+            errors -> {
+              assertThat(errors).hasSize(1);
+              var error = errors.getFirst();
+              assertThat(error.getErrorType()).isEqualTo(ErrorType.INTERNAL_ERROR);
+              assertThat(error.getMessage()).isEqualTo("Failed to fetch user info from Okta");
+              assertThat(error.getPath()).isEqualTo("me");
+              assertThat(error.getExtensions())
+                  .containsAllEntriesOf(
+                      Map.of("code", "HO.ER.EXTERNALSYSTEM", "classification", "INTERNAL_ERROR"));
             });
   }
 }

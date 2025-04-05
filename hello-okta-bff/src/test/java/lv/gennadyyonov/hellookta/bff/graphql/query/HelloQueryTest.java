@@ -12,6 +12,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.execution.ErrorType;
+import org.springframework.http.HttpStatus;
 
 import java.util.Map;
 
@@ -97,6 +98,31 @@ class HelloQueryTest {
               assertThat(error.getExtensions())
                   .containsAllEntriesOf(
                       Map.of("code", "HO.ER.ACCESSDENIED", "classification", "FORBIDDEN"));
+            });
+  }
+
+  @UserInfo
+  @SneakyThrows
+  @ParameterizedTest(name = "Document Name = {0}")
+  @ValueSource(strings = {"hello_user", "hello_client"})
+  void externalSystemError(String documentName) {
+    okta.onGetUserInfo().expect().status(HttpStatus.SERVICE_UNAVAILABLE).endStubbing();
+
+    var graphQlTester = graphQlTesterFactory.createTester();
+    graphQlTester
+        .documentName(documentName)
+        .execute()
+        .errors()
+        .satisfy(
+            errors -> {
+              assertThat(errors).hasSize(1);
+              var error = errors.getFirst();
+              assertThat(error.getErrorType()).isEqualTo(ErrorType.INTERNAL_ERROR);
+              assertThat(error.getMessage()).isEqualTo("Failed to fetch user info from Okta");
+              assertThat(error.getPath()).isEqualTo("hello");
+              assertThat(error.getExtensions())
+                  .containsAllEntriesOf(
+                      Map.of("code", "HO.ER.EXTERNALSYSTEM", "classification", "INTERNAL_ERROR"));
             });
   }
 }
