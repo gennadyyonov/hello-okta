@@ -4,7 +4,9 @@ import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;
 import graphql.schema.DataFetchingEnvironment;
 import lombok.extern.slf4j.Slf4j;
+import lv.gennadyyonov.hellookta.bff.config.ErrorCodes;
 import lv.gennadyyonov.hellookta.exception.AccessDeniedException;
+import lv.gennadyyonov.hellookta.exception.ExternalSystemException;
 import org.springframework.graphql.execution.DataFetcherExceptionResolver;
 import org.springframework.graphql.execution.ErrorType;
 import org.springframework.stereotype.Component;
@@ -17,23 +19,33 @@ import java.util.Map;
 @Component
 public class CustomGraphQLExceptionResolver implements DataFetcherExceptionResolver {
 
-  private static final String ACCESS_DENIED_ERROR_ID = "HO.ER.ACCESSDENIED";
-
   @Override
   public Mono<List<GraphQLError>> resolveException(
       Throwable exception, DataFetchingEnvironment environment) {
     if (exception instanceof AccessDeniedException) {
-      log.error("Handling access denied exception: {}", exception.getMessage());
-      GraphQLError error =
-          GraphqlErrorBuilder.newError()
-              .errorType(ErrorType.FORBIDDEN)
-              .message(exception.getMessage())
-              .path(environment.getExecutionStepInfo().getPath())
-              .location(environment.getField().getSourceLocation())
-              .extensions(Map.of("code", ACCESS_DENIED_ERROR_ID))
-              .build();
-      return Mono.just(List.of(error));
+      return handleException(exception, environment, ErrorType.FORBIDDEN, ErrorCodes.ACCESS_DENIED);
+    }
+    if (exception instanceof ExternalSystemException) {
+      return handleException(
+          exception, environment, ErrorType.INTERNAL_ERROR, ErrorCodes.EXTERNAL_SYSTEM);
     }
     return Mono.empty();
+  }
+
+  private Mono<List<GraphQLError>> handleException(
+      Throwable exception,
+      DataFetchingEnvironment environment,
+      ErrorType errorType,
+      String errorCode) {
+    log.error("Handling {} exception: {}", errorType, exception.getMessage());
+    GraphQLError error =
+        GraphqlErrorBuilder.newError()
+            .errorType(errorType)
+            .message(exception.getMessage())
+            .path(environment.getExecutionStepInfo().getPath())
+            .location(environment.getField().getSourceLocation())
+            .extensions(Map.of("code", errorCode))
+            .build();
+    return Mono.just(List.of(error));
   }
 }

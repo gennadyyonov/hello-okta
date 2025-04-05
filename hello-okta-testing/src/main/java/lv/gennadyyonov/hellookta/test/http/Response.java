@@ -6,6 +6,7 @@ import com.github.tomakehurst.wiremock.http.DelayDistribution;
 import com.github.tomakehurst.wiremock.http.Fault;
 import com.github.tomakehurst.wiremock.http.HttpHeaders;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import wiremock.com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.Map;
@@ -16,6 +17,10 @@ public class Response {
   private final Server.Stubbing stubbing;
   private final MappingBuilder request;
   private final ResponseDefinitionBuilder response;
+
+  public Response status(HttpStatus status) {
+    return status(status.value());
+  }
 
   public Response status(int status) {
     response.withStatus(status);

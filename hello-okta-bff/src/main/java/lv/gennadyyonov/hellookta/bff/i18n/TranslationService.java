@@ -13,7 +13,12 @@ import static lv.gennadyyonov.hellookta.bff.utils.JsonUtils.resourceToObject;
 @Service
 public class TranslationService {
 
+  private static final String DEFAULT_LOCALE = "en";
   private static final String RESOURCE_ROOT = "/i18n";
+
+  public TranslationMap translationMap() {
+    return translationMap(DEFAULT_LOCALE);
+  }
 
   public TranslationMap translationMap(String locale) {
     List<TranslationMapEntry> entries = entries(resourceName(locale));
