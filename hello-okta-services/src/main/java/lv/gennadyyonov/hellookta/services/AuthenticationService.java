@@ -35,8 +35,7 @@ public class AuthenticationService {
   }
 
   private String getUserId(Authentication authentication) {
-    if (authentication instanceof AbstractAuthenticationToken) {
-      AbstractAuthenticationToken token = (AbstractAuthenticationToken) authentication;
+    if (authentication instanceof AbstractAuthenticationToken token) {
       return ofNullable(token.getName()).map(String::toUpperCase).orElse(null);
     } else {
       return null;
@@ -78,8 +77,7 @@ public class AuthenticationService {
   }
 
   private String getTokenValue(Authentication authentication) {
-    if (authentication instanceof JwtAuthenticationToken) {
-      JwtAuthenticationToken oauthToken = (JwtAuthenticationToken) authentication;
+    if (authentication instanceof JwtAuthenticationToken oauthToken) {
       return oauthToken.getToken().getTokenValue();
     }
     throw new UnsupportedOperationException(
@@ -92,8 +90,7 @@ public class AuthenticationService {
   }
 
   private Map<String, Object> getTokenAttributes(Authentication authentication) {
-    if (authentication instanceof JwtAuthenticationToken) {
-      JwtAuthenticationToken oauthToken = (JwtAuthenticationToken) authentication;
+    if (authentication instanceof JwtAuthenticationToken oauthToken) {
       return oauthToken.getTokenAttributes();
     } else if (authentication instanceof AnonymousAuthenticationToken) {
       return new HashMap<>();

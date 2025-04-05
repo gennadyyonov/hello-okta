@@ -40,6 +40,11 @@ class TranslationControllerTest {
                 .value("You don't have access rights to application.")
                 .build(),
             TranslationMapEntry.builder()
+                .key("HO.ER.EXTERNALSYSTEM")
+                .value(
+                    "There was an issue communicating with an external service. Please try again later.")
+                .build(),
+            TranslationMapEntry.builder()
                 .key("HO.ER.UNAUTHORIZED.TITLE")
                 .value("Unauthorized Access")
                 .build(),

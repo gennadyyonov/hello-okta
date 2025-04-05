@@ -4,6 +4,7 @@
   "button_logout": "Logout",
   "button_go_home": "Go Home",
   "HO.ER.ACCESSDENIED": "You don't have access rights to application.",
+  "HO.ER.EXTERNALSYSTEM": "There was an issue communicating with an external service. Please try again later.",
   "HO.ER.UNAUTHORIZED.TITLE": "Unauthorized Access",
   "HO.ER.UNAUTHORIZED.TEXT": "You are not authenticated or your session has expired. Please log in again to continue."
 }

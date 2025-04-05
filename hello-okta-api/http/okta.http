@@ -77,4 +77,10 @@ grant_type=authorization_code&client_id={{okta-client}}&redirect_uri={{spa-host}
   }
 %}
 
+### Get User Info
+
+GET {{okta-issuer}}/v1/userinfo
+Content-Type: application/json
+Authorization: {{okta-token-type}} {{okta-access-token}}
+
 ###

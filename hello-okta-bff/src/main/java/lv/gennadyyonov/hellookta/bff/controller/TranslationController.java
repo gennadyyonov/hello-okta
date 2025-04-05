@@ -21,12 +21,10 @@ public class TranslationController implements ParameterLogging {
 
   public static final String TRANSLATION_MAP_PATH = "/translationmap";
 
-  private static final String DEFAULT_LOCALE = "en";
-
   private final TranslationService translationService;
 
   @GetMapping(value = TRANSLATION_MAP_PATH, produces = APPLICATION_JSON_VALUE)
   public TranslationMap translationMap() {
-    return translationService.translationMap(DEFAULT_LOCALE);
+    return translationService.translationMap();
   }
 }

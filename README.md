@@ -168,9 +168,9 @@ Create a [custom scope](https://help.okta.com/en-us/content/topics/security/api-
 
 #### Claims
 
-To include custom claims in an _ID token_ or an _access token_, they should be added to our Custom Authorization Server.
+To include custom claims in an _access token_, they should be added to our Custom Authorization Server.
 
-Let's add a **Groups** claim to _ID tokens_ and _access tokens_ to perform authentication and authorization using the out Custom Authorization Server.
+Let's add a **Groups** claim to _access tokens_ to perform authentication and authorization using the out Custom Authorization Server.
 
 ##### Access Token groups Claim
 
@@ -187,18 +187,22 @@ Let's add a **Groups** claim to _ID tokens_ and _access tokens_ to perform authe
 
 - Click **Create**.
 
-##### ID Token groups Claim
+##### Access Token given_name, family_name and email Claim
 
-- Click **Claims > Add Claim**. 
-- Fill in the fields with these values (leave those not mentioned as their defaults):
+- Click **Claims > Add Claim**.
 
 | FIELD NAME                | VALUE                      |
 |---------------------------|----------------------------|
-| **Name**                  | `groups`                   |
-| **Include in token type** | `ID Token`<br>`Always`     |
-| **Value type**            | `Groups`                   |
-| **Filter**                | `Starts with` `HelloOkta_` |
-| **Include in**            | `Any scope`                |
+| **Include in token type** | `Access Token`<br>`Always` |
+| **Value type**            | `Expression`               |
+
+- For each claim fill in the fields with the following values:
+
+| **Name**      | **Value**        | **Include in** |
+|---------------|------------------|----------------|
+| `given_name`  | `user.firstName` | `profile`      |
+| `family_name` | `user.lastName`  | `profile`      |
+| `email`       | `user.email`     | `email`        |
 
 - Click **Create**.
 

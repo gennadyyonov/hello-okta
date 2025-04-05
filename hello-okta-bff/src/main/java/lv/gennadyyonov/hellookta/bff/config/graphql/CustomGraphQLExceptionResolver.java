@@ -4,7 +4,9 @@ import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;
 import graphql.schema.DataFetchingEnvironment;
 import lombok.extern.slf4j.Slf4j;
+import lv.gennadyyonov.hellookta.bff.config.ErrorCodes;
 import lv.gennadyyonov.hellookta.exception.AccessDeniedException;
+import lv.gennadyyonov.hellookta.exception.ExternalSystemException;
 import org.springframework.graphql.execution.DataFetcherExceptionResolver;
 import org.springframework.graphql.execution.ErrorType;
 import org.springframework.stereotype.Component;
@@ -17,8 +19,6 @@ import java.util.Map;
 @Component
 public class CustomGraphQLExceptionResolver implements DataFetcherExceptionResolver {
 
-  private static final String ACCESS_DENIED_ERROR_ID = "HO.ER.ACCESSDENIED";
-
   @Override
   public Mono<List<GraphQLError>> resolveException(
       Throwable exception, DataFetchingEnvironment environment) {
@@ -30,7 +30,19 @@ public class CustomGraphQLExceptionResolver implements DataFetcherExceptionResol
               .message(exception.getMessage())
               .path(environment.getExecutionStepInfo().getPath())
               .location(environment.getField().getSourceLocation())
-              .extensions(Map.of("code", ACCESS_DENIED_ERROR_ID))
+              .extensions(Map.of("code", ErrorCodes.ACCESS_DENIED))
+              .build();
+      return Mono.just(List.of(error));
+    }
+    if (exception instanceof ExternalSystemException) {
+      log.error("Handling external system exception: {}", exception.getMessage());
+      GraphQLError error =
+          GraphqlErrorBuilder.newError()
+              .errorType(ErrorType.INTERNAL_ERROR)
+              .message(exception.getMessage())
+              .path(environment.getExecutionStepInfo().getPath())
+              .location(environment.getField().getSourceLocation())
+              .extensions(Map.of("code", ErrorCodes.EXTERNAL_SYSTEM))
               .build();
       return Mono.just(List.of(error));
     }
