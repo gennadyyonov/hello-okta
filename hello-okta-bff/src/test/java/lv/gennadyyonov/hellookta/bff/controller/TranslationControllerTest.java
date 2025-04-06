@@ -1,6 +1,7 @@
 package lv.gennadyyonov.hellookta.bff.controller;
 
 import lombok.SneakyThrows;
+import lv.gennadyyonov.hellookta.bff.config.CsrfTokenContext;
 import lv.gennadyyonov.hellookta.bff.i18n.TranslationMap;
 import lv.gennadyyonov.hellookta.bff.i18n.TranslationMapEntry;
 import lv.gennadyyonov.hellookta.bff.test.DefaultIntegrationTest;
@@ -17,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class TranslationControllerTest {
 
   @Autowired private TestApiClient client;
+  @Autowired private CsrfTokenContext csrfTokenContext;
 
   @SneakyThrows
   @Test
@@ -53,5 +55,25 @@ class TranslationControllerTest {
                 .value(
                     "You are not authenticated or your session has expired. Please log in again to continue.")
                 .build());
+  }
+
+  @SneakyThrows
+  @Test
+  void missingCsrfToken() {
+    csrfTokenContext.reset();
+
+    var response = client.getTranslationMap();
+
+    response.assertStatusIs(HttpStatus.FORBIDDEN);
+  }
+
+  @SneakyThrows
+  @Test
+  void invalidCsrfToken() {
+    csrfTokenContext.setUp("headerValue", "cookieValue");
+
+    var response = client.getTranslationMap();
+
+    response.assertStatusIs(HttpStatus.FORBIDDEN);
   }
 }

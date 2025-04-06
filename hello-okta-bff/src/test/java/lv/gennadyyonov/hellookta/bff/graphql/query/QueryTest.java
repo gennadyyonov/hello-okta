@@ -1,15 +1,20 @@
 package lv.gennadyyonov.hellookta.bff.graphql.query;
 
 import lombok.SneakyThrows;
+import lv.gennadyyonov.hellookta.bff.config.CsrfTokenContext;
 import lv.gennadyyonov.hellookta.bff.config.HttpGraphQlTesterFactory;
 import lv.gennadyyonov.hellookta.bff.test.DefaultIntegrationTest;
+import lv.gennadyyonov.hellookta.bff.test.api.TestApiClient;
 import lv.gennadyyonov.hellookta.bff.test.chucknorris.ChuckNorris;
 import lv.gennadyyonov.hellookta.bff.test.okta.Okta;
 import lv.gennadyyonov.hellookta.bff.test.user.MoonChild;
 import lv.gennadyyonov.hellookta.test.user.UserInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.graphql.execution.ErrorType;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
 import java.util.Map;
@@ -23,6 +28,11 @@ class QueryTest {
   @Autowired private HttpGraphQlTesterFactory graphQlTesterFactory;
   @Autowired private ChuckNorris chuckNorris;
   @Autowired private Okta okta;
+  @Autowired private TestApiClient client;
+  @Autowired private CsrfTokenContext csrfTokenContext;
+
+  @Value("classpath:graphql-test/ping.graphql")
+  private Resource ping;
 
   @UserInfo
   @SneakyThrows
@@ -31,7 +41,7 @@ class QueryTest {
     chuckNorris
         .onGetRandomJoke()
         .expect()
-        .header("Content-Type", APPLICATION_JSON_VALUE)
+        .header(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE)
         .bodyFile("chuck-norris/randomJoke.json")
         .endStubbing();
 
@@ -86,5 +96,27 @@ class QueryTest {
                   .containsAllEntriesOf(
                       Map.of("code", "HO.ER.EXTERNALSYSTEM", "classification", "INTERNAL_ERROR"));
             });
+  }
+
+  @UserInfo
+  @SneakyThrows
+  @Test
+  void missingCsrfToken() {
+    csrfTokenContext.reset();
+
+    var result = client.executeGraphqlQuery(ping);
+
+    result.assertStatusIs(HttpStatus.FORBIDDEN);
+  }
+
+  @UserInfo
+  @SneakyThrows
+  @Test
+  void invalidCsrfToken() {
+    csrfTokenContext.setUp("headerValue", "cookieValue");
+
+    var result = client.executeGraphqlQuery(ping);
+
+    result.assertStatusIs(HttpStatus.FORBIDDEN);
   }
 }

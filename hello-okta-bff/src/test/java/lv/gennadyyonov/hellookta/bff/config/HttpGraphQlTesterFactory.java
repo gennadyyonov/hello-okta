@@ -9,9 +9,14 @@ import org.springframework.stereotype.Component;
 public class HttpGraphQlTesterFactory {
 
   private final HttpGraphQlTester graphQlTester;
+  private final GraphqlWebTestClientCustomizer webTestClientCustomizer;
   private final GraphqlHttpHeadersCustomizer headersCustomizer;
 
   public HttpGraphQlTester createTester() {
-    return graphQlTester.mutate().headers(headersCustomizer).build();
+    return graphQlTester
+        .mutate()
+        .webTestClient(webTestClientCustomizer)
+        .headers(headersCustomizer)
+        .build();
   }
 }
