@@ -1,6 +1,7 @@
 package lv.gennadyyonov.hellookta.test;
 
 import lv.gennadyyonov.hellookta.test.reset.ResettingListener;
+import lv.gennadyyonov.hellookta.test.setup.InitializationListener;
 import lv.gennadyyonov.hellookta.test.user.UserInfoListener;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +21,6 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
 @TestExecutionListeners(
-    listeners = {ResettingListener.class, UserInfoListener.class},
+    listeners = {ResettingListener.class, InitializationListener.class, UserInfoListener.class},
     mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
 public @interface IntegrationTest {}

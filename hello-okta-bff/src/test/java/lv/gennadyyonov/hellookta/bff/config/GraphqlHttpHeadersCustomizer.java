@@ -17,11 +17,15 @@ public class GraphqlHttpHeadersCustomizer implements Consumer<HttpHeaders> {
 
   private final String issuer;
   private final TokenInfoContext tokenInfoContext;
+  private final CsrfTokenContext csrfTokenContext;
 
   public GraphqlHttpHeadersCustomizer(
-      OAuth2ClientProperties oktaOAuth2Properties, TokenInfoContext tokenInfoContext) {
+      OAuth2ClientProperties oktaOAuth2Properties,
+      TokenInfoContext tokenInfoContext,
+      CsrfTokenContext csrfTokenContext) {
     this.issuer = getIssuerUri(oktaOAuth2Properties);
     this.tokenInfoContext = tokenInfoContext;
+    this.csrfTokenContext = csrfTokenContext;
   }
 
   @Override
@@ -34,5 +38,10 @@ public class GraphqlHttpHeadersCustomizer implements Consumer<HttpHeaders> {
               List<String> groups = tokenInfo.getGroups();
               headers.setBearerAuth(JwtToken.createCompact(issuer, username, groups));
             });
+    var csrfTokenRef = csrfTokenContext.getCsrfTokenRef();
+    ofNullable(csrfTokenRef.get())
+        .ifPresent(
+            csrfToken ->
+                headers.put(csrfToken.getHeaderName(), List.of(csrfToken.getHeaderValue())));
   }
 }

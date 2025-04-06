@@ -1,29 +1,28 @@
 package lv.gennadyyonov.hellookta.bff.controller;
 
 import lombok.SneakyThrows;
+import lv.gennadyyonov.hellookta.bff.dto.CsrfTokenInfo;
 import lv.gennadyyonov.hellookta.bff.test.DefaultIntegrationTest;
+import lv.gennadyyonov.hellookta.bff.test.api.TestApiClient;
+import lv.gennadyyonov.hellookta.bff.test.api.TestApiResult;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.http.HttpStatus;
 
-import static lv.gennadyyonov.hellookta.bff.controller.CsrfTokenInfoController.CSRF_TOKEN_INFO_PATH;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DefaultIntegrationTest
 class CsrfTokenInfoControllerTest {
 
-  @Autowired private MockMvc mvc;
+  @Autowired private TestApiClient client;
 
   @SneakyThrows
   @Test
   void csrfTokenInfo() {
-    mvc.perform(get(CSRF_TOKEN_INFO_PATH))
-        .andDo(print())
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.cookieName").value("XSRF-TOKEN"))
-        .andExpect(jsonPath("$.headerName").value("X-XSRF-TOKEN"));
+    TestApiResult result = client.getCsrfTokenInfo();
+    var csrfTokenInfo = result.assertStatusIs(HttpStatus.OK).getBody(CsrfTokenInfo.class);
+    assertThat(csrfTokenInfo)
+        .isEqualTo(
+            CsrfTokenInfo.builder().cookieName("XSRF-TOKEN").headerName("X-XSRF-TOKEN").build());
   }
 }

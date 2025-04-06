@@ -3,13 +3,15 @@ package lv.gennadyyonov.hellookta.config.csrf;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lv.gennadyyonov.hellookta.services.TechnicalEndpointService;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
@@ -53,17 +55,7 @@ public class CsrfConfiguration {
     // Opt-out of Deferred CSRF Tokens
     requestHandler.setCsrfRequestAttributeName(null);
     return csrf ->
-        csrf.csrfTokenRepository(csrfTokenRepository)
-            .csrfTokenRequestHandler(
-                requestHandler) // https://github.com/spring-projects/spring-security/issues/8668
-            .withObjectPostProcessor(
-                new ObjectPostProcessor<CsrfFilter>() {
-                  @Override
-                  public <T extends CsrfFilter> T postProcess(T object) {
-                    object.setRequireCsrfProtectionMatcher(getRequireCsrfProtectionMatcher());
-                    return object;
-                  }
-                });
+        csrf.csrfTokenRepository(csrfTokenRepository).csrfTokenRequestHandler(requestHandler);
   }
 
   @Bean
@@ -73,6 +65,12 @@ public class CsrfConfiguration {
     csrfTokenRepository.setHeaderName(csrfProperties.getHeaderName());
     csrfTokenRepository.setCookiePath("/");
     return csrfTokenRepository;
+  }
+
+  // https://github.com/spring-projects/spring-security/issues/8668
+  @Bean
+  public CsrfFilterPostProcessor csrfFilterPostProcessor() {
+    return new CsrfFilterPostProcessor(getRequireCsrfProtectionMatcher());
   }
 
   private RequestMatcher getRequireCsrfProtectionMatcher() {
@@ -104,6 +102,45 @@ public class CsrfConfiguration {
     @Override
     public String toString() {
       return "CsrfNotRequired " + allowedMethods;
+    }
+  }
+
+  /**
+   * This {@link BeanPostProcessor} modifies the {@link CsrfFilter} bean after its initialization in
+   * the Spring application context.
+   *
+   * <p>The main purpose of this post-processor is to customize the behavior of the {@link
+   * CsrfFilter} to enforce CSRF protection for all incoming requests, including those that would
+   * typically be ignored by the default configuration (e.g., requests with a Bearer token in the
+   * Authorization header).
+   *
+   * <p>By default, Spring Security's {@link
+   * OAuth2ResourceServerConfigurer#registerDefaultCsrfOverride} adds a {@link RequestMatcher} that
+   * ignores CSRF protection for requests containing a Bearer token (typically OAuth2
+   * authentication). This behavior is implemented in {@link OAuth2ResourceServerConfigurer} via the
+   * {@link CsrfFilter} and its `requireCsrfProtectionMatcher`, which is configured to bypass CSRF
+   * for requests with a Bearer token.
+   *
+   * <p>In this implementation, the {@link CsrfFilter} is modified to ensure that the CSRF
+   * protection is applied universally by setting a custom {@link RequestMatcher} that forces CSRF
+   * protection on all requests, including those with a Bearer token.
+   *
+   * <p>Note: The {@link CsrfFilter} is not normally a Spring Bean, so this post-processor will only
+   * work if Spring Security's automatic configuration creates the {@link CsrfFilter} bean in the
+   * application context.
+   */
+  @RequiredArgsConstructor
+  public static final class CsrfFilterPostProcessor implements BeanPostProcessor {
+
+    private final RequestMatcher requireCsrfProtectionMatcher;
+
+    @Override
+    public Object postProcessAfterInitialization(Object bean, String beanName)
+        throws BeansException {
+      if (bean instanceof CsrfFilter csrfFilter) {
+        csrfFilter.setRequireCsrfProtectionMatcher(requireCsrfProtectionMatcher);
+      }
+      return bean;
     }
   }
 }

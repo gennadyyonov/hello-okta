@@ -14,20 +14,26 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 @Slf4j
 @Component
 public class CustomGraphQLExceptionResolver implements DataFetcherExceptionResolver {
 
+  private static final Map<Class<?>, Map.Entry<ErrorType, String>> EXCEPTION_MAPPING =
+      Map.of(
+          AccessDeniedException.class, Map.entry(ErrorType.FORBIDDEN, ErrorCodes.ACCESS_DENIED),
+          ExternalSystemException.class,
+              Map.entry(ErrorType.INTERNAL_ERROR, ErrorCodes.EXTERNAL_SYSTEM));
+
   @Override
   public Mono<List<GraphQLError>> resolveException(
       Throwable exception, DataFetchingEnvironment environment) {
-    if (exception instanceof AccessDeniedException) {
-      return handleException(exception, environment, ErrorType.FORBIDDEN, ErrorCodes.ACCESS_DENIED);
-    }
-    if (exception instanceof ExternalSystemException) {
-      return handleException(
-          exception, environment, ErrorType.INTERNAL_ERROR, ErrorCodes.EXTERNAL_SYSTEM);
+    for (var entry : EXCEPTION_MAPPING.entrySet()) {
+      if (entry.getKey().isAssignableFrom(exception.getClass())) {
+        Entry<ErrorType, String> value = entry.getValue();
+        return handleException(exception, environment, value.getKey(), value.getValue());
+      }
     }
     return Mono.empty();
   }

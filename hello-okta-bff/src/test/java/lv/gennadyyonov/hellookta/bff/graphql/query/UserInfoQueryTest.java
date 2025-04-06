@@ -1,13 +1,17 @@
 package lv.gennadyyonov.hellookta.bff.graphql.query;
 
 import lombok.SneakyThrows;
+import lv.gennadyyonov.hellookta.bff.config.CsrfTokenContext;
 import lv.gennadyyonov.hellookta.bff.config.HttpGraphQlTesterFactory;
 import lv.gennadyyonov.hellookta.bff.test.DefaultIntegrationTest;
+import lv.gennadyyonov.hellookta.bff.test.api.TestApiClient;
 import lv.gennadyyonov.hellookta.bff.test.okta.Okta;
 import lv.gennadyyonov.hellookta.bff.test.user.MoonChild;
 import lv.gennadyyonov.hellookta.test.user.UserInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.graphql.execution.ErrorType;
 import org.springframework.http.HttpStatus;
 
@@ -20,6 +24,11 @@ class UserInfoQueryTest {
 
   @Autowired private HttpGraphQlTesterFactory graphQlTesterFactory;
   @Autowired private Okta okta;
+  @Autowired private TestApiClient client;
+  @Autowired private CsrfTokenContext csrfTokenContext;
+
+  @Value("classpath:graphql-test/me.graphql")
+  private Resource me;
 
   @UserInfo("jane.smith@gmail.com")
   @SneakyThrows
@@ -89,5 +98,27 @@ class UserInfoQueryTest {
                   .containsAllEntriesOf(
                       Map.of("code", "HO.ER.EXTERNALSYSTEM", "classification", "INTERNAL_ERROR"));
             });
+  }
+
+  @UserInfo
+  @SneakyThrows
+  @Test
+  void missingCsrfToken() {
+    csrfTokenContext.reset();
+
+    var result = client.executeGraphqlQuery(me);
+
+    result.assertStatusIs(HttpStatus.FORBIDDEN);
+  }
+
+  @UserInfo
+  @SneakyThrows
+  @Test
+  void invalidCsrfToken() {
+    csrfTokenContext.setUp("headerValue", "cookieValue");
+
+    var result = client.executeGraphqlQuery(me);
+
+    result.assertStatusIs(HttpStatus.FORBIDDEN);
   }
 }
