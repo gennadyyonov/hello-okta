@@ -3,20 +3,24 @@ management:
     health:
       showDetails: always
     loggers:
-      enabled: true
+      access: read-only
   endpoints:
-    enabledByDefault: true
+    access:
+      default: read_only
     web:
       exposure:
         include: ${management_endpoints_web_exposure_include:info,health,loggers,metrics,auditevents,httpexchanges,prometheus}
-  metrics:
-    export:
-      prometheus:
+  prometheus:
+    metrics:
+      export:
         enabled: true
+  info:
+    env:
+      enabled: true
 
 info:
   app:
     encoding: UTF-8
     java:
-      source: 15
-      target: 15
+      source: 21
+      target: 21

@@ -2,8 +2,10 @@ package lv.gennadyyonov.hellookta.api.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lv.gennadyyonov.hellookta.api.service.MessageService;
 import lv.gennadyyonov.hellookta.aspects.HasRole;
@@ -16,6 +18,7 @@ import static lv.gennadyyonov.hellookta.api.constants.HelloOktaApiSecurityConsts
 import static lv.gennadyyonov.hellookta.constants.SecurityConstants.ALLOWED_USERS;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@Tag(name = "Message API", description = "Endpoints for user greetings and messages")
 @HasRole(
     alias = ALLOWED_USERS,
     roles = {MESSAGE_READ})
@@ -28,7 +31,12 @@ public class MessageController implements ParameterLogging {
   @Operation(summary = "Say Hello", description = "Returns Greeting for logged in user")
   @ApiResponses(
       value = {
-        @ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "200",
+            content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Message.class))),
         @ApiResponse(responseCode = "4xx", description = "Bad Request", content = @Content),
         @ApiResponse(
             responseCode = "500",

@@ -2,8 +2,10 @@ package lv.gennadyyonov.hellookta.bff.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lv.gennadyyonov.hellookta.aspects.HasRole;
 import lv.gennadyyonov.hellookta.bff.dto.EnvironmentProperties;
@@ -19,6 +21,9 @@ import static lv.gennadyyonov.hellookta.utils.OktaUtils.getClientId;
 import static lv.gennadyyonov.hellookta.utils.OktaUtils.getIssuerUri;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@Tag(
+    name = "Environment Configuration",
+    description = "Endpoints for retrieving environment configurations")
 @PerformanceLogging(REST_API)
 @RequiredArgsConstructor
 @HasRole(alias = PUBLIC_ENDPOINT)
@@ -35,7 +40,12 @@ public class EnvironmentConfigController {
       description = "Returns Environment Configuration")
   @ApiResponses(
       value = {
-        @ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "200",
+            content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = EnvironmentProperties.class))),
         @ApiResponse(responseCode = "4xx", description = "Bad Request", content = @Content),
         @ApiResponse(
             responseCode = "500",

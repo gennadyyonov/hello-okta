@@ -2,8 +2,10 @@ package lv.gennadyyonov.hellookta.bff.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lv.gennadyyonov.hellookta.aspects.HasRole;
 import lv.gennadyyonov.hellookta.bff.dto.CsrfTokenInfo;
@@ -16,6 +18,7 @@ import static lv.gennadyyonov.hellookta.bff.config.Constants.REST_API;
 import static lv.gennadyyonov.hellookta.constants.SecurityConstants.PUBLIC_ENDPOINT;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@Tag(name = "CSRF Configuration", description = "Endpoints related to CSRF protection settings")
 @PerformanceLogging(REST_API)
 @RequiredArgsConstructor
 @HasRole(PUBLIC_ENDPOINT)
@@ -29,7 +32,12 @@ public class CsrfTokenInfoController {
   @Operation(summary = "CSRF Token Info", description = "Returns CSRF Token Info")
   @ApiResponses(
       value = {
-        @ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "200",
+            content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = CsrfTokenInfo.class))),
         @ApiResponse(responseCode = "4xx", description = "Bad Request", content = @Content),
         @ApiResponse(
             responseCode = "500",

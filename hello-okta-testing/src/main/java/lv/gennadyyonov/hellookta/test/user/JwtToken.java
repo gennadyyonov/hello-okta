@@ -2,7 +2,6 @@ package lv.gennadyyonov.hellookta.test.user;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Data;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
@@ -48,20 +47,23 @@ public class JwtToken {
   }
 
   /**
-   * Build a JWT With a Private Key <br>
-   * https://developer.okta.com/docs/guides/build-self-signed-jwt/java/jwt-with-private-key/
+   * <a
+   * href="https://developer.okta.com/docs/guides/build-self-signed-jwt/java/jwt-with-private-key/">Build
+   * a JWT with a private key</a>
    */
   public static String createCompact(String issuer, String username, List<String> groups) {
     PrivateKey privateKey = privateKey();
     Instant now = Instant.now();
     return Jwts.builder()
-        .setIssuedAt(Date.from(now))
-        .setExpiration(Date.from(now.plus(VALID_FOR_MINUTES, MINUTES)))
-        .setSubject(username)
-        .setClaims(claims(issuer, username, groups))
-        .setHeader(headers())
-        .setId(UUID.randomUUID().toString())
-        .signWith(privateKey, SignatureAlgorithm.RS256)
+        .issuedAt(Date.from(now))
+        .expiration(Date.from(now.plus(VALID_FOR_MINUTES, MINUTES)))
+        .subject(username)
+        .claims(claims(issuer, username, groups))
+        .header()
+        .add(headers())
+        .and()
+        .id(UUID.randomUUID().toString())
+        .signWith(privateKey, Jwts.SIG.RS256)
         .compact();
   }
 
@@ -82,16 +84,23 @@ public class JwtToken {
   }
 
   /**
-   * Creates Private key
-   * (https://developer.okta.com/docs/guides/implement-oauth-for-okta-serviceapp/create-publicprivate-keypair/)
-   * <br>
-   * Public/Private key pair file ("keys/rs256/keypair.json") file has been created using
-   * https://mkjwk.org/ <br>
-   * https://tools.ietf.org/html/rfc7517 (RSA Private Key Representations and Blinding)
-   * https://docs.oracle.com/javase/8/docs/api/java/security/spec/RSAPrivateKeySpec.html 2
-   * https://docs.oracle.com/javase/8/docs/api/java/math/BigInteger.html
-   * https://docs.oracle.com/javase/8/docs/api/java/util/Base64.html
-   * https://docs.oracle.com/javase/8/docs/api/java/security/KeyFactory.html
+   * <a
+   * href="https://developer.okta.com/docs/guides/implement-oauth-for-okta-serviceapp/main/">Implement
+   * OAuth for Okta with a service app</a> <br>
+   * Public/Private key pair file ("keys/rs256/keypair.json") file has been created using <a
+   * href="https://mkjwk.org/">simple JSON Web Key generator</a> <u>References</u>
+   *
+   * <ul>
+   *   <li><a href="https://tools.ietf.org/html/rfc7517">JSON Web Key (JWK)</a> (RSA Private Key
+   *       Representations and Blinding)
+   *   <li><a
+   *       href="https://docs.oracle.com/javase/8/docs/api/java/security/spec/RSAPrivateKeySpec.html">RSAPrivateKeySpec</a>
+   *   <li><a
+   *       href="https://docs.oracle.com/javase/8/docs/api/java/math/BigInteger.html">BigInteger</a>
+   *   <li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Base64.html">Base64</a>
+   *   <li><a
+   *       href="https://docs.oracle.com/javase/8/docs/api/java/security/KeyFactory.html">KeyFactory</a>
+   * </ul>
    */
   @SneakyThrows
   private static PrivateKey privateKey() {

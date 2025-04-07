@@ -54,11 +54,11 @@ public class ProxyConfig {
   private <T> ResponseEntity<T> proxyRequest(
       ProxyExchange<T> exchange, HttpServletRequest request) {
     setHeaders(request, exchange);
-    ProxyExchange<T> targetExchange = exchange.sensitive().uri(getUri(exchange));
+    ProxyExchange<T> targetExchange = exchange.excluded().uri(getUri(exchange));
     ResponseEntity<T> entity =
         ofNullable(RequestMethod.resolve(request.getMethod()))
             .map(method -> execute(targetExchange, method))
-            .orElseThrow(() -> new IllegalArgumentException("HTTP methd MUST NOT be null!"));
+            .orElseThrow(() -> new IllegalArgumentException("HTTP method MUST NOT be null!"));
     return new ResponseEntity<>(entity.getBody(), entity.getStatusCode());
   }
 
@@ -69,7 +69,7 @@ public class ProxyConfig {
       case OPTIONS -> exchange.options();
       case POST -> exchange.post();
       case PUT -> exchange.put();
-      case PATCH -> exchange.put();
+      case PATCH -> exchange.patch();
       case DELETE -> exchange.delete();
       default -> throw new IllegalArgumentException("HTTP method not supported : " + method + "!");
     };
