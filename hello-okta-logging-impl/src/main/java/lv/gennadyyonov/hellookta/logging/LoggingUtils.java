@@ -2,7 +2,7 @@ package lv.gennadyyonov.hellookta.logging;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -36,14 +36,13 @@ public class LoggingUtils {
   public static final String PERFORMANCE_MARKER = "Performance Measurements";
   public static final String DEFAULT = "DEFAULT";
 
-  private static ThreadLocal<ObjectMapper> objectMapper =
+  private static final ThreadLocal<JsonMapper> objectMapper =
       ThreadLocal.withInitial(
-          () -> {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.deactivateDefaultTyping();
-            mapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
-            return mapper;
-          });
+          () ->
+              JsonMapper.builder()
+                  .deactivateDefaultTyping()
+                  .disable(MapperFeature.DEFAULT_VIEW_INCLUSION)
+                  .build());
 
   public static Map<String, Object> getLoggableArgs(JoinPoint joinPoint) {
     Map<String, Object> loggableArgs = new LinkedHashMap<>();
@@ -52,8 +51,7 @@ public class LoggingUtils {
       return loggableArgs;
     }
     Signature signature = joinPoint.getStaticPart().getSignature();
-    if (signature instanceof MethodSignature) {
-      MethodSignature methodSignature = (MethodSignature) signature;
+    if (signature instanceof MethodSignature methodSignature) {
       Method method = methodSignature.getMethod();
       Annotation[][] parameterAnnotations = method.getParameterAnnotations();
       Parameter[] parameters = method.getParameters();
@@ -88,8 +86,7 @@ public class LoggingUtils {
 
   public static String composeResult(JoinPoint joinPoint, Object result) {
     Signature signature = joinPoint.getStaticPart().getSignature();
-    if (signature instanceof MethodSignature) {
-      MethodSignature methodSignature = (MethodSignature) signature;
+    if (signature instanceof MethodSignature methodSignature) {
       if (isAnnotated(methodSignature.getMethod(), LoggingExclusion.class)) {
         return LOGGING_EXCLUSION_ARG;
       }

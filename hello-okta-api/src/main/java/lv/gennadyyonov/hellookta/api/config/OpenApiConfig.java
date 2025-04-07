@@ -1,6 +1,5 @@
 package lv.gennadyyonov.hellookta.api.config;
 
-import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.OAuthFlow;
@@ -41,9 +40,10 @@ public class OpenApiConfig {
 
   private OpenApiCustomizer securityCustomizer(OAuth2ClientProperties oktaOAuth2Properties) {
     return openApi -> {
-      String issuer = getIssuerUri(oktaOAuth2Properties);
+      var issuer = getIssuerUri(oktaOAuth2Properties);
+      var components = openApi.getComponents();
       openApi
-          .components(new Components().addSecuritySchemes(SPRING_OAUTH, oauth2Flow(issuer)))
+          .components(components.addSecuritySchemes(SPRING_OAUTH, oauth2Flow(issuer)))
           .security(singletonList(new SecurityRequirement().addList(SPRING_OAUTH)));
     };
   }
