@@ -6,7 +6,7 @@
   "packageRules": [
     {
       "matchPackageNames": ["com.google.guava:guava"],
-      "allowedVersions": ".*-jre"
+      "ignorePatterns": ["*-android"]
     }
   ]
 }
