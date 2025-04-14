@@ -33,7 +33,7 @@ java {
 
 configurations.configureEach {
     resolutionStrategy {
-        force 'com.google.guava:guava:33.4.7-jre'
+        force 'com.google.guava:guava:33.4.8-jre'
     }
 }
 
