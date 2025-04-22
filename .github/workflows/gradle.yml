@@ -36,8 +36,22 @@ jobs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@06832c7b30a0129d7fb559bcc6e43d26f6374244 # v4.3.1
 
-    - name: Build with Gradle Wrapper
-      run: ./gradlew clean build
+    - name: Build and test with coverage
+      run: ./gradlew clean build jacocoTestReport
+
+    - name: Upload coverage for hello-okta-bff
+      uses: codecov/codecov-action@v4
+      with:
+        files: hello-okta-bff/build/reports/jacoco/test/jacocoTestReport.xml
+        flags: bff
+        fail_ci_if_error: true
+
+    - name: Upload coverage for hello-okta-api
+      uses: codecov/codecov-action@v4
+      with:
+        files: hello-okta-api/build/reports/jacoco/test/jacocoTestReport.xml
+        flags: api
+        fail_ci_if_error: true
 
   dependency-submission:
 
