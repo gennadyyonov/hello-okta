@@ -40,14 +40,14 @@ jobs:
       run: ./gradlew clean build jacocoTestReport
 
     - name: Upload coverage for hello-okta-bff
-      uses: codecov/codecov-action@v4
+      uses: codecov/codecov-action@v5
       with:
         files: hello-okta-bff/build/reports/jacoco/test/jacocoTestReport.xml
         flags: bff
         fail_ci_if_error: true
 
     - name: Upload coverage for hello-okta-api
-      uses: codecov/codecov-action@v4
+      uses: codecov/codecov-action@v5
       with:
         files: hello-okta-api/build/reports/jacoco/test/jacocoTestReport.xml
         flags: api
