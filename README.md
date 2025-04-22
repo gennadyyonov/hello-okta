@@ -1,5 +1,7 @@
 # Spring Security OAuth2 Demo Applications for Okta
 
+[![Java CI with Gradle](https://github.com/gennadyyonov/hello-okta/actions/workflows/gradle.yml/badge.svg)](https://github.com/gennadyyonov/hello-okta/actions/workflows/gradle.yml)
+
 This repository contains demo applications that demonstrates how to integrate the following OAuth 2.0 flows into your [Spring Boot](https://projects.spring.io/spring-boot/) Application:
 
 - [Authorization Code](https://developer.okta.com/docs/guides/implement-auth-code/overview/) Flow
