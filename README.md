@@ -2,8 +2,6 @@
 
 [![Java CI with Gradle](https://github.com/gennadyyonov/hello-okta/actions/workflows/gradle.yml/badge.svg)](https://github.com/gennadyyonov/hello-okta/actions/workflows/gradle.yml)
 [![codecov](https://codecov.io/gh/gennadyyonov/hello-okta/graph/badge.svg)](https://codecov.io/gh/gennadyyonov/hello-okta)
-[![codecov-bff](https://codecov.io/gh/gennadyyonov/hello-okta/graph/badge.svg?flag=bff)](https://codecov.io/gh/gennadyyonov/hello-okta?flag=bff)
-[![codecov-api](https://codecov.io/gh/gennadyyonov/hello-okta/graph/badge.svg?flag=api)](https://codecov.io/gh/gennadyyonov/hello-okta?flag=api)
 
 This repository contains demo applications that demonstrates how to integrate the following OAuth 2.0 flows into your [Spring Boot](https://projects.spring.io/spring-boot/) Application:
 
