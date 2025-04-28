@@ -58,7 +58,7 @@ subprojects {
     }
 
     checkstyle {
-        toolVersion = '10.23.0'
+        toolVersion = '10.23.1'
         configProperties.put('org.checkstyle.google.suppressionfilter.config', rootProject.file("config/checkstyle/checkstyle-suppressions.xml"))
         maxWarnings = 0
     }
