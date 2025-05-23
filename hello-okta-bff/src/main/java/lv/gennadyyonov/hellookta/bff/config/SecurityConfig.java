@@ -28,7 +28,6 @@ import static org.apache.commons.lang3.BooleanUtils.toBoolean;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.OPTIONS;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
-import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -59,13 +58,13 @@ public class SecurityConfig {
             auth ->
                 auth
                     // Allow CORS option calls
-                    .requestMatchers(antMatcher(OPTIONS, ALL_URL_PATTERN))
+                    .requestMatchers(OPTIONS, ALL_URL_PATTERN)
                     .permitAll()
-                    .requestMatchers(antMatcher(GET, ENVIRONMENT_CONFIG_PATH))
+                    .requestMatchers(GET, ENVIRONMENT_CONFIG_PATH)
                     .permitAll()
-                    .requestMatchers(antMatcher(GET, CSRF_TOKEN_INFO_PATH))
+                    .requestMatchers(GET, CSRF_TOKEN_INFO_PATH)
                     .permitAll()
-                    .requestMatchers(antMatcher(GET, TRANSLATION_MAP_PATH))
+                    .requestMatchers(GET, TRANSLATION_MAP_PATH)
                     .permitAll()
                     .anyRequest()
                     .authenticated())

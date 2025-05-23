@@ -11,7 +11,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
@@ -57,7 +57,8 @@ public class SecurityConfig {
     List<RequestMatcher> requestMatchers = new ArrayList<>();
     requestMatchers.add(EndpointRequest.toAnyEndpoint());
     if (TRUE.equals(proxyProperties.getEnabled())) {
-      requestMatchers.add(new AntPathRequestMatcher(proxyProperties.getPath() + "/**"));
+      requestMatchers.add(
+          PathPatternRequestMatcher.withDefaults().matcher(proxyProperties.getPath() + "/**"));
     }
     return requestMatchers;
   }
