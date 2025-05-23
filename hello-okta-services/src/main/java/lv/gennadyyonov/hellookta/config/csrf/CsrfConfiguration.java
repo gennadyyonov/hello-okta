@@ -8,6 +8,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
@@ -16,8 +17,8 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.security.web.util.matcher.AndRequestMatcher;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -26,6 +27,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static lv.gennadyyonov.hellookta.utils.StreamUtils.getNullableFlatStream;
 
@@ -80,10 +82,17 @@ public class CsrfConfiguration {
         new NegatedRequestMatcher(new OrRequestMatcher(ignores)));
   }
 
+  @SuppressWarnings("OptionalOfNullableMisuse")
   private List<RequestMatcher> getIgnoresCsrfProtectionMatchers() {
     List<RequestMatcher> ignores =
         getNullableFlatStream(csrfProperties.getIgnoredEndpoints())
-            .map(endpoint -> new AntPathRequestMatcher(endpoint.getPattern(), endpoint.getMethod()))
+            .map(
+                endpoint -> {
+                  var method =
+                      ofNullable(endpoint.getMethod()).map(HttpMethod::valueOf).orElse(null);
+                  return PathPatternRequestMatcher.withDefaults()
+                      .matcher(method, endpoint.getPattern());
+                })
             .collect(toList());
     ignores.add(technicalEndpointService::isWhitelistedUrl);
     return ignores;

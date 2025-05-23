@@ -4,13 +4,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lv.gennadyyonov.hellookta.config.TechnicalEndpointProperties;
-import lv.gennadyyonov.hellookta.web.util.DelegatingAntPathRequestMatcher;
+import lv.gennadyyonov.hellookta.web.util.DelegatingPatternRequestMatcher;
 import lv.gennadyyonov.hellookta.web.util.PatternRequestMatcher;
 import lv.gennadyyonov.hellookta.web.util.RefererHeaderRequestMatcher;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import java.util.Collection;
@@ -68,10 +68,7 @@ public class TechnicalEndpointService {
                 props, TechnicalEndpointProperties.Endpoint::getAllowedEndpoints)
             .collect(toSet());
     Collection<PatternRequestMatcher> allMatchers =
-        endpoints.stream()
-            .map(AntPathRequestMatcher::new)
-            .map(DelegatingAntPathRequestMatcher::new)
-            .collect(toSet());
+        endpoints.stream().map(DelegatingPatternRequestMatcher::new).collect(toSet());
     getNullableFlatStream(props.getReferrerHeaderNames())
         .forEach(
             headerName ->
@@ -111,8 +108,8 @@ public class TechnicalEndpointService {
     if (!allowedPatterns.isEmpty()) {
       RequestMatcher[] matchers =
           allowedPatterns.stream()
-              .map(AntPathRequestMatcher::antMatcher)
-              .toArray(AntPathRequestMatcher[]::new);
+              .map(pattern -> PathPatternRequestMatcher.withDefaults().matcher(pattern))
+              .toArray(PathPatternRequestMatcher[]::new);
       http.authorizeHttpRequests(auth -> auth.requestMatchers(matchers).permitAll());
     }
   }
