@@ -9,6 +9,13 @@ plugins {
 allprojects {
     repositories {
         mavenCentral()
+        maven {
+            name = 'Spring Milestones'
+            url = 'https://repo.spring.io/milestone'
+            mavenContent {
+                releasesOnly()
+            }
+        }
     }
 
     ext {
@@ -19,8 +26,8 @@ allprojects {
         set('micrometerTracingVersion', 'latest.release')
         set('nimbusdsVersion', '10.3')
         set('openApiVersion', '2.8.8')
-        set('springBootVersion', '3.4.6')
-        set('springCloudVersion', '2024.0.1')
+        set('springBootVersion', '3.5.0')
+        set('springCloudVersion', '2025.0.0')
         set('springDependencyManagementVersion', '1.1.7')
         set('wirmockVersion', '3.13.0')
     }
