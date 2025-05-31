@@ -14,7 +14,7 @@ dependencies {
     compileOnly 'org.springframework.boot:spring-boot-autoconfigure'
     compileOnly 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.cloud:spring-cloud-gateway-mvc'
+    implementation 'org.springframework.cloud:spring-cloud-gateway-proxyexchange-webmvc'
     implementation 'io.micrometer:micrometer-registry-prometheus'
 }
 
