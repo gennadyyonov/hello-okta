@@ -29,7 +29,7 @@ allprojects {
         set('springBootVersion', '3.5.0')
         set('springCloudVersion', '2025.0.0')
         set('springDependencyManagementVersion', '1.1.7')
-        set('wirmockVersion', '3.13.0')
+        set('wirmockVersion', '3.13.1')
     }
 }
 
