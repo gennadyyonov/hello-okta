@@ -24,7 +24,7 @@ allprojects {
         set('commonsCompressVersion', '1.26.0')
         set('jsonwebtokenVersion', '0.12.6')
         set('micrometerTracingVersion', 'latest.release')
-        set('nimbusdsVersion', '10.4')
+        set('nimbusdsVersion', '10.4.1')
         set('openApiVersion', '2.8.9')
         set('springBootVersion', '3.5.4')
         set('springCloudVersion', '2025.0.0')
