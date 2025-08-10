@@ -48,6 +48,8 @@ configurations.configureEach {
         force 'com.google.guava:guava:33.4.8-jre'
         // CVE-2025-48734
         force "commons-beanutils:commons-beanutils:1.11.0"
+        // CVE-2025-48924
+        force "org.apache.commons:commons-lang3:3.18.0"
     }
 }
 
