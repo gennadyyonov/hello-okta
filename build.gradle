@@ -22,6 +22,7 @@ allprojects {
         set('apacheHttpClientVersion', '4.5.14')
         set('commonsIoVersion', '2.14.0')
         set('commonsCompressVersion', '1.26.0')
+        set('commonsFileuploadVersion', '1.6.0')
         set('jsonwebtokenVersion', '0.12.6')
         set('micrometerTracingVersion', 'latest.release')
         set('nimbusdsVersion', '10.4.1')
@@ -30,6 +31,10 @@ allprojects {
         set('springCloudVersion', '2025.0.0')
         set('springDependencyManagementVersion', '1.1.7')
         set('wirmockVersion', '3.13.1')
+
+        // Override Spring Boot managed versions
+        // CVE-2025-48924
+        set('commons-lang3.version', '3.18.0')
     }
 }
 
@@ -41,6 +46,8 @@ java {
 configurations.configureEach {
     resolutionStrategy {
         force 'com.google.guava:guava:33.4.8-jre'
+        // CVE-2025-48734
+        force "commons-beanutils:commons-beanutils:1.11.0"
     }
 }
 

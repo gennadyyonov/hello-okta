@@ -45,6 +45,13 @@ dependencies {
         }
     }
 
+    implementation ('commons-fileupload:commons-fileupload') {
+        because 'CVE-2025-48976 fix'
+        version {
+            strictly commonsFileuploadVersion
+        }
+    }
+
     implementation 'io.micrometer:micrometer-tracing'
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'
 

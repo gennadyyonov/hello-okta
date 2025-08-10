@@ -46,6 +46,13 @@ dependencies {
         }
     }
 
+    implementation ('commons-fileupload:commons-fileupload') {
+        because 'CVE-2025-48976 fix'
+        version {
+            strictly commonsFileuploadVersion
+        }
+    }
+
     implementation('commons-io:commons-io') {
         because 'CVE-2024-47554 fix'
         version {
