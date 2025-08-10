@@ -31,7 +31,7 @@ dependencies {
     implementation 'io.github.openfeign:feign-jackson'
     implementation 'io.github.openfeign:feign-httpclient'
     implementation 'io.github.openfeign:feign-form-spring'
-    implementation "org.apache.httpcomponents:httpclient:${apacheHttpClientVersion}"
+    implementation "org.apache.httpcomponents:httpclient:$apacheHttpClientVersion"
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
@@ -49,6 +49,13 @@ dependencies {
         because 'CVE-2024-47554 fix'
         version {
             strictly commonsIoVersion
+        }
+    }
+
+    implementation ('commons-fileupload:commons-fileupload') {
+        because 'CVE-2025-48976 fix'
+        version {
+            strictly commonsFileuploadVersion
         }
     }
 
