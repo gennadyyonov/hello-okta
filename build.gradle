@@ -23,7 +23,7 @@ allprojects {
         set('commonsIoVersion', '2.14.0')
         set('commonsCompressVersion', '1.26.0')
         set('commonsFileuploadVersion', '1.6.0')
-        set('jsonwebtokenVersion', '0.12.6')
+        set('jsonwebtokenVersion', '0.12.7')
         set('micrometerTracingVersion', 'latest.release')
         set('nimbusdsVersion', '10.4.1')
         set('openApiVersion', '2.8.9')
