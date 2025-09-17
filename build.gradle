@@ -45,7 +45,7 @@ java {
 
 configurations.configureEach {
     resolutionStrategy {
-        force 'com.google.guava:guava:33.4.8-jre'
+        force 'com.google.guava:guava:33.5.0-jre'
         // CVE-2025-48734
         force "commons-beanutils:commons-beanutils:1.11.0"
         // CVE-2025-48924
