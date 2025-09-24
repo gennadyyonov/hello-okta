@@ -49,7 +49,7 @@ configurations.configureEach {
         // CVE-2025-48734
         force "commons-beanutils:commons-beanutils:1.11.0"
         // CVE-2025-48924
-        force "org.apache.commons:commons-lang3:3.18.0"
+        force "org.apache.commons:commons-lang3:3.19.0"
     }
 }
 
