@@ -1,9 +1,9 @@
-FROM eclipse-temurin:25-jdk-alpine AS build
+FROM eclipse-temurin:25.0.1_8-jdk-alpine AS build
 WORKDIR /workspace/app
 COPY . /workspace/app
 RUN mkdir -p build/dependency && (cd build/dependency; jar -xf ../libs/app.jar)
 
-FROM eclipse-temurin:25-jre-alpine
+FROM eclipse-temurin:25.0.1_8-jre-alpine
 VOLUME /tmp
 RUN addgroup -S hellookta && adduser -S hellookta -G hellookta
 USER hellookta:hellookta
