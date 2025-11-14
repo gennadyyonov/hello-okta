@@ -30,7 +30,7 @@ allprojects {
         set('springBootVersion', '3.5.7')
         set('springCloudVersion', '2025.0.0')
         set('springDependencyManagementVersion', '1.1.7')
-        set('wirmockVersion', '3.13.1')
+        set('wirmockVersion', '3.13.2')
 
         // Override Spring Boot managed versions
         // CVE-2025-48924
