@@ -1,27 +1,29 @@
 package lv.gennadyyonov.hellookta.test;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
 import static org.springframework.util.StreamUtils.copyToString;
+import static tools.jackson.databind.DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES;
+import static tools.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 
 @UtilityClass
 public class JsonTestUtils {
 
   private static final ThreadLocal<ObjectMapper> OBJECT_MAPPER =
       ThreadLocal.withInitial(
-          () -> {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.deactivateDefaultTyping();
-            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            return mapper;
-          });
+          () ->
+              JsonMapper.builder()
+                  .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
+                  .configure(FAIL_ON_NULL_FOR_PRIMITIVES, false)
+                  .deactivateDefaultTyping()
+                  .build());
 
   @SneakyThrows
   public static <T> T deserialize(InputStream inputStream, TypeReference<T> typeReference) {

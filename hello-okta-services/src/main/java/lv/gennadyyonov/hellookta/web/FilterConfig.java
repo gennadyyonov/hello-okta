@@ -8,7 +8,7 @@ import lv.gennadyyonov.hellookta.services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.boot.security.autoconfigure.web.servlet.SecurityFilterProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,16 +25,16 @@ public class FilterConfig {
   private static final int MAX_PAYLOAD_LENGTH = 10000;
 
   private final FilterOrderProperties filterOrderProperties;
-  private final SecurityProperties securityProperties;
+  private final SecurityFilterProperties securityFilterProperties;
   private final AuthenticationService authenticationService;
 
   @Autowired
   public FilterConfig(
       FilterOrderProperties filterOrderProperties,
-      SecurityProperties securityProperties,
+      SecurityFilterProperties securityFilterProperties,
       AuthenticationService authenticationService) {
     this.filterOrderProperties = filterOrderProperties;
-    this.securityProperties = securityProperties;
+    this.securityFilterProperties = securityFilterProperties;
     this.authenticationService = authenticationService;
   }
 
@@ -96,7 +96,7 @@ public class FilterConfig {
   }
 
   private int getFilterOrder(int order) {
-    int securityFilterChainOrder = securityProperties.getFilter().getOrder();
+    int securityFilterChainOrder = securityFilterProperties.getOrder();
     return securityFilterChainOrder + order;
   }
 }

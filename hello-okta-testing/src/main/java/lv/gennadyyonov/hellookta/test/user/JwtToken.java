@@ -1,6 +1,5 @@
 package lv.gennadyyonov.hellookta.test.user;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import io.jsonwebtoken.Jwts;
 import lombok.Data;
 import lombok.SneakyThrows;
@@ -8,6 +7,7 @@ import lombok.experimental.UtilityClass;
 import lv.gennadyyonov.hellookta.test.JsonTestUtils;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtClaimNames;
+import tools.jackson.core.type.TypeReference;
 
 import java.math.BigInteger;
 import java.security.KeyFactory;

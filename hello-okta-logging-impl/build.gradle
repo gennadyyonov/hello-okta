@@ -12,8 +12,8 @@ dependencies {
     compileOnly 'jakarta.servlet:jakarta.servlet-api'
 
     implementation 'org.apache.commons:commons-lang3'
-    implementation 'com.fasterxml.jackson.core:jackson-core'
-    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'tools.jackson.core:jackson-core'
+    implementation 'tools.jackson.core:jackson-databind'
     implementation 'org.slf4j:slf4j-api'
     implementation 'org.aspectj:aspectjweaver'
     implementation 'org.springframework:spring-core'

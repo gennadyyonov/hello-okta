@@ -7,14 +7,17 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation 'org.springframework.boot:spring-boot-starter-security-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-security-oauth2-resource-server'
     implementation "com.nimbusds:nimbus-jose-jwt:$nimbusdsVersion"
-    implementation 'org.springframework.security:spring-security-test'
     implementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-    implementation 'com.fasterxml.jackson.core:jackson-core'
-    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-security-test'
+    implementation 'org.springframework.security:spring-security-test'
+    implementation 'tools.jackson.core:jackson-core'
+    implementation 'tools.jackson.core:jackson-databind'
     implementation "org.wiremock:wiremock-standalone:$wirmockVersion"
     implementation "io.jsonwebtoken:jjwt-api:$jsonwebtokenVersion"
     implementation "io.jsonwebtoken:jjwt-gson:$jsonwebtokenVersion"

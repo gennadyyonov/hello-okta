@@ -1,9 +1,9 @@
 package lv.gennadyyonov.hellookta.test.user;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
+import org.springframework.boot.resttestclient.TestRestTemplate;
+import org.springframework.boot.security.oauth2.client.autoconfigure.OAuth2ClientProperties;
 import org.springframework.boot.test.context.TestComponent;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.RestTemplate;
 

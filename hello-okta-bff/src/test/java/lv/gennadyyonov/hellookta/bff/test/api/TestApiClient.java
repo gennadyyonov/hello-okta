@@ -1,6 +1,5 @@
 package lv.gennadyyonov.hellookta.bff.test.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -10,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import tools.jackson.databind.ObjectMapper;
 
 import java.util.Map;
 import java.util.stream.Collectors;

@@ -1,13 +1,12 @@
 package lv.gennadyyonov.hellookta.logging;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.MethodSignature;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -20,6 +19,8 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.IntStream.range;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 import static org.springframework.core.annotation.AnnotatedElementUtils.isAnnotated;
+import static tools.jackson.databind.MapperFeature.DEFAULT_VIEW_INCLUSION;
+import static tools.jackson.databind.json.JsonMapper.builder;
 
 @Slf4j
 @UtilityClass
@@ -38,11 +39,7 @@ public class LoggingUtils {
 
   private static final ThreadLocal<JsonMapper> objectMapper =
       ThreadLocal.withInitial(
-          () ->
-              JsonMapper.builder()
-                  .deactivateDefaultTyping()
-                  .disable(MapperFeature.DEFAULT_VIEW_INCLUSION)
-                  .build());
+          () -> builder().deactivateDefaultTyping().disable(DEFAULT_VIEW_INCLUSION).build());
 
   public static Map<String, Object> getLoggableArgs(JoinPoint joinPoint) {
     Map<String, Object> loggableArgs = new LinkedHashMap<>();
@@ -99,7 +96,7 @@ public class LoggingUtils {
       return (value == null)
           ? NULL
           : objectMapper.get().writerWithView(View.LoggingView.class).writeValueAsString(value);
-    } catch (JsonProcessingException ex) {
+    } catch (JacksonException ex) {
       log.warn(LOGGING_EXCEPTION, ex);
       return LOGGING_EXCEPTION;
     }
