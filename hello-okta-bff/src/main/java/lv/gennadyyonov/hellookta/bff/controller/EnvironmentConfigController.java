@@ -11,7 +11,7 @@ import lv.gennadyyonov.hellookta.aspects.HasRole;
 import lv.gennadyyonov.hellookta.bff.dto.EnvironmentProperties;
 import lv.gennadyyonov.hellookta.config.csrf.CsrfProperties;
 import lv.gennadyyonov.hellookta.logging.PerformanceLogging;
-import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
+import org.springframework.boot.security.oauth2.client.autoconfigure.OAuth2ClientProperties;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

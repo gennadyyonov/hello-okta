@@ -50,7 +50,11 @@ class UserInfoQueryTest {
     var roles = response.getRoles();
     assertThat(roles)
         .containsExactlyInAnyOrder(
-            "HelloOkta_StandardUser", "SCOPE_openid", "SCOPE_email", "SCOPE_profile");
+            "HelloOkta_StandardUser",
+            "SCOPE_openid",
+            "SCOPE_email",
+            "FACTOR_BEARER",
+            "SCOPE_profile");
   }
 
   @MoonChild

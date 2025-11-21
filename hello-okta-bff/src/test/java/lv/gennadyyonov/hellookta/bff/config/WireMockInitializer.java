@@ -6,6 +6,7 @@ import com.github.tomakehurst.wiremock.common.FileSource;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer;
 import com.github.tomakehurst.wiremock.extension.responsetemplating.TemplateEngine;
+import lombok.extern.slf4j.Slf4j;
 import lv.gennadyyonov.hellookta.bff.test.chucknorris.ChuckNorris;
 import lv.gennadyyonov.hellookta.bff.test.hellooktaapi.HelloOktaApi;
 import lv.gennadyyonov.hellookta.bff.test.okta.Okta;
@@ -16,6 +17,7 @@ import org.springframework.context.event.ContextClosedEvent;
 
 import java.util.List;
 
+@Slf4j
 public class WireMockInitializer
     implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
@@ -49,6 +51,7 @@ public class WireMockInitializer
     WireMockServer server = new WireMockServer(wireMockConfiguration);
     server.start();
     context.getBeanFactory().registerSingleton(name, server);
+    log.info("{} WireMock Server started on port {}.", name, server.port());
     return server;
   }
 

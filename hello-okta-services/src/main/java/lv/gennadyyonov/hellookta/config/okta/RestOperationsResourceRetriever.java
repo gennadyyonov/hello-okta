@@ -31,7 +31,7 @@ class RestOperationsResourceRetriever implements ResourceRetriever {
     HttpHeaders headers = new HttpHeaders();
     headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON, APPLICATION_JWK_SET_JSON));
     ResponseEntity<String> response = getResponse(url, headers);
-    if (response.getStatusCodeValue() != 200) {
+    if (response.getStatusCode().value() != 200) {
       throw new IOException(response.toString());
     }
     return new Resource(response.getBody(), "UTF-8");

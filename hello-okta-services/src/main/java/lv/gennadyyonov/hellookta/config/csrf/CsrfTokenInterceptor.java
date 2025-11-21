@@ -4,10 +4,9 @@ import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpCookie;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
-
-import java.net.HttpCookie;
 
 import static lv.gennadyyonov.hellookta.utils.RequestUtils.getHttpServletRequest;
 import static org.springframework.http.HttpHeaders.COOKIE;

@@ -26,9 +26,9 @@ allprojects {
         set('jsonwebtokenVersion', '0.13.0')
         set('micrometerTracingVersion', 'latest.release')
         set('nimbusdsVersion', '10.6')
-        set('openApiVersion', '2.8.14')
-        set('springBootVersion', '3.5.8')
-        set('springCloudVersion', '2025.0.0')
+        set('openApiVersion', '3.0.0')
+        set('springBootVersion', '4.0.0')
+        set('springCloudVersion', '2025.1.0-RC1')
         set('springDependencyManagementVersion', '1.1.7')
         set('wirmockVersion', '3.13.2')
 

@@ -19,9 +19,12 @@ dependencies {
 
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:$openApiVersion"
 
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-jackson'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-security-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-security-oauth2-resource-server'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
     implementation "com.nimbusds:nimbus-jose-jwt:$nimbusdsVersion"
 
     implementation 'io.micrometer:micrometer-tracing'
@@ -60,10 +63,13 @@ dependencies {
     }
 
     testImplementation project(':hello-okta-testing')
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
-    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-jackson-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-security-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-security-oauth2-client-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-security-oauth2-resource-server-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-validation-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
     testImplementation "org.wiremock:wiremock-standalone:$wirmockVersion"
     testCompileOnly "org.projectlombok:lombok"
     testAnnotationProcessor "org.projectlombok:lombok"

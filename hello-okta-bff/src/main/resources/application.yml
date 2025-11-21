@@ -11,9 +11,10 @@ feign:
     enabled: true
 
 spring:
-  main.allow-bean-definition-overriding: true
   application:
     name: hello-okta-bff
+  main:
+    allow-bean-definition-overriding: true
   security:
     oauth2:
       client:

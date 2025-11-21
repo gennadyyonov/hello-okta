@@ -1,12 +1,12 @@
 package lv.gennadyyonov.hellookta.bff.test.api;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lv.gennadyyonov.hellookta.test.JsonTestUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
+import tools.jackson.core.type.TypeReference;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;

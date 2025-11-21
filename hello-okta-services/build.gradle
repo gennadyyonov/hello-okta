@@ -25,6 +25,8 @@ dependencies {
     implementation 'org.springframework.security:spring-security-oauth2-resource-server'
     implementation "com.nimbusds:nimbus-jose-jwt:$nimbusdsVersion"
     implementation 'org.springframework.boot:spring-boot-autoconfigure'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-security-oauth2-client'
     implementation 'com.fasterxml.jackson.core:jackson-annotations'
     implementation 'org.slf4j:slf4j-api'
     implementation 'org.aspectj:aspectjweaver'

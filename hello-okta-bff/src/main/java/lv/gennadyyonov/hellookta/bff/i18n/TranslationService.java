@@ -1,7 +1,7 @@
 package lv.gennadyyonov.hellookta.bff.i18n;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.stereotype.Service;
+import tools.jackson.core.type.TypeReference;
 
 import java.util.List;
 import java.util.Map;
@@ -30,8 +30,7 @@ public class TranslationService {
   }
 
   private List<TranslationMapEntry> entries(String name) {
-    //noinspection unchecked
-    Map<String, String> mapping = resourceToObject(name, new TypeReference<Map>() {});
+    Map<String, String> mapping = resourceToObject(name, new TypeReference<>() {});
     return mapping.entrySet().stream()
         .map(
             entry ->
