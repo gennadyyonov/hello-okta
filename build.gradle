@@ -27,7 +27,7 @@ allprojects {
         set('micrometerTracingVersion', 'latest.release')
         set('nimbusdsVersion', '10.6')
         set('openApiVersion', '3.0.0')
-        set('springBootVersion', '4.0.0')
+        set('springBootVersion', '4.0.1')
         set('springCloudVersion', '2025.1.0')
         set('springDependencyManagementVersion', '1.1.7')
         set('wirmockVersion', '3.13.2')
