@@ -25,7 +25,7 @@ allprojects {
         set('commonsFileuploadVersion', '1.6.0')
         set('jsonwebtokenVersion', '0.13.0')
         set('micrometerTracingVersion', 'latest.release')
-        set('nimbusdsVersion', '10.7')
+        set('nimbusdsVersion', '10.8')
         set('openApiVersion', '3.0.1')
         set('springBootVersion', '4.0.2')
         set('springCloudVersion', '2025.1.1')
