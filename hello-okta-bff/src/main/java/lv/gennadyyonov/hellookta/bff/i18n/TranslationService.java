@@ -32,9 +32,8 @@ public class TranslationService {
   private List<TranslationMapEntry> entries(String name) {
     Map<String, String> mapping = resourceToObject(name, new TypeReference<>() {});
     return mapping.entrySet().stream()
-        .map(
-            entry ->
-                TranslationMapEntry.builder().key(entry.getKey()).value(entry.getValue()).build())
+        .map(entry ->
+            TranslationMapEntry.builder().key(entry.getKey()).value(entry.getValue()).build())
         .collect(toList());
   }
 }

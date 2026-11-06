@@ -103,14 +103,11 @@ public class AuthenticationService {
     InMemoryUserDetailsManagerConfigurer<AuthenticationManagerBuilder> configurer =
         auth.inMemoryAuthentication();
     getNullableFlatStream(users)
-        .forEach(
-            user ->
-                configurer
-                    .withUser(user.getName())
-                    .password(user.getPassword())
-                    .roles(
-                        ofNullable(user.getRoles())
-                            .orElseGet(ArrayList::new)
-                            .toArray(new String[0])));
+        .forEach(user ->
+            configurer
+                .withUser(user.getName())
+                .password(user.getPassword())
+                .roles(
+                    ofNullable(user.getRoles()).orElseGet(ArrayList::new).toArray(new String[0])));
   }
 }

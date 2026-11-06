@@ -32,16 +32,14 @@ public class GraphqlHttpHeadersCustomizer implements Consumer<HttpHeaders> {
   public void accept(HttpHeaders headers) {
     AtomicReference<TokenInfo> tokenInfoRef = tokenInfoContext.getTokenInfoRef();
     ofNullable(tokenInfoRef.get())
-        .ifPresent(
-            tokenInfo -> {
-              String username = tokenInfo.getUsername();
-              List<String> groups = tokenInfo.getGroups();
-              headers.setBearerAuth(JwtToken.createCompact(issuer, username, groups));
-            });
+        .ifPresent(tokenInfo -> {
+          String username = tokenInfo.getUsername();
+          List<String> groups = tokenInfo.getGroups();
+          headers.setBearerAuth(JwtToken.createCompact(issuer, username, groups));
+        });
     var csrfTokenRef = csrfTokenContext.getCsrfTokenRef();
     ofNullable(csrfTokenRef.get())
-        .ifPresent(
-            csrfToken ->
-                headers.put(csrfToken.getHeaderName(), List.of(csrfToken.getHeaderValue())));
+        .ifPresent(csrfToken ->
+            headers.put(csrfToken.getHeaderName(), List.of(csrfToken.getHeaderValue())));
   }
 }

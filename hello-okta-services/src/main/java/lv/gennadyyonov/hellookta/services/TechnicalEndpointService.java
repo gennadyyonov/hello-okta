@@ -50,14 +50,13 @@ public class TechnicalEndpointService {
   private Collection<Class<?>> getAllowedClasses(TechnicalEndpointProperties props) {
     return getEnabledEndpointFlatStream(
             props, TechnicalEndpointProperties.Endpoint::getAllowedClasses)
-        .map(
-            clazz -> {
-              try {
-                return Class.forName(clazz);
-              } catch (ClassNotFoundException ex) {
-                throw new IllegalArgumentException(ex);
-              }
-            })
+        .map(clazz -> {
+          try {
+            return Class.forName(clazz);
+          } catch (ClassNotFoundException ex) {
+            throw new IllegalArgumentException(ex);
+          }
+        })
         .collect(toSet());
   }
 
@@ -70,11 +69,9 @@ public class TechnicalEndpointService {
     Collection<PatternRequestMatcher> allMatchers =
         endpoints.stream().map(DelegatingPatternRequestMatcher::new).collect(toSet());
     getNullableFlatStream(props.getReferrerHeaderNames())
-        .forEach(
-            headerName ->
-                endpoints.forEach(
-                    endpoint ->
-                        allMatchers.add(new RefererHeaderRequestMatcher(headerName, endpoint))));
+        .forEach(headerName ->
+            endpoints.forEach(endpoint ->
+                allMatchers.add(new RefererHeaderRequestMatcher(headerName, endpoint))));
     return allMatchers;
   }
 

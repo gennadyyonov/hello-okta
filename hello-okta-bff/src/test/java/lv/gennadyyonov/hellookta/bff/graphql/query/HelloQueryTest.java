@@ -100,18 +100,17 @@ class HelloQueryTest {
         .documentName(documentName)
         .execute()
         .errors()
-        .satisfy(
-            errors -> {
-              assertThat(errors).hasSize(1);
-              var error = errors.getFirst();
-              assertThat(error.getErrorType()).isEqualTo(ErrorType.FORBIDDEN);
-              assertThat(error.getMessage())
-                  .isEqualTo("User 'MOON.CHILD@GMAIL.COM' has no access to HelloQuery.hello(..)");
-              assertThat(error.getPath()).isEqualTo("hello");
-              assertThat(error.getExtensions())
-                  .containsAllEntriesOf(
-                      Map.of("code", "HO.ER.ACCESSDENIED", "classification", "FORBIDDEN"));
-            });
+        .satisfy(errors -> {
+          assertThat(errors).hasSize(1);
+          var error = errors.getFirst();
+          assertThat(error.getErrorType()).isEqualTo(ErrorType.FORBIDDEN);
+          assertThat(error.getMessage())
+              .isEqualTo("User 'MOON.CHILD@GMAIL.COM' has no access to HelloQuery.hello(..)");
+          assertThat(error.getPath()).isEqualTo("hello");
+          assertThat(error.getExtensions())
+              .containsAllEntriesOf(
+                  Map.of("code", "HO.ER.ACCESSDENIED", "classification", "FORBIDDEN"));
+        });
   }
 
   @UserInfo
@@ -126,17 +125,16 @@ class HelloQueryTest {
         .documentName(documentName)
         .execute()
         .errors()
-        .satisfy(
-            errors -> {
-              assertThat(errors).hasSize(1);
-              var error = errors.getFirst();
-              assertThat(error.getErrorType()).isEqualTo(ErrorType.INTERNAL_ERROR);
-              assertThat(error.getMessage()).isEqualTo("Failed to fetch user info from Okta");
-              assertThat(error.getPath()).isEqualTo("hello");
-              assertThat(error.getExtensions())
-                  .containsAllEntriesOf(
-                      Map.of("code", "HO.ER.EXTERNALSYSTEM", "classification", "INTERNAL_ERROR"));
-            });
+        .satisfy(errors -> {
+          assertThat(errors).hasSize(1);
+          var error = errors.getFirst();
+          assertThat(error.getErrorType()).isEqualTo(ErrorType.INTERNAL_ERROR);
+          assertThat(error.getMessage()).isEqualTo("Failed to fetch user info from Okta");
+          assertThat(error.getPath()).isEqualTo("hello");
+          assertThat(error.getExtensions())
+              .containsAllEntriesOf(
+                  Map.of("code", "HO.ER.EXTERNALSYSTEM", "classification", "INTERNAL_ERROR"));
+        });
   }
 
   @UserInfo

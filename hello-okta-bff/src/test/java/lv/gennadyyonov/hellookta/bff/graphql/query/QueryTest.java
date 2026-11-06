@@ -60,18 +60,17 @@ class QueryTest {
         .documentName("ping")
         .execute()
         .errors()
-        .satisfy(
-            errors -> {
-              assertThat(errors).hasSize(1);
-              var error = errors.getFirst();
-              assertThat(error.getErrorType()).isEqualTo(ErrorType.FORBIDDEN);
-              assertThat(error.getMessage())
-                  .isEqualTo("User 'MOON.CHILD@GMAIL.COM' has no access to Query.ping()");
-              assertThat(error.getPath()).isEqualTo("ping");
-              assertThat(error.getExtensions())
-                  .containsAllEntriesOf(
-                      Map.of("code", "HO.ER.ACCESSDENIED", "classification", "FORBIDDEN"));
-            });
+        .satisfy(errors -> {
+          assertThat(errors).hasSize(1);
+          var error = errors.getFirst();
+          assertThat(error.getErrorType()).isEqualTo(ErrorType.FORBIDDEN);
+          assertThat(error.getMessage())
+              .isEqualTo("User 'MOON.CHILD@GMAIL.COM' has no access to Query.ping()");
+          assertThat(error.getPath()).isEqualTo("ping");
+          assertThat(error.getExtensions())
+              .containsAllEntriesOf(
+                  Map.of("code", "HO.ER.ACCESSDENIED", "classification", "FORBIDDEN"));
+        });
   }
 
   @UserInfo
@@ -85,17 +84,16 @@ class QueryTest {
         .documentName("ping")
         .execute()
         .errors()
-        .satisfy(
-            errors -> {
-              assertThat(errors).hasSize(1);
-              var error = errors.getFirst();
-              assertThat(error.getErrorType()).isEqualTo(ErrorType.INTERNAL_ERROR);
-              assertThat(error.getMessage()).isEqualTo("Failed to fetch user info from Okta");
-              assertThat(error.getPath()).isEqualTo("ping");
-              assertThat(error.getExtensions())
-                  .containsAllEntriesOf(
-                      Map.of("code", "HO.ER.EXTERNALSYSTEM", "classification", "INTERNAL_ERROR"));
-            });
+        .satisfy(errors -> {
+          assertThat(errors).hasSize(1);
+          var error = errors.getFirst();
+          assertThat(error.getErrorType()).isEqualTo(ErrorType.INTERNAL_ERROR);
+          assertThat(error.getMessage()).isEqualTo("Failed to fetch user info from Okta");
+          assertThat(error.getPath()).isEqualTo("ping");
+          assertThat(error.getExtensions())
+              .containsAllEntriesOf(
+                  Map.of("code", "HO.ER.EXTERNALSYSTEM", "classification", "INTERNAL_ERROR"));
+        });
   }
 
   @UserInfo

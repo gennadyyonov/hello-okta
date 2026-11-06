@@ -15,14 +15,12 @@ public class UserInfoListener implements TestExecutionListener {
   @Override
   public void beforeTestMethod(TestContext context) {
     getUserInfo(context)
-        .ifPresent(
-            userInfo ->
-                context
-                    .getApplicationContext()
-                    .getBeansOfType(UserInfoConfig.class)
-                    .values()
-                    .forEach(
-                        config -> config.setUp(userInfo.username(), asList(userInfo.groups()))));
+        .ifPresent(userInfo ->
+            context
+                .getApplicationContext()
+                .getBeansOfType(UserInfoConfig.class)
+                .values()
+                .forEach(config -> config.setUp(userInfo.username(), asList(userInfo.groups()))));
   }
 
   @Override

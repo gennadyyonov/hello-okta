@@ -46,21 +46,19 @@ public class SecurityConfig {
     ofNullable(technicalEndpointService)
         .ifPresent(service -> service.allowTechnicalEndpoints(http));
     var authenticationEntryPoint = new BearerTokenAuthenticationEntryPoint();
-    http.authorizeHttpRequests(
-            auth ->
-                auth
-                    // Allow CORS option calls
-                    .requestMatchers(OPTIONS, ALL_URL_PATTERN)
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated())
+    http.authorizeHttpRequests(auth ->
+            auth
+                // Allow CORS option calls
+                .requestMatchers(OPTIONS, ALL_URL_PATTERN)
+                .permitAll()
+                .anyRequest()
+                .authenticated())
         // Allow CORS option calls
-        .oauth2ResourceServer(
-            oauth ->
-                oauth
-                    .authenticationManagerResolver(jwtIssuerAuthenticationManagerResolver)
-                    .authenticationEntryPoint(
-                        new LoggingAuthenticationEntryPoint(authenticationEntryPoint)));
+        .oauth2ResourceServer(oauth ->
+            oauth
+                .authenticationManagerResolver(jwtIssuerAuthenticationManagerResolver)
+                .authenticationEntryPoint(
+                    new LoggingAuthenticationEntryPoint(authenticationEntryPoint)));
     return http.build();
   }
 

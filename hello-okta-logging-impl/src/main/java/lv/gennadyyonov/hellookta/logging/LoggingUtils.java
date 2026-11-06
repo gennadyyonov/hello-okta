@@ -53,15 +53,14 @@ public class LoggingUtils {
       Annotation[][] parameterAnnotations = method.getParameterAnnotations();
       Parameter[] parameters = method.getParameters();
       range(0, parameterAnnotations.length)
-          .forEach(
-              index -> {
-                Annotation[] annotations = parameterAnnotations[index];
-                boolean loggingExclusion =
-                    Stream.of(annotations)
-                        .anyMatch(annotation -> annotation instanceof LoggingExclusion);
-                String name = parameters[index].getName();
-                loggableArgs.put(name, loggingExclusion ? LOGGING_EXCLUSION_ARG : args[index]);
-              });
+          .forEach(index -> {
+            Annotation[] annotations = parameterAnnotations[index];
+            boolean loggingExclusion =
+                Stream.of(annotations)
+                    .anyMatch(annotation -> annotation instanceof LoggingExclusion);
+            String name = parameters[index].getName();
+            loggableArgs.put(name, loggingExclusion ? LOGGING_EXCLUSION_ARG : args[index]);
+          });
       return loggableArgs;
     }
     range(0, args.length).forEach(index -> loggableArgs.put(DEFAULT_ARG_NAME + index, args[index]));
@@ -73,11 +72,10 @@ public class LoggingUtils {
       return NULL;
     }
     return arguments.entrySet().stream()
-        .map(
-            entry -> {
-              String value = getValueAsString(entry.getValue());
-              return entry.getKey() + "=" + value;
-            })
+        .map(entry -> {
+          String value = getValueAsString(entry.getValue());
+          return entry.getKey() + "=" + value;
+        })
         .collect(joining(SEPARATOR));
   }
 

@@ -27,14 +27,13 @@ public class WireMockInitializer
     WireMockServer chuckNorrisServer = initWireMockServer(context, ChuckNorris.SERVER_NAME);
     WireMockServer oktaServer = initWireMockServer(context, Okta.SERVER_NAME);
 
-    context.addApplicationListener(
-        applicationEvent -> {
-          if (applicationEvent instanceof ContextClosedEvent) {
-            helloOktaApiServer.stop();
-            chuckNorrisServer.stop();
-            oktaServer.stop();
-          }
-        });
+    context.addApplicationListener(applicationEvent -> {
+      if (applicationEvent instanceof ContextClosedEvent) {
+        helloOktaApiServer.stop();
+        chuckNorrisServer.stop();
+        oktaServer.stop();
+      }
+    });
 
     TestPropertyValues.of(
             "hello-okta-api.url:" + serverUrl(helloOktaApiServer) + "/hello-okta-api",
