@@ -17,13 +17,12 @@ import static tools.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROP
 public class JsonTestUtils {
 
   private static final ThreadLocal<ObjectMapper> OBJECT_MAPPER =
-      ThreadLocal.withInitial(
-          () ->
-              JsonMapper.builder()
-                  .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
-                  .configure(FAIL_ON_NULL_FOR_PRIMITIVES, false)
-                  .deactivateDefaultTyping()
-                  .build());
+      ThreadLocal.withInitial(() ->
+          JsonMapper.builder()
+              .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
+              .configure(FAIL_ON_NULL_FOR_PRIMITIVES, false)
+              .deactivateDefaultTyping()
+              .build());
 
   @SneakyThrows
   public static <T> T deserialize(InputStream inputStream, TypeReference<T> typeReference) {

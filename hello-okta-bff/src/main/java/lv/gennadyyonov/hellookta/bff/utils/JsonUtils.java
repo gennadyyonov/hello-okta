@@ -19,13 +19,12 @@ import static tools.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROP
 public class JsonUtils {
 
   private static ThreadLocal<ObjectMapper> deserializationObjectMapper =
-      ThreadLocal.withInitial(
-          () ->
-              JsonMapper.builder()
-                  .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
-                  .configure(FAIL_ON_NULL_FOR_PRIMITIVES, false)
-                  .deactivateDefaultTyping()
-                  .build());
+      ThreadLocal.withInitial(() ->
+          JsonMapper.builder()
+              .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
+              .configure(FAIL_ON_NULL_FOR_PRIMITIVES, false)
+              .deactivateDefaultTyping()
+              .build());
 
   public static <T> T resourceToObject(String name, TypeReference<T> typeReference) {
     return resourceToObject(name, emptyMap(), typeReference);

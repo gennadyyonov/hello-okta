@@ -29,16 +29,15 @@ public class RefererHeaderRequestMatcher implements PatternRequestMatcher {
   @Override
   public boolean matches(HttpServletRequest request) {
     return ofNullable(request.getHeader(headerName))
-        .map(
-            url -> {
-              try {
-                String path = new URL(url).getPath();
-                String contextPath = request.getServletContext().getContextPath();
-                return path.startsWith(contextPath) ? path.substring(contextPath.length()) : path;
-              } catch (MalformedURLException e) {
-                return url;
-              }
-            })
+        .map(url -> {
+          try {
+            String path = new URL(url).getPath();
+            String contextPath = request.getServletContext().getContextPath();
+            return path.startsWith(contextPath) ? path.substring(contextPath.length()) : path;
+          } catch (MalformedURLException e) {
+            return url;
+          }
+        })
         .map(header -> matcher.match(pattern, header))
         .orElse(false);
   }

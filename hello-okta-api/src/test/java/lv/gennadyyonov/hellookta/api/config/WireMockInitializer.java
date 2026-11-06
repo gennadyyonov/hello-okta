@@ -25,12 +25,11 @@ public class WireMockInitializer
 
     context.getBeanFactory().registerSingleton(Okta.SERVER_NAME, oktaServer);
 
-    context.addApplicationListener(
-        applicationEvent -> {
-          if (applicationEvent instanceof ContextClosedEvent) {
-            oktaServer.stop();
-          }
-        });
+    context.addApplicationListener(applicationEvent -> {
+      if (applicationEvent instanceof ContextClosedEvent) {
+        oktaServer.stop();
+      }
+    });
 
     String oktaServerUrl = "http://localhost:" + oktaServer.port();
 

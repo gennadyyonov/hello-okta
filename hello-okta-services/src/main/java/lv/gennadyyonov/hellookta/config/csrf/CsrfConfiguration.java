@@ -86,13 +86,11 @@ public class CsrfConfiguration {
   private List<RequestMatcher> getIgnoresCsrfProtectionMatchers() {
     List<RequestMatcher> ignores =
         getNullableFlatStream(csrfProperties.getIgnoredEndpoints())
-            .map(
-                endpoint -> {
-                  var method =
-                      ofNullable(endpoint.getMethod()).map(HttpMethod::valueOf).orElse(null);
-                  return PathPatternRequestMatcher.withDefaults()
-                      .matcher(method, endpoint.getPattern());
-                })
+            .map(endpoint -> {
+              var method = ofNullable(endpoint.getMethod()).map(HttpMethod::valueOf).orElse(null);
+              return PathPatternRequestMatcher.withDefaults()
+                  .matcher(method, endpoint.getPattern());
+            })
             .collect(toList());
     ignores.add(technicalEndpointService::isWhitelistedUrl);
     return ignores;

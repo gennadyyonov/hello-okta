@@ -54,26 +54,24 @@ public class SecurityConfig {
     var authenticationEntryPoint = new BearerTokenAuthenticationEntryPoint();
     http.headers(headersCustomizer)
         .cors(Customizer.withDefaults())
-        .authorizeHttpRequests(
-            auth ->
-                auth
-                    // Allow CORS option calls
-                    .requestMatchers(OPTIONS, ALL_URL_PATTERN)
-                    .permitAll()
-                    .requestMatchers(GET, ENVIRONMENT_CONFIG_PATH)
-                    .permitAll()
-                    .requestMatchers(GET, CSRF_TOKEN_INFO_PATH)
-                    .permitAll()
-                    .requestMatchers(GET, TRANSLATION_MAP_PATH)
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated())
-        .oauth2ResourceServer(
-            oauth ->
-                oauth
-                    .authenticationManagerResolver(jwtIssuerAuthenticationManagerResolver)
-                    .authenticationEntryPoint(
-                        new LoggingAuthenticationEntryPoint(authenticationEntryPoint)));
+        .authorizeHttpRequests(auth ->
+            auth
+                // Allow CORS option calls
+                .requestMatchers(OPTIONS, ALL_URL_PATTERN)
+                .permitAll()
+                .requestMatchers(GET, ENVIRONMENT_CONFIG_PATH)
+                .permitAll()
+                .requestMatchers(GET, CSRF_TOKEN_INFO_PATH)
+                .permitAll()
+                .requestMatchers(GET, TRANSLATION_MAP_PATH)
+                .permitAll()
+                .anyRequest()
+                .authenticated())
+        .oauth2ResourceServer(oauth ->
+            oauth
+                .authenticationManagerResolver(jwtIssuerAuthenticationManagerResolver)
+                .authenticationEntryPoint(
+                    new LoggingAuthenticationEntryPoint(authenticationEntryPoint)));
     return http.build();
   }
 

@@ -74,11 +74,10 @@ public class TestApiClient {
     requestBuilder.contentType(mediaType).accept(mediaType).characterEncoding(UTF_8);
     var csrfTokenRef = csrfTokenContext.getCsrfTokenRef();
     ofNullable(csrfTokenRef.get())
-        .ifPresent(
-            token -> {
-              requestBuilder.header(token.getHeaderName(), token.getHeaderValue());
-              requestBuilder.cookie(new Cookie(token.getCookieName(), token.getCookieValue()));
-            });
+        .ifPresent(token -> {
+          requestBuilder.header(token.getHeaderName(), token.getHeaderValue());
+          requestBuilder.cookie(new Cookie(token.getCookieName(), token.getCookieValue()));
+        });
     var response = mvc.perform(requestBuilder).andDo(print()).andReturn().getResponse();
     return new TestApiResult(response);
   }

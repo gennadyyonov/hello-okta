@@ -18,8 +18,7 @@ public class GraphqlWebTestClientCustomizer implements Consumer<Builder> {
   public void accept(Builder builder) {
     var csrfTokenRef = csrfTokenContext.getCsrfTokenRef();
     ofNullable(csrfTokenRef.get())
-        .ifPresent(
-            csrfToken ->
-                builder.defaultCookie(csrfToken.getCookieName(), csrfToken.getCookieValue()));
+        .ifPresent(csrfToken ->
+            builder.defaultCookie(csrfToken.getCookieName(), csrfToken.getCookieValue()));
   }
 }
